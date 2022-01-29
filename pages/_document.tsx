@@ -12,13 +12,9 @@ export default function Document() {
         <meta name="keywords" content="Arthur, Fileti, Fiorette" />
         <meta name="author" content="Arthur Fiorette" />
         <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://arthur.place" />
-    <meta property="og:title" content="Arthur Fileti Fiorette" />
-    <meta
-      property="og:description"
-      content="My own room in the internet!"
-    />
-
+        <meta property="og:url" content="https://arthur.place" />
+        <meta property="og:title" content="Arthur Fileti Fiorette" />
+        <meta property="og:description" content="My own room in the internet!" />
 
         <script
           type="application/ld+json"
