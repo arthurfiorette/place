@@ -1,0 +1,19 @@
+@import './reset.scss';
+
+html,
+body {
+  font-size: 16px;
+  font-family: 'Zen Kaku Gothic Antique', 'Gill Sans', 'Gill Sans MT', Calibri,
+    'Trebuchet MS', sans-serif;
+  height: 100%;
+  width: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}

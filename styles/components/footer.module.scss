@@ -1,0 +1,17 @@
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  grid-column: 1 / span 2;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 800px) {
+  .footer {
+    grid-column: 1;
+  }
+}

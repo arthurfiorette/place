@@ -1,0 +1,24 @@
+.section {
+  &:not(:nth-child(1)) {
+    margin-top: 4rem;
+  }
+}
+
+.sectionTitle {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-top: 1rem;
+
+  &[id]:hover {
+    cursor: pointer;
+  }
+}
+
+.sectionParagraph {
+  line-height: 1.7rem;
+  word-break: normal;
+  margin: 1rem 0 1rem 0;
+}
+
+@media (max-width: 800px) {
+}
