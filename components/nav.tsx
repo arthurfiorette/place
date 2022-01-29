@@ -1,4 +1,3 @@
-
 import styles from 'styles/components/nav.module.scss';
 import { NavItem } from './nav-item';
 
