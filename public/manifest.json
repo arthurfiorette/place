@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json.schemastore.org/web-manifest-combined.json",
+  "name": "Arthur Fiorette",
+  "short_name": "Arthur Fiorette",
+  "description": "My own room in the internet",
+  "start_url": "https://arthur.place/",
+  "display": "minimal-ui",
+  "scope": "/",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
