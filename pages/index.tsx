@@ -27,11 +27,11 @@ const Home: NextPage<HomeProps> = ({ imageUrl }) => {
           "For the past few months, I've been experimenting with a new programming language, Rust. Previously, Java was my lowest level programming experience I had. However, I'm loving a lot of the low concepts that Rust brings with it, like concurrency, memory safety, and more. In the near future, I'll probably be playing with Rust in my spare time.",
           <>
             Thanks for reading this, means a lot! There are also some open source
-            libraries living under my Github account, you can check them out{' '}
+            libraries living under my{' '}
             <a className="link" href="https://github.com/arthurfiorette">
-              here
+              Github
             </a>
-            !
+            account, check them out!
           </>
         ]}
       />
