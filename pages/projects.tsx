@@ -16,8 +16,8 @@ const Projects: NextPage<ProjectProps> = ({ cards }) => {
         title="Follow some of my stuff!"
         paragraphs={[
           <>
-            I&apos;m looking behind SaaS ideas do build, but fow now you can look up some
-            <a href="">OSS</a> projects that i&apos;m working on.
+            I&apos;m looking behind SaaS ideas, but fow now you can look up some OSS
+            projects that i&apos;m working on.
           </>
         ]}
       >

@@ -29,8 +29,8 @@ const Home: NextPage<HomeProps> = ({ imageUrl }) => {
             Thanks for reading this, means a lot! There are also some open source
             libraries living under my{' '}
             <a className="link" href="https://github.com/arthurfiorette">
-              Github
-            </a>
+              {'Github'}
+            </a>{' '}
             account, check them out!
           </>
         ]}

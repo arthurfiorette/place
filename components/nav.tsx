@@ -7,9 +7,8 @@ export const Nav = () => {
       <ul className={styles.ul}>
         <NavItem href="/">About</NavItem>
         <NavItem href="/projects">Projects</NavItem>
-        <NavItem href="/resume">Resume</NavItem>
-        <NavItem href="/contact">Contact</NavItem>
-        <NavItem href="/blog">Blog</NavItem>
+        {/* <NavItem href="/resume">Resume</NavItem>
+        <NavItem href="/contact">Contact</NavItem> */}
       </ul>
     </nav>
   );

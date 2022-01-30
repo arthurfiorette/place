@@ -34,14 +34,14 @@ export default function Document() {
               },
               email: 'arthur.fiorette@gmail.com',
               birthDate: '2005-02-27',
-              nationality: 'Brazillian',
+              nationality: 'Brazilian',
               telephone: '+5528999772770'
             })
           }}
         />
 
         <link
-          href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@300;400&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@400&display=swap"
           rel="stylesheet"
         />
       </Head>
