@@ -4,7 +4,7 @@ import styles from 'styles/components/nav.module.scss';
 
 export const NavItem = ({ children, href }: NavItemProps) => {
   const path = usePath();
-  console.log(path);
+
   return (
     <li
       id={children}

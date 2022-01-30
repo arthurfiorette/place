@@ -10,7 +10,7 @@ export const Section = ({
     <section className={styles.section}>
       <h1
         id={hash}
-        className={styles.sectionTitle}
+        className={styles.title}
         onClick={() => {
           window.location.hash = hash;
           void navigator.clipboard?.writeText(window.location.href);
@@ -19,7 +19,7 @@ export const Section = ({
         {title}
       </h1>
       {paragraphs.map((paragraph, index) => (
-        <p key={index} className={styles.sectionParagraph}>
+        <p key={index} className={styles.paragraph}>
           {paragraph}
         </p>
       ))}

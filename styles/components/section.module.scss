@@ -4,7 +4,7 @@
   }
 }
 
-.sectionTitle {
+.title {
   font-size: 2rem;
   font-weight: bold;
   margin-top: 1rem;
@@ -14,11 +14,9 @@
   }
 }
 
-.sectionParagraph {
+.paragraph {
   line-height: 1.7rem;
+  font-size: 1.25rem;
   word-break: normal;
-  margin: 1rem 0 1rem 0;
-}
-
-@media (max-width: 800px) {
+  margin: 1.5rem 0 1rem 0;
 }

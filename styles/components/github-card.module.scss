@@ -1,0 +1,47 @@
+.card {
+  list-style: none;
+  padding-bottom: 0.5rem;
+  border-bottom: 0.1rem solid hsla(0, 0%, 0%, 0.1);
+
+  &:not(:nth-child(1)) {
+    margin-top: 4rem;
+  }
+
+  .title {
+    text-transform: capitalize;
+    font-size: 1.5rem;
+    font-weight: bold;
+
+    &:hover {
+      cursor: pointer;
+      text-decoration: underline;
+    }
+  }
+
+  .about {
+    font-size: 1rem;
+    text-align: justify;
+    word-break: normal;
+    margin: 1rem 0;
+  }
+
+  .footer {
+    margin-top: 1rem;
+    text-align: right;
+
+    & > .link {
+      text-align: center;
+      font-size: 0.8rem;
+      margin: 0 1rem;
+
+      &::before {
+        font-weight: bold;
+        content: attr(value) ' ';
+      }
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
