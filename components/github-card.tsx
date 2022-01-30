@@ -17,7 +17,7 @@ export const GithubCard = ({
   forks_count,
   html_url
 }: GithubCardProps) => {
-  name = name.replaceAll('-', ' ');
+  name = name.split('-').join(' ');
   return (
     <li className={styles.card}>
       <h1 className={styles.title}>
