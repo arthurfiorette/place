@@ -1,4 +1,3 @@
-import type { ErrorProps } from 'next/error';
 import Link from 'next/link';
 import React from 'react';
 import styles from 'styles/components/error.module.scss';
@@ -11,9 +10,9 @@ const DEFAULT_CODES: Record<number, string> = {
   500: 'Internal Server Error'
 };
 
-export const Error = ({ statusCode, title }: ErrorProps) => {
+export const Error = ({ statusCode, pageTitle, title }: ErrorProps) => {
   return (
-    <Layout title={`${statusCode}`}>
+    <Layout title={pageTitle || statusCode}>
       <section className={styles.section}>
         <h1 className={styles.code}>{statusCode}</h1>
         <h4 className={styles.title}>
@@ -25,4 +24,10 @@ export const Error = ({ statusCode, title }: ErrorProps) => {
       </section>
     </Layout>
   );
+};
+
+type ErrorProps = {
+  statusCode: number;
+  pageTitle?: string;
+  title?: React.ReactNode;
 };

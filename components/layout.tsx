@@ -18,5 +18,5 @@ export const Layout = ({ children, title }: LayoutProps) => {
 
 export type LayoutProps = {
   children: React.ReactNode;
-  title: string;
+  title: string | number;
 };

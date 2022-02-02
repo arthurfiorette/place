@@ -12,9 +12,9 @@ type HomeProps = {
 const Home: NextPage<HomeProps> = ({ imageUrl }) => {
   return (
     <Layout title="Home">
-      <span className={styles.profileBackground}>
+      <div className={styles.profileBackground}>
         <Image width="200px" height="200px" alt="Arthur Fiorette" src={imageUrl}></Image>
-      </span>
+      </div>
       <Section
         title="Hi! I'm Arthur 👋"
         paragraphs={[

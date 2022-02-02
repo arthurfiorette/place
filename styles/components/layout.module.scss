@@ -9,15 +9,11 @@
 
 .main {
   margin-top: 3rem;
-  padding: 1rem;
+  margin: 2rem;
 
   font-size: 1.25rem;
   text-align: justify;
   word-break: normal;
-
-  > * {
-    margin: 1.5rem 2rem 0 2rem;
-  }
 }
 
 @media (max-width: 800px) {

@@ -1,8 +1,4 @@
 .profileBackground {
-  > span:nth-child(1) {
-    position: unset;
-  }
-
   margin: 0;
   padding: 0;
 
@@ -15,6 +11,10 @@
 
   span {
     overflow: visible !important;
+  }
+
+  > span:nth-child(1) {
+    position: unset;
   }
 
   span > img {
