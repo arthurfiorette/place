@@ -1,6 +1,6 @@
 .footer {
   font-size: 0.9rem;
-  padding-bottom: 2rem;
+  margin: 2rem 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -8,8 +8,12 @@
   grid-column: 1 / span 2;
 }
 
-.link:hover {
-  text-decoration: underline;
+.link {
+  text-transform: lowercase;
+  
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 @media (max-width: 800px) {
