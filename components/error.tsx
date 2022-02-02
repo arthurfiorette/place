@@ -15,9 +15,9 @@ export const Error = ({ statusCode, pageTitle, title }: ErrorProps) => {
     <Layout title={pageTitle || statusCode}>
       <section className={styles.section}>
         <h1 className={styles.code}>{statusCode}</h1>
-        <h4 className={styles.title}>
+        <h2 className={styles.title}>
           {title || DEFAULT_CODES[statusCode] || 'Unknown error!'}
-        </h4>
+        </h2>
         <Link href="/" scroll>
           <a className={styles.back}> Go back to main page </a>
         </Link>
