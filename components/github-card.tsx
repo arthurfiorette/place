@@ -13,7 +13,7 @@ export const GithubCard = ({
   name,
   description,
   stargazers_count,
-  watchers_count,
+  // watchers_count,
   forks_count,
   html_url
 }: GithubCardProps) => {
@@ -36,7 +36,8 @@ export const GithubCard = ({
         >
           Stars
         </a>
-        <a
+        {/* Github API bug */}
+        {/* <a
           target="_blank"
           rel="noreferrer"
           href={`${html_url}/watchers`}
@@ -44,7 +45,7 @@ export const GithubCard = ({
           {...{ value: watchers_count }}
         >
           Watchers
-        </a>
+        </a> */}
         <a
           target="_blank"
           rel="noreferrer"

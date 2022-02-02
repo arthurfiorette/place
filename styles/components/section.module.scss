@@ -7,10 +7,18 @@
 .title {
   font-size: 2rem;
   font-weight: bold;
+  text-align: start;
   margin-top: 1rem;
 
   &[id]:hover {
     cursor: pointer;
+  }
+
+  .meta {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: normal;
+    margin-top: 0.25rem;
   }
 }
 

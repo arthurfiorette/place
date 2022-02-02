@@ -13,6 +13,7 @@ const Projects: NextPage<ProjectProps> = ({ cards }) => {
   return (
     <Layout title="Projects">
       <Section
+        meta={`Updated at ${new Date().toLocaleString('en-us')}`}
         title="Follow some of my stuff!"
         paragraphs={[
           <>

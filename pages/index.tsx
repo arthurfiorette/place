@@ -26,10 +26,10 @@ const Home: NextPage<HomeProps> = ({ imageUrl }) => {
           'Since it all started with me writing my minecraft plugins in java, I know a lot about the java world, especially with the Spring framework and Maven. However, I evolved towards a preference for servers in NodeJS with Typescript, in which, within this vast field, I stood out with the use of GraphQL over Rest and NestJS with Fastify for large monoliths.',
           "For the past few months, I've been experimenting with a new programming language, Rust. Previously, Java was my lowest level programming experience I had. However, I'm loving a lot of the low concepts that Rust brings with it, like concurrency, memory safety, and more. In the near future, I'll probably be playing with Rust in my spare time.",
           <>
-            Thanks for reading this, means a lot! There are also some open source
-            libraries living under my{' '}
+            Thanks for your time, it means a lot! If you want to check it out, there are
+            also some OSS libraries that I&apos;ve been maintaining on my{' '}
             <a className="link" href="https://github.com/arthurfiorette">
-              {'Github'}
+              Github
             </a>{' '}
             account, check them out!
           </>

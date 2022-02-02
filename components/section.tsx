@@ -1,10 +1,12 @@
+import { generateId } from 'lib/generate-id';
 import styles from 'styles/components/section.module.scss';
 
 export const Section = ({
   title,
   paragraphs,
   children,
-  hash = title.toLowerCase().replace(/(\s|(!?\d))+/g, '-')
+  meta,
+  hash = generateId(title)
 }: SectionProps) => {
   return (
     <section className={styles.section}>
@@ -17,6 +19,7 @@ export const Section = ({
         }}
       >
         {title}
+        {meta && <span className={styles.meta}>{meta}</span>}
       </h1>
       {paragraphs.map((paragraph, index) => (
         <p key={index} className={styles.paragraph}>
@@ -33,4 +36,5 @@ export type SectionProps = {
   title: string;
   paragraphs: React.ReactNode[];
   hash?: string;
+  meta?: string;
 };
