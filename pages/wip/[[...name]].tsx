@@ -14,12 +14,14 @@ const Todo: NextPage = () => {
           'Work in progress.'
         ) : (
           <>
-            The page
             <span
               style={{
-                fontWeight: 'bold'
+                fontWeight: 'bold',
+                textTransform: 'capitalize'
               }}
-            >{` ${query.name} `}</span>
+            >
+              {query.name}{' '}
+            </span>
             is a work in progress.
           </>
         )
