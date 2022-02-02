@@ -5,7 +5,7 @@ export const Footer = () => {
   return (
     <footer className={styles.footer}>
       <span>
-        <Link href="https://github.com/arthurfiorette">
+        <Link href="https://github.com/arthurfiorette/place">
           <a className={styles.link}>Coding with ❤️ on Github</a>
         </Link>
       </span>
