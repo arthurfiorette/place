@@ -6,8 +6,6 @@ body {
   font-family: 'Zen Kaku Gothic Antique', 'Gill Sans', 'Gill Sans MT', Calibri,
     'Trebuchet MS', sans-serif;
   height: 100%;
-
-  // aspect-ratio: 4/3;
   margin: 0 auto;
 }
 
@@ -30,6 +28,6 @@ a.link {
 @media (min-width: 1440px) {
   html,
   body {
-    aspect-ratio: 4/3;
+    max-width: 1440px;
   }
 }
