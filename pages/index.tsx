@@ -1,62 +1,92 @@
 import { Layout } from 'components/layout';
-import { Section } from 'components/section';
-import { getUser } from 'lib/github-api';
-import type { GetStaticProps, NextPage } from 'next';
-import Image from 'next/image';
-import styles from 'styles/pages/index.module.scss';
+import type { NextPage } from 'next';
+import Link from 'next/link';
 
-type HomeProps = {
-  imageUrl: string;
-};
-
-const Home: NextPage<HomeProps> = ({ imageUrl }) => {
+const Index: NextPage = () => {
   return (
-    <Layout title="Home">
-      <div className={styles.profileBackground}>
-        <Image width="200px" height="200px" alt="Arthur Fiorette" src={imageUrl}></Image>
-      </div>
-      <Section
-        title="Hi! I'm Arthur 👋"
-        paragraphs={[
-          "My name is Arthur Fileti Fiorette, i'm a software engineer based in Brazil 🇧🇷. I'm passionate about building software that improves the peoples lives. I'm a fan of the open source community and I'm always looking for new projects to contribute to.",
-          "I'm still 17, but i am dedicated to fullstack development. I started programming somewhere in late 2018 with Java, while trying at my best to code some Minecraft plugins, today I've developed entire SaaS applications, from small to big projects.",
-          "Nowadays I am working half-time as a software engineer at an local company, while going to high school at Federal Institute of Espírito Santo in the other half. Maybe we'll cross paths there.",
-          'I am spreading my knowledge between different areas and stages of software development in general. I can manage continuous integration and deployment pipelines, handle multiple repository structures, optimize infrastructures, handle services with docker and have some networking concepts. Despite using Windows on my main machine, I work normally with linux servers and WSL.',
-          'Also, I have a good understanding of various web development concepts like caching mechanisms, HTTP protocol, javascript code optimization, experience with NextJS and being a typescript wizard.',
-          'Since it all started with me writing my minecraft plugins in java, I know a lot about the java world, especially with the Spring framework and Maven. However, I evolved towards a preference for servers in NodeJS with Typescript, in which, within this vast field, I stood out with the use of GraphQL over Rest and NestJS with Fastify for large monoliths.',
-          "For the past few months, I've been experimenting with a new programming language, Rust. Previously, Java was my lowest level programming experience I had. However, I'm loving a lot of the low concepts that Rust brings with it, like concurrency, memory safety, and more. In the near future, I'll probably be playing with Rust in my spare time.",
-          <>
-            Thanks for your time, it means a lot! If you want to check it out, there are
-            also some OSS libraries that I&apos;ve been maintaining on my{' '}
-            <a className="link" href="https://github.com/arthurfiorette">
-              Github
-            </a>{' '}
-            account, check them out!
-          </>
-        ]}
-      />
+    <Layout>
+      <section>
+        <h2>
+          Eai 👋 <br />I am Arthur Fiorette
+        </h2>
+
+        <p>
+          I am an web developer and a software engineer with{' '}
+          {new Date().getFullYear() - 2005} years. I have been working on web technologies
+          since mid 2018. I really enjoy the open source community and and I'm always
+          looking for new projects to contribute to.
+        </p>
+
+        <p>
+          Everything started with me trying to code some Minecraft Plugins. Today, I've
+          developed entire SaaS applications, from side-projects to enterprise projects.
+        </p>
+      </section>
+
+      {/*
+      <section>
+        <h2>Recent posts</h2>
+
+        <p>
+          I'm not a blogger or writer, but I like to post some useful things that i would
+          like the development community in general to know.
+        </p>
+
+        <ul>
+          <li>The cost of return await.</li>
+        </ul>
+      </section>
+      */}
+
+      <section>
+        <h2>Contact</h2>
+
+        <p>In case you are interested:</p>
+
+        <ul>
+          <li>
+            <Link href="/r/github">Find me at Github.</Link>
+          </li>
+          <li>
+            <Link href="/r/twitter">Like some of my tweets.</Link>
+          </li>
+          <li>
+            <Link href="mailto:arthur.fiorette@gmail.com">Send me an email.</Link>
+          </li>
+          <li>
+            <Link href="/r/twitch">Watch me on twitch.</Link>
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Some nice projects</h2>
+
+        <p>It would be awesome to you look at some projects that i host on Github.</p>
+
+        <ul>
+          <li>
+            <Link href="https://github.com/arthurfiorette/axios-cache-interceptor">
+              <a>
+                <b>Axios Cache Interceptor</b>
+                <br />
+                Small and efficient cache interceptor for axios.
+              </a>
+            </Link>
+          </li>
+          <br />
+          <li>
+            <Link href="https://github.com/arthurfiorette/brainease">
+              <a>
+                <b>Brainease</b>
+                <br />A brainf*ck-style programming language, but readable
+              </a>
+            </Link>
+          </li>
+        </ul>
+      </section>
     </Layout>
   );
 };
 
-export default Home;
-
-/**
- * Loads github information
- */
-export const getStaticProps: GetStaticProps<HomeProps> = async () => {
-  const user = await getUser('arthurfiorette');
-
-  if (user.status !== 200) {
-    return {
-      props: {
-        imageUrl: 'https://avatars.dicebear.com/api/miniavs/arthur.svg'
-      }
-    };
-  }
-
-  return {
-    revalidate: 60, // a minute
-    props: { imageUrl: user.data.avatar_url }
-  };
-};
+export default Index;

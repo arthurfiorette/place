@@ -1,0 +1,43 @@
+@import '../variables.scss';
+
+$slash-opacity: 40%;
+
+.header {
+  display: flex;
+}
+
+.nav {
+  text-transform: lowercase;
+  font-size: $title-size !important;
+  width: max-content;
+}
+
+.title {
+  margin-left: auto !important;
+
+  font-family: $font-title;
+  font-size: $title-size;
+  margin: 0;
+}
+
+.folder {
+  text-transform: capitalize;
+
+  &:first-child:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  &:not(:last-child)::after {
+    margin: 0 0.3rem;
+    content: '/';
+    display: inline-block;
+    opacity: $slash-opacity;
+  }
+}
+
+.homeFolder {
+  display: inline-block;
+  font-size: $title-size !important;
+  margin: 0 !important;
+}

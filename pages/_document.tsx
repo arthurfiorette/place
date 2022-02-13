@@ -22,11 +22,6 @@ export default function Document() {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(LdJson) }}
         />
-
-        <link
-          href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@400&display=swap"
-          rel="stylesheet"
-        />
       </Head>
       <body>
         <Main />

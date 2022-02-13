@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import React from 'react';
 import styles from 'styles/components/error.module.scss';
 import { Layout } from './layout';
 
@@ -10,16 +9,18 @@ const DEFAULT_CODES: Record<number, string> = {
   500: 'Internal Server Error'
 };
 
-export const Error = ({ statusCode, pageTitle, title }: ErrorProps) => {
+export const Error = ({ statusCode, message }: ErrorProps) => {
   return (
-    <Layout title={pageTitle || statusCode}>
+    <Layout titlePaths={['error']}>
       <section className={styles.section}>
         <h1 className={styles.code}>{statusCode}</h1>
+
         <h2 className={styles.title}>
-          {title || DEFAULT_CODES[statusCode] || 'Unknown error!'}
+          {message || DEFAULT_CODES[statusCode] || 'Error!'}
         </h2>
-        <Link href="/" scroll>
-          <a className={styles.back}> Go back to main page </a>
+
+        <Link href="/">
+          <a className={styles.back}>Go back to main page</a>
         </Link>
       </section>
     </Layout>
@@ -28,6 +29,5 @@ export const Error = ({ statusCode, pageTitle, title }: ErrorProps) => {
 
 type ErrorProps = {
   statusCode: number;
-  pageTitle?: string;
-  title?: React.ReactNode;
+  message?: string;
 };

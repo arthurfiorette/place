@@ -1,33 +1,25 @@
 @import './reset.scss';
+@import './variables.scss';
 
 html,
 body {
+  font-family: $font-default;
   font-size: 16px;
-  font-family: 'Zen Kaku Gothic Antique', 'Gill Sans', 'Gill Sans MT', Calibri,
-    'Trebuchet MS', sans-serif;
-  height: 100%;
+
+  height: 100vh;
+
   margin: 0 auto;
+  max-width: 980px;
 }
 
-* {
-  box-sizing: border-box;
-}
+#__next {
+  height: 100vh;
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-a.link {
-  text-decoration: none;
-  &:hover {
-    text-decoration: underline;
+  padding: 1.5rem;
+  > *:not(:last-child) {
+    padding-bottom: 1.5rem;
   }
-}
 
-@media (min-width: 1440px) {
-  html,
-  body {
-    max-width: 1440px;
-  }
+  display: grid;
+  grid-template-rows: auto 1fr auto;
 }

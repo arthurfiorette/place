@@ -1,8 +1,5 @@
 import { Error } from 'components/error';
-import type { NextPage } from 'next';
 
-const NotFound: NextPage = () => {
+export default function NotFound() {
   return <Error statusCode={404} />;
-};
-
-export default NotFound;
+}

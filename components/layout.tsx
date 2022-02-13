@@ -1,22 +1,15 @@
-import Head from 'next/head';
-import styles from 'styles/components/layout.module.scss';
 import { Footer } from './footer';
-import { Nav } from './nav';
+import { Header, HeaderProps } from './header';
+import { Main, MainProps } from './main';
 
-export const Layout = ({ children, title }: LayoutProps) => {
+type LayoutProps = HeaderProps & MainProps;
+
+export const Layout = ({ titlePaths, children }: LayoutProps) => {
   return (
-    <div className={styles.layout}>
-      <Head>
-        <title>{`${title} | Arthur Fiorette`}</title>
-      </Head>
-      <Nav />
-      <main className={styles.main}>{children}</main>
+    <>
+      <Header {...{ titlePaths }} />
+      <Main>{children}</Main>
       <Footer />
-    </div>
+    </>
   );
-};
-
-export type LayoutProps = {
-  children: React.ReactNode;
-  title: string | number;
 };

@@ -1,0 +1,8 @@
+.main {
+  margin: 0 min(5vw, 10rem);
+  text-align: justify;
+
+  > *:not(:first-child) {
+    margin-top: 3rem;
+  }
+}
