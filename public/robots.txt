@@ -1,2 +1,10 @@
+# *
 User-agent: *
 Allow: /
+
+# Host
+Host: https://arthur.plce/
+
+# Sitemaps
+Sitemap: https://arthur.plce/sitemap.xml
+Sitemap: https://arthur.plce/sitemap-0.xml
