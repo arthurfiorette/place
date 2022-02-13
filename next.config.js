@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+module.exports = {
   reactStrictMode: true,
   productionBrowserSourceMaps: true,
   swcMinify: true,
@@ -30,5 +30,3 @@ const nextConfig = {
     return redirects;
   }
 };
-
-module.exports = nextConfig;
