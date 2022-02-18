@@ -1,0 +1,54 @@
+.title {
+  margin-top: 4rem;
+  font-size: 3rem;
+  text-align: center;
+}
+
+.description {
+  font-size: 1.25rem;
+  margin: 2rem 0 4rem 0;
+  text-align: center;
+}
+
+.subtitle {
+  font-size: 1rem;
+  text-align: center;
+  padding-right: 4rem;
+
+  > div {
+    text-align: end;
+    margin: 0 1rem;
+  }
+}
+
+.headerAnchor {
+  &::before {
+    font-size: 1.25rem;
+    content: '🔗';
+    margin-right: 0.5rem;
+    display: inline-block;
+  }
+}
+
+.content {
+  blockquote,
+  code,
+  pre > code {
+    border-radius: 0.3rem;
+    padding: 0.1rem 0.25rem;
+  }
+
+  pre > code {
+    padding: 1rem;
+    margin: 2rem 0;
+    background-color: transparent;
+  }
+
+  blockquote {
+    margin-left: 0;
+    padding: 0.2rem 0;
+    padding-left: 1rem;
+
+    background-color: hsl(0, 0%, 98%);
+  }
+}

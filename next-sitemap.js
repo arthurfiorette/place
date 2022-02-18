@@ -3,5 +3,5 @@ module.exports = {
   siteUrl: 'https://arthur.plce/',
   generateRobotsTxt: true,
   exclude: ['/404', '/500'],
-  priority: 1.0
+  trailingSlash: false
 };

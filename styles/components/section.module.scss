@@ -1,0 +1,18 @@
+* > .section:not(:last-child ) {
+  margin-bottom: 1rem;
+}
+
+
+.section {
+  &.center {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+}
+
+// .title {
+// }

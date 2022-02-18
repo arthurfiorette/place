@@ -1,17 +1,17 @@
 @import '../variables.scss';
 
 .footer {
-  font-size: 0.8rem;
   opacity: 90%;
   font-size: $font-title;
 }
 
 .list {
-  list-style: none;
-
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  padding: 0;
+  list-style: none;
 
   li {
     display: inline-block;

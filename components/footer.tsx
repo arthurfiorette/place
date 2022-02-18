@@ -11,7 +11,7 @@ export const Footer = () => {
           </Link>
         </li>
         <li>
-          <Link href="rss.xml">📮 RSS</Link>
+          <Link href="/rss">📰 Feed</Link>
         </li>
       </ul>
     </footer>

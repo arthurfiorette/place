@@ -11,7 +11,7 @@ const DEFAULT_CODES: Record<number, string> = {
 
 export const Error = ({ statusCode, message }: ErrorProps) => {
   return (
-    <Layout titlePaths={['error']}>
+    <Layout titlePaths={['Error']}>
       <section className={styles.section}>
         <h1 className={styles.code}>{statusCode}</h1>
 
