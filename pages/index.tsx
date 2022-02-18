@@ -37,33 +37,39 @@ const Index: NextPage<PageProps> = ({ recentPosts, totalPostsLength }) => {
         ]}
       />
 
-      <Section
-        title={<Link href="/posts">Recent posts 🗞️</Link>}
-        paragraphs={[
-          `
+      {recentPosts.length > 0 && (
+        <Section
+          title={<Link href="/posts">Recent posts 🗞️</Link>}
+          paragraphs={[
+            `
           I'm not a blogger or professional writer, but I like to post some useful things
           that I would like the development community in general to know.
           `
-        ]}
-      >
-        <ul>
-          {recentPosts.map(({ title, slug, description }) => (
-            <li key={slug}>
-              <TextCard title={title} description={description} link={`/posts/${slug}`} />
-            </li>
-          ))}
+          ]}
+        >
+          <ul>
+            {recentPosts.map(({ title, slug, description }) => (
+              <li key={slug}>
+                <TextCard
+                  title={title}
+                  description={description}
+                  link={`/posts/${slug}`}
+                />
+              </li>
+            ))}
 
-          <li>
-            <TextCard
-              title="More posts ➡️"
-              description={`I wrote a total of ${
-                totalPostsLength - recentPosts.length
-              } more posts`}
-              link="/posts"
-            />
-          </li>
-        </ul>
-      </Section>
+            <li>
+              <TextCard
+                title="More posts ➡️"
+                description={`I've wrote a total of ${
+                  totalPostsLength - recentPosts.length
+                } more posts`}
+                link="/posts"
+              />
+            </li>
+          </ul>
+        </Section>
+      )}
 
       <Section
         title="Some nice projects"
