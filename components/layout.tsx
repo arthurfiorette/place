@@ -6,11 +6,13 @@ import { Main, MainProps } from './main';
 type LayoutProps = HeaderProps &
   MainProps & {
     customTitle?: string;
+    hideFooter?: boolean;
   };
 
 export const Layout = ({
   titlePaths,
   children,
+  hideFooter = false,
   customTitle = titlePaths?.[titlePaths.length - 1]
 }: LayoutProps) => {
   return (
@@ -20,7 +22,7 @@ export const Layout = ({
       </Head>
       <Header {...{ titlePaths }} />
       <Main>{children}</Main>
-      <Footer />
+      {!hideFooter && <Footer />}
     </>
   );
 };

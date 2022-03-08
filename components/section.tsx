@@ -1,6 +1,6 @@
 import styles from 'styles/components/section.module.scss';
 
-export const Section = ({ title, paragraphs, children, center }: SectionProps) => {
+export const Section = ({ title, children, center }: SectionProps) => {
   let sectionClass = styles.section;
 
   if (center) {
@@ -10,9 +10,6 @@ export const Section = ({ title, paragraphs, children, center }: SectionProps) =
   return (
     <section className={sectionClass}>
       {title && <h2 className={styles.title}>{title}</h2>}
-
-      {paragraphs && paragraphs.map((paragraph, index) => <p key={index}>{paragraph}</p>)}
-
       {children}
     </section>
   );
@@ -20,8 +17,6 @@ export const Section = ({ title, paragraphs, children, center }: SectionProps) =
 
 export type SectionProps = {
   title?: string | React.ReactNode;
-  paragraphs?: string[];
   children?: React.ReactNode;
-
   center?: boolean;
 };

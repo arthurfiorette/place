@@ -12,12 +12,10 @@ type PageProps = {
 const Posts: NextPage<PageProps> = ({ posts }) => {
   return (
     <Layout titlePaths={['Posts']}>
-      <Section
-        paragraphs={[
-          'I am writing about web technologies, software engineering, and the open-source community.'
-        ]}
-      />
-
+      <Section title="A simple blog with posts about tech :)">
+        I am writing about web technologies, software engineering, and the open-source
+        community.
+      </Section>
       <Section>
         <PostList posts={posts} />
       </Section>

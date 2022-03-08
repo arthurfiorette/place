@@ -1,0 +1,50 @@
+$font-default: 'Arial';
+
+.hr {
+  margin: 2rem 0;
+  border: 1px solid hsl(0, 0%, 92%);
+}
+
+.jobDesc {
+  margin-top: 1rem;
+  max-width: 50rem;
+  color: hsla(0, 0%, 25%);
+}
+
+.horizontal {
+  margin-top: 0.5rem;
+
+  > * {
+    display: inline-block;
+    &:not(:first-child) {
+      margin-left: 1rem;
+    }
+  }
+}
+
+.right {
+  text-align: end;
+}
+
+.lastUpdate {
+  padding-bottom: 1rem;
+}
+
+.icon {
+  color: hsla(0, 0%, 25%);
+
+  &:not(:first-child) {
+    margin-left: 1rem;
+  }
+
+  &:hover {
+    cursor: pointer;
+    color: hsla(0, 0%, 50%);
+  }
+}
+
+@media print {
+  .icon {
+    display: none;
+  }
+}
