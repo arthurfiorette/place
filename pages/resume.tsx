@@ -52,7 +52,9 @@ const Index: NextPage = () => {
             <Link href="https://github.com/arthurfiorete">github.com/arthurfiorette</Link>
           </div>
           <div>
-            <Link href="https://linked.in/arthurfiorete">linked.in/arthurfiorette</Link>
+            <Link href="https://linkedin.com/in/arthurfiorette/">
+              linkedin.com/in/arthurfiorette
+            </Link>
           </div>
           <div>
             <Link href="https://arthur.place/">arthur.place</Link>
@@ -71,7 +73,7 @@ const Index: NextPage = () => {
                 title="Instituto Federal do Espirito Santo"
                 description="High School with Technical in Business"
               >
-                <time dateTime="2020-01-01">2020 - 2022</time>
+                <time dateTime="2019-01-01">2019 - 2022</time>
               </TextCard>
             </li>
           </ul>
