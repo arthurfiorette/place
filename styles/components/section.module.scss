@@ -1,7 +1,6 @@
-* > .section:not(:last-child ) {
+* > .section:not(:last-child) {
   margin-bottom: 1rem;
 }
-
 
 .section {
   &.center {
@@ -14,5 +13,3 @@
   }
 }
 
-// .title {
-// }
