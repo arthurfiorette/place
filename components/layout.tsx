@@ -1,17 +1,19 @@
 import Head from 'next/head';
 import { Footer } from './footer';
 import { Header, HeaderProps } from './header';
-import { Main, MainProps } from './main';
+import { Main } from './main';
 
-type LayoutProps = HeaderProps &
-  MainProps & {
-    customTitle?: string;
-    hideFooter?: boolean;
-  };
+type LayoutProps = HeaderProps & {
+  customTitle?: string;
+  hideFooter?: boolean;
+  children?: React.ReactNode;
+  className?: string;
+};
 
 export const Layout = ({
   titlePaths,
   children,
+  className,
   hideFooter = false,
   customTitle = titlePaths?.[titlePaths.length - 1]
 }: LayoutProps) => {
@@ -21,7 +23,7 @@ export const Layout = ({
         <title>{customTitle}</title>
       </Head>
       <Header {...{ titlePaths }} />
-      <Main>{children}</Main>
+      <Main className={className}>{children}</Main>
       {!hideFooter && <Footer />}
     </>
   );

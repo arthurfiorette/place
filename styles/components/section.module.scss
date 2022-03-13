@@ -3,6 +3,8 @@
 }
 
 .section {
+  break-inside: avoid !important;
+
   &.center {
     text-align: center;
     display: flex;

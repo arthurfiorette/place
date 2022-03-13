@@ -1,5 +1,9 @@
 $font-default: 'Arial';
 
+.main {
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
 .hr {
   margin: 2rem 0;
   border: 1px solid hsl(0, 0%, 92%);
@@ -16,6 +20,7 @@ $font-default: 'Arial';
 
   > * {
     display: inline-block;
+
     &:not(:first-child) {
       margin-left: 1rem;
     }
@@ -27,6 +32,8 @@ $font-default: 'Arial';
 }
 
 .lastUpdate {
+  opacity: 80%;
+  text-align: center;
   padding-bottom: 1rem;
 }
 
@@ -41,6 +48,10 @@ $font-default: 'Arial';
     cursor: pointer;
     color: hsla(0, 0%, 50%);
   }
+}
+
+.mt1 {
+  margin-top: 1rem;
 }
 
 @media print {
