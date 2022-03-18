@@ -10,12 +10,7 @@ const lastUpdate = new Date('03/13/2022');
 
 const Index: NextPage = () => {
   return (
-    <Layout
-      hideFooter
-      customTitle="Resume"
-      titlePaths={['Resume']}
-      className={styles.main}
-    >
+    <Layout hideFooter title="Resume" className={styles.main} showHome>
       <div className={styles.right}>
         <div className={styles.lastUpdate}>
           Last update on

@@ -3,9 +3,27 @@
 $slash-opacity: 40%;
 
 .header {
+  width: 100%;
   font-size: 24px;
-  margin: 1.5rem;
+  margin: 1.5rem !important;
   display: flex;
+
+  &::before {
+    content: '<';
+    font-size: 0.8rem;
+    margin-right: 0.2rem;
+    color: hsla(0, 0%, 0%, 30%);
+  }
+
+  &:hover {
+    &::before {
+      color: black;
+    }
+  }
+}
+
+.home {
+  font-size: 1rem;
 }
 
 @media print {
@@ -22,8 +40,6 @@ $slash-opacity: 40%;
 
 .title {
   margin-left: auto !important;
-
-  font-family: $font-title;
   font-size: $title-size;
   margin: 0;
 }

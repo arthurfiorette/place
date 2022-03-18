@@ -1,12 +1,51 @@
+:root {
+  background-color: #fff;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+
+  line-height: 1.7rem;
+}
+
 * {
   box-sizing: border-box;
 }
 
 a {
-  color: unset;
-  text-decoration: none;
+  color: black;
+  text-decoration: underline;
 
   &:hover {
-    text-decoration: underline;
+    text-decoration: none;
+  }
+
+  &:active,
+  &:hover {
+    outline-width: 0;
+  }
+}
+
+li {
+  text-align: left;
+
+  &:not(:last-child) {
+    margin-bottom: 0.5rem;
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: normal;
+  font-weight: 500;
+
+  &:first-child {
+    margin-top: 0;
   }
 }

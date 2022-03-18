@@ -1,5 +1,5 @@
 import { Layout } from 'components/layout';
-import { PostList } from 'components/post-list';
+import { PostList } from 'components/post/list';
 import { Section } from 'components/section';
 import type { MarkdownMeta } from 'lib/matter';
 import { readAllPosts } from 'lib/posts';
@@ -11,11 +11,12 @@ type PageProps = {
 
 const Posts: NextPage<PageProps> = ({ posts }) => {
   return (
-    <Layout titlePaths={['Posts']}>
+    <Layout title="Posts">
       <Section title="A simple blog with posts about tech :)">
         I am writing about web technologies, software engineering, and the open-source
         community.
       </Section>
+
       <Section>
         <PostList posts={posts} />
       </Section>

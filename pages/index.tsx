@@ -1,7 +1,6 @@
 import { Layout } from 'components/layout';
+import { PostPreview } from 'components/post/preview';
 import { Section } from 'components/section';
-import { TextCard } from 'components/text-card';
-import { generateFeed } from 'lib/generate-feed';
 import type { MarkdownMeta } from 'lib/matter';
 import { readAllPosts } from 'lib/posts';
 import type { GetStaticProps, NextPage } from 'next';
@@ -14,107 +13,107 @@ type PageProps = {
 
 const Index: NextPage<PageProps> = ({ recentPosts, totalPostsLength }) => {
   return (
-    <Layout customTitle="Arthur Fiorette">
-      <Section
-        title={
-          <>
-            Eai 👋 <br />I am Arthur Fiorette
-          </>
-        }
-      >
+    <Layout hideFooter hideHeader>
+      <h1 style={{ marginBottom: '3rem', textAlign: 'center' }}>
+        Eai 👋 <br />I am Arthur Fiorette
+      </h1>
+
+      <Section>
         <p>
-          I am an web developer and a software engineer with{' '}
-          {new Date().getFullYear() - 2018} years of experience. I have been working on
-          web technologies since mid 2018. I really enjoy the open source community and
-          and I'm always looking for new projects to contribute to.
+          Hello! My name is <b>Arthur</b>. I am working with web and server-side
+          technologies since mid 2018. I really enjoy the open source community and I'm
+          always looking for new projects to contribute.
         </p>
+
         <p>
           Everything started with me trying to code some Minecraft Plugins. Today, I've
           developed entire SaaS applications, from side-projects to enterprise ones.
         </p>
       </Section>
 
-      <Section title="Resume">
-        <TextCard
-          link="/resume"
-          description="View my latest work experiences, a list of skills and more!"
-        />
-      </Section>
+      <Section>
+        <p>
+          I always liked to code new challenges and libraries, so it would be awesome if
+          you look at some projects that I'm hosting on Github.
+        </p>
 
-      <Section title="Contact">
-        <p>In case you are interested, you can:</p>
         <ul>
           <li>
-            <TextCard link="/r/github" description="Find me at Github." />
+            <Link href="https://github.com/arthurfiorette/axios-cache-interceptor">
+              <a title="Axios Cache Interceptor">
+                A small and efficient cache interceptor for axios.
+              </a>
+            </Link>
           </li>
+
           <li>
-            <TextCard link="/r/twitter" description="Like some of my tweets." />
+            <Link href="https://github.com/arthurfiorette/brainease">
+              <a title="Brainease">
+                A brainf*ck-style programming language, but readable.
+              </a>
+            </Link>
           </li>
+
           <li>
-            <TextCard
-              link="mailto:arthur.fiorette@gmail.com"
-              description="Send me an email."
-            />
-          </li>
-          <li>
-            <TextCard link="/r/twitch" description="Watch me on twitch." />
+            <Link href="https://github.com/arthurfiorette/tinylibs">
+              <a title="Tinylibs">A monorepo with many npm packages.</a>
+            </Link>
           </li>
         </ul>
       </Section>
 
-      <Section title="Some nice projects">
-        <p>It would be awesome to you look at some projects that i host on Github.</p>
+      <Section>
+        <p>In case you are interested, you also can:</p>
+
         <ul>
           <li>
-            <TextCard
-              title="Axios Cache Interceptor"
-              description="A small and efficient cache interceptor for axios."
-              link="https://github.com/arthurfiorette/axios-cache-interceptor"
-            />
+            <Link href="/resume">View my resume.</Link>
           </li>
+
           <li>
-            <TextCard
-              title="Brainease"
-              description="A brainf*ck-style programming language, but readable"
-              link="https://github.com/arthurfiorette/brainease"
-            />
+            <Link href="/r/github">Find me at Github.</Link>
           </li>
+
           <li>
-            <TextCard
-              title="Tinylibs"
-              description="A monorepo with many npm packages"
-              link="https://github.com/arthurfiorette/tinylibs"
-            />
+            <Link href="/r/twitter">Like some of my tweets.</Link>
+          </li>
+
+          <li>
+            <Link href="mailto:arthur.fiorette@gmail.com">Send me an email.</Link>
+          </li>
+
+          <li>
+            <Link href="/r/twitch">Watch me on twitch.</Link>
           </li>
         </ul>
       </Section>
 
       {recentPosts.length > 0 && (
-        <Section title={<Link href="/posts">Recent posts 🗞️</Link>}>
+        <Section>
           <p>
-            I'm not a blogger or professional writer, but I like to post some useful
-            things that I would like the development community in general to know.
+            I'm not a professional blogger or writer either, but I like to write useful,
+            random, or tricky stuff that I would like the development community at large
+            to know about.
           </p>
-          <ul>
-            {recentPosts.map(({ title, slug, description }) => (
-              <li key={slug}>
-                <TextCard
-                  title={title}
-                  description={description}
-                  link={`/posts/${slug}`}
-                />
+
+          <p>
+            So, you wanna know something specific that will make you a better programmer?
+          </p>
+
+          <ul style={{ listStyle: 'none', paddingLeft: '1rem' }}>
+            {recentPosts.map(({ slug, title, description }) => (
+              <li key={slug} style={{ marginTop: '1rem' }}>
+                <PostPreview slug={slug} title={title} description={description} />
               </li>
             ))}
 
-            <li>
-              <TextCard
-                title="More posts ➡️"
-                description={`I've wrote a total of ${
-                  totalPostsLength - recentPosts.length
-                } more posts`}
-                link="/posts"
-              />
-            </li>
+            {totalPostsLength - recentPosts.length > 0 && (
+              <li>
+                <Link href={`/posts`}>
+                  <a style={{ marginTop: '0.5rem' }}>See my other posts!</a>
+                </Link>
+              </li>
+            )}
           </ul>
         </Section>
       )}
@@ -123,10 +122,8 @@ const Index: NextPage<PageProps> = ({ recentPosts, totalPostsLength }) => {
 };
 
 export const getStaticProps: GetStaticProps<PageProps> = async () => {
-  // Generate feed at build time
-  await generateFeed();
-
   const posts = await readAllPosts();
+
   return {
     props: {
       recentPosts: posts.map(({ meta }) => meta).slice(0, 3),

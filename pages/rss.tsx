@@ -1,12 +1,13 @@
 import { Layout } from 'components/layout';
 import { Section } from 'components/section';
 import { TextCard } from 'components/text-card';
-import type { NextPage } from 'next';
+import { generateFeed } from 'lib/generate-feed';
+import type { GetStaticProps, NextPage } from 'next';
 import styles from 'styles/pages/rss.module.scss';
 
 const Posts: NextPage = () => {
   return (
-    <Layout titlePaths={['Available Feeds']}>
+    <Layout title="Available Feeds">
       <Section center>
         <ul className={styles.list}>
           <li>
@@ -25,3 +26,10 @@ const Posts: NextPage = () => {
 };
 
 export default Posts;
+
+export const getStaticProps: GetStaticProps = async () => {
+  // Generate feed at build time
+  await generateFeed();
+
+  return { props: {} };
+};

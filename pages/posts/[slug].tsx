@@ -1,5 +1,5 @@
 import { Layout } from 'components/layout';
-import { MarkdownPost } from 'components/markdown-post';
+import { PostContent } from 'components/post/content';
 import { markdownToHtml } from 'lib/marked';
 import type { MarkdownMeta } from 'lib/matter';
 import { ALL_POSTS_FILES as ALL_POSTS, hasPost, readMd } from 'lib/posts';
@@ -45,10 +45,10 @@ export const getStaticProps: GetStaticProps<PageProps, PageParams> = async ({
   };
 };
 
-const Page: NextPage<PageProps> = ({ meta, html, slug }) => {
+const Page: NextPage<PageProps> = ({ meta, html }) => {
   return (
-    <Layout customTitle={meta.title} titlePaths={['Posts', slug.replace(/-/g, ' ')]}>
-      <MarkdownPost meta={meta} html={html} />
+    <Layout title={meta.title} showHome>
+      <PostContent meta={meta} html={html} />
     </Layout>
   );
 };

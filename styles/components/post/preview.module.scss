@@ -1,0 +1,15 @@
+.preview {
+  text-decoration: none;
+}
+
+.title {
+  text-decoration: underline;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.description {
+  color: hsla(0, 0%, 0%, 60%);
+}

@@ -1,6 +1,6 @@
 import type { MarkdownMeta } from 'lib/matter';
-import styles from 'styles/components/post-list.module.scss';
-import { TextCard } from './text-card';
+import styles from 'styles/components/post/list.module.scss';
+import { TextCard } from '../text-card';
 
 export const PostList = ({ posts }: PostListProps) => {
   return (

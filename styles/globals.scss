@@ -1,29 +1,23 @@
 // Syntax highlighting
-@import 'highlight.js/scss/atom-one-light.scss';
+@import 'highlight.js/scss/atom-one-dark.scss';
 
 @import './reset.scss';
 @import './variables.scss';
 
-html,
-body {
-  font-family: $font-default;
+#__next {
+  font-family: $font-family-def;
   font-size: 16px;
 
-  margin: 0 auto;
-  max-width: 1080px;
-}
+  width: 100%;
 
-#__next {
-  padding: 2rem 0;
-  min-height: 100vh;
+  margin: 2rem auto;
+  max-width: min(43em, 87.5vw);
 
-  > * {
-    margin: 0 2rem;
-    max-width: calc(100vw - 4rem);
-  }
+  display: flex;
 
-  display: grid;
-  grid-template-rows: auto 1fr auto;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .hljs-focus-unfocused {
@@ -31,4 +25,13 @@ body {
   * {
     color: rgba(0, 0, 0, 0.5) !important;
   }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: $font-family-title;
 }

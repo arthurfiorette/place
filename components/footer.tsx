@@ -6,12 +6,7 @@ export const Footer = () => {
     <footer className={styles.footer}>
       <ul className={styles.list}>
         <li>
-          <Link href="https://www.buymeacoffee.com/arthurfiorette">
-            ☕ Buy me a coffee
-          </Link>
-        </li>
-        <li>
-          <Link href="/rss">📰 Feed</Link>
+          <Link href="/rss">Feed</Link>
         </li>
       </ul>
     </footer>

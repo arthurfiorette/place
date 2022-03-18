@@ -4,26 +4,33 @@ import { Header, HeaderProps } from './header';
 import { Main } from './main';
 
 type LayoutProps = HeaderProps & {
-  customTitle?: string;
-  hideFooter?: boolean;
+  title?: string;
   children?: React.ReactNode;
   className?: string;
+  hideFooter?: boolean;
+  hideHeader?: boolean;
 };
 
 export const Layout = ({
-  titlePaths,
   children,
   className,
+  title,
+  showHome,
   hideFooter = false,
-  customTitle = titlePaths?.[titlePaths.length - 1]
+  hideHeader = false
 }: LayoutProps) => {
   return (
     <>
-      <Head>
-        <title>{customTitle}</title>
-      </Head>
-      <Header {...{ titlePaths }} />
+      {title && (
+        <Head>
+          <title>{title}</title>
+        </Head>
+      )}
+
+      {!hideHeader && <Header showHome={showHome} />}
+
       <Main className={className}>{children}</Main>
+
       {!hideFooter && <Footer />}
     </>
   );
