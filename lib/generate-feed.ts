@@ -17,9 +17,9 @@ export async function generateFeed() {
     favicon: `${baseUrl}/favicon.ico`,
 
     feedLinks: {
-      rss2: `${baseUrl}/rss/feed.xml`,
-      json: `${baseUrl}/rss/feed.json`,
-      atom: `${baseUrl}/rss/atom.xml`
+      rss2: `${baseUrl}/feeds/feed.xml`,
+      json: `${baseUrl}/feeds/feed.json`,
+      atom: `${baseUrl}/feeds/atom.xml`
     },
 
     copyright: `All rights reserved ${new Date().getFullYear()}, Arthur Fiorette`,
@@ -37,6 +37,7 @@ export async function generateFeed() {
 
       feed.addItem({
         id: meta.slug,
+        guid: meta.slug,
         title: meta.title,
 
         link: `${baseUrl}/posts/${meta.slug}`,
@@ -46,21 +47,23 @@ export async function generateFeed() {
 
         description: meta.description,
 
-        // Simple raw html.
-        // Avoids extra formatting or syntax highlight
-        content: marked(content),
-
         copyright: `All rights reserved ${new Date().getFullYear()}, ${meta.author}`,
 
+        image: `${baseUrl}/images/${meta.preview}`,
+
         author: [{ name: meta.author }],
-        contributor: [{ name: meta.author }]
+        contributor: [{ name: meta.author }],
+
+        // Simple raw html.
+        // Avoids extra formatting or syntax highlight
+        content: marked(content)
       });
     })
   );
 
-  await mkdir('./public/rss', { recursive: true });
+  await mkdir('./public/feeds', { recursive: true });
 
-  await writeFile('./public/rss/feed.xml', feed.rss2());
-  await writeFile('./public/rss/atom.xml', feed.atom1());
-  await writeFile('./public/rss/feed.json', feed.json1());
+  await writeFile('./public/feeds/feed.xml', feed.rss2());
+  await writeFile('./public/feeds/atom.xml', feed.atom1());
+  await writeFile('./public/feeds/feed.json', feed.json1());
 }

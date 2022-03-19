@@ -8,6 +8,7 @@ export type MarkdownMeta = {
   description: string;
   slug: string;
   preview: string;
+  keywords: string[];
 };
 
 export function parseFrontMatter(
@@ -16,23 +17,16 @@ export function parseFrontMatter(
 ): { content: string; meta: MarkdownMeta } {
   const { data, content } = matter(raw);
 
-  if (!hasAllKeys(data, ['date', 'title', 'author', 'description', 'preview'])) {
+  if (
+    !hasAllKeys(data, ['date', 'title', 'author', 'description', 'preview', 'keywords'])
+  ) {
     throw new Error(
       `Markdown ${slug} is missing information. ${JSON.stringify(data, null, 2)}`
     );
   }
 
-  const { date, title, author, description, preview } = data as Record<string, string>;
-
   return {
     content,
-    meta: {
-      preview,
-      slug,
-      date,
-      title,
-      author,
-      description
-    }
+    meta: { slug, ...data }
   };
 }

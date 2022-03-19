@@ -4,13 +4,4 @@
 
 .section {
   break-inside: avoid !important;
-
-  &.center {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-  }
 }

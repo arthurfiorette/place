@@ -1,31 +1,27 @@
-import Head from 'next/head';
 import { Footer } from './footer';
 import { Header, HeaderProps } from './header';
 import { Main } from './main';
+import { Seo, SeoProps } from './seo';
 
 type LayoutProps = HeaderProps & {
-  title?: string;
   children?: React.ReactNode;
   className?: string;
   hideFooter?: boolean;
   hideHeader?: boolean;
+  seo?: SeoProps;
 };
 
 export const Layout = ({
   children,
   className,
-  title,
   showHome,
+  seo,
   hideFooter = false,
   hideHeader = false
 }: LayoutProps) => {
   return (
     <>
-      {title && (
-        <Head>
-          <title>{title}</title>
-        </Head>
-      )}
+      <Seo {...seo} />
 
       {!hideHeader && <Header showHome={showHome} />}
 
