@@ -3,13 +3,9 @@ import Link from 'next/link';
 import styles from 'styles/components/post/list.module.scss';
 import { PostPreview } from './preview';
 
-export const PostList = ({
-  posts,
-  showAllPostsLink = false,
-  showNumbers = true
-}: PostListProps) => {
+export const PostList = ({ posts, showAllPostsLink = false }: PostListProps) => {
   return (
-    <ol className={styles.list} style={{ listStyle: showNumbers ? 'auto' : 'none' }}>
+    <ol className={styles.list}>
       {posts.map((meta) => (
         <li key={meta.slug} className={styles.listItem}>
           <PostPreview meta={meta} />
@@ -30,5 +26,4 @@ export const PostList = ({
 export type PostListProps = {
   posts: MarkdownMeta[];
   showAllPostsLink?: boolean;
-  showNumbers?: boolean;
 };

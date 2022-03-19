@@ -82,7 +82,7 @@ const Index: NextPage<PageProps> = ({ recentPosts }) => {
             here's a preview of the last posts I wrote:
           </p>
 
-          <PostList posts={recentPosts} showNumbers={false} showAllPostsLink />
+          <PostList posts={recentPosts} showAllPostsLink />
         </Section>
       )}
     </Layout>
