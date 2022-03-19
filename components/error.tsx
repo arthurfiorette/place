@@ -11,7 +11,15 @@ const DEFAULT_CODES: Record<number, string> = {
 
 export const Error = ({ statusCode, message }: ErrorProps) => {
   return (
-    <Layout title="Oops!">
+    <Layout
+      hideFooter
+      hideHeader
+      seo={{
+        description: 'Occurred an error!',
+        title: 'Oops!',
+        urlPath: `/${DEFAULT_CODES[statusCode]}`
+      }}
+    >
       <section className={styles.section}>
         <h1 className={styles.code}>{statusCode}</h1>
 

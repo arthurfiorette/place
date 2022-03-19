@@ -1,9 +1,14 @@
 .list {
-  margin-top: 5rem;
+  margin-top: 1.5rem;
+  padding-left: 0;
 }
 
-.time {
-  display: block;
-  margin-top: 0.5rem;
-  opacity: 0.75;
+.listItem,
+.allPostsLink {
+  margin-top: 1rem;
+  padding-left: 1.5rem;
+}
+
+.listItem {
+  border-left: 0.25rem solid hsl(0, 0%, 92%);
 }

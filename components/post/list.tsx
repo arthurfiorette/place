@@ -1,27 +1,34 @@
 import type { MarkdownMeta } from 'lib/matter';
+import Link from 'next/link';
 import styles from 'styles/components/post/list.module.scss';
-import { TextCard } from '../text-card';
+import { PostPreview } from './preview';
 
-export const PostList = ({ posts }: PostListProps) => {
+export const PostList = ({
+  posts,
+  showAllPostsLink = false,
+  showNumbers = true
+}: PostListProps) => {
   return (
-    <ol className={styles.list}>
-      {posts.map(({ title, slug, description, date }) => {
-        const dateObj = new Date(date);
+    <ol className={styles.list} style={{ listStyle: showNumbers ? 'auto' : 'none' }}>
+      {posts.map((meta) => (
+        <li key={meta.slug} className={styles.listItem}>
+          <PostPreview meta={meta} />
+        </li>
+      ))}
 
-        return (
-          <li key={slug}>
-            <TextCard title={title} description={description} link={`/posts/${slug}`}>
-              <time className={styles.time} dateTime={dateObj.toISOString()}>
-                {dateObj.toLocaleString()}
-              </time>
-            </TextCard>
-          </li>
-        );
-      })}
+      {showAllPostsLink && (
+        <li className={styles.allPostsLink}>
+          <Link href={`/posts`}>
+            <a>See all of them!</a>
+          </Link>
+        </li>
+      )}
     </ol>
   );
 };
 
 export type PostListProps = {
   posts: MarkdownMeta[];
+  showAllPostsLink?: boolean;
+  showNumbers?: boolean;
 };

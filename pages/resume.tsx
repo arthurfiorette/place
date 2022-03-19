@@ -10,7 +10,26 @@ const lastUpdate = new Date('03/13/2022');
 
 const Index: NextPage = () => {
   return (
-    <Layout hideFooter title="Resume" className={styles.main} showHome>
+    <Layout
+      hideFooter
+      className={styles.main}
+      showHome
+      seo={{
+        description: 'My resume, a collection of my work experiences and skills.',
+        urlPath: '/resume',
+        title: "Arthur's Resume",
+        keywords: [
+          'resume',
+          'cv',
+          'curriculum vitae',
+          'work experience',
+          'skills',
+          'experience',
+          'portfolio',
+          'personal website'
+        ]
+      }}
+    >
       <div className={styles.right}>
         <div className={styles.lastUpdate}>
           Last update on

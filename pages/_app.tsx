@@ -18,6 +18,7 @@ export default function App({ Component, pageProps }: AppProps) {
           gtag('config', '${process.env.NEXT_PUBLIC_GTAG_ID}');
         `}
       </Script>
+
       <Component {...pageProps} />
     </>
   );

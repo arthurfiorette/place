@@ -1,17 +1,16 @@
 import { Layout } from 'components/layout';
-import { PostPreview } from 'components/post/preview';
+import { LinkList } from 'components/link-list';
+import { PostList } from 'components/post/list';
 import { Section } from 'components/section';
 import type { MarkdownMeta } from 'lib/matter';
 import { readAllPosts } from 'lib/posts';
 import type { GetStaticProps, NextPage } from 'next';
-import Link from 'next/link';
 
 type PageProps = {
   recentPosts: MarkdownMeta[];
-  totalPostsLength: number;
 };
 
-const Index: NextPage<PageProps> = ({ recentPosts, totalPostsLength }) => {
+const Index: NextPage<PageProps> = ({ recentPosts }) => {
   return (
     <Layout hideFooter hideHeader>
       <h1 style={{ marginBottom: '3rem', textAlign: 'center' }}>
@@ -37,55 +36,37 @@ const Index: NextPage<PageProps> = ({ recentPosts, totalPostsLength }) => {
           you look at some projects that I'm hosting on Github.
         </p>
 
-        <ul>
-          <li>
-            <Link href="https://github.com/arthurfiorette/axios-cache-interceptor">
-              <a title="Axios Cache Interceptor">
-                A small and efficient cache interceptor for axios.
-              </a>
-            </Link>
-          </li>
-
-          <li>
-            <Link href="https://github.com/arthurfiorette/brainease">
-              <a title="Brainease">
-                A brainf*ck-style programming language, but readable.
-              </a>
-            </Link>
-          </li>
-
-          <li>
-            <Link href="https://github.com/arthurfiorette/tinylibs">
-              <a title="Tinylibs">A monorepo with many npm packages.</a>
-            </Link>
-          </li>
-        </ul>
+        <LinkList
+          links={{
+            'https://github.com/arthurfiorette/axios-cache-interceptor': [
+              'Axios Cache Interceptor',
+              'A small and efficient cache interceptor for axios.'
+            ],
+            'https://github.com/arthurfiorette/brainease': [
+              'Brainease',
+              'A brainf*ck-style programming language, but readable.'
+            ],
+            'https://github.com/arthurfiorette/tinylibs': [
+              'TinyLibs',
+              'A collection of small libraries for javascript.'
+            ]
+          }}
+        />
       </Section>
 
       <Section>
         <p>In case you are interested, you also can:</p>
 
-        <ul>
-          <li>
-            <Link href="/resume">View my resume.</Link>
-          </li>
-
-          <li>
-            <Link href="/r/github">Find me at Github.</Link>
-          </li>
-
-          <li>
-            <Link href="/r/twitter">Like some of my tweets.</Link>
-          </li>
-
-          <li>
-            <Link href="mailto:arthur.fiorette@gmail.com">Send me an email.</Link>
-          </li>
-
-          <li>
-            <Link href="/r/twitch">Watch me on twitch.</Link>
-          </li>
-        </ul>
+        <LinkList
+          links={{
+            '/resume': 'View my resume.',
+            '/r/github': 'Find me at Github.',
+            '/r/twitter': 'Like some of my tweets.',
+            '/r/linkedin': 'Connect with me on LinkedIn.',
+            '/r/twitch': 'Follow me on Twitch.',
+            'mailto:arthur.fiorette@gmail.com': 'Send me an email.'
+          }}
+        />
       </Section>
 
       {recentPosts.length > 0 && (
@@ -97,24 +78,11 @@ const Index: NextPage<PageProps> = ({ recentPosts, totalPostsLength }) => {
           </p>
 
           <p>
-            So, you wanna know something specific that will make you a better programmer?
+            If you like to know specific things that will make you a better programmer,
+            here's a preview of the last posts I wrote:
           </p>
 
-          <ul style={{ listStyle: 'none', paddingLeft: '1rem' }}>
-            {recentPosts.map(({ slug, title, description }) => (
-              <li key={slug} style={{ marginTop: '1rem' }}>
-                <PostPreview slug={slug} title={title} description={description} />
-              </li>
-            ))}
-
-            {totalPostsLength - recentPosts.length > 0 && (
-              <li>
-                <Link href={`/posts`}>
-                  <a style={{ marginTop: '0.5rem' }}>See my other posts!</a>
-                </Link>
-              </li>
-            )}
-          </ul>
+          <PostList posts={recentPosts} showNumbers={false} showAllPostsLink />
         </Section>
       )}
     </Layout>
@@ -126,8 +94,7 @@ export const getStaticProps: GetStaticProps<PageProps> = async () => {
 
   return {
     props: {
-      recentPosts: posts.map(({ meta }) => meta).slice(0, 3),
-      totalPostsLength: posts.length
+      recentPosts: posts.map(({ meta }) => meta).slice(0, 3)
     }
   };
 };

@@ -3,22 +3,27 @@ import Link from 'next/link';
 import React from 'react';
 import styles from 'styles/components/post/preview.module.scss';
 
-export const PostPreview = ({ slug, title, description }: PostPreviewProps) => {
-  return (
-    <Link href={`/posts/${slug}`}>
-      <a className={styles.preview}>
-        <div className={styles.title}>{title}</div>
+export const PostPreview = ({ meta }: PostPreviewProps) => {
+  const dateObj = new Date(meta.date);
 
-        <div className={styles.description}>
-          <i>{description}</i>
-        </div>
-      </a>
-    </Link>
+  return (
+    <>
+      <Link href={`/posts/${meta.slug}`}>
+        <a className={styles.preview}>
+          <h2 className={styles.title}>{meta.title}</h2>
+        </a>
+      </Link>
+
+      <div className={styles.description}>{meta.description}</div>
+
+      <div className={styles.meta}>
+        <time dateTime={dateObj.toISOString()}>{dateObj.toDateString()}</time>
+        <address>{meta.author}</address>
+      </div>
+    </>
   );
 };
 
 export type PostPreviewProps = {
-  slug: MarkdownMeta['slug'];
-  description: MarkdownMeta['description'];
-  title: MarkdownMeta['title'];
+  meta: MarkdownMeta;
 };

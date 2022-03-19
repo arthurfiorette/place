@@ -1,5 +1,5 @@
 // Syntax highlighting
-@import 'highlight.js/scss/atom-one-light.scss';
+@import 'highlight.js/scss/atom-one-dark.scss';
 
 @import './reset.scss';
 @import './variables.scss';
@@ -18,9 +18,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
 }
-
 
 .hljs-focus-unfocused {
   &,
@@ -37,4 +35,3 @@ h5,
 h6 {
   font-family: $font-family-title;
 }
-

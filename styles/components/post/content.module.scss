@@ -52,7 +52,7 @@ $width: min(55rem, 87.5vw);
 
 // Contains some meta information, like author and date
 .postMeta {
-  color: hsl(0, 0%, 50%);
+  color: hsl(0, 0%, 40%);
   margin-top: 2rem;
 
   font-size: 1rem;
@@ -100,11 +100,11 @@ $width: min(55rem, 87.5vw);
   }
 
   pre > code {
-    // From the atom-one-light theme
-    color: #383a42;
-    background: #fafafa;
+    // From the atom-one-dark theme
+    color: #abb2bf;
+    background: #282c34;
 
-    padding: 1rem;
+    padding: 1.125rem;
     margin: 2rem 0;
     overflow-x: auto;
 

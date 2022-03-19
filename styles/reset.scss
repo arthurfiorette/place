@@ -1,13 +1,9 @@
-:root {
-  background-color: #fff;
-}
-
 html,
 body {
   margin: 0;
   padding: 0;
 
-  line-height: 1.7rem;
+  line-height: 1.6rem;
 
   scroll-behavior: smooth;
 }
@@ -17,11 +13,11 @@ body {
 }
 
 a {
-  color: dodgerblue;
-  text-decoration: underline;
+  color: hsl(210, 100%, 36%);
+  text-decoration: none;
 
   &:hover {
-    text-decoration: none;
+    text-decoration: underline;
   }
 
   &:active,

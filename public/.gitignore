@@ -1,6 +1,6 @@
 # Build-time generated files
 
 sitemap*
-rss/*
+feeds/*
 robots.txt
 sitemap*.xml

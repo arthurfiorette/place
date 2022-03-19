@@ -5,7 +5,7 @@ export type HeaderProps = {
   showHome?: boolean;
 };
 
-export const Header = ({ showHome = false }: HeaderProps) => {
+export const Header = ({ showHome = true }: HeaderProps) => {
   return (
     <header className={styles.header}>
       <nav className={styles.nav}>

@@ -16,6 +16,23 @@ type PageProps = {
   slug: string;
 };
 
+const Page: NextPage<PageProps> = ({ meta, html }) => {
+  return (
+    <Layout
+      hideFooter
+      seo={{
+        author: meta.author,
+        urlPath: `/posts/${meta.slug}`,
+        title: meta.title,
+        description: meta.description,
+        keywords: meta.keywords
+      }}
+    >
+      <PostContent meta={meta} html={html} />
+    </Layout>
+  );
+};
+
 export const getStaticPaths: GetStaticPaths<PageParams> = () => {
   return {
     // Other pages should 404
@@ -43,14 +60,6 @@ export const getStaticProps: GetStaticProps<PageProps, PageParams> = async ({
       html
     }
   };
-};
-
-const Page: NextPage<PageProps> = ({ meta, html }) => {
-  return (
-    <Layout title={meta.title} hideFooter>
-      <PostContent meta={meta} html={html} />
-    </Layout>
-  );
 };
 
 export default Page;

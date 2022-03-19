@@ -1,15 +1,36 @@
 .preview {
-  text-decoration: none;
+  color: black;
+
+  &:hover {
+    cursor: auto;
+  }
 }
 
 .title {
-  text-decoration: underline;
+  margin-bottom: 0.5rem;
 
   &:hover {
-    text-decoration: none;
+    cursor: pointer;
   }
 }
 
 .description {
-  color: hsla(0, 0%, 0%, 60%);
+  text-align: justify;
+  color: hsl(0, 0%, 30%);
+}
+
+.meta {
+  font-style: italic;
+  color: hsl(0, 0%, 40%);
+
+  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
+
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+
+  > *:not(:last-child) {
+    margin-right: 1rem;
+  }
 }
