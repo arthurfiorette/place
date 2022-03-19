@@ -52,6 +52,9 @@ export const getStaticProps: GetStaticProps<PageProps> = async () => {
   const posts = await readAllPosts();
 
   return {
-    props: { posts: posts.map(({ meta }) => meta) }
+    props: {
+      // Remove the string content as it is not needed in the client
+      posts: posts.map(({ meta }) => meta)
+    }
   };
 };
