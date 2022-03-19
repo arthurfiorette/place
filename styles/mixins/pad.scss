@@ -1,0 +1,11 @@
+@import '../variables.scss';
+
+/**
+ * Makes the element a little wider than the parent container.Deixa o elemento um pouco mais largo que o container pai.
+ */
+@mixin padBorder($size: 5rem, $max-width: $max-width-def) {
+  $pad: min(calc(87.5vw - $max-width) / 2, $size);
+
+  width: calc($max-width + calc($pad * 2));
+  margin-left: calc($pad * -1);
+}

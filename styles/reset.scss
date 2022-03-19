@@ -8,6 +8,8 @@ body {
   padding: 0;
 
   line-height: 1.7rem;
+
+  scroll-behavior: smooth;
 }
 
 * {
@@ -15,7 +17,7 @@ body {
 }
 
 a {
-  color: black;
+  color: dodgerblue;
   text-decoration: underline;
 
   &:hover {

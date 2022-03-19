@@ -1,58 +1,126 @@
-$max-width: min(60rem, 87.5vw);
+@import '../../variables.scss';
+@import '../../mixins/pad.scss';
+
+// A little higher than the default (43rem)
+$width: min(55rem, 87.5vw);
+
+.article {
+  max-width: $width;
+}
 
 .title {
-  margin-top: 4rem;
+  margin-top: 0;
   font-size: 3rem;
   text-align: center;
 }
 
 .description {
+  color: hsl(0, 0%, 25%);
+
+  font-family: $font-family-title;
+
+  display: block;
   font-size: 1.25rem;
-  margin: 2rem 0 4rem 0;
+  margin: 2rem 0;
   text-align: center;
 }
 
-.subtitle {
+.header {
+  margin-bottom: 5rem;
+}
+
+.preview {
+  @include padBorder($size: 15rem, $max-width: $width);
+
+  height: 100%;
+  position: relative;
+
+  span,
+  img {
+    height: unset !important;
+
+    position: unset !important;
+    display: unset !important;
+
+    inset: unset !important;
+  }
+
+  img {
+    border-radius: 0.5rem;
+  }
+}
+
+// Contains some meta information, like author and date
+.postMeta {
+  color: hsl(0, 0%, 50%);
+  margin-top: 2rem;
+
   font-size: 1rem;
   text-align: center;
-  padding-right: 4rem;
+  padding-right: 2rem;
 
-  > div {
-    text-align: end;
-    margin: 0 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-end;
+
+  > *:not(:last-child) {
+    margin-right: 1rem;
   }
 }
 
+// Added to all h1..6 elements
 .headerAnchor {
-  &::after {
-    content: '🔗';
+  color: black;
+  text-decoration: none;
 
-    font-size: 1.25rem;
+  &::before {
+    opacity: 25%;
+    content: '🔗';
+    transition: all 0.1s ease-in-out;
+
     margin-right: 0.5rem;
-    display: inline-block;
-    opacity: 30%;
+    margin-left: -2rem;
+    font-size: 1rem;
+  }
+
+  &:hover {
+    cursor: pointer;
+
+    &::before {
+      opacity: 100%;
+    }
   }
 }
 
+// Container for the generated html content
 .content {
-  // A little higher than the default (43rem)
-  max-width: min(55rem, 87.5vw);
+  > * {
+    break-inside: avoid !important;
+  }
 
   pre > code {
+    // From the atom-one-light theme
+    color: #383a42;
+    background: #fafafa;
+
     padding: 1rem;
     margin: 2rem 0;
     overflow-x: auto;
 
-    color: #abb2bf;
-    background: #282c34;
-    box-shadow: 0 0 0.5rem #282c34;
+    @include padBorder($size: 5rem, $max-width: $width);
+
+    @media print {
+      font-size: 0.9rem;
+      white-space: pre-wrap;
+      line-break: anywhere;
+    }
   }
 
-  blockquote,
-  code,
-  pre > code {
+  pre > code,
+  blockquote {
     display: block;
-    border-radius: 0.3rem;
+    border-radius: 1rem;
   }
 
   blockquote {
@@ -60,6 +128,7 @@ $max-width: min(60rem, 87.5vw);
     padding: 0.2rem 0;
     padding-left: 1rem;
 
+    color: #383a42;
     background-color: hsl(0, 0%, 98%);
   }
 }

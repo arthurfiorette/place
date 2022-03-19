@@ -92,7 +92,7 @@ const Index: NextPage<PageProps> = ({ recentPosts, totalPostsLength }) => {
         <Section>
           <p>
             I'm not a professional blogger or writer either, but I like to write useful,
-            random, or tricky stuff that I would like the development community at large
+            random and tricky stuff that I would like the development community at large
             to know about.
           </p>
 

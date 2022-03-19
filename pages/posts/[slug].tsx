@@ -47,7 +47,7 @@ export const getStaticProps: GetStaticProps<PageProps, PageParams> = async ({
 
 const Page: NextPage<PageProps> = ({ meta, html }) => {
   return (
-    <Layout title={meta.title} showHome>
+    <Layout title={meta.title} hideFooter>
       <PostContent meta={meta} html={html} />
     </Layout>
   );
