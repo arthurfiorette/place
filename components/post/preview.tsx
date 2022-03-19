@@ -19,10 +19,10 @@ export const PostPreview = ({ meta }: PostPreviewProps) => {
       <div className={styles.meta}>
         <time dateTime={dateObj.toISOString()}>{dateObj.toDateString()}</time>
         <address>{meta.author}</address>
-      </div>
 
-      <div className={styles.keywords}>
-        <BadgeList badges={meta.keywords} />
+        <div className={styles.keywords}>
+          <BadgeList badges={meta.keywords} />
+        </div>
       </div>
     </>
   );

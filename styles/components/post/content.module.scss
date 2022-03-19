@@ -14,7 +14,8 @@ $width: min(55rem, 87.5vw);
 }
 
 .keywords {
-  width: 100%;
+  color: black;
+  margin-left: auto;
   font-size: 0.7rem;
   text-align: end;
 
@@ -140,5 +141,17 @@ $width: min(55rem, 87.5vw);
 
     color: #383a42;
     background-color: hsl(0, 0%, 98%);
+  }
+
+  h1,
+  h2,
+  h3 {
+    margin-top: 5rem;
+  }
+
+  h4,
+  h5,
+  h6 {
+    margin-top: 2.5rem;
   }
 }

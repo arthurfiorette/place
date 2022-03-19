@@ -18,14 +18,14 @@ export const PostContent = ({ html, meta }: PostContentProps) => {
           />
         </div>
 
-        <div className={styles.keywords} title="Keywords">
-          <BadgeList badges={meta.keywords} />
-        </div>
-
         <div className={styles.postMeta}>
           <time dateTime={dateObj.toISOString()}>{dateObj.toDateString()}</time>
 
           <address>{meta.author}</address>
+
+          <div className={styles.keywords} title="Keywords">
+            <BadgeList badges={meta.keywords} />
+          </div>
         </div>
 
         <h1 className={styles.title}>{meta.title}</h1>
