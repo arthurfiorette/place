@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import React from 'react';
 
 export const Seo = ({
   description = 'My own room in the internet!',

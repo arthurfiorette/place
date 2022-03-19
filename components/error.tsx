@@ -13,7 +13,6 @@ export const Error = ({ statusCode, message }: ErrorProps) => {
   return (
     <Layout
       hideFooter
-      hideHeader
       seo={{
         description: 'Occurred an error!',
         title: 'Oops!',

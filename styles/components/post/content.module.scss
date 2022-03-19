@@ -9,9 +9,18 @@ $width: min(55rem, 87.5vw);
 }
 
 .title {
-  margin-top: 0;
   font-size: 3rem;
   text-align: center;
+}
+
+.keywords {
+  width: 100%;
+  font-size: 0.7rem;
+  text-align: end;
+
+  ul {
+    margin: 0;
+  }
 }
 
 .description {
@@ -35,6 +44,8 @@ $width: min(55rem, 87.5vw);
   height: 100%;
   position: relative;
 
+  margin-bottom: 2rem;
+
   span,
   img {
     height: unset !important;
@@ -53,7 +64,6 @@ $width: min(55rem, 87.5vw);
 // Contains some meta information, like author and date
 .postMeta {
   color: hsl(0, 0%, 40%);
-  margin-top: 2rem;
 
   font-size: 1rem;
   text-align: center;

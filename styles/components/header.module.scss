@@ -1,67 +1,29 @@
 @import '../variables.scss';
-
-$slash-opacity: 40%;
+@import '../mixins/pad.scss';
 
 .header {
   width: 100%;
-  font-size: 24px;
-  margin: 1.5rem !important;
+
   display: flex;
+  justify-content: space-between;
+  align-items: center;
 
-  &::before {
-    content: '<';
-    font-size: 0.8rem;
-    margin-right: 0.2rem;
-    color: hsla(0, 0%, 0%, 30%);
-  }
+  margin-bottom: 2rem;
 
-  &:hover {
-    &::before {
-      color: black;
+  @include padBorder($size: 15rem, $max-width: 87.5vw);
+}
+
+.logo {
+  font-family: $font-family-title;
+  font-size: 1.4rem;
+
+  &,
+  * {
+    color: black;
+
+    &:hover {
+      text-decoration: none;
+      font-weight: 100;
     }
   }
-}
-
-.home {
-  font-size: 1rem;
-}
-
-@media print {
-  .header {
-    display: none;
-  }
-}
-
-.nav {
-  text-transform: lowercase;
-  font-size: $title-size !important;
-  width: max-content;
-}
-
-.title {
-  margin-left: auto !important;
-  font-size: $title-size;
-  margin: 0;
-}
-
-.folder {
-  text-transform: capitalize;
-
-  &:first-child:hover {
-    cursor: pointer;
-    text-decoration: underline;
-  }
-
-  &:not(:last-child)::after {
-    margin: 0 0.3rem;
-    content: '/';
-    display: inline-block;
-    opacity: $slash-opacity;
-  }
-}
-
-.homeFolder {
-  display: inline-block;
-  font-size: $title-size !important;
-  margin: 0 !important;
 }

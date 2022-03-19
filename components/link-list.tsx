@@ -1,5 +1,3 @@
-import React from 'react';
-
 export const LinkList = ({ links, ordered = false }: LinkListProps) => {
   const items = Object.entries(links).map(([url, desc]) => {
     return (

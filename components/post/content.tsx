@@ -1,3 +1,4 @@
+import { BadgeList } from 'components/badge-list';
 import type { MarkdownMeta } from 'lib/matter';
 import Image from 'next/image';
 import styles from 'styles/components/post/content.module.scss';
@@ -15,6 +16,10 @@ export const PostContent = ({ html, meta }: PostContentProps) => {
             layout="fill"
             objectFit="contain"
           />
+        </div>
+
+        <div className={styles.keywords} title="Keywords">
+          <BadgeList badges={meta.keywords} />
         </div>
 
         <div className={styles.postMeta}>

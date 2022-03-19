@@ -13,7 +13,6 @@ const Index: NextPage = () => {
     <Layout
       hideFooter
       className={styles.main}
-      showHome
       seo={{
         description: 'My resume, a collection of my work experiences and skills.',
         urlPath: '/resume',

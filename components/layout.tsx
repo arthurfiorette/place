@@ -1,9 +1,9 @@
 import { Footer } from './footer';
-import { Header, HeaderProps } from './header';
+import { Header } from './header';
 import { Main } from './main';
 import { Seo, SeoProps } from './seo';
 
-type LayoutProps = HeaderProps & {
+type LayoutProps = {
   children?: React.ReactNode;
   className?: string;
   hideFooter?: boolean;
@@ -14,7 +14,6 @@ type LayoutProps = HeaderProps & {
 export const Layout = ({
   children,
   className,
-  showHome,
   seo,
   hideFooter = false,
   hideHeader = false
@@ -23,7 +22,7 @@ export const Layout = ({
     <>
       <Seo {...seo} />
 
-      {!hideHeader && <Header showHome={showHome} />}
+      {!hideHeader && <Header />}
 
       <Main className={className}>{children}</Main>
 

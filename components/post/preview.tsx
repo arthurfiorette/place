@@ -1,6 +1,6 @@
+import { BadgeList } from 'components/badge-list';
 import type { MarkdownMeta } from 'lib/matter';
 import Link from 'next/link';
-import React from 'react';
 import styles from 'styles/components/post/preview.module.scss';
 
 export const PostPreview = ({ meta }: PostPreviewProps) => {
@@ -19,6 +19,10 @@ export const PostPreview = ({ meta }: PostPreviewProps) => {
       <div className={styles.meta}>
         <time dateTime={dateObj.toISOString()}>{dateObj.toDateString()}</time>
         <address>{meta.author}</address>
+      </div>
+
+      <div className={styles.keywords}>
+        <BadgeList badges={meta.keywords} />
       </div>
     </>
   );
