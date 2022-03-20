@@ -90,24 +90,6 @@ const Resume: NextPage = () => {
         </InfoCard>
       </Section>
 
-      <Section title="Skills" className={styles.section}>
-        <InfoCard title="Languages">
-          Portuguese <i>(Native)</i> and English <i>(Fluent).</i>
-        </InfoCard>
-
-        <InfoCard title="Programming Languages">
-          Javascript, Typescript, Java, Rust, Html, Css and Sass.
-        </InfoCard>
-
-        <InfoCard title="Services">
-          Nginx, Postgres, Redis, Docker, Docker Compose, Github Actions and Gitlab CI.
-        </InfoCard>
-
-        <InfoCard title="Systems">
-          VSCode, EclipseIDE, Windows, Linux, WSL, Github and Gitlab.
-        </InfoCard>
-      </Section>
-
       <Section title="Education" className={styles.section}>
         <InfoCard title="Instituto Federal do Espirito Santo">
           <Link href="https://vendanova.ifes.edu.br">
@@ -162,6 +144,24 @@ const Resume: NextPage = () => {
 
             <div>5.5 Hours - 65 Videos</div>
           </div>
+        </InfoCard>
+      </Section>
+
+      <Section title="Skills" className={styles.section}>
+        <InfoCard title="Languages">
+          Portuguese <i>(Native)</i> and English <i>(Fluent).</i>
+        </InfoCard>
+
+        <InfoCard title="Programming Languages">
+          Javascript, Typescript, Java, Rust, Html, Css and Sass.
+        </InfoCard>
+
+        <InfoCard title="Services">
+          Nginx, Postgres, Redis, Docker, Docker Compose, Github Actions and Gitlab CI.
+        </InfoCard>
+
+        <InfoCard title="Systems">
+          VSCode, EclipseIDE, Windows, Linux, WSL, Github and Gitlab.
         </InfoCard>
       </Section>
     </Layout>

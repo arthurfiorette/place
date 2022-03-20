@@ -9,13 +9,15 @@
   a {
     color: black;
   }
-}
 
-@media print {
-  .main {
+  @media print {
     font-family: Arial;
+
+    // Some android devices print the page with transparent background
+    background-color: white;
   }
 }
+
 
 .title {
   margin-bottom: 0.125rem;
