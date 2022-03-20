@@ -5,6 +5,10 @@
   text-align: start;
 
   max-width: min(55rem, 80vw);
+
+  a {
+    color: black;
+  }
 }
 
 @media print {

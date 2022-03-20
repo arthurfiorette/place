@@ -110,19 +110,18 @@ const Resume: NextPage = () => {
 
       <Section title="Education" className={styles.section}>
         <InfoCard title="Instituto Federal do Espirito Santo">
-          <i>
-            <Link href="https://vendanova.ifes.edu.br">
-              High School with Technical in Business
-            </Link>
-          </i>
-          <br />
-          <time dateTime={new Date(2020, 1, 1).toISOString()}>2020 - 2022</time>
+          <Link href="https://vendanova.ifes.edu.br">
+            <a target="_blank">High School with Technical in Business</a>
+          </Link>
+          <div>
+            <time dateTime={new Date(2020, 1, 1).toISOString()}>2020 - 2022</time>
+          </div>
         </InfoCard>
 
         <InfoCard title="Udemy Courses">
           <div>
             <Link href="https://www.udemy.com/certificate/UC-5aaffbee-636a-4a55-ac46-f25cc8663f5a">
-              <a target="_blank" className="italic">
+              <a target="_blank">
                 Curso Web Moderno Completo com JavaScript 2022 + Projetos
               </a>
             </Link>
@@ -132,7 +131,7 @@ const Resume: NextPage = () => {
 
           <div>
             <Link href="https://www.udemy.com/certificate/UC-c82d31ac-de7a-4129-9057-fd49f277cd2c">
-              <a target="_blank" className="italic">
+              <a target="_blank">
                 Java 2022 COMPLETO: Do Zero ao Profissional + Projetos!
               </a>
             </Link>
@@ -142,9 +141,7 @@ const Resume: NextPage = () => {
 
           <div>
             <Link href="https://www.udemy.com/certificate/UC-2174782e-d458-4e97-af29-95b7eb3884a2">
-              <a target="_blank" className="italic">
-                Entendendo TypeScript
-              </a>
+              <a target="_blank">Entendendo TypeScript</a>
             </Link>
 
             <div>11.5 Hours - 180 Videos</div>
@@ -152,9 +149,7 @@ const Resume: NextPage = () => {
 
           <div>
             <Link href="https://www.udemy.com/certificate/UC-1caa866c-eab5-427a-96cb-9783e1795805">
-              <a target="_blank" className="italic">
-                GraphQL: Criando APIs Profissionais e Flexíveis
-              </a>
+              <a target="_blank">GraphQL: Criando APIs Profissionais e Flexíveis</a>
             </Link>
 
             <div>15 Hours - 136 Videos</div>
@@ -162,9 +157,7 @@ const Resume: NextPage = () => {
 
           <div>
             <Link href="https://www.udemy.com/certificate/UC-5c93d3c2-320c-4110-8e2d-281a0e4e0978">
-              <a target="_blank" className="italic">
-                Docker: Ferramenta essencial para Desenvolvedores
-              </a>
+              <a target="_blank">Docker: Ferramenta essencial para Desenvolvedores</a>
             </Link>
 
             <div>5.5 Hours - 65 Videos</div>
