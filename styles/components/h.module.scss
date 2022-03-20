@@ -1,0 +1,28 @@
+.header {
+  a {
+    color: black;
+    text-decoration: none;
+  }
+
+  &::before {
+    opacity: 25%;
+    content: '🔗';
+    transition: all 0.1s ease-in-out;
+
+    margin-right: 0.25rem;
+    margin-left: -2rem;
+    font-size: 1rem;
+
+    @media print {
+      display: none;
+    }
+  }
+
+  &:hover {
+    cursor: pointer;
+
+    &::before {
+      opacity: 100%;
+    }
+  }
+}

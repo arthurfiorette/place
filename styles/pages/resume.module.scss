@@ -1,38 +1,24 @@
-.hr {
-  margin: 2rem 0;
-  border: 1px solid hsl(0, 0%, 92%);
+@import '../variables.scss';
+
+.main {
+  width: 100%;
+  text-align: start;
+
+  max-width: min(55rem, 80vw);
 }
 
-.jobDesc {
-  margin-top: 1rem;
-  max-width: 50rem;
-  color: hsla(0, 0%, 25%);
-}
-
-.horizontal {
-  margin-top: 0.5rem;
-
-  > * {
-    display: inline-block;
-
-    &:not(:first-child) {
-      margin-left: 1rem;
-    }
+@media print {
+  .main {
+    font-family: Arial;
   }
 }
 
-.right {
-  text-align: end;
-}
-
-.lastUpdate {
-  opacity: 80%;
-  text-align: center;
-  padding-bottom: 1rem;
+.title {
+  margin-bottom: 0.125rem;
 }
 
 .icon {
-  color: hsla(0, 0%, 25%);
+  transition: all 0.1s ease-in-out;
 
   &:not(:first-child) {
     margin-left: 1rem;
@@ -40,16 +26,62 @@
 
   &:hover {
     cursor: pointer;
-    color: hsla(0, 0%, 50%);
+    color: hsla(0, 0%, 60%);
   }
 }
 
-.mt1 {
-  margin-top: 1rem;
+.subtitle {
+  display: block;
+
+  margin-bottom: 1.5rem;
+
+  font-style: italic;
+  font-family: $font-family-title;
+
+  color: hsla(0, 0%, 10%);
 }
 
-@media print {
-  .icon {
-    display: none;
+.refList {
+  margin-top: 1rem;
+
+  ul {
+    margin: 0;
+    list-style: none;
+    padding-left: 0;
+
+    li {
+      margin: 0;
+    }
+  }
+}
+
+.contact {
+  margin: 0;
+}
+
+.workList {
+  margin: 0;
+  list-style: none;
+  padding-left: 0;
+}
+
+.work {
+  font-family: $font-family-title;
+
+  time {
+    font-size: 0.9rem;
+    color: hsla(0, 0%, 25%);
+  }
+}
+
+.section {
+  margin-bottom: 0 !important;
+
+  & > *:not(h1, h2, h3, h4, h5, h6) {
+    margin-left: 0.5rem;
+  }
+
+  h2 {
+    margin-top: 3rem;
   }
 }

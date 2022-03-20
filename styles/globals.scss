@@ -3,6 +3,7 @@
 
 @import './reset.scss';
 @import './variables.scss';
+@import './helpers.scss';
 
 #__next {
   font-family: $font-family-def;
@@ -18,6 +19,10 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  @media print {
+    margin: 0 auto;
+  }
 }
 
 .hljs-focus-unfocused {

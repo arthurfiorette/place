@@ -1,5 +1,5 @@
+import { POSTS_PATH } from 'lib/posts';
 import { join } from 'path';
-import { POSTS_PATH } from '../lib/posts';
 
 export function pathToSlug(path: string): string {
   return join(path).toLowerCase().replace(/\s+/g, '-').replace(/\.md$/, '');

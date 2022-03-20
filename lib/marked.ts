@@ -16,7 +16,7 @@ export function markdownToHtml(md: string) {
 
     highlight: (code, lang) => {
       if (!hljs.getLanguage(lang)) {
-        console.warn(`Language ${lang} not supported`);
+        console.warn(`warn  - Language "${lang}" isn't supported`);
       }
 
       return hljs.highlight(code, {

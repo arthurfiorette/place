@@ -21,7 +21,7 @@ const Posts: NextPage<PageProps> = ({ posts }) => {
         title: "Arthur's published posts"
       }}
     >
-      <Section title="A simple blog with posts about tech :)">
+      <Section title="A simple blog with posts about tech :)" noAnchor>
         <p>
           Hi! My name is <b>Arthur</b> and I work with web and server-side technologies
           since mid 2018. I enjoy the coding community in general and I'm always seeking

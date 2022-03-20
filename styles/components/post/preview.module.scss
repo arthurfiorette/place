@@ -35,10 +35,21 @@
   > *:not(:last-child) {
     margin-right: 1rem;
   }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
 
 .keywords {
   color: black;
   font-size: 0.7rem;
   margin-left: auto;
+
+  @media (max-width: 768px) {
+    margin-left: 0;
+    margin-right: auto;
+    text-align: center;
+  }
 }

@@ -22,6 +22,12 @@ $width: min(55rem, 87.5vw);
   ul {
     margin: 0;
   }
+
+  @media (max-width: 768px) {
+    margin-left: 0;
+    margin-right: auto;
+    text-align: center;
+  }
 }
 
 .description {
@@ -77,6 +83,11 @@ $width: min(55rem, 87.5vw);
 
   > *:not(:last-child) {
     margin-right: 1rem;
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }
 
