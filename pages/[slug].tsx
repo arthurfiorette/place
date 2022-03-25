@@ -22,7 +22,7 @@ const Page: NextPage<PageProps> = ({ meta, html }) => {
       hideFooter
       seo={{
         author: meta.author,
-        urlPath: `/posts/${meta.slug}`,
+        urlPath: `/${meta.slug}`,
         title: meta.title,
         description: meta.description,
         keywords: meta.keywords

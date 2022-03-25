@@ -4,17 +4,8 @@ const { accessSync } = require('fs');
 const { lstat } = require('fs/promises');
 const path = require('path');
 
-const POSTS_REGEX = /^\/posts\/(.+)$/gm;
-
 /** @param {string} url */
 function findFile(url) {
-  const isPostUrl = url.match(POSTS_REGEX);
-
-  // Posts
-  if (isPostUrl) {
-    return path.resolve(__dirname, '.' + isPostUrl[0] + '.md');
-  }
-
   const pagesPath = path.resolve(__dirname, './pages');
 
   let file = path.resolve(pagesPath, './' + (url === '/' ? 'index' : url) + '.tsx');
@@ -29,6 +20,27 @@ function findFile(url) {
 
   try {
     file = path.resolve(pagesPath, './' + url, 'index.tsx');
+
+    accessSync(file);
+
+    return file;
+  } catch {
+    // ignore
+  }
+
+  try {
+    file = path.resolve(__dirname, '.' + url, 'index.tsx');
+
+    accessSync(file);
+
+    return file;
+  } catch {
+    // ignore
+  }
+
+  try {
+    // Try with a post
+    file = path.resolve(__dirname, './posts/' + url + '.md');
 
     accessSync(file);
 
@@ -62,8 +74,8 @@ module.exports = {
       // The last time the page had it's content changed
       lastmod: atime.toISOString(),
 
-      // 1 For the index, 0.8 for all posts and 0.5 for everything else
-      priority: loc === '/' ? 1 : loc.match(POSTS_REGEX) ? 0.8 : 0.5
+      // 1 For the index and 0.7 for everything else
+      priority: loc === '/' ? 1 : 0.7
     };
   }
 };

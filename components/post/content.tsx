@@ -12,7 +12,7 @@ export const PostContent = ({ html, meta }: PostContentProps) => {
         <div className={styles.preview}>
           <Image
             alt="A image that illustrates the post content, normally it don't have meaningful content."
-            src={`/images/${meta.preview}`}
+            src={meta.preview}
             layout="fill"
             objectFit="contain"
           />

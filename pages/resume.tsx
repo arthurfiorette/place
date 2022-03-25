@@ -1,6 +1,6 @@
 import { InfoCard } from 'components/card/info';
 import { Layout } from 'components/layout';
-import { LinkList } from 'components/link-list';
+import { LinkList } from 'components/lists/link';
 import { Section } from 'components/section';
 import type { NextPage } from 'next';
 import Link from 'next/link';

@@ -1,4 +1,4 @@
-import { BadgeList } from 'components/badge-list';
+import { BadgeList } from 'components/lists/badge';
 import type { MarkdownMeta } from 'lib/matter';
 import Link from 'next/link';
 import styles from 'styles/components/post/preview.module.scss';
@@ -8,7 +8,7 @@ export const PostPreview = ({ meta }: PostPreviewProps) => {
 
   return (
     <>
-      <Link href={`/posts/${meta.slug}`}>
+      <Link href={`/${meta.slug}`}>
         <a className={styles.preview}>
           <h2 className={styles.title}>{meta.title}</h2>
         </a>

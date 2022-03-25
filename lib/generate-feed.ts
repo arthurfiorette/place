@@ -40,7 +40,7 @@ export async function generateFeed() {
         guid: meta.slug,
         title: meta.title,
 
-        link: `${baseUrl}/posts/${meta.slug}`,
+        link: `${baseUrl}/${meta.slug}`,
 
         date: new Date(meta.date),
         published: new Date(meta.date),

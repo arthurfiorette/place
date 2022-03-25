@@ -5,7 +5,7 @@ module.exports = {
   reactStrictMode: true,
   productionBrowserSourceMaps: true,
   swcMinify: true,
-  images: { domains: ['avatars.githubusercontent.com', 'avatars.dicebear.com'] },
+  images: { domains: ['raw.githubusercontent.com'] },
 
   // eslint-disable-next-line @typescript-eslint/require-await
   async redirects() {
@@ -13,7 +13,7 @@ module.exports = {
 
     if (!REDIRECT_MAP) {
       return [];
-    }
+  }
 
     /** @type {import('next/dist/lib/load-custom-routes').Redirect[]} */
     const redirects = [];
@@ -22,6 +22,7 @@ module.exports = {
       const [from, to] = redirect.split('=');
       redirects.push({
         source: `/r/${from}`,
+        //@ts-expect-error :)
         destination: to,
         statusCode: 307 // temporary redirect
       });
