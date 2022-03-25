@@ -1,4 +1,4 @@
-import styles from 'styles/components/badge-list.module.scss';
+import styles from 'styles/components/lists/badge.module.scss';
 
 export const BadgeList = ({ badges }: BadgeGroupProps) => {
   return (

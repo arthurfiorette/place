@@ -5,6 +5,7 @@ import { Section } from 'components/section';
 import type { MarkdownMeta, MdPost } from 'lib/matter';
 import { readAllPosts } from 'lib/posts';
 import type { GetStaticProps, NextPage } from 'next';
+import Link from 'next/link';
 
 type PageProps = {
   recentPosts: { meta: MarkdownMeta; info: MdPost['info'] }[];
@@ -82,7 +83,15 @@ const Index: NextPage<PageProps> = ({ recentPosts }) => {
             here's a preview of the last posts I wrote:
           </p>
 
-          <PostList posts={recentPosts} showAllPostsLink />
+          <p style={{ margin: '2rem 0' }}>
+            <PostList posts={recentPosts} />
+          </p>
+
+          <p>
+            <Link href={`/posts`}>
+              <a>See all of them!</a>
+            </Link>
+          </p>
         </Section>
       )}
     </Layout>

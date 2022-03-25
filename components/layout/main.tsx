@@ -1,4 +1,4 @@
-import styles from 'styles/components/main.module.scss';
+import styles from 'styles/components/layout/main.module.scss';
 
 export const Main = ({ children, className }: MainProps) => {
   return <main className={`${styles.main} ${className}`}>{children}</main>;
