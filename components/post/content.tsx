@@ -1,9 +1,10 @@
-import { BadgeList } from 'components/badge-list';
-import type { MarkdownMeta } from 'lib/matter';
+import { BadgeList } from 'components/lists/badge';
+import { MinRead } from 'components/min-read';
+import type { MarkdownMeta, MdPost } from 'lib/matter';
 import Image from 'next/image';
 import styles from 'styles/components/post/content.module.scss';
 
-export const PostContent = ({ html, meta }: PostContentProps) => {
+export const PostContent = ({ html, meta, info }: PostContentProps) => {
   const dateObj = new Date(meta.date);
 
   return (
@@ -16,6 +17,10 @@ export const PostContent = ({ html, meta }: PostContentProps) => {
             layout="fill"
             objectFit="contain"
           />
+        </div>
+
+        <div style={{ marginBottom: '0.5rem' }}>
+          <MinRead minRead={info.minRead} />
         </div>
 
         <div className={styles.postMeta}>
@@ -50,4 +55,5 @@ export const PostContent = ({ html, meta }: PostContentProps) => {
 export type PostContentProps = {
   meta: MarkdownMeta;
   html: string;
+  info: MdPost['info'];
 };

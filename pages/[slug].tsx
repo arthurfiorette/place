@@ -1,7 +1,7 @@
 import { Layout } from 'components/layout';
 import { PostContent } from 'components/post/content';
 import { markdownToHtml } from 'lib/marked';
-import type { MarkdownMeta } from 'lib/matter';
+import type { MarkdownMeta, MdPost } from 'lib/matter';
 import { ALL_POSTS_FILES as ALL_POSTS, hasPost, readMd } from 'lib/posts';
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import { slugToPath } from 'util/slug';
@@ -13,10 +13,11 @@ type PageParams = {
 type PageProps = {
   meta: MarkdownMeta;
   html: string;
+  info: MdPost['info'];
   slug: string;
 };
 
-const Page: NextPage<PageProps> = ({ meta, html }) => {
+const Page: NextPage<PageProps> = ({ meta, html, info }) => {
   return (
     <Layout
       hideFooter
@@ -28,7 +29,7 @@ const Page: NextPage<PageProps> = ({ meta, html }) => {
         keywords: meta.keywords
       }}
     >
-      <PostContent meta={meta} html={html} />
+      <PostContent meta={meta} html={html} info={info} />
     </Layout>
   );
 };
@@ -50,14 +51,15 @@ export const getStaticProps: GetStaticProps<PageProps, PageParams> = async ({
 
   const mdPath = slugToPath(params.slug);
 
-  const { content, meta } = await readMd(mdPath, params.slug);
+  const { content, meta, info } = await readMd(mdPath, params.slug);
   const html = markdownToHtml(content);
 
   return {
     props: {
       slug: params.slug,
       meta,
-      html
+      html,
+      info
     }
   };
 };

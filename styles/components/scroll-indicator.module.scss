@@ -1,0 +1,16 @@
+$height: 0.4rem;
+
+.bar {
+  height: $height;
+  width: 0%;
+
+  background-color: hsla(0, 0%, 0%, 30%);
+  border-radius: 0 0.5rem 0.5rem 0;
+
+  transition: width 0.25s ease-out;
+}
+
+.container {
+  width: 100%;
+  height: $height;
+}

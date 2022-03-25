@@ -1,5 +1,6 @@
 import matter from 'gray-matter';
 import { hasAllKeys } from 'util/has-all-keys';
+import { getMinRead } from './min-read';
 
 export type MarkdownMeta = {
   title: string;
@@ -11,10 +12,15 @@ export type MarkdownMeta = {
   keywords: string[];
 };
 
-export function parseFrontMatter(
-  slug: string,
-  raw: string
-): { content: string; meta: MarkdownMeta } {
+export type MdPost = {
+  content: string;
+  meta: MarkdownMeta;
+  info: {
+    minRead: number;
+  };
+};
+
+export function parseFrontMatter(slug: string, raw: string): MdPost {
   const { data, content } = matter(raw);
 
   if (
@@ -27,6 +33,9 @@ export function parseFrontMatter(
 
   return {
     content,
-    meta: { slug, ...data }
+    meta: { slug, ...data },
+    info: {
+      minRead: getMinRead(content)
+    }
   };
 }

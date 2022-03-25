@@ -1,3 +1,9 @@
+@import './mixins/pad.scss';
+
 .italic {
   font-style: italic;
+}
+
+.pad-border-5rem {
+  @include padBorder($size: 5rem, $max-width: min(55rem, 87.5vw));
 }

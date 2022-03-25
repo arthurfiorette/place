@@ -1,0 +1,8 @@
+@import '../variables.scss';
+
+.minRead {
+  color: hsl(0, 0%, 45%);
+  font-family: $font-family-def;
+  margin: 0;
+  line-height: 0.7rem;
+}

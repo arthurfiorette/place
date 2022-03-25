@@ -1,13 +1,13 @@
 import { Layout } from 'components/layout';
-import { LinkList } from 'components/link-list';
+import { LinkList } from 'components/lists/link';
 import { PostList } from 'components/post/list';
 import { Section } from 'components/section';
-import type { MarkdownMeta } from 'lib/matter';
+import type { MarkdownMeta, MdPost } from 'lib/matter';
 import { readAllPosts } from 'lib/posts';
 import type { GetStaticProps, NextPage } from 'next';
 
 type PageProps = {
-  recentPosts: MarkdownMeta[];
+  recentPosts: { meta: MarkdownMeta; info: MdPost['info'] }[];
 };
 
 const Index: NextPage<PageProps> = ({ recentPosts }) => {
@@ -94,7 +94,7 @@ export const getStaticProps: GetStaticProps<PageProps> = async () => {
 
   return {
     props: {
-      recentPosts: posts.map(({ meta }) => meta).slice(0, 3)
+      recentPosts: posts.map(({ meta, info }) => ({ meta, info })).slice(0, 3)
     }
   };
 };

@@ -1,13 +1,13 @@
 import { Layout } from 'components/layout';
 import { PostList } from 'components/post/list';
 import { Section } from 'components/section';
-import type { MarkdownMeta } from 'lib/matter';
+import type { MarkdownMeta, MdPost } from 'lib/matter';
 import { readAllPosts } from 'lib/posts';
 import type { GetStaticProps, NextPage } from 'next';
 import Link from 'next/link';
 
 type PageProps = {
-  posts: MarkdownMeta[];
+  posts: { meta: MarkdownMeta; info: MdPost['info'] }[];
 };
 
 const Posts: NextPage<PageProps> = ({ posts }) => {
@@ -54,7 +54,7 @@ export const getStaticProps: GetStaticProps<PageProps> = async () => {
   return {
     props: {
       // Remove the string content as it is not needed in the client
-      posts: posts.map(({ meta }) => meta)
+      posts: posts.map(({ meta, info }) => ({ meta, info }))
     }
   };
 };
