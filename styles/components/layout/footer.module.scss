@@ -1,12 +1,16 @@
 .footer {
+  margin-top: 3rem;
+  
   opacity: 90%;
   width: 100%;
+  border-radius: 0.5rem;
 }
 
 .list {
+  margin-top: 0.5rem;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
 
   padding: 0;
   list-style: none;
@@ -14,6 +18,10 @@
   li {
     display: inline-block;
     margin: 0 1rem;
+
+    a {
+      color: black;
+    }
   }
 }
 

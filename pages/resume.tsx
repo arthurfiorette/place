@@ -157,7 +157,7 @@ const Resume: NextPage = () => {
         </InfoCard>
 
         <InfoCard title="Services">
-          Nginx, Postgres, Redis, Docker, Docker Compose, Github Actions and Gitlab CI.
+          Nginx, Postgres, Redis, Docker & Compose, Github Actions and Gitlab CI.
         </InfoCard>
 
         <InfoCard title="Systems">

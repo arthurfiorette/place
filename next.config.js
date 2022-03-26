@@ -13,7 +13,7 @@ module.exports = {
 
     if (!REDIRECT_MAP) {
       return [];
-  }
+    }
 
     /** @type {import('next/dist/lib/load-custom-routes').Redirect[]} */
     const redirects = [];

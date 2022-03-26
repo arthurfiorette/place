@@ -13,7 +13,7 @@ type PageProps = {
 
 const Index: NextPage<PageProps> = ({ recentPosts }) => {
   return (
-    <Layout hideFooter hideHeader>
+    <Layout hideHeader>
       <h1 style={{ marginBottom: '3rem', textAlign: 'center' }}>
         Eai 👋 <br />I am Arthur Fiorette
       </h1>

@@ -46,7 +46,7 @@ $width: min(55rem, 87.5vw);
 }
 
 .preview {
-  @include padBorder($size: 15rem, $max-width: $width);
+  @include padBorder($size: 7rem, $max-width: $width);
 
   height: 100%;
   position: relative;
@@ -120,16 +120,25 @@ $width: min(55rem, 87.5vw);
     break-inside: avoid !important;
   }
 
-  pre > code {
-    // From the atom-one-dark theme
-    color: #abb2bf;
-    background: #282c34;
+  code {
+    padding: 0.2rem;
+    border-radius: 0.25rem;
+    background-color: hsl(0, 0%, 97%);
 
-    padding: 1.125rem;
-    margin: 2rem 0;
+    &:not(pre *) {
+      color: #d73a49;
+    }
+  }
+
+  pre > code {
+    background-color: unset;
+
+    padding: 1.25rem;
     overflow-x: auto;
 
-    @include padBorder($size: 5rem, $max-width: $width);
+    border-radius: 1rem;
+
+    @include padBorder($size: 3rem, $max-width: $width);
 
     @media print {
       font-size: 0.9rem;
@@ -138,19 +147,15 @@ $width: min(55rem, 87.5vw);
     }
   }
 
-  pre > code,
-  blockquote {
-    display: block;
-    border-radius: 1rem;
-  }
-
   blockquote {
     margin-left: 0;
-    padding: 0.2rem 0;
-    padding-left: 1rem;
+    padding: 0.01rem 1rem;
 
     color: #383a42;
-    background-color: hsl(0, 0%, 98%);
+    background-color: hsl(0, 0%, 95%);
+
+    border-radius: 0.25rem 0.5rem 0.5rem 0.25rem;
+    border-left: 0.25rem solid hsla(228, 8%, 40%);
   }
 
   h1,
