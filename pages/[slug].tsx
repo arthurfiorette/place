@@ -1,5 +1,6 @@
 import { Layout } from 'components/layout';
 import { PostContent } from 'components/post/content';
+import { ScrollIndicator } from 'components/scroll-indicator';
 import { markdownToHtml } from 'lib/marked';
 import type { MarkdownMeta, MdPost } from 'lib/matter';
 import { ALL_POSTS_FILES as ALL_POSTS, hasPost, readMd } from 'lib/posts';
@@ -29,6 +30,10 @@ const Page: NextPage<PageProps> = ({ meta, html, info }) => {
         keywords: meta.keywords
       }}
     >
+      <div style={{ position: 'fixed', top: 0, left: 0, zIndex: 1, width: '100%' }}>
+        <ScrollIndicator />
+      </div>
+
       <PostContent meta={meta} html={html} info={info} />
     </Layout>
   );
