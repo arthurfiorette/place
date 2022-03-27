@@ -9,10 +9,10 @@ export const Footer = () => {
           <Link href="/posts">Recent Posts</Link>
         </li>
         <li>
-          <Link href="/resume">Resume</Link>
+          <Link href="/feeds">Feed</Link>
         </li>
         <li>
-          <Link href="/feeds">Feed</Link>
+          <Link href="/resume">Resume</Link>
         </li>
       </ul>
     </footer>
