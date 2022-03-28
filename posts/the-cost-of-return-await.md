@@ -16,28 +16,28 @@ description: Awaiting a promise before returning it can lead to a 50% slower cod
   ESLint rule.
 </h2>
 
-A great paradigm of developing large scale applications is to prefer a high level language
-that speeds up the development stages and is slower at runtime or a mid to lower level
-language that is faster at runtime but slower to develop.
+A major paradigm of large-scale application development is to prefer a high-level
+language. which speeds up development stages and is slower in runtime or at a medium to
+lower level language that is faster at runtime but slower to develop.
 
-With that in mind, many managers and developers prefers the first option, a considerably
-high level language with some drawbacks at runtime. Which, in our case, is `Javascript`.
+With that in mind, many managers and developers prefer the first option, a high-level
+language with some runtime disadvantages. Which, in our case, is `Javascript`.
 
-You may be thinking: _"If I really need performance, I shouldn't be using Javascript"_.
-But, that's not how this literally works. NodeJs can be pretty _fastish_ for almost
+You might be thinking: _"If I really need performance, I shouldn't be using Javascript"_.
+But, that's not how it literally works. NodeJs can be pretty _fastish_ for almost
 everything. The [Techempower](https://www.techempower.com/benchmarks/) benchmark shows
-that it can handle pretty good results.
+that he can handle very good results.
 
-If you could improve just a percent of your code, With a webserver that can only handle
-~8k simultaneous requests, that would be 80 more requests that you could've been
+If you could only improve one percent of your code, with a web server that can only handle
+~8k concurrent requests, that would be 80 more requests than you could have been
 delivering.
 
-And that's leads us to a simple thing that can improve your code:
+And that brings us to a simple thing that can improve your code:
 
 ## Awaiting before returning.
 
-A pretty common pattern in Asynchronous Javascript Programming is to create a async
-function that waits and encapsulates many other async functions calls:
+A very common pattern in **Asynchronous Javascript Programming** is to create a function
+that expects and wraps many other async function calls:
 
 ```js
 async function example() {
@@ -48,10 +48,10 @@ async function example() {
 }
 ```
 
-As you can see, the above function has a `await` before a `return` statement. And this is
-exactly where it gets tricky.
+As you can see, the above function has an `await` before a `return` statement. And that's
+exactly where it gets complicated.
 
-Before explaining the problem deeply, let's build a simple benchmark:
+Before explaining the problem in depth, let's build a simple benchmark:
 
 ## The benchmark
 
@@ -61,11 +61,12 @@ Github repository.
 
 Let's explain how the benchmark was done:
 
-There is a `work()` function, it returns a promise that is resolve as soon as the
+There is a `work()` function. It returns a promise which is resolved as soon as the
 `setImmediate` function is called.
 
-And there are also these 3 others functions. They are just the same, but one is `async`
-and uses `await`, the other just uses `async` and the last uses only a raw `return`.
+And there are also these 3 other functions. They are exactly the same, but one is
+`asynchronous` and uses `await`, the other just uses `async` and the last one uses only a
+raw `return` statement.
 
 ```ts
 function work(): Promise<any>;
@@ -101,25 +102,26 @@ Remembering, you can see the benchmark
   src="https://arthur-place.github.io/the-cost-of-return-await/results/result.chart.html"
 ></iframe>
 
-You are probably also asking yourself, why Es6 was considerably slower?
+You are probably also wondering, why was Es6 considerably slower?
 
-My simple research showed that the polyfill for generators (`__generator`) is faster than
-the native `function*` and `yield` Node 17 implementation. But that's another day's story.
+My simple research showed that the generator polyfill (`__generator`) is faster than the
+native `function*` and `yield` Node 17 implementation. But that's a story for another day.
 
 ## What's wrong with `return await`?
 
-The **Babel**, **ES5** and **ES6** have different _ops/s_ because of all different
-polyfills used. You can see them in the
+**Babel**, **ES5** and **ES6** have different operating rates per second _(ops/s)_ because
+of their different polyfills used. You can see them in the
 [`dist`](https://github.com/arthur-place/the-cost-of-return-await/tree/main/dist) folder.
 
-Simply put, the await instruction literally does what it says: It waits the completion
-before returning it's values. This also implies that the thing being waited probably is
+Simply put, the await instruction literally does what it says: it waits the completion
+before returning it's values. This also implies that the thing being waited is likely
 going to be a promise-like object.
 
-And with that imply, the NodeJS already schedules that line to the be in the end of the
-current loop, only then, it will execute the rest of it.
+And with that, NodeJS already schedules that line to start executing at the end of the
+current loop. Then, and only then, it will execute the rest of it and wait for inner
+promises and tasks.
 
-A simple way to prove the above statement is this simple code.
+A simple way to prove the above claim is this simple code.
 
 ```js
 async function asyncFn() {
@@ -147,11 +149,12 @@ syncFn();
 
 If you don't wait the promise before returning it, it will return that promise in the same
 instant. Similar to a
-[_Chain of Responsibility_](https://pt.wikipedia.org/wiki/Chain_of_Responsibility). This
-means that, instead of handling what it'll return, it is going to pass that responsibility
-to the caller of the function.
+[_Chain of Responsibility_](https://pt.wikipedia.org/wiki/Chain_of_Responsibility).
 
-And that's enters the only correct usage of `return await`: Try-Catch blocks.
+This means that, instead of handling what it'll return, it is going to pass that
+responsibility to the caller of the function.
+
+And then comes the only correct use of `return await`: **Try-Catch blocks**.
 
 ```js
 async function fn() {
@@ -178,3 +181,6 @@ If you are using ESLint _(And if don't, you **should**)_, you can enable the
 ## That's It!
 
 I hope you've learned something new from this article. See you next time!
+
+Also, it's the first time I've written something in English. Please
+[DM](https://arthur.place/r/twitter) me if you find any errors.
