@@ -1,0 +1,57 @@
+@import '../variables.scss';
+
+.item {
+  $icon-color: var(--icon-color);
+
+  max-width: calc($max-width-def / 2);
+
+  padding: 0.8rem 0;
+
+  font-family: $font-family-title;
+  font-size: 1.5rem;
+
+  margin: 0 auto;
+
+  background-color: $icon-color;
+  border: 0.15rem solid $icon-color;
+  border-radius: 0.5rem;
+
+  box-shadow: 0 0 0.1rem $icon-color, inset 0 0 0.1rem $icon-color;
+  text-shadow: 0 0 0.1rem $icon-color;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: background-color 0.15s linear, color 0.3s linear;
+
+  min-width: min(70vw, 30rem);
+
+  & > * {
+    color: white;
+    vertical-align: middle;
+  }
+
+  &:hover {
+    cursor: pointer;
+    background-color: transparent !important;
+
+    & > * {
+      color: $icon-color;
+    }
+  }
+
+  a {
+    width: 100%;
+    text-align: center;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  svg {
+    display: block;
+    margin-left: 0.5rem;
+  }
+}

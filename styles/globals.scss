@@ -9,9 +9,7 @@
   font-family: $font-family-def;
   font-size: 16px;
 
-  width: 100%;
-
-  margin: 2rem auto;
+  margin: 0 auto;
   max-width: $max-width-def;
 
   display: flex;
@@ -23,12 +21,13 @@
   @media print {
     margin: 0 auto;
   }
-}
 
-.hljs-focus-unfocused {
-  &,
-  * {
-    color: rgba(0, 0, 0, 0.5) !important;
+  & > *:last-child {
+    margin-bottom: 2rem;
+  }
+
+  & > *:first-child {
+    margin-top: 2rem;
   }
 }
 

@@ -21,7 +21,6 @@ type PageProps = {
 const Page: NextPage<PageProps> = ({ meta, html, info }) => {
   return (
     <Layout
-      // hideFooter
       seo={{
         author: meta.author,
         urlPath: `/${meta.slug}`,

@@ -7,7 +7,14 @@ export const Header = ({ children }: HeaderProps) => {
       <div className={styles.logo}>
         <Link href="/">Arthur's Place</Link>
       </div>
-      <div>{children}</div>
+
+      <nav className={styles.nav}>
+        <Link href="/posts">Recent Posts</Link>
+        <Link href="/feeds">Feed</Link>
+        <Link href="/resume">Resume</Link>
+
+        {children}
+      </nav>
     </header>
   );
 };
