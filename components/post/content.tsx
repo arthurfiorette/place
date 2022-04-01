@@ -51,7 +51,9 @@ export const PostContent = ({ html, meta, info }: PostContentProps) => {
         }}
       />
 
-      <DisqusComments identifier={meta.slug} title={meta.title} />
+      <article>
+        <DisqusComments postSlug={meta.slug} title={meta.title} />
+      </article>
     </article>
   );
 };

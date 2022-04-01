@@ -1,17 +1,13 @@
 import { DiscussionEmbed } from 'disqus-react';
-import { useRouter } from 'next/router';
-import React from 'react';
-import { getSiteUrl } from 'util/site-url';
+import { buildUrl } from 'util/site-url';
 
-export const DisqusComments = ({ identifier, title }: DisqusCommentsProps) => {
-  const { asPath } = useRouter();
-
+export const DisqusComments = ({ postSlug, title }: DisqusCommentsProps) => {
   return (
     <DiscussionEmbed
       shortname={process.env.NEXT_PUBLIC_DISQUS_NAME || ''}
       config={{
-        url: getSiteUrl(asPath),
-        identifier,
+        url: buildUrl(postSlug).toString(),
+        identifier: postSlug,
         title
       }}
     />
@@ -19,6 +15,6 @@ export const DisqusComments = ({ identifier, title }: DisqusCommentsProps) => {
 };
 
 export type DisqusCommentsProps = {
-  identifier: string;
+  postSlug: string;
   title: string;
 };

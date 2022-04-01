@@ -25,7 +25,8 @@ const Page: NextPage<PageProps> = ({ meta, html, info }) => {
         urlPath: `/${meta.slug}`,
         title: meta.title,
         description: meta.description,
-        keywords: meta.keywords
+        keywords: [...meta.keywords, 'arthur', 'place', 'post', 'coding', 'programming'],
+        imagePath: meta.preview
       }}
     >
       <div style={{ position: 'fixed', top: 0, left: 0, zIndex: 1, width: '100%' }}>

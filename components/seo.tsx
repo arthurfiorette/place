@@ -1,12 +1,15 @@
 import Head from 'next/head';
+import { buildUrl } from 'util/site-url';
 
 export const Seo = ({
   description = 'My own room in the internet!',
   keywords = ['Arthur', 'Fileti', 'Fiorette'],
   urlPath = '/',
-  title = "Arthur's place"
+  title = "Arthur's place",
+  imagePath = '/images/logo-1280-720.png'
 }: SeoProps) => {
-  const url = new URL(urlPath, 'https://arthur.place');
+  const completeUrl = buildUrl(urlPath);
+  const imageUrl = buildUrl(imagePath);
 
   return (
     <Head>
@@ -18,9 +21,10 @@ export const Seo = ({
 
       <meta property="og:type" content="website" />
 
-      <meta property="og:url" content={url.toString()} />
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
+      <meta property="og:url" content={completeUrl.toString()} />
+      <meta property="og:image" content={imageUrl.toString()} />
     </Head>
   );
 };
@@ -37,4 +41,7 @@ export type SeoProps = {
 
   /** @default "Arthur's place" */
   title?: string;
+
+  /** @default '/images/logo-512.png' */
+  imagePath?: string;
 };

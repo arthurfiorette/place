@@ -1,10 +1,21 @@
+const BASE_URL =
+  process.env.NODE_ENV === 'production'
+    ? process.env.NEXT_PUBLIC_SITE_URL || '/'
+    : 'http://localhost:4000/';
+
 /**
- * @see https://github.com/iamsainikhil/nextjs-prismic-blog-starter/blob/645c391ccb5c259a84db151f14cba4e780d5df18/utils/siteUrl.js#L1
+ * **Supports multiple sites**
+ *
+ * @example
+ *
+ * ```js
+ * buildUrl('/url/test')
+ * // https://arthur.place/url/test
+ *
+ * buildUrl('https://google.com/test')
+ * // https://google.com/test
+ * ```
  */
-export function getSiteUrl(paths = '') {
-  return `${
-    process.env.NODE_ENV === 'production'
-      ? process.env.NEXT_PUBLIC_SITE_URL || '/'
-      : 'http://localhost:4000/'
-  }${paths}`;
+export function buildUrl(pathsOrUrl = '') {
+  return new URL(pathsOrUrl, BASE_URL);
 }
