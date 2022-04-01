@@ -1,7 +1,6 @@
 ---
 title: 'How return await can slow down your code'
 date: 2022/03/26 08:17:00
-author: Arthur Fiorette
 preview: /images/the-cost-of-return-await.jpg
 keywords: [performance, javascript]
 description: Awaiting a promise before returning it can lead to a 50% slower code.
@@ -16,28 +15,25 @@ description: Awaiting a promise before returning it can lead to a 50% slower cod
   ESLint rule.
 </h2>
 
-A major paradigm of large-scale application development is to prefer a high-level
-language. which speeds up development stages and is slower in runtime or at a medium to
-lower level language that is faster at runtime but slower to develop.
+A major paradigm of large-scale application development is choosing to code in high-level
+languages. They speed up development stages but with a tradeoff to be slower at runtime.
+Which, in our case, `Javascript` was chosen.
 
-With that in mind, many managers and developers prefer the first option, a high-level
-language with some runtime disadvantages. Which, in our case, is `Javascript`.
-
-You might be thinking: _"If I really need performance, I shouldn't be using Javascript"_.
-But, that's not how it literally works. NodeJs can be pretty _fastish_ for almost
+You might be thinking: _"If I really need performance, I should be coding in Rust"_, for
+example. But, that's not how it literally works. NodeJs can be pretty _fastish_ for almost
 everything. The [Techempower](https://www.techempower.com/benchmarks/) benchmark shows
 that he can handle very good results.
 
-If you could only improve one percent of your code, with a web server that can only handle
-~8k concurrent requests, that would be 80 more requests than you could have been
-delivering.
+If you could only improve one percent of your code, for example a web api that only
+handles around 8K concurrent requests per second, that would be 80 more requests than you
+could've been delivering.
 
-And that brings us to a simple thing that can improve your code:
+And that brings us to the _today's percent_:
 
-## Awaiting before returning.
+## Awaiting promises before returning.
 
-A very common pattern in **Asynchronous Javascript Programming** is to create a function
-that expects and wraps many other async function calls:
+A very common pattern in **Asynchronous Javascript Programming** is to code functions that
+waits and wraps many other async function calls:
 
 ```js
 async function example() {
@@ -49,27 +45,26 @@ async function example() {
 ```
 
 As you can see, the above function has an `await` before a `return` statement. And that's
-exactly where it gets complicated.
+exactly where it gets **tricky**.
 
-Before explaining the problem in depth, let's build a simple benchmark:
+Before explaining the problem in depth, let's build a simple benchmark to show how this is
+tricky:
 
 ## The benchmark
 
-Before everything, it's good to you know that every code used here is hosted at the
-[`arthur-place/the-cost-of-return-await`](https://github.com/arthur-place/the-cost-of-return-await)
-Github repository.
+It's good to you know that every code used here is hosted at the
+**[`arthur-place/the-cost-of-return-await`](https://github.com/arthur-place/the-cost-of-return-await)**
+github repository.
 
-Let's explain how the benchmark was done:
+There is a main `work()` function. It simply returns a promise which is resolved as soon
+as the `setImmediate` function is called.
 
-There is a `work()` function. It returns a promise which is resolved as soon as the
-`setImmediate` function is called.
-
-And there are also these 3 other functions. They are exactly the same, but one is
-`asynchronous` and uses `await`, the other just uses `async` and the last one uses only a
-raw `return` statement.
+And there are also these 3 other functions. They produce exactly the same result, but one
+is _asynchronous_ and uses `await`, the other is just _asynchronous_ and the last one uses
+only a raw `return` statement.
 
 ```ts
-function work(): Promise<any>;
+// function work(): Promise<any>;
 
 async function doWait() {
   return await work();
@@ -84,71 +79,205 @@ function justReturn() {
 }
 ```
 
-The `async` / `await` standards are too modern, normally the source is transpiled. And
-this benchmark does it too.
+In a real world scenario, the javascript is transpiled to a much more older **EcmaScript**
+version, and we will do the same.
 
-- `Es2017` _(Native)_
-- `Es6` _(`__awaiter`)_
-- `Es5` _(`__awaiter` and `__generator`)_
-- `Babel` _(`runtime-generator`)_.
+### Build targets and generated code
 
-Remembering, you can see the benchmark
-[source](https://github.com/arthur-place/the-cost-of-return-await/).
+I made a simple test and transpiled the same
+[`source`](https://github.com/arthur-place/the-cost-of-return-await/blob/main/index.js)
+from `ES3` to `ES2022`, all different outputs are shown below:
+
+<details>
+<summary>Babel (Regenerator Runtime)</summary>
+
+```js
+function doWait() {
+  return _doWait.apply(this, arguments);
+}
+
+function _doWait() {
+  _doWait = (0, _asyncToGenerator2['default'])(
+    /*#__PURE__*/ _regenerator['default'].mark(function _callee() {
+      return _regenerator['default'].wrap(function _callee$(_context) {
+        while (1) {
+          switch ((_context.prev = _context.next)) {
+            case 0:
+              _context.next = 2;
+              return work();
+
+            case 2:
+              return _context.abrupt('return', _context.sent);
+
+            case 3:
+            case 'end':
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    })
+  );
+  return _doWait.apply(this, arguments);
+}
+
+function dontWait() {
+  return _dontWait.apply(this, arguments);
+}
+
+function _dontWait() {
+  _dontWait = (0, _asyncToGenerator2['default'])(
+    /*#__PURE__*/ _regenerator['default'].mark(function _callee2() {
+      return _regenerator['default'].wrap(function _callee2$(_context2) {
+        while (1) {
+          switch ((_context2.prev = _context2.next)) {
+            case 0:
+              return _context2.abrupt('return', work());
+
+            case 1:
+            case 'end':
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
+    })
+  );
+  return _dontWait.apply(this, arguments);
+}
+```
+
+</details>
+<details>
+<summary>ES5 (Tslib Awaiter and Tslib Generator)</summary>
+
+```js
+function doWait() {
+  return __awaiter(this, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+      switch (_a.label) {
+        case 0:
+          return [4 /*yield*/, work()];
+        case 1:
+          return [2 /*return*/, _a.sent()];
+      }
+    });
+  });
+}
+function dontWait() {
+  return __awaiter(this, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+      return [2 /*return*/, work()];
+    });
+  });
+}
+```
+
+</details>
+<details>
+<summary>ES6 (Tslib Awaiter)</summary>
+
+```js
+function doWait() {
+  return __awaiter(this, void 0, void 0, function* () {
+    return yield work();
+  });
+}
+function dontWait() {
+  return __awaiter(this, void 0, void 0, function* () {
+    return work();
+  });
+}
+```
+
+</details>
+<details>
+<summary>ES2017 (Native)</summary>
+
+```js
+async function doWait() {
+  return await work();
+}
+async function dontWait() {
+  return work();
+}
+```
+
+</details>
+
+These are the collected results at my machine.
+
+- Node v16.14.0
+- Nvm 0.39.1
+- i5 9600K @ 5GHz OC
+- 32GB @ 3200Mhz
+- 1TB SSD PCIe 4.0
 
 <iframe
-  frameborder="0"
-  width="100%"
-  height="550px"
+  title="A benchmark of different return statements"
   src="https://arthur-place.github.io/the-cost-of-return-await/results/result.chart.html"
 ></iframe>
 
 You are probably also wondering, why was Es6 considerably slower?
 
-My simple research showed that the generator polyfill (`__generator`) is faster than the
-native `function*` and `yield` Node 17 implementation. But that's a story for another day.
+A simple research shows that the tslib generator polyfill
+([`__generator`](https://github.com/microsoft/tslib/blob/c827964226e85118e2fd35b1cc68d4a5ad867f39/tslib.js#L122))
+is faster than the Node 17 native `function*` and `yield` Node 17 implementation. But
+that's a story for another day.
 
 ## What's wrong with `return await`?
 
-**Babel**, **ES5** and **ES6** have different operating rates per second _(ops/s)_ because
-of their different polyfills used. You can see them in the
-[`dist`](https://github.com/arthur-place/the-cost-of-return-await/tree/main/dist) folder.
+The **Babel**, **ES5** and **ES6** are expected to have performance variations. It is
+obvious because each one is using different **EcmaScript** compatibility and polyfills.
 
-Simply put, the await instruction literally does what it says: it waits the completion
-before returning it's values. This also implies that the thing being waited is likely
-going to be a promise-like object.
+Simply put, the await instruction literally does what it says: it waits for the promise
+completion before returning its resulted value. It also implies that the thing being
+waited is likely going to be a promise-like object.
 
-And with that, NodeJS already schedules that line to start executing at the end of the
-current loop. Then, and only then, it will execute the rest of it and wait for inner
+The **NodeJS Event Loop** already schedules the specified line to only run at the end of
+the current loop. Then, and only then, it will execute the rest of it and wait for inner
 promises and tasks.
 
-A simple way to prove the above claim is this simple code.
+This is simple way to prove the above claim:
 
 ```js
-async function asyncFn() {
+async function withAwait() {
   console.log(1);
 
-  // This will make the nodejs waits for the end of the current loop.
+  // This is going to make the nodejs wait
+  // for the end of the current loop.
   await 0;
+
   console.log(2);
 }
 
-function syncFn() {
+async function withoutAwait() {
   console.log(3);
 }
 
-asyncFn();
-syncFn();
-
-// Outputs:
-//> 1
-//> 3
-//> 2
+withAwait();
+withoutAwait();
 ```
+
+```sh
+$ node example.js
+#> 1
+#> 3
+#> 2
+```
+
+Going back to the benchmark, that was is the **1%** that was being talked about earlier.
+And that **1%** can be `10` of `10.000` ops/s, even or `1000` of a `1.000.000` ops/s.
+
+With that proved, you can see that by only using an `await` keyword, your function
+execution flow will be interrupted multiple times. Summing up every time it's correctly
+used a `return` statement, this can increase hundreds executions per second.
+
+This way, avoiding `return await` can literally be considered a good practice that really
+improves performance.
 
 ## Catching exceptions
 
-If you don't wait the promise before returning it, it will return that promise in the same
-instant. Similar to a
+As said before, if you don't wait the promise before returning it, that promise will be
+returned in the same instant. Similar to a
 [_Chain of Responsibility_](https://pt.wikipedia.org/wiki/Chain_of_Responsibility).
 
 This means that, instead of handling what it'll return, it is going to pass that
@@ -167,8 +296,18 @@ async function fn() {
 ```
 
 In the above example, if you remove the above `await`. The catch block will never be
-called. That's because the promise returns without any pending handle _(or anything
-similar)_. Because only the `fn()` caller will receive the error thrown by `work()`.
+called, even if you directly throw any exceptions inside the function.
+
+```js
+// return await work();
+return work();
+```
+
+And now the catch block will never be called. That's because the promise returned by
+`work()` function is going to directly pass its responsibility to the `fn()` caller.
+
+If you had put a `try-catch` block outside the calling `fn()` function, the inner `fn()`
+`catch` block still wouldn't have been executed, but the outer one will.
 
 ## The simplest fix ever.
 
@@ -180,7 +319,5 @@ If you are using ESLint _(And if don't, you **should**)_, you can enable the
 
 ## That's It!
 
-I hope you've learned something new from this article. See you next time!
-
-Also, it's the first time I've written something in English. Please
-[DM](https://arthur.place/r/twitter) me if you find any errors.
+I hope you learned something new and can use it in your future to improve your code. See
+you next time!
