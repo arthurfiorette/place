@@ -25,6 +25,14 @@ export const Seo = ({
       <meta property="og:description" content={description} />
       <meta property="og:url" content={completeUrl.toString()} />
       <meta property="og:image" content={imageUrl.toString()} />
+
+      <meta property="twitter:card" content="summary_large_image" />
+      <meta property="twitter:title" content={title} />
+      <meta property="twitter:description" content={description} />
+      <meta property="twitter:image" content={imageUrl.toString()} />
+
+      <meta property="twitter:site" content="@arthurfiorette" />
+      <meta property="twitter:creator" content="@arthurfiorette" />
     </Head>
   );
 };
