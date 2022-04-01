@@ -2,7 +2,6 @@ import Head from 'next/head';
 
 export const Seo = ({
   description = 'My own room in the internet!',
-  author = 'Arthur Fiorette',
   keywords = ['Arthur', 'Fileti', 'Fiorette'],
   urlPath = '/',
   title = "Arthur's place"
@@ -15,7 +14,7 @@ export const Seo = ({
 
       <meta name="description" content={description} />
       <meta name="keywords" content={keywords.join(', ')} />
-      <meta name="author" content={author} />
+      <meta name="author" content="Arthur Fiorette" />
 
       <meta property="og:type" content="website" />
 
@@ -32,9 +31,6 @@ export type SeoProps = {
 
   /** @default ['Arthur', 'Fileti', 'Fiorette'] */
   keywords?: string[];
-
-  /** @default 'Arthur Fiorette' */
-  author?: string;
 
   /** @default '/' */
   urlPath?: string;

@@ -1,5 +1,8 @@
 import hljs from 'highlight.js';
+import bash from 'highlight.js/lib/languages/bash';
 import { marked } from 'marked';
+
+hljs.registerLanguage('sh', bash);
 
 export function markdownToHtml(md: string) {
   return marked(md, {

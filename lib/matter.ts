@@ -5,7 +5,6 @@ import { getMinRead } from './min-read';
 export type MarkdownMeta = {
   title: string;
   date: string;
-  author: string;
   description: string;
   slug: string;
   preview: string;
@@ -23,9 +22,7 @@ export type MdPost = {
 export function parseFrontMatter(slug: string, raw: string): MdPost {
   const { data, content } = matter(raw);
 
-  if (
-    !hasAllKeys(data, ['date', 'title', 'author', 'description', 'preview', 'keywords'])
-  ) {
+  if (!hasAllKeys(data, ['date', 'title', 'description', 'preview', 'keywords'])) {
     throw new Error(
       `Markdown ${slug} is missing information. ${JSON.stringify(data, null, 2)}`
     );

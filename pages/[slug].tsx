@@ -22,7 +22,6 @@ const Page: NextPage<PageProps> = ({ meta, html, info }) => {
   return (
     <Layout
       seo={{
-        author: meta.author,
         urlPath: `/${meta.slug}`,
         title: meta.title,
         description: meta.description,
