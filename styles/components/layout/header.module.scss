@@ -2,8 +2,6 @@
 @import '../../mixins/pad.scss';
 
 .header {
-  width: 100%;
-
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -31,5 +29,32 @@
 @media print {
   .header {
     display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav {
+    margin-top: 0.5rem;
+  }
+}
+
+@media (max-width: 670px) {
+  .header {
+    flex-direction: column;
+  }
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+
+  padding: 0;
+  list-style: none;
+
+  & > * {
+    color: black;
+    display: inline-block;
+    margin: 0 1rem;
   }
 }

@@ -7,7 +7,6 @@ import Link from 'next/link';
 const Posts: NextPage = () => {
   return (
     <Layout
-      hideFooter
       seo={{
         description: 'Use any feed to keep up with my latest blog posts.',
         keywords: ['blog', 'posts', 'blog posts', 'rss', 'feed', 'atom', ''],

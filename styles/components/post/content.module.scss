@@ -116,6 +116,16 @@ $width: min(55rem, 87.5vw);
 
 // Container for the generated html content
 .content {
+  margin-bottom: 5rem;
+
+  a {
+    text-decoration: underline;
+
+    &:hover {
+      text-decoration: none !important;
+    }
+  }
+
   > * {
     break-inside: avoid !important;
   }
@@ -126,17 +136,47 @@ $width: min(55rem, 87.5vw);
     background-color: hsl(0, 0%, 97%);
 
     &:not(pre *) {
-      color: #d73a49;
+      color: hsl(354, 66%, 44%);
+    }
+  }
+
+  a > code {
+    color: #005cb8;
+  }
+
+  pre {
+    padding: 0;
+    margin: 1.25rem;
+
+    @media (max-width: 1010px) {
+      margin-left: 0;
     }
   }
 
   pre > code {
     background-color: unset;
 
-    padding: 1.25rem;
+    padding: 0;
     overflow-x: auto;
 
     border-radius: 1rem;
+
+    table {
+      display: inline-block;
+
+      td:nth-child(1) {
+        user-select: none;
+        text-align: center;
+        opacity: 50%;
+
+        width: 1rem;
+        display: block;
+      }
+
+      td:nth-child(2) {
+        padding-left: 0.5rem;
+      }
+    }
 
     @include padBorder($size: 3rem, $max-width: $width);
 
@@ -168,5 +208,37 @@ $width: min(55rem, 87.5vw);
   h5,
   h6 {
     margin-top: 2.5rem;
+  }
+
+  details[open] summary ~ * {
+    animation: sweep 0.5s ease-in-out;
+  }
+
+  iframe {
+    margin: 1rem 0;
+
+    border: none;
+    border-radius: 1rem;
+
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 16/9;
+
+    @include padBorder($size: 3rem, $max-width: $width);
+
+    @media (max-width: 768px) {
+      height: 90vh;
+    }
+  }
+}
+
+@keyframes sweep {
+  0% {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
   }
 }

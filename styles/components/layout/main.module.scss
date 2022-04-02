@@ -1,4 +1,7 @@
+@import '../../variables.scss';
+
 .main {
+  min-width: $max-width-def;
   text-align: justify;
 }
 

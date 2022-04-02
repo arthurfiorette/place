@@ -3,11 +3,13 @@ import LdJson from 'public/ld.json';
 
 export default function Document() {
   return (
-    <Html lang="en">
+    <Html lang="en" itemScope itemType="https://schema.org/Article">
       <Head>
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#000000" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+
+        <meta name="robots" content="index, follow" />
 
         <script
           type="application/ld+json"

@@ -5,6 +5,7 @@ import { markdownToHtml } from 'lib/marked';
 import type { MarkdownMeta, MdPost } from 'lib/matter';
 import { ALL_POSTS_FILES as ALL_POSTS, hasPost, readMd } from 'lib/posts';
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next';
+import Head from 'next/head';
 import { slugToPath } from 'util/slug';
 
 type PageParams = {
@@ -19,17 +20,27 @@ type PageProps = {
 };
 
 const Page: NextPage<PageProps> = ({ meta, html, info }) => {
+  const date = new Date(meta.date).toISOString();
+
   return (
     <Layout
-      // hideFooter
       seo={{
-        author: meta.author,
         urlPath: `/${meta.slug}`,
         title: meta.title,
         description: meta.description,
-        keywords: meta.keywords
+        keywords: [...meta.keywords, 'arthur', 'place', 'post', 'coding', 'programming'],
+        imagePath: meta.preview
       }}
     >
+      <Head>
+        <meta property="article:published_time" content={date} />
+        <meta property="article:modified_time" content={date} />
+        <meta property="article:section" content={meta.title} />
+        <meta property="article:title" content={meta.title} />
+        <meta property="article:description" content={meta.description} />
+        <meta property="article:tag" content={meta.keywords.join(', ')} />
+      </Head>
+
       <div style={{ position: 'fixed', top: 0, left: 0, zIndex: 1, width: '100%' }}>
         <ScrollIndicator />
       </div>

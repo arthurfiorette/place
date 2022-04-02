@@ -10,7 +10,6 @@ import styles from 'styles/pages/resume.module.scss';
 const Resume: NextPage = () => {
   return (
     <Layout
-      hideFooter
       className={styles.main}
       seo={{
         urlPath: '/resume',

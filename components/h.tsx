@@ -1,15 +1,15 @@
 import Link from 'next/link';
-import React from 'react';
+import { createElement } from 'react';
 import styles from 'styles/components/h.module.scss';
 
 export const H = ({ type, children, noAnchor, id, ...props }: HProps) => {
   id = id.toLowerCase().split(/\s+/g).join('-');
 
   if (noAnchor) {
-    return React.createElement(type, { ...props, id }, children);
+    return createElement(type, { ...props, id }, children);
   }
 
-  return React.createElement(
+  return createElement(
     type,
 
     {

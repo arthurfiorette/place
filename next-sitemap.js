@@ -63,8 +63,6 @@ module.exports = {
   trailingSlash: false,
 
   transform: async (_, loc) => {
-    console.log(loc);
-
     const urlPath = findFile(loc);
     const { atime } = await lstat(urlPath);
 

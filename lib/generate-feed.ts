@@ -47,12 +47,12 @@ export async function generateFeed() {
 
         description: meta.description,
 
-        copyright: `All rights reserved ${new Date().getFullYear()}, ${meta.author}`,
+        copyright: `All rights reserved ${new Date().getFullYear()}, Arthur Fiorette`,
 
         image: `${baseUrl}/images/${meta.preview}`,
 
-        author: [{ name: meta.author }],
-        contributor: [{ name: meta.author }],
+        author: [{ name: 'Arthur Fiorette' }],
+        contributor: [{ name: 'Arthur Fiorette' }],
 
         // Simple raw html.
         // Avoids extra formatting or syntax highlight

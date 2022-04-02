@@ -21,7 +21,7 @@ export const PostPreview = ({ meta, info }: PostPreviewProps) => {
 
       <div className={styles.meta}>
         <time dateTime={dateObj.toISOString()}>{dateObj.toDateString()}</time>
-        <address>{meta.author}</address>
+        <address>Arthur Fiorette</address>
 
         <div className={styles.keywords}>
           <BadgeList badges={meta.keywords} />

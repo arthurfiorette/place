@@ -1,5 +1,7 @@
+import { DisqusComments } from 'components/disqus-comment';
 import { BadgeList } from 'components/lists/badge';
 import { MinRead } from 'components/min-read';
+// import { DiscussionEmbed } from 'disqus-react';
 import type { MarkdownMeta, MdPost } from 'lib/matter';
 import Image from 'next/image';
 import styles from 'styles/components/post/content.module.scss';
@@ -26,7 +28,7 @@ export const PostContent = ({ html, meta, info }: PostContentProps) => {
         <div className={styles.postMeta}>
           <time dateTime={dateObj.toISOString()}>{dateObj.toDateString()}</time>
 
-          <address>{meta.author}</address>
+          <address>Arthur Fiorette</address>
 
           <div className={styles.keywords} title="Keywords">
             <BadgeList badges={meta.keywords} />
@@ -41,13 +43,18 @@ export const PostContent = ({ html, meta, info }: PostContentProps) => {
       <section
         className={styles.content}
         dangerouslySetInnerHTML={{
-          // Adds a class to headings to allow anchor links
-          __html: html.replace(
-            /<h(\d) id="([a-zA-Z0-9_-]+)">(.+)<\/h(\d)>/g,
-            `<h$1 id="$2" class="${styles.headerAnchor}" onclick="window.location.hash='$2';">$3</h$4>`
-          )
+          __html: html
+            // Adds a class to headings to allow anchor links
+            .replace(
+              /<h(\d) id="([a-zA-Z0-9_-]+)">(.+)<\/h(\d)>/g,
+              `<h$1 id="$2" class="${styles.headerAnchor}" onclick="window.location.hash='$2';">$3</h$4>`
+            )
         }}
       />
+
+      <article>
+        <DisqusComments postSlug={meta.slug} title={meta.title} />
+      </article>
     </article>
   );
 };

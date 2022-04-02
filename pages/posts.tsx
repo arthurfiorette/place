@@ -13,7 +13,6 @@ type PageProps = {
 const Posts: NextPage<PageProps> = ({ posts }) => {
   return (
     <Layout
-      hideFooter
       seo={{
         description: 'A complete list of all my posts',
         keywords: ['blog', 'posts', 'blog posts', 'rss', 'feed', 'atom'],

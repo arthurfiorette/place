@@ -5,7 +5,7 @@ module.exports = {
   reactStrictMode: true,
   productionBrowserSourceMaps: true,
   swcMinify: true,
-  images: { domains: ['raw.githubusercontent.com'] },
+  images: { domains: ['raw.githubusercontent.com', 'avatars.githubusercontent.com'] },
 
   // eslint-disable-next-line @typescript-eslint/require-await
   async redirects() {
