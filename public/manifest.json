@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/web-manifest-combined.json",
-  "name": "Arthur Fiorette",
-  "short_name": "Arthur Fiorette",
+  "name": "Arthur's Place",
+  "short_name": "Arthur's Place",
   "description": "My own room in the internet",
   "start_url": "https://arthur.place/",
   "display": "minimal-ui",

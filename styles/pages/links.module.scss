@@ -1,15 +1,18 @@
 @import '../mixins/pad.scss';
 
+.textSection {
+  text-align: center;
+}
+
 .linkSection {
   align-items: center;
-  margin-top: 6rem;
-
-  @include padBorder($size: 10rem, $max-width: 87.5vw);
 }
 
 .list {
   padding: 0;
   margin: 0;
+
+  margin-top: 3rem;
 
   list-style: none;
 

@@ -13,7 +13,7 @@ type PageProps = {
 
 const Index: NextPage<PageProps> = ({ recentPosts }) => {
   return (
-    <Layout hideHeader>
+    <Layout>
       <h1 style={{ marginBottom: '3rem', textAlign: 'center' }}>
         Eai 👋 <br />I am Arthur Fiorette
       </h1>
@@ -80,7 +80,7 @@ const Index: NextPage<PageProps> = ({ recentPosts }) => {
 
           <p>
             If you like to know specific things that will make you a better programmer,
-            here's a preview of the last posts I wrote:
+            here's a preview of the last 3 posts I wrote:
           </p>
 
           <p style={{ margin: '2rem 0' }}>

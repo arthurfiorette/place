@@ -2,14 +2,32 @@ import { Layout } from 'components/layout';
 import { LinkItem } from 'components/link-item';
 import { Section } from 'components/section';
 import type { NextPage } from 'next';
-import React from 'react';
 import { BsGithub, BsLinkedin, BsTwitch, BsTwitter } from 'react-icons/bs';
 import { FaMailBulk, FaReddit, FaSteam } from 'react-icons/fa';
+import type { IconType } from 'react-icons/lib';
 import styles from 'styles/pages/links.module.scss';
+
+export type LinkItem2Props = {
+  name: string;
+  icon: IconType;
+  color: string;
+  href: string;
+};
 
 const Index: NextPage = () => {
   return (
     <Layout>
+      <Section className={styles.textSection}>
+        <h2 style={{ marginTop: '1rem' }}>
+          👋 <br />
+          Hello again!
+        </h2>
+
+        <p>Welcome to my own place in the internet.</p>
+
+        <p>If you'd like, here are some useful links:</p>
+      </Section>
+
       <Section className={styles.linkSection}>
         <ul className={styles.list}>
           <li>
@@ -81,9 +99,3 @@ const Index: NextPage = () => {
 };
 
 export default Index;
-
-// github=https://github.com/arthurfiorette,
-// twitter=https://twitter.com/arthurfiorette,
-// linkedin=https://www.linkedin.com/in/arthurfiorette,
-// twitch=https://www.twitch.tv/hazork_,
-// steam=https://steamcommunity.com/id/hazorkbr

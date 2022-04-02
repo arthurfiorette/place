@@ -3,9 +3,11 @@
 .item {
   $icon-color: var(--icon-color);
 
-  max-width: calc($max-width-def / 2);
+ width: max(calc($max-width-def / 4), 13rem);
+ 
 
-  padding: 0.8rem 0;
+
+  padding: 0.5rem 0;
 
   font-family: $font-family-title;
   font-size: 1.5rem;
@@ -25,7 +27,6 @@
 
   transition: background-color 0.15s linear, color 0.3s linear;
 
-  min-width: min(70vw, 30rem);
 
   & > * {
     color: white;
