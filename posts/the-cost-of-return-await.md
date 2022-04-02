@@ -277,7 +277,7 @@ $ node example.js
 #> 2
 ```
 
-Going back to the benchmark, that was is the **1%** that was being talked about earlier.
+Going back to the benchmark, it is the **1%** that was being talked about earlier.
 And that **1%** can be `10` of `10.000` ops/s, or even a `1.000` of a `1.000.000` ops/s
 server.
 
