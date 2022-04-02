@@ -2,7 +2,6 @@ name: Code CI
 
 on:
   push:
-  pull_request:
 
 jobs:
   build:
@@ -23,7 +22,7 @@ jobs:
         run: yarn install --prefer-offline
 
       - name: Test formatting
-        run: yarn prettier --check
+        run: yarn prettier . --check
 
       - name: Lint
         run: yarn lint
