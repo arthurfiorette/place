@@ -118,6 +118,14 @@ $width: min(55rem, 87.5vw);
 .content {
   margin-bottom: 5rem;
 
+  a {
+    text-decoration: underline;
+
+    &:hover {
+      text-decoration: none !important;
+    }
+  }
+
   > * {
     break-inside: avoid !important;
   }
@@ -130,6 +138,10 @@ $width: min(55rem, 87.5vw);
     &:not(pre *) {
       color: hsl(354, 66%, 44%);
     }
+  }
+
+  a > code {
+    color: #005cb8;
   }
 
   pre {

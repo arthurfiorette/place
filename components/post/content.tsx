@@ -43,11 +43,12 @@ export const PostContent = ({ html, meta, info }: PostContentProps) => {
       <section
         className={styles.content}
         dangerouslySetInnerHTML={{
-          // Adds a class to headings to allow anchor links
-          __html: html.replace(
-            /<h(\d) id="([a-zA-Z0-9_-]+)">(.+)<\/h(\d)>/g,
-            `<h$1 id="$2" class="${styles.headerAnchor}" onclick="window.location.hash='$2';">$3</h$4>`
-          )
+          __html: html
+            // Adds a class to headings to allow anchor links
+            .replace(
+              /<h(\d) id="([a-zA-Z0-9_-]+)">(.+)<\/h(\d)>/g,
+              `<h$1 id="$2" class="${styles.headerAnchor}" onclick="window.location.hash='$2';">$3</h$4>`
+            )
         }}
       />
 
