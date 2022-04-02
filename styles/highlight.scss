@@ -1,0 +1,23 @@
+
+// Syntax highlighting theme
+@import 'highlight.js/scss/github.scss';
+
+// hljs-ln-row -> TR
+
+
+.hljs-ln-line {
+  user-select: none;
+  text-align: center;
+  opacity: 50%;
+
+  width: 1rem;
+  display: block;
+}
+
+.hljs-ln-code {
+  padding-left: 0.5rem;
+}
+
+.hljs-ln-row {
+  overflow: visible;
+}
