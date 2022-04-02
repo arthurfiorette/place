@@ -26,4 +26,9 @@ This project is released under **GPLv3**. See [`LICENSE`](LICENSE) for more info
 See my contact information on my [github profile](https://github.com/arthurfiorette) or
 open a new issue.
 
+## Branches
+
+ - Production: This branch is protected and hosts `arthur.place`
+ - Next: The main branch and the preview at `next.arthur.place`.
+
 <br />
