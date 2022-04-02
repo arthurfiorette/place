@@ -359,11 +359,11 @@ foo().catch((error) => console.log(error.stack));
 ```sh
 $ node index.js
 Error: BEEP BEEP
-    at bar (index.js:8:9) --> (ONLY SHOWS BAR) <--
-    at process._tickCallback (internal/process/next_tick.js:68:7)
-    at Function.Module.runMain (internal/modules/cjs/loader.js:745:11)
-    at startup (internal/bootstrap/node.js:266:19)
-    at bootstrapNodeJSCore (internal/bootstrap/node.js:595:3)
+  at bar (index.js:8:9) --> (ONLY SHOWS BAR) <--
+  at process._tickCallback (internal/process/next_tick.js:68:7)
+  at Function.Module.runMain (internal/modules/cjs/loader.js:745:11)
+  at startup (internal/bootstrap/node.js:266:19)
+  at bootstrapNodeJSCore (internal/bootstrap/node.js:595:3)
 ```
 
 But as written on the official [**v8.dev**](https://v8.dev/blog) blog, they solved this
@@ -372,13 +372,13 @@ problem with something called
 can see the exact stack trace in the console:
 
 ```sh
-#> Error: BEEP BEEP
-     at bar (index.js:8:9)
-     at process._tickCallback (internal/process/next_tick.js:68:7)
-     at Function.Module.runMain (internal/modules/cjs/loader.js:745:11)
-     at startup (internal/bootstrap/node.js:266:19)
-     at bootstrapNodeJSCore (internal/bootstrap/node.js:595:3)
-     at async foo (index.js:2:3)
+Error: BEEP BEEP
+   at bar (index.js:8:9)
+   at process._tickCallback (internal/process/next_tick.js:68:7)
+   at Function.Module.runMain (internal/modules/cjs/loader.js:745:11)
+   at startup (internal/bootstrap/node.js:266:19)
+   at bootstrapNodeJSCore (internal/bootstrap/node.js:595:3)
+   at async foo (index.js:2:3)
 ```
 
 Im not gonna cover everything said there, but you can read more about it in their
