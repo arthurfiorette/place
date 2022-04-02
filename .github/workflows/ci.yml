@@ -1,0 +1,31 @@
+name: Code CI
+
+on:
+  push:
+
+jobs:
+  build:
+    name: Build and test code
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup node and restore cached dependencies
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14' # Vercel uses node 14
+          cache: 'yarn'
+
+      - name: Install packages
+        run: yarn install --prefer-offline
+
+      - name: Test formatting
+        run: yarn prettier . --check
+
+      - name: Lint
+        run: yarn lint
+
+      - name: Build
+        run: yarn build

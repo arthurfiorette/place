@@ -27,3 +27,10 @@ See my contact information on my [github profile](https://github.com/arthurfiore
 open a new issue.
 
 <br />
+
+## Branches
+
+- Production: This branch is protected and hosts `arthur.place`.
+- Next: The main branch and the preview at `next.arthur.place`.
+
+<br />
