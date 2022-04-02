@@ -277,8 +277,8 @@ $ node example.js
 #> 2
 ```
 
-Going back to the benchmark, it is the **1%** that was being talked about earlier.
-And that **1%** can be `10` of `10.000` ops/s, or even a `1.000` of a `1.000.000` ops/s
+Going back to the benchmark, it is the **1%** that was being talked about earlier. And
+that **1%** can be `10` of `10.000` ops/s, or even a `1.000` of a `1.000.000` ops/s
 server.
 
 With that proved, you can see that by only using an `await` keyword, your function

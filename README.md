@@ -30,7 +30,7 @@ open a new issue.
 
 ## Branches
 
- - Production: This branch is protected and hosts `arthur.place`.
- - Next: The main branch and the preview at `next.arthur.place`.
+- Production: This branch is protected and hosts `arthur.place`.
+- Next: The main branch and the preview at `next.arthur.place`.
 
 <br />
