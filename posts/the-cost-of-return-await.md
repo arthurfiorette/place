@@ -3,7 +3,7 @@ title: 'How return await can slow down your code'
 date: 2022/03/26 08:17:00
 preview: /images/the-cost-of-return-await.jpg
 keywords: [performance, javascript]
-description: Awaiting a promise before returning it can lead to a 50% slower code.
+description: Awaiting a promise before returning it slows down your code.
 ---
 
 <h2 style="margin-bottom: 3rem">
@@ -26,7 +26,7 @@ everything, from development to runtime speeds. The
 handle very good results.
 
 If you could improve just one percent of your code, for example in a web API, it would be
-delivering 80 more requests if your server handles around 8K concurrent requests per
+delivering 800 more requests if your server handles around 8K concurrent requests per
 second.
 
 And that brings us to the _today's percent_:
@@ -278,7 +278,7 @@ $ node example.js
 ```
 
 Going back to the benchmark, it is the **1%** that was being talked about earlier. And
-that **1%** can be `10` of `10.000` ops/s, or even a `1.000` of a `1.000.000` ops/s
+that **1%** can be `100` of `10.000` ops/s, or even a `10.000` of a `1.000.000` ops/s
 server.
 
 With that proved, you can see that by only using an `await` keyword, your function
@@ -297,7 +297,7 @@ returned in the same instant. Similar to a
 This means that, instead of handling what it'll return, it is going to pass that
 responsibility to the caller of the function.
 
-And then comes the only correct use of `return await`: **Try-Catch blocks**.
+And then comes the one of some correct usages of `return await`: **Try-Catch blocks**.
 
 ```js
 // Correct usage of `return await`
