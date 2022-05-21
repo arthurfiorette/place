@@ -65,7 +65,7 @@ And there are also these 3 other functions. They produce exactly the same result
 is _asynchronous_ and uses `await`, the other is just _asynchronous_ and the last one only
 uses a raw `return` statement.
 
-```ts
+```ts:hg1,4,8,12
 // function work(): Promise<any>;
 
 async function doWait() {
@@ -342,7 +342,7 @@ handle any possible exception, you'll encounter a stack trace loss.
 
 A simple example of it:
 
-```js
+```js:hg2,7
 async function foo() {
   await bar();
   return 42;
@@ -356,8 +356,9 @@ async function bar() {
 foo().catch((error) => console.log(error.stack));
 ```
 
-```sh
+```sh:hg4
 $ node index.js
+
 Error: BEEP BEEP
   at bar (index.js:8:9) --> (ONLY SHOWS BAR) <--
   at process._tickCallback (internal/process/next_tick.js:68:7)
@@ -371,7 +372,9 @@ problem with something called
 [zero-cost async stack traces](https://bit.ly/v8-zero-cost-async-stack-traces) and now you
 can see the exact stack trace in the console:
 
-```sh
+```sh:hg4
+$ node index.js
+
 Error: BEEP BEEP
    at bar (index.js:8:9)
    at process._tickCallback (internal/process/next_tick.js:68:7)

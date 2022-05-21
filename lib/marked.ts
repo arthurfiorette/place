@@ -18,26 +18,30 @@ export function markdownToHtml(md: string) {
     // highlight.js css expects a top-level 'hljs' class.
     langPrefix: 'hljs language-',
 
-    highlight: (code, lang) => {
+    highlight: (code, l) => {
+      const [lang, extras] = l.split(':', 2) as [string, string | undefined];
+
       if (!hljs.getLanguage(lang)) {
         console.warn(`warn  - Language "${lang}" isn't supported`);
       }
 
-      const parsed = hljs.highlight(code, {
+      let parsed = hljs.highlight(code, {
         language: lang || 'plaintext'
       }).value;
 
-      return generateTable(generateTrs(parsed));
+      const matches = extras?.match(/hg((?:\d|,)+)*/);
+      if (matches?.length) {
+        const lines = parsed.split('\n');
+        const lineNumber = matches[1]?.split(',').map(Number) || [];
+
+        for (const ln of lineNumber) {
+          lines[ln - 1] = `<mark>${lines[ln - 1]}</mark>`;
+        }
+
+        parsed = lines.join('\n');
+      }
+
+      return parsed;
     }
   });
-}
-
-function generateTrs(lines: string) {
-  return lines
-    .split('\n')
-    .map((line, index) => `<tr><td>${index + 1}</td><td>${line}</td></tr>`);
-}
-
-function generateTable(trs: string[]) {
-  return `<table><tbody>${trs.join('\n')}</tbody></table>`;
 }
