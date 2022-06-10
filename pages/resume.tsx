@@ -64,7 +64,7 @@ const Resume: NextPage = () => {
               'https://arthur.place/r/github': 'github.com/arthurfiorette',
               'https://arthur.place/r/linkedin': 'linkedin.com/in/arthurfiorete',
               'https://arthur.place/r/twitter': 'twitter.com/arthurfiorete',
-              'https://arthur.place/': 'arthur.place'
+              'https://arthur.place/': 'arthur.place/'
             }}
           />
         </div>
