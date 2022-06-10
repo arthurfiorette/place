@@ -41,7 +41,7 @@ const Resume: NextPage = () => {
       <Section>
         <div>
           <time dateTime={new Date(2018, 1, 1).toISOString()}>
-            {new Date().getFullYear() - 2018} years of coding experience
+            {new Date().getFullYear() - 2018} years of coding experience.
           </time>
         </div>
 
@@ -71,31 +71,73 @@ const Resume: NextPage = () => {
       </Section>
 
       <Section title="Work Experience" className={styles.section}>
-        <InfoCard title="E&L Sistemas">
+        <InfoCard title="Kasco R&D Technologies">
           <div className={styles.work}>
-            <div>Fullstack Software Developer</div>
-            <time dateTime={new Date(2021, 1, 1).toISOString()}>2021 - present</time>
+            <div>Full Stack Developer</div>
+            <time dateTime={new Date(2022, 4, 25).toISOString()}>
+              April, 2021 - present
+            </time>
           </div>
 
           <p>
-            Managed a full stack application to monitor temperatures of COVID-19 vaccines.
-            Built with Spring Boot, React, Typescript, Socket.IO and PostgresQL.
+            I joined a team of developers to build a feed manager for large cattle
+            ranches. There, I worked on the frontend and mainly on the backend in NodeJs.
           </p>
 
           <p>
-            Added interface and unit tests for many services and applications using
+            I improved the development process with many automation and code generation
+            tools. I applied OpenAPI to the backend, PrismaJs for integration with mongodb
+            instances multi-site deployments and a parallel architecture with worker
+            threads to improve performance.
+          </p>
+        </InfoCard>
+
+        <InfoCard title="E&L Sistemas">
+          <div className={styles.work}>
+            <div>Web Developer</div>
+            <time dateTime={new Date(2021, 3, 10).toISOString()}>
+              January, 2021 - April, 2021
+            </time>
+            <div>~13 Months</div>
+          </div>
+
+          <p>
+            I managed a full stack application to monitor temperatures of COVID-19
+            vaccines. Built with Spring Boot, React, Typescript, Socket.IO and PostgresQL.
+          </p>
+
+          <p>
+            I helped with development with another full stack application with NestJs,
+            Nuxt and PostgreSQL that monitors, watches and keeps control over car fleet.
+          </p>
+
+          <p>
+            I also added interface and unit tests for many services and applications using
             selenium, all with a Jenkins pipeline to safely automate all deployments.
           </p>
         </InfoCard>
       </Section>
 
       <Section title="Education" className={styles.section}>
+        <InfoCard title="Harvard through edX">
+          <Link href="https://www.edx.org/course/introduction-computer-science-harvardx-cs50x">
+            <a target="_blank">CS50X Computer Science</a>
+          </Link>
+          <div>
+            <time dateTime={new Date(2020, 3, 2).toISOString()}>
+              2022 - ongoing... (2023)
+            </time>
+          </div>
+        </InfoCard>
+
         <InfoCard title="Instituto Federal do Espirito Santo">
           <Link href="https://vendanova.ifes.edu.br">
             <a target="_blank">High School with Technical in Business</a>
           </Link>
           <div>
-            <time dateTime={new Date(2020, 1, 1).toISOString()}>2020 - 2022</time>
+            <time dateTime={new Date(2020, 1, 1).toISOString()}>
+              2020 - ongoing... (2022)
+            </time>
           </div>
         </InfoCard>
 
@@ -161,6 +203,10 @@ const Resume: NextPage = () => {
 
         <InfoCard title="Systems">
           VSCode, EclipseIDE, Windows, Linux, WSL, Github and Gitlab.
+        </InfoCard>
+
+        <InfoCard title="And many more...">
+          Contact me to learn more about my skills!
         </InfoCard>
       </Section>
     </Layout>
