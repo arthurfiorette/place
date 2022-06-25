@@ -19,13 +19,7 @@ export const ALL_POSTS_FILES = readdirSync(POSTS_PATH, 'utf8').map((filename) =>
 }));
 
 export function hasPost(slug: string) {
-  for (const post of ALL_POSTS_FILES) {
-    if (post.slug === slug) {
-      return true;
-    }
-  }
-
-  return false;
+  return ALL_POSTS_FILES.some((post) => post.slug === slug);
 }
 
 export async function readMd(path: string, slug: string) {
@@ -34,7 +28,7 @@ export async function readMd(path: string, slug: string) {
 }
 
 /** Returns posts in chronological order */
-export async function readAllPosts() {
+export function readAllPosts() {
   return Promise.all(ALL_POSTS_FILES.map(({ path, slug }) => readMd(path, slug))).then(
     (posts) => posts.sort((a, b) => b.meta.date.localeCompare(a.meta.date))
   );

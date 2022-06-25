@@ -94,6 +94,7 @@ $width: min(55rem, 87.5vw);
 .headerAnchor {
   color: black;
   text-decoration: none;
+  text-align: left;
 
   &::before {
     opacity: 25%;
@@ -101,15 +102,18 @@ $width: min(55rem, 87.5vw);
     transition: all 0.1s ease-in-out;
 
     margin-right: 0.5rem;
-    margin-left: -2rem;
-    font-size: 1rem;
+    font-size: 1.125rem;
+
+    @media (min-width: 768px) {
+      margin-left: -2rem;
+    }
   }
 
   &:hover {
     cursor: pointer;
 
     &::before {
-      opacity: 100%;
+      opacity: 50%;
     }
   }
 }
@@ -188,6 +192,10 @@ $width: min(55rem, 87.5vw);
   h2,
   h3 {
     margin-top: 5rem;
+
+    @media (max-width: 768px) {
+      margin-top: 3rem;
+    }
   }
 
   h4,

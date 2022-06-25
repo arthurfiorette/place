@@ -83,9 +83,9 @@ const Index: NextPage<PageProps> = ({ recentPosts }) => {
             here's a preview of the last 3 posts I wrote:
           </p>
 
-          <p style={{ margin: '2rem 0' }}>
+          <div style={{ margin: '2rem 0' }}>
             <PostList posts={recentPosts} />
-          </p>
+          </div>
 
           <p>
             <Link href={`/posts`}>

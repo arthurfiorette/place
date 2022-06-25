@@ -5,7 +5,9 @@ body {
 
   line-height: 1.6rem;
 
-  scroll-behavior: smooth;
+  @media (prefers-reduced-motion: no-preference) {
+    scroll-behavior: smooth;
+  }
 }
 
 * {
