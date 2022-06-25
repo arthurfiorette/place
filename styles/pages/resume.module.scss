@@ -16,6 +16,10 @@
     // Some android devices print the page with transparent background
     background-color: white;
   }
+
+  p {
+    text-align: justify;
+  }
 }
 
 .title {
@@ -88,5 +92,12 @@
 
   h2 {
     margin-top: 3rem;
+  }
+
+  h2,
+  h4 {
+    &::before {
+      content: '';
+    }
   }
 }
