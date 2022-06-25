@@ -31,6 +31,7 @@ open a new issue.
 ## Branches
 
 - `production`: This branch is protected and hosts [`arthur.place`](https://arthur.place).
-- `next` (default): The main branch and the preview at [`next.arthur.place`](https://next.arthur.place).
+- `next` (default): The main branch and the preview at
+  [`next.arthur.place`](https://next.arthur.place).
 
 <br />
