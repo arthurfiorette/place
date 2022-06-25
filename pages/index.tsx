@@ -21,8 +21,8 @@ const Index: NextPage<PageProps> = ({ recentPosts }) => {
       <Section>
         <p>
           Hello! My name is <b>Arthur</b>. I am working with web and server-side
-          technologies since mid 2018. I really enjoy the open source community and I'm
-          always looking for new projects to contribute.
+          development since mid 2018. I really enjoy the open source community and I'm
+          always looking for new projects to contribute!
         </p>
 
         <p>
@@ -56,7 +56,7 @@ const Index: NextPage<PageProps> = ({ recentPosts }) => {
       </Section>
 
       <Section>
-        <p>In case you are interested, you also can:</p>
+        <p>In case you are interested, you also can...</p>
 
         <LinkList
           links={{
@@ -73,9 +73,8 @@ const Index: NextPage<PageProps> = ({ recentPosts }) => {
       {recentPosts.length > 0 && (
         <Section>
           <p>
-            I'm not a professional blogger or writer either, but I like to write useful,
-            random and tricky stuff that I would like the development community at large
-            to know about.
+            I'm still a programmer, not a writer, but I like to write useful, random and
+            tricky stuff that I'd like the development community to know about.
           </p>
 
           <p>
@@ -83,9 +82,9 @@ const Index: NextPage<PageProps> = ({ recentPosts }) => {
             here's a preview of the last 3 posts I wrote:
           </p>
 
-          <p style={{ margin: '2rem 0' }}>
+          <div style={{ margin: '2rem 0' }}>
             <PostList posts={recentPosts} />
-          </p>
+          </div>
 
           <p>
             <Link href={`/posts`}>

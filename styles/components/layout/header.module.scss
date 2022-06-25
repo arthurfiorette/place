@@ -56,5 +56,10 @@
     color: black;
     display: inline-block;
     margin: 0 1rem;
+
+    &:hover {
+      text-decoration: none;
+      text-shadow: 0 0 2.25rem hsla(0, 0%, 0%, 0.75);
+    }
   }
 }

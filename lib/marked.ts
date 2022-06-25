@@ -30,6 +30,7 @@ export function markdownToHtml(md: string) {
       }).value;
 
       const matches = extras?.match(/hg((?:\d|,)+)*/);
+
       if (matches?.length) {
         const lines = parsed.split('\n');
         const lineNumber = matches[1]?.split(',').map(Number) || [];

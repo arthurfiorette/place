@@ -3,7 +3,7 @@
 .item {
   $icon-color: var(--icon-color);
 
-  width: max(calc($max-width-def / 4), 13rem);
+  width: max(calc($max-width-def / 4), 20rem);
 
   padding: 0.5rem 0;
 
@@ -16,14 +16,11 @@
   border: 0.15rem solid $icon-color;
   border-radius: 0.5rem;
 
-  box-shadow: 0 0 0.1rem $icon-color, inset 0 0 0.1rem $icon-color;
-  text-shadow: 0 0 0.1rem $icon-color;
-
   display: flex;
   align-items: center;
   justify-content: center;
 
-  transition: background-color 0.15s linear, color 0.3s linear;
+  transition: background-color 0.05s linear, color 0.1s linear;
 
   & > * {
     color: white;

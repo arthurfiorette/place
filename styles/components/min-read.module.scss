@@ -2,7 +2,7 @@
 
 .minRead {
   color: hsl(0, 0%, 45%);
-  font-family: $font-family-def;
+  font-family: $font-family-def !important;
   margin: 0;
   line-height: 0.7rem;
 }

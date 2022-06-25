@@ -3,7 +3,18 @@ import { buildUrl } from 'util/site-url';
 
 export const Seo = ({
   description = 'My own room in the internet!',
-  keywords = ['Arthur', 'Fileti', 'Fiorette'],
+  keywords = [
+    'arthur',
+    'fileti',
+    'fiorette',
+    'resume',
+    'portifolio',
+    'personal',
+    'website',
+    'cv',
+    'curriculum',
+    'vitale'
+  ],
   urlPath = '/',
   title = "Arthur's place",
   imagePath = '/images/logo-1280-720.png'

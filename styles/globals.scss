@@ -37,3 +37,9 @@ h5,
 h6 {
   font-family: $font-family-title;
 }
+
+@media print {
+  p {
+    font-family: $font-family-def !important;
+  }
+}

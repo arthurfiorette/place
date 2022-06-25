@@ -11,10 +11,18 @@ const Resume: NextPage = () => {
   return (
     <Layout
       className={styles.main}
+      headerItems={
+        <BsPrinter
+          className={styles.icon}
+          size="1.75rem"
+          title="Print resume"
+          onClick={() => window.print()}
+        />
+      }
       seo={{
         urlPath: '/resume',
         description: 'My resume, a collection of my work experiences and skills.',
-        title: "Arthur's Resume",
+        title: "Arthur's resume",
         keywords: [
           'resume',
           'cv',
@@ -26,27 +34,17 @@ const Resume: NextPage = () => {
           'personal website'
         ]
       }}
-      headerItems={
-        <BsPrinter
-          className={styles.icon}
-          size="1.75rem"
-          title="Print resume"
-          onClick={() => window.print()}
-        />
-      }
     >
       <h2 className={styles.title}>Arthur Fileti Fiorette</h2>
       <div className={styles.subtitle}>Fullstack Software Developer</div>
 
-      <Section>
-        <div>
-          <time dateTime={new Date(2018, 1, 1).toISOString()}>
-            {new Date().getFullYear() - 2018} years of coding experience.
-          </time>
-        </div>
+      <div>
+        <time dateTime={new Date(2018, 1, 1).toISOString()}>
+          {new Date().getFullYear() - 2018} years of coding experience.
+        </time>
+      </div>
 
-        <address>Espirito Santo, Brazil.</address>
-      </Section>
+      <address>Espirito Santo, Brazil.</address>
 
       <Section>
         <div className={styles.contact}>
@@ -60,6 +58,7 @@ const Resume: NextPage = () => {
 
         <div className={styles.refList}>
           <LinkList
+            newPage
             links={{
               'https://arthur.place/r/github': 'github.com/arthurfiorette',
               'https://arthur.place/r/linkedin': 'linkedin.com/in/arthurfiorete',
@@ -70,7 +69,23 @@ const Resume: NextPage = () => {
         </div>
       </Section>
 
-      <Section title="Work Experience" className={styles.section}>
+      <Section title="👤 About" className={styles.about}>
+        <p>
+          I am working with web and server-side development since mid 2018. I really enjoy
+          the open source community and I'm always looking for new projects to contribute!
+        </p>
+        <p>
+          I'm in the tech industry for a while now, and have worked with a lot of
+          different technologies.
+        </p>
+        <p>
+          Reach me at <a href="mailto:contact@arthur.place">contact@arthur.place</a> to
+          talk about anything! I love to work in a team, but I also do some freelancing
+          and contracting.
+        </p>
+      </Section>
+
+      <Section title="💼 Work Experience" className={styles.section}>
         <InfoCard title="Kasco R&D Technologies">
           <div className={styles.work}>
             <div>Full Stack Developer</div>
@@ -80,13 +95,14 @@ const Resume: NextPage = () => {
           </div>
 
           <p>
-            I joined a team of developers to build a feed manager for large cattle
-            ranches. There, I worked on the frontend and mainly on the backend in NodeJs.
+            I joined a team of developers to build a feed manager for large cattle farms.
+            There, I worked with a React frontend and, mainly, on the backend in NodeJs
+            and Typescript.
           </p>
 
           <p>
             I improved the development process with many automation and code generation
-            tools. I applied OpenAPI to the backend, PrismaJs for integration with mongodb
+            tools. I applied OpenAPI to the backend, PrismaJS for integration with mongodb
             instances multi-site deployments and a parallel architecture with worker
             threads to improve performance.
           </p>
@@ -102,23 +118,25 @@ const Resume: NextPage = () => {
           </div>
 
           <p>
-            I managed a full stack application to monitor temperatures of COVID-19
-            vaccines. Built with Spring Boot, React, Typescript, Socket.IO and PostgresQL.
+            I managed a full stack application that monitors COVID-19 vaccines's
+            temperatures. That I wrote with Spring Boot, React, Typescript, Socket.IO and
+            PostgreSQL.
           </p>
 
           <p>
-            I helped with development with another full stack application with NestJs,
-            Nuxt and PostgreSQL that monitors, watches and keeps control over car fleet.
+            I helped develop another full stack application written in NestJS, Nuxt and
+            PostgreSQL that monitors, watches and keeps control over multiple car fleets.
           </p>
 
           <p>
-            I also added interface and unit tests for many services and applications using
-            selenium, all with a Jenkins pipeline to safely automate all deployments.
+            I also added interface and unit tests for many internal services and
+            applications using selenium, all integrated with a Jenkins pipeline to safely
+            automate all deployments.
           </p>
         </InfoCard>
       </Section>
 
-      <Section title="Education" className={styles.section}>
+      <Section title="🏫 Education" className={styles.section}>
         <InfoCard title="Harvard through edX">
           <Link href="https://www.edx.org/course/introduction-computer-science-harvardx-cs50x">
             <a target="_blank">CS50X Computer Science</a>
@@ -188,7 +206,7 @@ const Resume: NextPage = () => {
         </InfoCard>
       </Section>
 
-      <Section title="Skills" className={styles.section}>
+      <Section title="🤹‍♂️ Skills" className={styles.section}>
         <InfoCard title="Languages">
           Portuguese <i>(Native)</i> and English <i>(Fluent).</i>
         </InfoCard>
