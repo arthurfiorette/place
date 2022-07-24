@@ -26,19 +26,6 @@
   margin-bottom: 0.125rem;
 }
 
-.icon {
-  transition: all 0.1s ease-in-out;
-
-  &:not(:first-child) {
-    margin-left: 1rem;
-  }
-
-  &:hover {
-    cursor: pointer;
-    color: hsla(0, 0%, 60%);
-  }
-}
-
 .subtitle {
   display: block;
 
