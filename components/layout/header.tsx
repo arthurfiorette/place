@@ -10,7 +10,7 @@ export const Header = ({ children }: HeaderProps) => {
 
       <nav className={styles.nav}>
         <Link href="/posts">
-          <a title="A list of recent posts that I wrote">Recent Posts</a>
+          <a title="A list of recent posts I wrote">Recent Posts</a>
         </Link>
 
         <Link href="/resume">

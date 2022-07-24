@@ -13,7 +13,7 @@ const Resume: NextPage = () => {
       className={styles.main}
       headerItems={
         <BsPrinter
-          className={styles.icon}
+          className={styles.printIcon}
           size="1.75rem"
           title="Print resume"
           onClick={() => window.print()}
@@ -90,7 +90,7 @@ const Resume: NextPage = () => {
           <div className={styles.work}>
             <div>Full Stack Developer</div>
             <time dateTime={new Date(2022, 4, 25).toISOString()}>
-              April, 2021 - present
+              April, 2022 - present
             </time>
           </div>
 
@@ -101,10 +101,10 @@ const Resume: NextPage = () => {
           </p>
 
           <p>
-            I improved the development process with many automation and code generation
-            tools. I applied OpenAPI to the backend, PrismaJS for integration with mongodb
-            instances multi-site deployments and a parallel architecture with worker
-            threads to improve performance.
+            Our team are improving the development process with many automation and code
+            generation tools. I applied OpenAPI to the backend, PrismaJS to interact with
+            mongodb instances, multi-site deployments and a parallel architecture with
+            worker threads to improve performance.
           </p>
         </InfoCard>
 
@@ -112,26 +112,25 @@ const Resume: NextPage = () => {
           <div className={styles.work}>
             <div>Web Developer</div>
             <time dateTime={new Date(2021, 3, 10).toISOString()}>
-              January, 2021 - April, 2021
+              January, 2021 - April, 2022
             </time>
-            <div>~13 Months</div>
           </div>
 
           <p>
-            I managed a full stack application that monitors COVID-19 vaccines's
-            temperatures. That I wrote with Spring Boot, React, Typescript, Socket.IO and
+            I wrote a full stack application that monitors COVID-19 vaccines's
+            temperatures. Written with Spring Boot, React, Typescript, Socket.IO and
             PostgreSQL.
           </p>
 
           <p>
-            I helped develop another full stack application written in NestJS, Nuxt and
+            Also, we built another full stack application written in NestJS, Nuxt and
             PostgreSQL that monitors, watches and keeps control over multiple car fleets.
           </p>
 
           <p>
-            I also added interface and unit tests for many internal services and
-            applications using selenium, all integrated with a Jenkins pipeline to safely
-            automate all deployments.
+            By writing many selenium interface and unit tests for their internal services
+            and applications, all services were integrated with a Jenkins pipeline to
+            safely automate deployments.
           </p>
         </InfoCard>
       </Section>
