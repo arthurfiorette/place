@@ -11,10 +11,16 @@ export const ScrollIndicator = () => {
       const height =
         document.documentElement.scrollHeight - document.documentElement.clientHeight;
 
-      setScroll((winScroll / height) * 100);
+      const scroll = (winScroll / height) * 100;
+
+      setScroll(
+        // Minimum of 0.5% of the screen width
+        Math.max(scroll, 0.5)
+      );
     };
 
     window.addEventListener('scroll', callback);
+
     return () => window.removeEventListener('scroll', callback);
   }, []);
 
