@@ -1,5 +1,5 @@
 import { Seo, SeoProps } from '../seo';
-import { Header, HeaderProps } from './header';
+import { Header } from './header';
 import { Main } from './main';
 
 type LayoutProps = {
@@ -7,7 +7,7 @@ type LayoutProps = {
   className?: string;
   hideHeader?: boolean;
   seo?: SeoProps;
-  headerItems?: HeaderProps['children'];
+  printable?: boolean;
 };
 
 export const Layout = ({
@@ -15,13 +15,13 @@ export const Layout = ({
   className,
   seo,
   hideHeader = false,
-  headerItems
+  printable
 }: LayoutProps) => {
   return (
     <>
       <Seo {...seo} />
 
-      {!hideHeader && <Header>{headerItems}</Header>}
+      {!hideHeader && <Header printable={printable} />}
 
       <Main className={className}>{children}</Main>
     </>

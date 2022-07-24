@@ -4,21 +4,13 @@ import { LinkList } from 'components/lists/link';
 import { Section } from 'components/section';
 import type { NextPage } from 'next';
 import Link from 'next/link';
-import { BsPrinter } from 'react-icons/bs';
 import styles from 'styles/pages/resume.module.scss';
 
 const Resume: NextPage = () => {
   return (
     <Layout
       className={styles.main}
-      headerItems={
-        <BsPrinter
-          className={styles.printIcon}
-          size="1.75rem"
-          title="Print resume"
-          onClick={() => window.print()}
-        />
-      }
+      printable
       seo={{
         urlPath: '/resume',
         description: 'My resume, a collection of my work experiences and skills.',
@@ -69,15 +61,18 @@ const Resume: NextPage = () => {
         </div>
       </Section>
 
-      <Section title="👤 About" className={styles.about}>
+      <Section title="👤 About" className={styles.section}>
         <p>
           I am working with web and server-side development since mid 2018. I really enjoy
           the open source community and I'm always looking for new projects to contribute!
         </p>
+
         <p>
           I'm in the tech industry for a while now, and have worked with a lot of
-          different technologies.
+          different technologies. But that's not enough, I'm prepared to learn your new
+          technologies and help build the future!
         </p>
+
         <p>
           Reach me at <a href="mailto:contact@arthur.place">contact@arthur.place</a> to
           talk about anything! I love to work in a team, but I also do some freelancing
@@ -88,7 +83,7 @@ const Resume: NextPage = () => {
       <Section title="💼 Work Experience" className={styles.section}>
         <InfoCard title="Kasco R&D Technologies">
           <div className={styles.work}>
-            <div>Full Stack Developer</div>
+            <div>Software Engineer</div>
             <time dateTime={new Date(2022, 4, 25).toISOString()}>
               April, 2022 - present
             </time>
@@ -110,7 +105,7 @@ const Resume: NextPage = () => {
 
         <InfoCard title="E&L Sistemas">
           <div className={styles.work}>
-            <div>Web Developer</div>
+            <div>Software Developer</div>
             <time dateTime={new Date(2021, 3, 10).toISOString()}>
               January, 2021 - April, 2022
             </time>
