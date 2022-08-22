@@ -27,7 +27,7 @@
   "devDependencies": {
     "@arthurfiorette/prettier-config": "^1.0.7",
     "@types/marked": "^4.0.3",
-    "@types/node": "^18.7.1",
+    "@types/node": "^18.7.9",
     "@types/react": "^18.0.14",
     "@typescript-eslint/eslint-plugin": "^5.33.0",
     "@typescript-eslint/parser": "^5.33.0",
