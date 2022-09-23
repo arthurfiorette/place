@@ -28,6 +28,8 @@ const Colors: Record<string, string | undefined> = {
   // Words
   default: '#808080',
   performance: '#67C684',
+  architecture: '#563D7C',
+  'design pattern': '#F2994A',
 
   // Languages
   javascript: '#f7df1e',
