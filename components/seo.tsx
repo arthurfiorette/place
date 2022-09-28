@@ -33,6 +33,7 @@ export const Seo = ({
       <meta property="og:type" content="website" />
 
       <meta property="og:title" content={title} />
+      <meta property="og:site_name" content="Arthur's place" />
       <meta property="og:description" content={description} />
       <meta property="og:url" content={completeUrl.toString()} />
       <meta property="og:image" content={imageUrl.toString()} />
