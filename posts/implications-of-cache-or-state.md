@@ -16,27 +16,27 @@ architecture presented with the following examples._
 
 Everything starts out with a simple problem, you have a frontend, any frontend, and you
 need to interact with some sort of internal or external API. For the sake of this post, we
-will assume that you are coding a web application and interacting with your rest API
-developed by an unknown team.
+will assume that you are coding a web application and interacting with a rest API with or
+without caching support.
 
 If, and when, you have complete knowledge some sort API interactions you could expect and
-use it in a more _hardcoded_ way, but thats not 99% of the cases. And client generation,
-complex caching mechanisms and other things that a schematized API could provide are not
-always available. So, most of the time you have to deal of writing requests methods
-manually, and this is where everything goes down the road.
+use and save it in a more _hardcoded_ and _smart_ way, but thats not 99% of the cases.
+Client generation, complex caching mechanisms and other things that a schematized API can
+provide are not always available. Said that, still most of the time you have to deal of
+writing requests methods manually, and this is where everything goes down the road.
 
-And, after some code, you will end up with something like this:
+And, after some coding, you will end up with something like this:
 
 ```js
 function getUser(name) {
-  return fetch('https://API.com/user/' + name);
+  return fetch('https://api.com/user/' + name);
 }
 ```
 
 So, you call `getUser()` whenever you need to get the data for a specific user. But what
-about two components in two different component tree hierarchy in the screen that, for
-example, needs to show a data of the same user? Your application will become super slow by
-the amount of duplicated network requests.
+about two components in two different component hierarchy trees in the screen whose need
+to show the same data from the same user? Your application will become slow and
+ineffective by the amount of duplicated network requests.
 
 ## We brought another new simple problem
 
@@ -55,7 +55,7 @@ function getUser(name) {
   }
 
   // fetches, if not exists, and saves the response
-  const user = fetch('https://API.com/user/' + name);
+  const user = fetch('https://api.com/user/' + name);
   state.set(name, user);
 
   return user;
@@ -65,17 +65,26 @@ function getUser(name) {
 And the 1739 XKCD comic comes to a hard reality **once again**:
 
 <a style="text-align: center; display: block" href="https://xkcd.com/1739/">
-  <img src="https://imgs.xkcd.com/comics/fixing_problems.png" alt="Xkcd: Fixing problems" />
+  <img src="https://imgs.xkcd.com/comics/fixing_problems.png" alt="Xkcd: Fixing problems" style="width: 20rem"/>
 </a>
 
-What if another piece of code, in the same machine or in another country, mutates the
-state that you are displaying? How can you know if the data became stale? How can you know
-if the user still exists after a certain period of time?
+What if another piece of code, in the same machine or in another dimension, mutates the
+state that you are displaying? Then, your simple state usage becomes a nightmare to debug
+and solve, as it freezes the state.
 
-## Tradeoffs chosen by state users
+You could start implementing your own cache mechanism inside your state control code. But
+the hard reality is that is **HARD** to implement a _bug-free_ cache mechanism _(And I
+truly mean it, because I'm the maintainer of
+[![Axios Cache Interceptor](https://img.shields.io/npm/dw/axios-cache-interceptor?style=flat&label=Axios%20Cache%20Interceptor)](https://www.npmjs.com/package/axios-cache-interceptor)
+)_. Most of the time, people just stick to freezing the cache by not coding some kind of
+revalidation, or, for a more _time-important_ data, they never even use cache.
 
-Well, you could choose one specific tradeoff for each case and keep your code simplicity.
-We've seen some of them in the wild for a while now:
+## Possible cache implementations
+
+The main objective of this post is to help you avoid storing any kind of data in a state,
+and interacting with your API directly with a cached api client. But, before we really
+start, let's see some possible cache implementations that you could implement in your
+application. I'm sure you've seen some of them in the wild for a while now.
 
 1. Define a specific TTL (time to live) for each request, so, after **X** period of time,
    the data will be updated with what the remote server returned. This is by far the most
@@ -92,26 +101,26 @@ We've seen some of them in the wild for a while now:
 
 3. Implement [ETag](https://developer.mozilla.org/pt-BR/docs/Web/HTTP/Headers/ETag) and/or
    [Cache-Control](https://developer.mozilla.org/pt-BR/docs/Web/HTTP/Headers/Cache-Control)
-   for HTTP connections, or any other _cache-like_ specification for your specific
-   protocol. This will probably requires a lot of glued code between some library that
-   implements the thousand different and specific behaviors for each use case in the State
-   Management code you are using alongside your frontend.
+   for HTTP connections, _(or any other cache specification for your specific protocol.)_
+   This will probably requires a lot of glued code between some library that implements
+   the thousand different and specific behaviors for each use case in the State Management
+   code you are using alongside your frontend.
 
-4. And many other solutions that don't need to be listed here..
-
-The main misconception here is that by knowing your data, you can choose to _not have
-tradeoffs_, that's because you **know your data behaviors**.
+4. And many other solutions that don't
+   [need to be listed here](https://www.google.com/search?q=cache+consistency)...
 
 ## The Cache "Statization" Phenomenon
 
 The usage of State Management libraries are becoming more and more popular, the number of
-people that tries to mimic caches by implementing them, manually, in their State
+people that tries to mimic cache behaviors by implementing them, manually, in their State
 Management code is growing. We could try to call this phenomenon as **Cache
 "Statization"**.
 
 Then, you may ask, why try to _statizate_ the cache when I can just use a cache? Well,
-there are **no** reasons to do that.
-[Kent C. Dodds has a great tweet about it](https://t.co/BBKyDfylia).
+there are **no** reasons to do that. Just because everyone is using global state
+management in their code, doesn't mean that it solves all the problems.
+
+[Kent C. Dodds has a great tweet about it](https://t.co/BBKyDfylia):
 
 > UI state should be separate from the server cache (often called "state" as well), and
 > when you do that, you don't need anything more than React for State Management.- Kent C.
@@ -122,48 +131,7 @@ different layers: the **UI data (state)** and the **API data (cache)**.
 
 If it's bad to mix cache into our state and API data is a thousand times easier to handle,
 cache and manage, the real question is: **How can I move the maximum amount of data that
-it may be UI state to the data that a server can retrieve?**.
-
----
-
-<!--
-
-hold less info in memory and just refetch as needed.
-
-With modern javascript practices you are probably grouping cache and state together. I've never used the backbone in production, but in the documentation examples I've just read, looks like it does too.
-
-What I mean by cache:
-
-Extracted data from fetch/axios responses and anything else that can be retrieved easly from any API.
-
-What I mean by state:
-
-Data that (should) only lives in the client or data that needs to be manipulated (and accessed) frequently by multiple pieces of code.The state will almost always come from the cache data.
-
-Here's how you can "solve" it:
-
-When interacting with cache data:
-
-You can use a good and easy to use request library, like axios (~5.6Kb) to make http requests, and a cache library, like axios-cache-interceptor (~3.84Kb, which i'm the maintainer btw), and let the cache plugin to take care of invalidating, requesting and storing it's data.
-
-When interacting with state data:
-
-Use some very small libraries specially made for your framework (Vue or React as of your example). That way, you'll receive the most important (or essencial) data cached (by the cache step above) from your API, and then manipulate it to the state.
-
- -->
-
-## The Cache definition
-
-Any kind of data that is retrieved from API responses, and can be retrieved again without
-much hassle. It may be from a remote web server or even a local database. One of it's main
-characteristics is that you must not be the one responsible to control its inputs and
-store it.
-
-If you have some piece of data that you have to write the input mechanism and store it,
-its not a remote data, its a state.
-
-E.g: With a rest API, you may have the ability to input more data, but you aren't the one
-responsible for managing it, so all data calls from it should be stored in a cache.
+behaves as UI state but is actually a server retrievable data?**.
 
 ## The State definition
 
@@ -176,11 +144,31 @@ care about it _for now_.
 It seems a bit more complex and abstract, no? Well, not at all, if you are developing some
 kind of frontend, which is the main case of this article, you can design your data flow to
 be as simple as possible in the client-side. In which case, you'll end up with just
-temporary input data at some component level and configuration data, like color themes or
-platform-specific user preferences.
+temporary component level input data, like color themes or platform-specific user
+preferences.
 
-E.g:
+E.g: You have a form that inputs payment information. Before you send the processed data
+to the server, all of it stages are stored in a state. This means that if the user closes
+the browser, if this is a web application of course, the data will be lost. The server
+only cares for the final input, it does not care about the temporary text inside each
+input, it only cares about the data snapshot sent to it.
 
-## How to handle UI data as API cache.
+## The Cache definition
 
-First
+Any kind of data that is retrieved from API responses, and can be retrieved again without
+much hassle. It may be from a remote web server or even a local database. One of its main
+characteristics is that you must not be the one responsible to handle its storage.
+
+E.g: Within a rest API, you may have the ability to input more data, but you aren't the
+one responsible for managing it, so all data calls from it should be stored in a cache.
+
+## That's nothing new!
+
+You may be thinking: _"That's nothing new, [`swr`](https://swr.vercel.app/pt-BR) and
+[`react-query*`](https://tanstack.com/query/v4) has been doing it for years in the react
+world!"_. And you are **not wrong**.
+
+These libraries does a great job at abstracting remote data into a self built cache, so
+you don't have to manage it manually. Because if you do, you'd probably _statizate your
+cache_, once again.
+
