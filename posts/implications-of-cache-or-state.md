@@ -27,7 +27,7 @@ writing requests methods manually, and this is where everything goes down the ro
 
 And, after some coding, you will end up with something like this:
 
-```js
+```js:hg2
 function getUser(name) {
   return fetch('https://api.com/user/' + name);
 }
@@ -43,7 +43,7 @@ ineffective by the amount of duplicated network requests.
 Well, a simple problem must have a simple solution, right? And here is were you starts
 using **state** to solve your _simple-not-anymore_ problem.
 
-```js
+```js:hg3,7,13
 // This variable represents some library that shares data in a global perspective,
 // like Redux for the React ecosystem.
 const state = new Map();
@@ -54,7 +54,7 @@ function getUser(name) {
     return state.get(name);
   }
 
-  // fetches, if not exists, and saves the response
+  // fetches and saves the response
   const user = fetch('https://api.com/user/' + name);
   state.set(name, user);
 
