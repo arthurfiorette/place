@@ -1,7 +1,7 @@
 ---
 title: 'Implications of choosing State instead of Cache'
 date: 2022/09/23 07:52:00
-preview: /images/implications-of-cache-or-state.png
+preview: /images/implications-of-cache-or-state.jpg
 keywords: [architecture, design pattern]
 description:
   The guide towards the implications of choosing to use State to handle remote data.
@@ -172,3 +172,34 @@ These libraries does a great job at abstracting remote data into a self built ca
 you don't have to manage it manually. Because if you do, you'd probably _statizate your
 cache_, once again.
 
+Here you could stop reading this article and you will begin to notice in several
+applications how they are using state to store remote data and you will be able to
+recognize it as a bad practice. And, even maybe start to migrate to a modern _client &
+storage_ solution like `swr` or `react-query`.
+
+## Just a few more things
+
+When APIs are being built to serve clients that were not built by themselves, such as the
+[Telegram API](https://core.telegram.org/) that serves multiple third-party applications,
+they are usually built in a **cache first** mode, as they need to scale their data
+transfer rate and reducing bandwidth, so, caching screams as one of the best solutions
+here.
+
+Likewise, you might be building a frontend from a _Closed API_, in which case the only
+client the backend will care about is a frontend they built themselves. This makes caching
+not a priority, and the only cache layer, which is not a requirement, if done, ends up
+being integrated into your frontend API client.
+
+This is a very common scenario and **it's not bad**, but it's important to be aware that
+both scenarios require different approaches to cache management. With this logic, APIs in
+general prefer to bypass the server tier and implement a single tier cache. Which ends up
+resulting in two isolated caching layers, possibly one on the server with all its custom
+logic and a simpler one on the client, like using just `TTL`.
+
+These are super generic and easy approaches, but for when you're interacting with a
+**cache first** API, using a **integrated cache layer** (which mimics caching behaviors
+that the last layer calculated, such as when an HTTP server returns a
+[cache-control](https://developer.mozilla.org/pt-BR/docs/Web/HTTP/Headers/Cache-Control)
+header) should also be one of the considerations, as it will represent the most accurate
+data for that moment and context. This can lead to a data inconsistency if your remote
+server was built in mind to be something like I described earlier as a _closed API_.
