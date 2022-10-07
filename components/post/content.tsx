@@ -21,7 +21,7 @@ export const PostContent = ({ html, meta, info }: PostContentProps) => {
           />
         </div>
 
-        <div style={{ marginBottom: '0.5rem' }}>
+        <div className={styles.minRead}>
           <MinRead minRead={info.minRead} />
         </div>
 

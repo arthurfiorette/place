@@ -66,6 +66,18 @@ $width: min(55rem, 87.5vw);
   img {
     border-radius: 0.5rem;
   }
+
+  @media print {
+    display: none;
+  }
+}
+
+.minRead {
+  margin-bottom: 0.5rem;
+
+  @media print {
+    display: none;
+  }
 }
 
 // Contains some meta information, like author and date
@@ -87,6 +99,10 @@ $width: min(55rem, 87.5vw);
   @media (max-width: 768px) {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  @media print {
+    display: none;
   }
 }
 
