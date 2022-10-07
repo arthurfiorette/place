@@ -28,7 +28,7 @@
     "@arthurfiorette/prettier-config": "^1.0.7",
     "@types/marked": "^4.0.7",
     "@types/node": "^18.7.12",
-    "@types/react": "^18.0.17",
+    "@types/react": "^18.0.21",
     "@typescript-eslint/eslint-plugin": "^5.39.0",
     "@typescript-eslint/parser": "^5.39.0",
     "eslint": "^8.21.0",
