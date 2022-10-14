@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@octokit/rest": "^19.0.5",
-    "disqus-react": "^1.1.4",
+    "disqus-react": "^1.1.5",
     "feed": "^4.2.2",
     "gray-matter": "^4.0.3",
     "highlight.js": "^11.6.0",
