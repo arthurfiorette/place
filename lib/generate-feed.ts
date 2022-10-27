@@ -4,7 +4,8 @@ import { marked } from 'marked';
 import { ALL_POSTS_FILES, readMd } from './posts';
 
 export async function generateFeed() {
-  const baseUrl = process.env.BASE_URL || 'https://arthur.place';
+  const baseUrl =
+    process.env.BASE_URL || process.env.NEXT_PUBLIC_SITE_URL || 'https://arthur.place';
 
   const feed = new Feed({
     title: 'arthur.place',

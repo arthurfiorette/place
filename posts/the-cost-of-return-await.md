@@ -1,5 +1,5 @@
 ---
-title: 'How return await can slow down your code'
+title: 'How Return Await can slow down your code'
 date: 2022/03/26 08:17:00
 preview: /images/the-cost-of-return-await.jpg
 keywords: [performance, javascript]
