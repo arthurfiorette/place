@@ -32,7 +32,7 @@
     "@typescript-eslint/eslint-plugin": "^5.48.2",
     "@typescript-eslint/parser": "^5.48.2",
     "eslint": "^8.32.0",
-    "eslint-config-next": "^13.1.4",
+    "eslint-config-next": "^13.1.5",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^4.2.1",
     "next-sitemap": "^3.1.47",
