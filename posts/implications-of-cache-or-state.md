@@ -3,8 +3,7 @@ title: 'The consequences of using State over Cache and its impact on data consis
 date: 2022/09/23 07:52:00
 preview: /images/implications-of-cache-or-state.jpg
 keywords: [architecture, design pattern]
-description:
-  A guide to work with Cache over State for remote data management
+description: A guide to work with Cache over State for remote data management
 ---
 
 _All of the concepts presented here are applicable to any other technology, even I have
@@ -34,9 +33,9 @@ function getUser(name) {
 ```
 
 So, you call `getUser()` whenever you need to get the data for a specific user. But what
-about the two components in two other different component hierarchy trees in the screen who need to
-show the same data from the same user? Your application will become slow and ineffective
-by the amount of duplicated network requests.
+about the two components in two other different component hierarchy trees in the screen
+who need to show the same data from the same user? Your application will become slow and
+ineffective by the amount of duplicated network requests.
 
 ## We brought another new simple problem
 
@@ -76,9 +75,9 @@ frozen in time.
 One potential approach is to implement your own cache revalidation mechanism within your
 state control code. However, the harsh reality is that creating a flawless cache mechanism
 is extremely challenging _(and I genuinely mean it, as I happen to be the maintainer of
-[Axios Cache Interceptor](https://axios-cache-interceptor.js.org/))_.
-Most of the time, people resort to freezing the cache without incorporating any form of
-revalidation. Alternatively, for time-critical data, caching may not be utilized at all.
+[Axios Cache Interceptor](https://axios-cache-interceptor.js.org/))_. Most of the time,
+people resort to freezing the cache without incorporating any form of revalidation.
+Alternatively, for time-critical data, caching may not be utilized at all.
 
 ## Possible cache implementations
 
