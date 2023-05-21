@@ -18,13 +18,16 @@ require interaction with an internal or external API. For the sake of this post,
 assume you're developing a web application that interacts with a REST API, with or without
 caching support.
 
-If, and when, you have complete knowledge some sort API interactions you could expect and
-use and save it in a more _hardcoded_ and _smart_ way, but thats not 99% of the cases.
-Client generation, complex caching mechanisms and other things that a schematized API can
-provide are not always available. Said that, still most of the time you have to deal of
-writing requests methods manually, and this is where everything goes down the road.
+In a perfect scenario where you have a fully documented API and you know all possibilities
+of data mutation, you could store and handle it in a more _hardcoded_ and _smart way_, but
+lets be fair, software has a lot of moving parts, you can never be sure of anything. Said
+that, client code generation, complex caching mechanisms and other things that a
+schematized API can provide are not always available. Still, most of the time you have to
+deal with writing requests functions manually, and this is where everything goes down the
+road.
 
-And, after some coding, you will end up with something like this:
+After some minutes coding, you will end up with something _(hopefully more complex)_ like
+this:
 
 ```js:hg2
 function getUser(name) {
@@ -34,8 +37,8 @@ function getUser(name) {
 
 So, you call `getUser()` whenever you need to get the data for a specific user. But what
 about the two components in two other different component hierarchy trees in the screen
-who need to show the same data from the same user? Your application will become slow and
-ineffective by the amount of duplicated network requests.
+who need to show the same data from the same user? Will you call `getUser()` again and
+again to have multiple network travels? **No.**
 
 ## We brought another new simple problem
 
