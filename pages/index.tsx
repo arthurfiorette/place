@@ -87,9 +87,7 @@ const Index: NextPage<PageProps> = ({ recentPosts }) => {
           </div>
 
           <p>
-            <Link href={`/posts`}>
-              <a>See all of them!</a>
-            </Link>
+            <Link href={`/posts`}>See all of them!</Link>
           </p>
         </Section>
       )}

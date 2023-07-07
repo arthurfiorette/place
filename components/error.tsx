@@ -25,8 +25,8 @@ export const Error = ({ statusCode, message }: ErrorProps) => {
           {message || DEFAULT_CODES[statusCode] || 'Error!'}
         </h2>
 
-        <Link href="/">
-          <a className={styles.back}>Go back to main page</a>
+        <Link href="/" className={styles.back}>
+          Go back to main page
         </Link>
       </section>
     </Layout>

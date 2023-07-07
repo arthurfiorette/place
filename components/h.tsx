@@ -18,9 +18,7 @@ export const H = ({ type, children, noAnchor, id, ...props }: HProps) => {
       className: `${styles.header} ${props.className}`
     },
 
-    <Link href={`#${id}`}>
-      <a>{children}</a>
-    </Link>
+    <Link href={`#${id}`}>{children}</Link>
   );
 };
 

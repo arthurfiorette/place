@@ -10,16 +10,16 @@ export const Header = ({ printable = false }: HeaderProps) => {
       </div>
 
       <nav className={styles.nav}>
-        <Link href="/posts">
-          <a title="A list of recent posts I wrote">Recent Posts</a>
+        <Link href="/posts" title="A list of recent posts I wrote">
+          Recent Posts
         </Link>
 
-        <Link href="/resume">
-          <a title="My professional resume">Resume</a>
+        <Link href="/resume" title="My professional resume">
+          Resume
         </Link>
 
-        <Link href="/links">
-          <a title="View all my links">Links</a>
+        <Link href="/links" title="View all my links">
+          Links
         </Link>
 
         {printable && (

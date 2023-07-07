@@ -12,7 +12,9 @@ export const LinkItem = ({ name, color, icon: Icon, href }: LinkItemProps) => {
       }}
     >
       <Icon size="2rem" />
-      <Link href={href}>{name}</Link>
+      <Link href={href} legacyBehavior>
+        {name}
+      </Link>
     </div>
   );
 };

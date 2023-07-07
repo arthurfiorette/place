@@ -41,9 +41,7 @@ const Resume: NextPage = () => {
       <Section>
         <div className={styles.contact}>
           <Link href="tel:+5528999772770">
-            <a>
-              <address style={{ fontStyle: 'normal' }}>+55 28 9 9977-2770</address>
-            </a>
+            <address style={{ fontStyle: 'normal' }}>+55 28 9 9977-2770</address>
           </Link>
           <Link href="mailto:contact@arthur.place">contact@arthur.place</Link>
         </div>
@@ -132,8 +130,11 @@ const Resume: NextPage = () => {
 
       <Section title="🏫 Education" className={styles.section}>
         <InfoCard title="Harvard through edX">
-          <Link href="https://www.edx.org/course/introduction-computer-science-harvardx-cs50x">
-            <a target="_blank">CS50X Computer Science</a>
+          <Link
+            href="https://www.edx.org/course/introduction-computer-science-harvardx-cs50x"
+            target="_blank"
+          >
+            CS50X Computer Science
           </Link>
           <div>
             <time dateTime={new Date(2020, 3, 2).toISOString()}>
@@ -143,8 +144,8 @@ const Resume: NextPage = () => {
         </InfoCard>
 
         <InfoCard title="Instituto Federal do Espirito Santo">
-          <Link href="https://vendanova.ifes.edu.br">
-            <a target="_blank">High School with Technical in Business</a>
+          <Link href="https://vendanova.ifes.edu.br" target="_blank">
+            High School with Technical in Business
           </Link>
           <div>
             <time dateTime={new Date(2020, 1, 1).toISOString()}>
@@ -155,44 +156,55 @@ const Resume: NextPage = () => {
 
         <InfoCard title="Udemy Courses">
           <div>
-            <Link href="https://www.udemy.com/certificate/UC-5aaffbee-636a-4a55-ac46-f25cc8663f5a">
-              <a target="_blank">
-                Curso Web Moderno Completo com JavaScript 2022 + Projetos
-              </a>
+            <Link
+              href="https://www.udemy.com/certificate/UC-5aaffbee-636a-4a55-ac46-f25cc8663f5a"
+              target="_blank"
+            >
+              Curso Web Moderno Completo com JavaScript 2022 + Projetos
             </Link>
 
             <div>97 Hours - 688 Videos</div>
           </div>
 
           <div>
-            <Link href="https://www.udemy.com/certificate/UC-c82d31ac-de7a-4129-9057-fd49f277cd2c">
-              <a target="_blank">
-                Java 2022 COMPLETO: Do Zero ao Profissional + Projetos!
-              </a>
+            <Link
+              href="https://www.udemy.com/certificate/UC-c82d31ac-de7a-4129-9057-fd49f277cd2c"
+              target="_blank"
+            >
+              Java 2022 COMPLETO: Do Zero ao Profissional + Projetos!
             </Link>
 
             <div>77 Hours - 535 Videos</div>
           </div>
 
           <div>
-            <Link href="https://www.udemy.com/certificate/UC-2174782e-d458-4e97-af29-95b7eb3884a2">
-              <a target="_blank">Entendendo TypeScript</a>
+            <Link
+              href="https://www.udemy.com/certificate/UC-2174782e-d458-4e97-af29-95b7eb3884a2"
+              target="_blank"
+            >
+              Entendendo TypeScript
             </Link>
 
             <div>11.5 Hours - 180 Videos</div>
           </div>
 
           <div>
-            <Link href="https://www.udemy.com/certificate/UC-1caa866c-eab5-427a-96cb-9783e1795805">
-              <a target="_blank">GraphQL: Criando APIs Profissionais e Flexíveis</a>
+            <Link
+              href="https://www.udemy.com/certificate/UC-1caa866c-eab5-427a-96cb-9783e1795805"
+              target="_blank"
+            >
+              GraphQL: Criando APIs Profissionais e Flexíveis
             </Link>
 
             <div>15 Hours - 136 Videos</div>
           </div>
 
           <div>
-            <Link href="https://www.udemy.com/certificate/UC-5c93d3c2-320c-4110-8e2d-281a0e4e0978">
-              <a target="_blank">Docker: Ferramenta essencial para Desenvolvedores</a>
+            <Link
+              href="https://www.udemy.com/certificate/UC-5c93d3c2-320c-4110-8e2d-281a0e4e0978"
+              target="_blank"
+            >
+              Docker: Ferramenta essencial para Desenvolvedores
             </Link>
 
             <div>5.5 Hours - 65 Videos</div>

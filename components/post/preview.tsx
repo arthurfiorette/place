@@ -11,10 +11,8 @@ export const PostPreview = ({ meta, info }: PostPreviewProps) => {
     <>
       <MinRead minRead={info.minRead} />
 
-      <Link href={`/${meta.slug}`}>
-        <a className={styles.preview}>
-          <h2 className={styles.title}>{meta.title}</h2>
-        </a>
+      <Link href={`/${meta.slug}`} className={styles.preview}>
+        <h2 className={styles.title}>{meta.title}</h2>
       </Link>
 
       <div className={styles.description}>{meta.description}</div>
