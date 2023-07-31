@@ -1,0 +1,38 @@
+query getDiscussion(
+  $name: String!
+  $discussion: Int!
+  $comments: Int = 5
+  $replies: Int = 3
+) {
+  viewer {
+    repository(name: $name) {
+      discussion(number: $discussion) {
+        title
+        comments(last: $comments) {
+          totalCount
+          nodes {
+            bodyText
+            updatedAt
+            upvoteCount
+            author {
+              login
+              avatarUrl
+            }
+            replies(first: $replies) {
+              totalCount
+              nodes {
+                bodyText
+                updatedAt
+                upvoteCount
+                author {
+                  login
+                  avatarUrl
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

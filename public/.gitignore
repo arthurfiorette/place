@@ -1,0 +1,6 @@
+# Build-time generated files
+
+sitemap*
+feeds/*
+robots.txt
+sitemap*.xml
