@@ -93,7 +93,7 @@ export function Layout({
 
         {/* global styles */}
         <link href="../styles/index.scss" rel="stylesheet" />
-        <link href="../styles/index.scss" rel="preload" />
+        <link href="../styles/index.scss" rel="preload" as="style" />
 
         <Seo {...seo} />
 
