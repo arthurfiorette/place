@@ -1,10 +1,10 @@
-import html from '@kitajs/html';
+import Html from '@kitajs/html';
 import { mangleUrl } from '../lib/mangler';
 
 export interface LinkTitleProps {
   href: string;
   title?: string;
-  children?: html.Children;
+  children?: Html.Children;
   _blank?: boolean;
   mangle?: boolean;
 }
@@ -12,7 +12,8 @@ export interface LinkTitleProps {
 export function Link({ href, title, children, _blank, mangle }: LinkTitleProps) {
   if (mangle) {
     const url = new URL(href);
-    href = url.protocol + '//' + mangleUrl(url.pathname.replace(/^\/?\/?/, ''));
+    const protocol = url.protocol + '//';
+    href = protocol + mangleUrl(href.slice(protocol.length));
   }
 
   return (

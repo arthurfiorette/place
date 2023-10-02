@@ -1,4 +1,4 @@
-import html from '@kitajs/html';
+import Html from '@kitajs/html';
 
 export interface BadgeGroupProps {
   badges: string[];
@@ -12,6 +12,7 @@ export function BadgeList({ badges }: BadgeGroupProps) {
           style={{
             backgroundColor: `${Colors[tag]}73` /* 73 is 50% fade */
           }}
+          safe
         >
           {tag}
         </li>

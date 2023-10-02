@@ -1,4 +1,4 @@
-import html from '@kitajs/html';
+import Html from '@kitajs/html';
 import { Time } from './time';
 import { BadgeList } from './badge-list';
 

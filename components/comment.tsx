@@ -1,4 +1,4 @@
-import html from '@kitajs/html';
+import Html from '@kitajs/html';
 import { Link } from './link';
 import { Time } from './time';
 
@@ -15,14 +15,16 @@ export function Comment({
   updatedAt,
   text,
   children
-}: html.PropsWithChildren<CommentProps>) {
+}: Html.PropsWithChildren<CommentProps>) {
   return (
     <li {...{ votes }}>
       <div class="author">
         <Link href={`https://github.com/${username}`} _blank title={`@${username}`} />
         <Time datetime={updatedAt} />
       </div>
-      <p class="content">{text}</p>
+      <p class="content" safe>
+        {text}
+      </p>
       <div class="children">{children}</div>
     </li>
   );

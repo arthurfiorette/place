@@ -1,55 +1,11 @@
-:root {
-  --background-color: #f3f3f4;
-  --text-color: #34312d;
-  --link-color: #02545f;
-  --shade-color: hsla(0, 0%, 0%, 0.2);
-}
+@import 'colors';
+@import 'global';
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background-color: #34312d;
-    --text-color: hsl(240, 13%, 95%);
-    --link-color: #bfbfbf;
-    --shade-color: hsla(0, 0%, 0%, 0.2);
-  }
-}
-
-html {
-  font-family: 'Work Sans', 'Poppins', sans-serif;
-  min-height: 100%;
-}
-
-body {
-  font-size: 16px;
-
-  margin: 0 auto;
-  max-width: min(1000px, 90vw);
-  min-height: 100vh;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-
-  background: var(--background-color);
-  color: var(--text-color);
-}
-
-h1 {
-  text-align: center;
-}
-
-p {
-  text-align: justify;
-}
-
-a {
-  color: var(--link-color);
-  text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
-  }
-}
+@import 'components/header';
+@import 'components/footer';
+@import 'components/main';
+@import 'components/project-stars';
+@import 'components/scroll-bar.scss';
 
 .badge-list {
   margin-left: auto !important;
@@ -65,37 +21,4 @@ a {
     font-weight: bold;
     text-transform: capitalize;
   }
-}
-
-ul {
-  padding-left: 0;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  body,
-  html {
-    scroll-behavior: smooth;
-  }
-}
-
-header.header {
-  padding-top: 2rem;
-  margin: 0;
-  margin-bottom: auto;
-
-  font-size: 1.4rem;
-}
-
-main.main {
-  margin: auto 0;
-}
-
-footer.footer {
-  margin: 0;
-  margin-top: auto;
-  padding-bottom: 2rem;
-
-  text-align: center;
-  font-size: 0.8rem;
-  font-weight: 300;
 }

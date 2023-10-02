@@ -1,4 +1,4 @@
-import html from '@kitajs/html';
+import Html from '@kitajs/html';
 import { Link } from './link';
 
 export function Header() {

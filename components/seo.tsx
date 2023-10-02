@@ -1,5 +1,5 @@
 import { buildUrl } from '../lib/site-url';
-import html from '@kitajs/html';
+import Html from '@kitajs/html';
 
 export interface SeoProps {
   description?: string;
@@ -32,7 +32,7 @@ export function Seo({
 
   return (
     <>
-      <title>{title}</title>
+      <title safe>{title}</title>
 
       <meta name="description" content={description} />
       <meta name="keywords" content={keywords.join(', ')} />

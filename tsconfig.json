@@ -2,7 +2,8 @@
   "compilerOptions": {
     "target": "ES2022",
     "jsx": "react",
-    "reactNamespace": "html",
+    "jsxFactory": "Html.createElement",
+    "jsxFragmentFactory": "Html.Fragment",
     "module": "CommonJS",
     "removeComments": true,
     "isolatedModules": true,
@@ -34,7 +35,8 @@
     "noImplicitOverride": true,
     "importHelpers": true,
     "skipDefaultLibCheck": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "plugins": [{ "name": "@kitajs/ts-html-plugin" }]
   },
   "include": ["**/*.tsx", "**/*.ts", "**/*.json"],
   "ts-node": {

@@ -1,4 +1,4 @@
-import html from '@kitajs/html';
+import Html from '@kitajs/html';
 import { Layout } from '../components/layout';
 import { MinRead } from '../components/min-read';
 import { PostInfo } from '../components/post-info';
@@ -8,11 +8,11 @@ import { markdownToHtml } from '../lib/markdown';
 import { posts } from '../lib/posts';
 import { Link } from '../components/link';
 
-export default async function Post({ path }: html.PropsWithChildren<{ path: string }>) {
+export default async function Post({ path }: Html.PropsWithChildren<{ path: string }>) {
   const post = posts.find((p) => p.meta.slug === path)!;
   const date = new Date(post.meta.date);
 
-  const htmlContent = await markdownToHtml(post.content).then((html) =>
+  const safeHtmlContent = await markdownToHtml(post.content).then((html) =>
     // Adds a class to headings to allow anchor links
     html.replace(
       /<h(\d) id="([a-zA-Z0-9_-]+)">(.+)<\/h(\d)>/g,
@@ -20,7 +20,10 @@ export default async function Post({ path }: html.PropsWithChildren<{ path: stri
     )
   );
 
-  const discussion = await getDiscussion('place', post.meta.discussion);
+  const discussion = await getDiscussion({
+    name: 'place',
+    discussion: post.meta.discussion
+  });
 
   return (
     <Layout
@@ -39,7 +42,7 @@ export default async function Post({ path }: html.PropsWithChildren<{ path: stri
           <meta name="article:description" content={post.meta.description} />
           <meta name="article:tag" content={post.meta.keywords.join(', ')} />
 
-          <link href="../styles/posts.scss" rel="stylesheet" />
+          <link href="../styles/pages/posts.scss" rel="stylesheet" />
         </>
       }
     >
@@ -51,12 +54,12 @@ export default async function Post({ path }: html.PropsWithChildren<{ path: stri
 
           <PostInfo date={date} keywords={post.meta.keywords} />
 
-          <h1>{post.meta.title}</h1>
+          <h1 safe>{post.meta.title}</h1>
 
-          <summary>{post.meta.description}</summary>
+          <summary safe>{post.meta.description}</summary>
         </header>
 
-        <section class="content">{htmlContent}</section>
+        <section class="content">{safeHtmlContent}</section>
 
         <section class="discussion">
           <h2>Discussion</h2>

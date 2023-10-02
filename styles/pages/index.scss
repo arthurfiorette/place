@@ -1,19 +1,28 @@
-h1 {
-  margin-bottom: 4rem;
+.index__title {
+  font-size: 8rem;
+  margin: 0 -100%;
+  text-align: center;
 }
 
-ul {
+.index__content {
+  margin: 2rem 0;
+}
+
+.index__project-list {
+  text-align: center;
+
   li {
     &::marker {
       content: '';
     }
 
-    margin: 0.25rem 0;
+    margin: 0.5rem 0;
   }
 }
 
-p {
-  margin: 2rem 0;
+.index__highlight {
+  color: var(--color-primary);
+  background-color: transparent;
 }
 
 .post-preview {
@@ -41,4 +50,8 @@ p {
       margin: 0 1rem;
     }
   }
+}
+
+.index__section {
+  margin: 20rem 0;
 }

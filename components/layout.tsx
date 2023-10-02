@@ -1,4 +1,4 @@
-import html from '@kitajs/html';
+import Html from '@kitajs/html';
 import { GTAG } from '../lib/env';
 import LdJson from '../public/ld.json';
 import { Footer } from './footer';
@@ -6,7 +6,7 @@ import { Header } from './header';
 import { Seo, SeoProps } from './seo';
 
 export interface LayoutProps {
-  head?: html.Children;
+  head?: Html.Children;
   seo?: SeoProps;
   header?: boolean;
 }
@@ -16,20 +16,20 @@ export function Layout({
   head,
   seo,
   header = true
-}: html.PropsWithChildren<LayoutProps>) {
+}: Html.PropsWithChildren<LayoutProps>) {
   return (
     <html lang="en">
       <head>
         {/* simple meta */}
         <meta name="theme-color" content="#000000" />
-        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1, viewport-fit=cover"
         />
 
         {/* general seo */}
-        <script type="application/ld+json">{JSON.stringify(LdJson)}</script>
+        <script type="application/ld+json">{JSON.stringify(LdJson) as 'safe'}</script>
         <link rel="manifest" href="../public/manifest.json" />
         <meta name="robots" content="index, follow" />
 
@@ -41,7 +41,9 @@ export function Layout({
               src={`https://www.googletagmanager.com/gtag/js?id=${GTAG}`}
             ></script>
             <script>
-              {`window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', '${GTAG}');`}
+              {
+                `window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', '${GTAG}');` as 'safe'
+              }
             </script>
           </>
         )}

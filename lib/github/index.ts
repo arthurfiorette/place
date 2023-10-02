@@ -1,27 +1,26 @@
 import { graphql } from '@octokit/graphql';
-import fs from 'fs';
-import path from 'path';
 import { GH_TOKEN } from '../env';
-import { GetDiscussionQuery } from './types';
+import {
+  GetDiscussionQuery,
+  GetDiscussionQueryVariables,
+  GetStargazerCountQuery,
+  GetStargazerCountQueryVariables
+} from './types';
+import { readGql } from './util';
 
-const DISCUSSION_GQL = fs.readFileSync(
-  path.resolve(__dirname, '../../graphql/discussion.gql'),
-  'utf8'
-);
+const DISCUSSION_GQL = readGql('discussion');
+const STARGAZER_COUNT_GQL = readGql('stargazer-count');
 
-export function getDiscussion(
-  name: string,
-  discussion: number,
-  comments?: number,
-  replies?: number
-) {
+export function getDiscussion(props: GetDiscussionQueryVariables) {
   return graphql<GetDiscussionQuery>(DISCUSSION_GQL, {
-    name,
-    comments,
-    replies,
-    discussion,
-    headers: {
-      authorization: `token ${GH_TOKEN}`
-    }
+    ...props,
+    headers: { authorization: `token ${GH_TOKEN}` }
+  });
+}
+
+export function getStargazerCount(props: GetStargazerCountQueryVariables) {
+  return graphql<GetStargazerCountQuery>(STARGAZER_COUNT_GQL, {
+    ...props,
+    headers: { authorization: `token ${GH_TOKEN}` }
   });
 }
