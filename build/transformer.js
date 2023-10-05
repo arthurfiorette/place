@@ -2,6 +2,7 @@ const { Transformer } = require('@parcel/plugin');
 const path = require('path');
 const vm = require('vm');
 const m = require('module');
+const crypto = require('crypto');
 
 module.exports = new Transformer({
   transform: async ({ asset }) => {
@@ -24,19 +25,30 @@ module.exports = new Transformer({
       const paths = await page.getStaticPaths();
 
       return Promise.all(
-        paths.map(async (path) => ({
-          type: 'html',
-          content: await page.default({ path }),
-          uniqueKey: path,
-          bundleBehavior: 'isolated',
-          isSource: true,
-          meta: { pathName: `${path}.html` }
-        }))
+        paths.map(async (path) => {
+          const content = await page.default({ path });
+
+          return {
+            type: 'html',
+            content,
+            uniqueKey: path,
+            bundleBehavior: 'isolated',
+            id: crypto.createHash('md5').update(content).digest('hex'),
+            isSource: true,
+            meta: { pathName: `${path}.html` }
+          };
+        })
       );
     }
 
+    const content = await page.default();
+
     asset.type = 'html';
-    asset.setCode(await page.default());
+    asset.setCode(content);
+    asset.uniqueKey = asset.filePath;
+    asset.bundleBehavior = 'isolated';
+    asset.id = crypto.createHash('md5').update(content).digest('hex');
+    asset.isSource = true;
 
     return [asset];
   }

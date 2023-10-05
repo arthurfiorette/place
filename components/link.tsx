@@ -16,6 +16,8 @@ export function Link({ href, title, children, _blank, mangle }: LinkTitleProps) 
     href = protocol + mangleUrl(href.slice(protocol.length));
   }
 
+  const safeContent = children || Html.escapeHtml(title);
+
   return (
     <a
       href={href}
@@ -23,7 +25,7 @@ export function Link({ href, title, children, _blank, mangle }: LinkTitleProps) 
       target={_blank ? '_blank' : undefined}
       rel={_blank ? 'noopener noreferrer' : undefined}
     >
-      {children || title}
+      {safeContent}
     </a>
   );
 }

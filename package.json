@@ -4,7 +4,7 @@
   "license": "GPL-v3.0",
   "scripts": {
     "build": "rm -rf dist && parcel build pages/**/*.tsx --public-url ./",
-    "dev": "rm -rf .parcel-cache && nodemon -w '**/*' -e tsx,scss,ts -x \"pnpm build && pnpm start\"",
+    "dev": "nodemon -w '**/*' -e tsx,scss,ts -x \"pnpm build && pnpm start\"",
     "start": "serve dist -n",
     "test": "xss-scan",
     "format": "prettier --write ."
@@ -37,12 +37,13 @@
     "typescript": "^5.1.6"
   },
   "dependencies": {
-    "@kitajs/html": "^3.0.0",
-    "@kitajs/ts-html-plugin": "^1.1.1",
+    "@kitajs/html": "^3.0.1",
+    "@kitajs/ts-html-plugin": "^1.2.0",
     "@octokit/graphql": "^7.0.1",
     "axios": "^1.5.1",
     "posthtml-doctype": "^1.1.1",
     "posthtml-inline-favicon": "^0.1.2",
+    "reset-css": "^5.0.2",
     "tslib": "^2.6.0"
   }
 }

@@ -1,3 +1,4 @@
+@import 'node_modules/reset-css/sass/_reset.scss';
 @import 'colors';
 @import 'global';
 
@@ -6,19 +7,3 @@
 @import 'components/main';
 @import 'components/project-stars';
 @import 'components/scroll-bar.scss';
-
-.badge-list {
-  margin-left: auto !important;
-
-  li {
-    display: inline-block;
-    margin: 0 0.5rem;
-    color: var(--link-color);
-
-    padding: 0.25rem;
-    border-radius: 0.25rem;
-
-    font-weight: bold;
-    text-transform: capitalize;
-  }
-}

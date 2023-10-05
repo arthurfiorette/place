@@ -24,7 +24,7 @@ export async function ProjectStars({
         <>
           📥{Math.ceil(npmCount / 1000)}k/week
           <span style={{ display: 'inline-block', width: '1rem' }} />
-        </>
+        </> as 'safe'
       )}
       ⭐{starCount.repository?.stargazerCount}
     </small>

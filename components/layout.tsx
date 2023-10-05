@@ -34,19 +34,23 @@ export function Layout({
         <meta name="robots" content="index, follow" />
 
         {/* gtag */}
-        {GTAG && (
-          <>
-            <script
-              async
-              src={`https://www.googletagmanager.com/gtag/js?id=${GTAG}`}
-            ></script>
-            <script>
-              {
-                `window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', '${GTAG}');` as 'safe'
-              }
-            </script>
-          </>
-        )}
+        {GTAG &&
+          ((
+            <>
+              <script
+                async
+                src={`https://www.googletagmanager.com/gtag/js?id=${GTAG}`}
+              ></script>
+              <script>
+                {
+                  ('window.dataLayer=window.dataLayer||[];' +
+                    'function gtag(){dataLayer.push(arguments);}' +
+                    `gtag('js',new Date());` +
+                    `gtag('config','${GTAG}');`) as 'safe'
+                }
+              </script>
+            </>
+          ) as 'safe')}
 
         {/* icons */}
         <link
@@ -82,10 +86,7 @@ export function Layout({
         {/* font */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
-        <link
-          rel="preload"
-          href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&family=Work+Sans:wght@300;500&display=swap"
-        />
+
         <link
           href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&family=Work+Sans:wght@300;500&display=swap"
           rel="stylesheet"
@@ -93,7 +94,6 @@ export function Layout({
 
         {/* global styles */}
         <link href="../styles/index.scss" rel="stylesheet" />
-        <link href="../styles/index.scss" rel="preload" as="style" />
 
         <Seo {...seo} />
 
@@ -101,7 +101,7 @@ export function Layout({
       </head>
 
       <body>
-        {header && <Header />}
+        {header && ((<Header />) as 'safe')}
         <main class="main">{children}</main>
         <Footer />
       </body>

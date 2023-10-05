@@ -6,10 +6,10 @@ export interface MinRead {
 
 export function MinRead({ minRead }: MinRead) {
   return (
-    <div
+    <span
       title={`This content will probably consume around ${minRead} minutes to be read.`}
     >
       ~<b>{minRead}</b> min read.
-    </div>
+    </span>
   );
 }
