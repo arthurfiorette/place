@@ -126,7 +126,7 @@ cache? The truth is, there is **no** valid reason to do so. Just because global 
 management is widely employed in codebases doesn't imply that it addresses all issues
 comprehensively.
 
-[Kent C. Dodds has a great tweet about it](https://t.co/BBKyDfylia):
+[Kent C. Dodds has a great tweet about it](https://twitter.com/kentcdodds/status/1198616792177889280):
 
 > UI state should be separate from the server cache (often called "state" as well), and
 > when you do that, you don't need anything more than React for State Management.- Kent C.

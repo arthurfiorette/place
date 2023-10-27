@@ -19,8 +19,8 @@ export function Comment({
   return (
     <li {...{ votes }}>
       <div class="author">
-        <Link href={`https://github.com/${username}`} _blank title={`@${username}`} />
         <Time datetime={updatedAt} />
+        <Link href={`https://github.com/${username}`} _blank title={`@${username}`} />
       </div>
       <p class="content" safe>
         {text}

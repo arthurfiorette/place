@@ -4,24 +4,47 @@
   @import 'highlight.js/scss/github-dark.scss';
 }
 
-mark {
-  // background-color: hsl(0, 0%, 0%, 10%)
-  background-color: transparent;
-  font-weight: bold;
-}
+// .preview {
+//   img {
+//     width: 100%;
+//     border-radius: 2rem;
 
-.preview {
-  img {
-    width: 100%;
-    border-radius: 2rem;
+//     @media print {
+//       display: none;
+//     }
+//   }
+// }
 
-    @media print {
-      display: none;
-    }
-  }
-}
+// header {
+// margin: 4rem 0;
 
-header {
+// h1 {
+//   margin-bottom: 2rem;
+//   font-size: 3rem;
+// }
+
+// summary {
+//   font-size: 1.5rem;
+//   text-align: center;
+//   margin: 2rem 0;
+// }
+
+// .info {
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+
+//   div {
+//     margin: 0 2rem;
+//   }
+
+//   ul {
+//     margin: 0;
+//   }
+// }
+// }
+
+.post__header {
   margin: 4rem 0;
 
   h1 {
@@ -34,24 +57,17 @@ header {
     text-align: center;
     margin: 2rem 0;
   }
-
-  .info {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    div {
-      margin: 0 2rem;
-    }
-
-    ul {
-      margin: 0;
-    }
-  }
 }
 
-section.content {
+.post__header-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.post__main {
   margin-bottom: 5rem;
+  line-height: 1.5rem;
 
   a {
     text-decoration: underline;
@@ -61,8 +77,17 @@ section.content {
     }
   }
 
+  p {
+    margin: 2rem 0;
+  }
+
   > * {
     break-inside: avoid !important;
+  }
+
+  mark {
+    background-color: transparent;
+    font-weight: bold;
   }
 
   code {
@@ -79,31 +104,28 @@ section.content {
   }
 
   pre {
-    padding: 0;
-    margin: 1.25rem;
-  }
+    padding: 1rem 0.5rem;
+    margin: 1rem;
+    font-family: monospace;
 
-  // Disables code block background color
-  .hljs {
-    background-color: transparent !important;
-  }
+    max-width: 80vw;
 
-  pre > code {
-    background-color: unset;
-
-    padding: 0;
-    overflow-x: auto;
-
-    mark {
+    & > code {
       background-color: unset;
-      color: var(--text-color);
-      font-weight: bold;
-    }
 
-    @media print {
-      font-size: 0.9rem;
-      white-space: pre-wrap;
-      line-break: anywhere;
+      padding: 0;
+
+      mark {
+        background-color: unset;
+        color: var(--text-color);
+        font-weight: bold;
+      }
+
+      @media print {
+        font-size: 0.9rem;
+        white-space: pre-wrap;
+        line-break: anywhere;
+      }
     }
   }
 
@@ -121,6 +143,8 @@ section.content {
   h1,
   h2,
   h3 {
+    font-size: 2rem;
+    margin-left: 1rem;
     margin-top: 5rem;
 
     @media (max-width: 768px) {
@@ -162,64 +186,118 @@ section.content {
   }
 }
 
-section.discussion {
-  & > div.write {
-    margin-top: 1rem;
-    margin-bottom: 2rem;
-
-    a {
-      display: inline-block;
-      font-size: 1rem;
-      color: var(--text-color);
-      // text-decoration: none;
-      // border: 0.2rem solid var(--link-color);
-      // padding: 0.5rem 1rem;
-      // border-radius: 0.5rem;
-    }
+.post__comments {
+  h2 {
+    font-size: 2rem;
+    margin-top: 5rem;
+    margin-left: 1rem;
   }
+}
 
-  ul {
-    margin: 0;
-    padding: 0;
+.post__write-comment {
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  text-align: center;
 
-    & > li {
-      padding-left: 0.5rem;
+  a {
+    display: inline-block;
+    font-size: 1rem;
+  }
+}
 
-      &::marker {
-        color: #6cc644;
-        content: attr(votes);
+.post__comment-list {
+  list-style: none;
+
+  li {
+    .author {
+      font-size: 1rem;
+
+      a {
+        color: var(--text-color)
       }
 
-      & > div.author {
-        display: flex;
-        flex-direction: row;
-        align-items: start;
-        justify-content: start;
-
-        & > time {
-          font-size: 1rem;
-          font-weight: 300;
-        }
-
-        & > a {
-          font-size: 1rem;
-          font-weight: 500;
-          margin-right: 1rem;
-        }
+      time {
+        display: block;
+        font-size: 0.7rem;
+        opacity: 0.8;
       }
+    }
 
-      & > p.content {
-        margin-bottom: 1rem;
-        font-size: 1.1rem;
-        line-height: 1.5rem;
-        font-weight: 300;
-        padding-left: 1rem;
-        border-left: 0.2rem solid var(--link-color);
-      }
+    .content {
+      margin-bottom: 1rem;
+      margin-top: 0.25rem;
+      font-size: 1.1rem;
+      line-height: 1.5rem;
+      font-weight: 300;
+      padding-left: 1rem;
+      font-size: 0.8rem;
+      border-left: 0.2rem solid var(--link-color);
+    }
 
-      & > div.children {
-        margin-left: 2rem;
-      }
+    .children {
+      margin-left: 2rem;
     }
   }
 }
+
+// section.discussion {
+//   & > div.write {
+//     margin-top: 1rem;
+//     margin-bottom: 2rem;
+
+//     a {
+//       display: inline-block;
+//       font-size: 1rem;
+//       color: var(--text-color);
+//       // text-decoration: none;
+//       // border: 0.2rem solid var(--link-color);
+//       // padding: 0.5rem 1rem;
+//       // border-radius: 0.5rem;
+//     }
+//   }
+
+//   ul {
+//     margin: 0;
+//     padding: 0;
+
+//     & > li {
+//       padding-left: 0.5rem;
+
+//       &::marker {
+//         color: #6cc644;
+//         content: attr(votes);
+//       }
+
+//       & > div.author {
+//         display: flex;
+//         flex-direction: row;
+//         align-items: start;
+//         justify-content: start;
+
+//         & > time {
+//           font-size: 1rem;
+//           font-weight: 300;
+//         }
+
+//         & > a {
+//           font-size: 1rem;
+//           font-weight: 500;
+//           margin-right: 1rem;
+//         }
+//       }
+
+//       & > p.content {
+//         margin-bottom: 1rem;
+//         font-size: 1.1rem;
+//         line-height: 1.5rem;
+//         font-weight: 300;
+//         padding-left: 1rem;
+//         border-left: 0.2rem solid var(--link-color);
+//       }
+
+//       & > div.children {
+//         margin-left: 2rem;
+//       }
+//     }
+//   }
+// }

@@ -7,6 +7,8 @@ import { getDiscussion } from '../lib/github';
 import { markdownToHtml } from '../lib/markdown';
 import { posts } from '../lib/posts';
 import { Link } from '../components/link';
+import { Time } from '../components/time';
+import { BadgeList } from '../components/badge-list';
 
 export default async function Post({ path }: Html.PropsWithChildren<{ path: string }>) {
   const post = posts.find((p) => p.meta.slug === path)!;
@@ -47,24 +49,29 @@ export default async function Post({ path }: Html.PropsWithChildren<{ path: stri
       }
     >
       <article>
-        <header>
+        <header class="post__header">
           <div>
             <MinRead minRead={post.meta.readTime} />
           </div>
 
-          <PostInfo date={date} keywords={post.meta.keywords} />
+          <div class="post__header-info">
+            <Time datetime={date} />
+          </div>
 
           <h1 safe>{post.meta.title}</h1>
 
           <summary safe>{post.meta.description}</summary>
         </header>
 
-        <section class="content">{safeHtmlContent}</section>
+        <section class="post__main">{safeHtmlContent}</section>
 
-        <section class="discussion">
+        <section class="post__comments">
           <h2>Discussion</h2>
 
-          <div class="write">
+          <div
+            class="post__write-comment"
+            title="Comments should be updated within one hour"
+          >
             <Link
               href={`https://github.com/arthurfiorette/place/discussions/${post.meta.discussion}`}
               _blank
@@ -73,7 +80,7 @@ export default async function Post({ path }: Html.PropsWithChildren<{ path: stri
             </Link>
           </div>
 
-          <ul>
+          <ul class="post__comment-list">
             {discussion.viewer.repository?.discussion?.comments.nodes?.map((comment) => (
               <Comment
                 text={comment!.bodyText}
@@ -81,19 +88,33 @@ export default async function Post({ path }: Html.PropsWithChildren<{ path: stri
                 username={comment!.author!.login}
                 votes={comment!.upvoteCount}
               >
-                <ul>
-                  {comment?.replies.nodes?.map((r) => (
-                    <Comment
-                      text={r!.bodyText}
-                      updatedAt={r!.updatedAt}
-                      username={r!.author!.login}
-                      votes={r!.upvoteCount}
-                    />
-                  ))}
-                </ul>
+                {!!comment?.replies.nodes?.length && (
+                  <ul>
+                    {comment?.replies.nodes?.map((r) => (
+                      <Comment
+                        text={r!.bodyText}
+                        updatedAt={r!.updatedAt}
+                        username={r!.author!.login}
+                        votes={r!.upvoteCount}
+                      />
+                    ))}
+                  </ul>
+                )}
               </Comment>
             ))}
           </ul>
+
+          <div
+            class="post__write-comment"
+            title="Comments should be updated within one hour"
+          >
+            <Link
+              href={`https://github.com/arthurfiorette/place/discussions/${post.meta.discussion}`}
+              _blank
+            >
+              Write a comment on this Github discussion!
+            </Link>
+          </div>
         </section>
       </article>
     </Layout>

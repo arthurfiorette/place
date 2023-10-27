@@ -108,7 +108,7 @@ export default function Home() {
         <ul class="index__project-list">
           <li>
             <Link href="./resume.tsx" title="View my resume.">
-              View my <mark class="index__highlight">resume</mark>.
+              View my <mark class="index__highlight">resume</mark> 📃.
             </Link>
           </li>
           <li>
