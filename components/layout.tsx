@@ -34,23 +34,20 @@ export function Layout({
         <meta name="robots" content="index, follow" />
 
         {/* gtag */}
-        {GTAG &&
-          ((
-            <>
-              <script
-                async
-                src={`https://www.googletagmanager.com/gtag/js?id=${GTAG}`}
-              ></script>
-              <script>
-                {
-                  ('window.dataLayer=window.dataLayer||[];' +
-                    'function gtag(){dataLayer.push(arguments);}' +
-                    `gtag('js',new Date());` +
-                    `gtag('config','${GTAG}');`) as 'safe'
-                }
-              </script>
-            </>
-          ) as 'safe')}
+        {(GTAG as 'safe') && (
+          <>
+            <script
+              async
+              src={`https://www.googletagmanager.com/gtag/js?id=${GTAG}`}
+            ></script>
+            <script>
+              {'window.dataLayer=window.dataLayer||[];' +
+                'function gtag(){dataLayer.push(arguments);}' +
+                `gtag('js',new Date());` +
+                `gtag('config','${GTAG}');`}
+            </script>
+          </>
+        )}
 
         {/* icons */}
         <link
