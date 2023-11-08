@@ -10,12 +10,7 @@ export default function Home() {
   return (
     <Layout
       header={false}
-      head={
-        <link
-          href="../styles/pages/index.scss"
-          rel="stylesheet" 
-        />
-      }
+      head={<link href="../styles/pages/index.scss" rel="stylesheet" />}
     >
       <div class="index__section">
         <h1 class="index__title">
@@ -41,7 +36,7 @@ export default function Home() {
         <p>
           I enjoy taking on new coding challenges and building libraries. I occasionally
           write about software-related topics. Additionally, You can explore some of my
-          projects below:
+          open source projects below:
         </p>
         <ul class="index__project-list">
           <li>
@@ -69,21 +64,39 @@ export default function Home() {
               title="TinyLibs"
               _blank
             >
-              <mark class="index__highlight">Collection of small libraries</mark> for
+              Collection of <mark class="index__highlight">Utility Libraries</mark> for
               javascript.
             </Link>
           </li>
 
           <li>
-            <ProjectStars repoName="html" repoOwner="kitajs" npmName="@kitajs/html" />
-            <Link href="https://github.com/kitajs/html" title="Kita Html" _blank>
-              The goto solution for{' '}
-              <mark class="index__highlight">writing html in javascript</mark>.
+            <ProjectStars
+              repoName="prisma-json-types-generator"
+              npmName="prisma-json-types-generator"
+            />
+            <Link
+              href="https://github.com/arthurfiorette/prisma-json-types-generator"
+              title="Prisma Json Types Generator"
+              _blank
+            >
+              Type safe <mark class="index__highlight">Postgres Json</mark> for prisma
+              schemas.
             </Link>
           </li>
 
           <li>
-            <ProjectStars repoName="kitajs" repoOwner="kitajs" npmName="@kitajs/cli" />
+            <ProjectStars
+              repoName="kitajs"
+              repoOwner="kitajs"
+              npmName={[
+                '@kitajs/cli',
+                '@kitajs/parser',
+                '@kitajs/ts-plugin',
+                '@kitajs/generator',
+                '@kitajs/common',
+                '@kitajs/runtime'
+              ]}
+            />
             <Link href="https://github.com/kitajs/kitajs" title="Kita" _blank>
               Revolutionary <mark class="index__highlight">type safe router</mark> for
               javascript backends.
@@ -91,15 +104,19 @@ export default function Home() {
           </li>
 
           <li>
-            <ProjectStars repoName="brainease" />
-            <Link
-              href="https://github.com/arthurfiorette/brainease"
-              title="Brainease"
-              _blank
-            >
-              Brainf*ck-style <mark class="index__highlight">programming language</mark>,
-              but readable.
+            <ProjectStars
+              repoName="html"
+              repoOwner="kitajs"
+              npmName={['@kitajs/html', '@kitajs/ts-html-plugin']}
+            />
+            <Link href="https://github.com/kitajs/html" title="Kita/Html" _blank>
+              The fastest <mark class="index__highlight">JSX runtime</mark> to generate
+              HTML strings.
             </Link>
+            <br />
+            <small style={{ color: 'var(--color-200)' }}>
+              <i>(This website was built with it)</i>
+            </small>
           </li>
         </ul>
 
@@ -107,17 +124,17 @@ export default function Home() {
 
         <ul class="index__project-list">
           <li>
-            <Link href="./resume.tsx" title="View my resume.">
-              View my <mark class="index__highlight">resume</mark> 📃.
+            <Link href="/curriculum" title="View my Curriculum.">
+              View my <mark class="index__highlight">Curriculum</mark> 📃.
             </Link>
           </li>
           <li>
             <Link
               href="https://github.com/arthurfiorette"
-              title="Find me at Github."
+              title="Star my projects on Github."
               _blank
             >
-              Find me at <mark class="index__highlight">Github</mark>.
+              Star my projects on <mark class="index__highlight">Github</mark>.
             </Link>
           </li>
           <li>
@@ -144,41 +161,43 @@ export default function Home() {
               title="Follow me on Twitch."
               _blank
             >
-              Watch me <mark class="index__highlight">live</mark>.
+              Watch me <mark class="index__highlight">live</mark> on Twitch.
             </Link>
           </li>
           <li>
-            <Link href="mailto://me@arthur.place" title="Send me an email." _blank mangle>
+            <Link href="mailto://me@arthur.place" title="Send me an email." _blank>
               Send me an <mark class="index__highlight">email</mark>.
             </Link>
           </li>
         </ul>
       </div>
 
-      <div class="index__section">
-        <p>
-          If you're interested in sharpening your programming skills and discovering
-          insights to become a better programmer, I've got you covered. Here's a sneak
-          peek into my {posts.length} blog posts:
-        </p>
+      {posts.length && (
+        <div class="index__section">
+          <p>
+            If you're interested in sharpening your programming skills and discovering
+            insights to become a better programmer, I've got you covered. Here's a sneak
+            peek into my latest {posts.length} blog posts:
+          </p>
 
-        <ol class="index__post-preview">
-          {posts
-            .sort((a, b) => Date.parse(b.meta.date) - Date.parse(a.meta.date))
-            .map((p) => (
-              <li>
-                <div>
-                  <Time datetime={p.meta.date} />
-                  <MinRead minRead={p.meta.readTime} />
-                </div>
-                <h2>
-                  <Link href={`/${p.meta.slug}`}>{Html.escapeHtml(p.meta.title)}</Link>
-                </h2>
-                <p safe>{p.meta.description}</p>
-              </li>
-            ))}
-        </ol>
-      </div>
+          <ol class="index__post-preview">
+            {posts
+              .sort((a, b) => Date.parse(b.meta.date) - Date.parse(a.meta.date))
+              .map((p) => (
+                <li>
+                  <div>
+                    <Time datetime={p.meta.date} />
+                    <MinRead minRead={p.meta.readTime} />
+                  </div>
+                  <h2>
+                    <Link href={`/${p.meta.slug}`}>{Html.escapeHtml(p.meta.title)}</Link>
+                  </h2>
+                  <p safe>{p.meta.description}</p>
+                </li>
+              ))}
+          </ol>
+        </div>
+      )}
     </Layout>
   );
 }

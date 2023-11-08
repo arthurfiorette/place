@@ -13,6 +13,11 @@
     &::marker {
       content: '';
     }
+    
+
+    &:not(:first-child) {
+      margin-top: 1rem;
+    }
 
     margin: 0.5rem 0;
   }
@@ -34,6 +39,7 @@
 .index__post-preview {
   li {
     margin: 1.5rem 0;
+
 
     div {
       display: flex;

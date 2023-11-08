@@ -6,17 +6,16 @@ export interface LinkTitleProps {
   title?: string;
   children?: Html.Children;
   _blank?: boolean;
-  mangle?: boolean;
 }
 
-export function Link({ href, title, children, _blank, mangle }: LinkTitleProps) {
-  if (mangle) {
+export function Link({ href, title, children, _blank }: LinkTitleProps) {
+  if (href.startsWith('http')) {
     const url = new URL(href);
     const protocol = url.protocol + '//';
     href = protocol + mangleUrl(href.slice(protocol.length));
   }
 
-  const safeContent = children || Html.escapeHtml(title);
+  const safeContent = children || (title ? Html.escapeHtml(title) : href);
 
   return (
     <a

@@ -20,13 +20,14 @@ export async function ProjectStars({
 
   return (
     <small class="project-stars__card">
-      {npmCount && (
-        <>
-          📥{Math.ceil(npmCount / 1000)}k/week
-          <span style={{ display: 'inline-block', width: '1rem' }} />
-        </> as 'safe'
-      )}
-      ⭐{starCount.repository?.stargazerCount}
+      {npmCount &&
+        ((
+          <>
+            📥{(npmCount / 1000).toFixed(1) as 'safe'}k/week
+            <span style={{ display: 'inline-block', width: '1rem' }} />
+          </>
+        ) as 'safe')}{' '}
+      {starCount.repository?.stargazerCount} ⭐
     </small>
   );
 }

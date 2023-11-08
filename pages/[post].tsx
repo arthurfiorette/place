@@ -1,14 +1,12 @@
 import Html from '@kitajs/html';
-import { Layout } from '../components/layout';
-import { MinRead } from '../components/min-read';
-import { PostInfo } from '../components/post-info';
 import { Comment } from '../components/comment';
+import { Layout } from '../components/layout';
+import { Link } from '../components/link';
+import { MinRead } from '../components/min-read';
+import { Time } from '../components/time';
 import { getDiscussion } from '../lib/github';
 import { markdownToHtml } from '../lib/markdown';
 import { posts } from '../lib/posts';
-import { Link } from '../components/link';
-import { Time } from '../components/time';
-import { BadgeList } from '../components/badge-list';
 
 export default async function Post({ path }: Html.PropsWithChildren<{ path: string }>) {
   const post = posts.find((p) => p.meta.slug === path)!;
