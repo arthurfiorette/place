@@ -9,6 +9,7 @@ permissions:
   contents: read
   pages: write
   id-token: write
+  discussions: read
 
 concurrency:
   group: 'pages'
@@ -40,6 +41,9 @@ jobs:
 
       - name: Build
         run: pnpm build
+        env:
+          NODE_ENV: production
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
