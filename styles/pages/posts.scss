@@ -4,46 +4,6 @@
   @import 'highlight.js/scss/github-dark.scss';
 }
 
-// .preview {
-//   img {
-//     width: 100%;
-//     border-radius: 2rem;
-
-//     @media print {
-//       display: none;
-//     }
-//   }
-// }
-
-// header {
-// margin: 4rem 0;
-
-// h1 {
-//   margin-bottom: 2rem;
-//   font-size: 3rem;
-// }
-
-// summary {
-//   font-size: 1.5rem;
-//   text-align: center;
-//   margin: 2rem 0;
-// }
-
-// .info {
-//   display: flex;
-//   justify-content: space-between;
-//   align-items: center;
-
-//   div {
-//     margin: 0 2rem;
-//   }
-
-//   ul {
-//     margin: 0;
-//   }
-// }
-// }
-
 .post__header {
   margin: 4rem 0;
 
@@ -127,6 +87,10 @@
         line-break: anywhere;
       }
     }
+  }
+
+  em {
+    font-style: italic;
   }
 
   blockquote {
@@ -213,7 +177,7 @@
       font-size: 1rem;
 
       a {
-        color: var(--text-color)
+        color: var(--text-color);
       }
 
       time {

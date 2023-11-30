@@ -5,14 +5,14 @@ import { mangleUrl } from '../lib/mangler';
 
 const Curriculum = {
   curriculum: {
-    lang: 'English',
+    lang: 'English 🇺🇸',
+    month: 'December 2023',
     name: 'Arthur Fileti Fiorette',
     title: 'Software Architect',
     phone: '+55 28 9 99772770',
     email: 'me@arthur.place',
-    country: 'Brazil',
     about: [
-      'I have been developing software since <b>2018</b> professionally and doing open source since <b>2020</b>. Passing through <b>Financial</b>, <b>ERP</b> and <b>Government companies</b>. Within all those years, I have developed and architected multiple high performance and scalable applications written in multiple languages.',
+      'I have been developing software since <b>2018</b> professionally and doing open source since <b>2020</b>. Passing through <b>Financial</b>, <b>ERP</b> and <b>Government companies</b>. Within all those years, I have developed and architected different high performance and scalable applications written in numerous languages.',
       'I am a <b>full-stack developer with a strong focus on the backend</b>. I have experience with multiple programming languages, frameworks and databases.'
     ],
     educationName: 'Education',
@@ -36,7 +36,7 @@ const Curriculum = {
         end: 'Today',
         type: 'Full time',
         about: [
-          'As a Software Engineer in the R&D team, my main goals are to develop and maintain the backend side of a <b>feed management system for large cattle farms</b>. There we had to use multiple technologies to achieve the best user experience to low tech farmers and performance to handle millions of forecasts and calculations.',
+          'As a Software Engineer in the R&D team, my main goals are to develop and maintain the backend side of a <b>feed management system for large cattle farms</b>. There we had to use various technologies to achieve the best user experience to low tech farmers and performance to handle millions of forecasts and calculations.',
           "Built and architected the backend to use <b>Fastify</b>, <b>NodeJS</b>, <b>Typescript</b>, <b>Open API</b>, <b>Postgres</b> and <b>Kita</b> - <i>a open source framework which I'm the creator of it</i>. All interfaces were built using <b>React</b>, <b>Typescript</b>, <b>Material UI</b> and code generation to ensure type safety."
         ]
       },
@@ -47,24 +47,24 @@ const Curriculum = {
         end: 'Apr 2022',
         type: 'Full time',
         about: [
-          'During my time at E&L, I built and participated in multiple projects, including leading the development of a <b>Covid-19 vaccine temperature monitoring</b> web application for the Espirito Santo state, A <b>tracking application for fleet vehicles</b> used by multiple private companies and <b>automated their internal deployment system</b> for their leading sale product, which reduced deployment from a day to a couple of minutes and avoided multiple problems by creating automated tests against their services.',
-          'Multiple technologies were used during my time there, including <b>React</b>, <b>Typescript</b>, <b>NodeJS</b>, <b>Postgres</b>, <b>Nest</b>, <b>Nuxt</b>, <b>Web Sockets</b>, <b>Spring Boot</b> and <b>Jenkins</b>. Also I had to be a great team player, as I had to work with multiple internal teams and projects.'
+          'During my time at E&L, I built and participated in multiple projects, including leading the development of a <b>Covid-19 vaccine temperature monitoring</b> web application for the Espirito Santo state, A <b>tracking application for fleet vehicles</b> used by many private companies and <b>automated their internal deployment system</b> for their leading sale product, which reduced deployment from a day to a couple of minutes and avoided numerous problems by creating automated tests against their services.',
+          'A lot of technologies were used during my time there, including <b>React</b>, <b>Typescript</b>, <b>NodeJS</b>, <b>Postgres</b>, <b>Nest</b>, <b>Nuxt</b>, <b>Web Sockets</b>, <b>Spring Boot</b> and <b>Jenkins</b>. Also I had to be a great team player, as I had to work with various internal teams and projects.'
         ]
       }
     ],
     ossTitle: 'Open Source',
     oss: [
       'Despite my work, family and hobbies, I always try to find time to contribute to open source, as I acknowledge its importance to the world. Thankfully, I have been able to contribute and maintain many projects out there and as of today they go beyond <b>half a million weekly downloads</b> on npm for packages I authored and still maintain to this day.',
-      'Apart from that, I\'ve contributed to multiple open source projects and organizations, including <b>Vercel</b>, <b>Fastify</b>, <b>Prisma</b>, <b>Axios</b> and others. You can find more about my open source contributions on <a href="https://github.com/arthurfiorette">github.com/arthurfiorette</a>.'
+      'Apart from that, I\'ve contributed to many open source projects and organizations, including <b>Vercel</b>, <b>Fastify</b>, <b>Prisma</b>, <b>Axios</b> and others. You can find more about my open source contributions on <a href="https://github.com/arthurfiorette" target="_blank">github.com/arthurfiorette</a>.'
     ]
   },
   curriculo: {
-    lang: 'Português',
+    lang: 'Português 🇧🇷',
+    month: 'Dezembro 2023',
     name: 'Arthur Fileti Fiorette',
     title: 'Arquiteto de Software',
     phone: '+55 28 9 99772770',
     email: 'me@arthur.place',
-    country: 'Brasil',
     about: [
       'Desenvolvo software profissionalmente desde <b>2018</b> e contribuído para projetos de código aberto desde <b>2020</b>. Trabalhei em empresas do setor <b>Financeiro</b>, <b>ERP</b> e <b>Governo</b>. Ao longo desses anos, desenvolvi e arquitetei diversas aplicações de alto desempenho e escaláveis escritas em várias linguagens.',
       'Sou um <b>desenvolvedor full-stack com foco no backend</b>. Tenho experiência em diversas linguagens de programação, frameworks e bancos de dados.'
@@ -73,7 +73,7 @@ const Curriculum = {
     education: [
       {
         date: '2020-2022',
-        title: 'Técnico em Administração',
+        title: 'Técnico em Administração<br /><br />',
         institution: 'IFES - Instituto Federal do Espírito Santo'
       },
       {
@@ -109,7 +109,7 @@ const Curriculum = {
     ossTitle: 'Código Aberto',
     oss: [
       'Apesar do meu trabalho, família e hobbies, sempre tento encontrar tempo para contribuir para projetos de código aberto, pois reconheço sua importância para o mundo. Felizmente, pude contribuir e manter muitos projetos e até hoje eles têm passam de <b>meio milhão de downloads semanais</b> no npm para pacotes que eu autorizo e continuo mantendo até hoje.',
-      'Além disso, contribuí para diversos projetos e organizações de código aberto, incluindo <b>Vercel</b>, <b>Fastify</b>, <b>Prisma</b>, <b>Axios</b> e outros. Você pode encontrar mais sobre minhas contribuições de código aberto em <a href="https://github.com/arthurfiorette">github.com/arthurfiorette</a>.'
+      'Além disso, contribuí para diversos projetos e organizações de código aberto, incluindo <b>Vercel</b>, <b>Fastify</b>, <b>Prisma</b>, <b>Axios</b> e outros. Você pode encontrar mais sobre minhas contribuições de código aberto em <a href="https://github.com/arthurfiorette" target="_blank">github.com/arthurfiorette</a>.'
     ]
   }
 };
@@ -121,7 +121,7 @@ export default function Resume({
 
   return (
     <Layout
-      head={<link href="../styles/pages/resume.scss" rel="stylesheet" />}
+      head={<link href="../styles/pages/cv.scss" rel="stylesheet" />}
       header={false}
     >
       <div class="resume__layout">
@@ -148,18 +148,20 @@ export default function Resume({
           <div>
             <small safe>{resume.title}</small>
             <br />
-            <h1 safe>{resume.name}</h1>
+            <h1 >
+              <a href="/" safe>{resume.name}</a>
+            </h1>
           </div>
 
           <div class="resume__contact">
             {Html.escapeHtml(resume.phone)} | {mangleUrl(resume.email) as 'safe'}
           </div>
 
-          <Link href="https://arthur.place/resume" _blank />
+          <Link href={`https://arthur.place/${path}`} _blank />
           <br />
           <Link href="https://linkedin.com/in/arthurfiorette" _blank />
 
-          <div safe>{resume.country}</div>
+          <div safe>{resume.month}</div>
 
           <hr />
         </div>
@@ -179,9 +181,7 @@ export default function Resume({
             {resume.education.map((education) => (
               <li>
                 <h4>{education.date as 'safe'}</h4>
-                <div class="title" safe>
-                  {education.title}
-                </div>
+                <div class="title">{education.title as 'safe'}</div>
                 <br />
                 <div safe>{education.institution}</div>
               </li>

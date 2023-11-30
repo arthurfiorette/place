@@ -1,9 +1,8 @@
-@import 'node_modules/reset-css/sass/_reset.scss';
+@import 'node_modules/reset-css/sass/_reset';
 @import 'colors';
 @import 'global';
 
 @import 'components/header';
 @import 'components/footer';
 @import 'components/main';
-@import 'components/project-stars';
-@import 'components/scroll-bar.scss';
+@import 'components/scroll-bar';

@@ -2,11 +2,77 @@ import Html from '@kitajs/html';
 import { Layout } from '../components/layout';
 import { Link } from '../components/link';
 import { MinRead } from '../components/min-read';
-import { ProjectStars } from '../components/project-stars';
 import { Time } from '../components/time';
 import { posts } from '../lib/posts';
+import { getStargazerCount } from '../lib/github';
+import { getNpmDownloadCount } from '../lib/npm';
 
-export default function Home() {
+const projects = [
+  {
+    name: 'axios-cache-interceptor',
+    prettyName: 'Axios Cache Interceptor',
+    npm: 'axios-cache-interceptor',
+    owner: 'arthurfiorette',
+    description: 'Small and efficient cache interceptor for axios.',
+    stars: 1,
+    downloads: 1
+  },
+  {
+    name: 'prisma-json-types-generator',
+    prettyName: 'Prisma Json Types Generator',
+    npm: 'prisma-json-types-generator',
+    owner: 'arthurfiorette',
+    description: 'Type safe Postgres Json for prisma schemas.',
+    stars: 1,
+    downloads: 1
+  },
+  {
+    name: 'kitajs',
+    prettyName: 'Kita',
+    npm: [
+      '@kitajs/cli',
+      '@kitajs/parser',
+      '@kitajs/ts-plugin',
+      '@kitajs/generator',
+      '@kitajs/common',
+      '@kitajs/runtime'
+    ],
+    owner: 'kitajs',
+    description: 'Revolutionary type safe router for javascript backends.',
+    stars: 1,
+    downloads: 1
+  },
+  {
+    name: 'html',
+    prettyName: 'Kita/Html',
+    npm: ['@kitajs/html', '@kitajs/ts-html-plugin'],
+    owner: 'kitajs',
+    description: 'The fastest JSX runtime to generate HTML strings.',
+    stars: 1,
+    downloads: 1
+  },
+  {
+    name: 'tinylibs',
+    prettyName: 'TinyLibs',
+    npm: ['fast-defer', 'object-code', 'cache-parser'],
+    owner: 'arthurfiorette',
+    description: 'Collection of Utility Libraries for javascript.',
+    stars: 1,
+    downloads: 1
+  }
+];
+
+export default async function Home() {
+  for (const project of projects) {
+    const [starCount, npmCount] = await Promise.all([
+      getStargazerCount({ name: project.name, owner: project.owner }),
+      project.npm ? getNpmDownloadCount(project.npm) : null
+    ]);
+
+    project.stars = starCount.repository?.stargazerCount || 0;
+    project.downloads = npmCount || 0;
+  }
+
   return (
     <Layout
       header={false}
@@ -38,86 +104,30 @@ export default function Home() {
           write about software-related topics. Additionally, You can explore some of my
           open source projects below:
         </p>
-        <ul class="index__project-list">
-          <li>
-            <ProjectStars
-              repoName="axios-cache-interceptor"
-              npmName="axios-cache-interceptor"
-            />
-            <Link
-              href="https://github.com/arthurfiorette/axios-cache-interceptor"
-              title="Axios Cache Interceptor"
-              _blank
-            >
-              Small and efficient <mark class="index__highlight">cache interceptor</mark>{' '}
-              for axios.
-            </Link>
-          </li>
+        <ul class="index__showcase">
+          {projects.map((p) => (
+            <li>
+              <Link
+                href={`https://github.com/${p.owner}/${p.name}`}
+                title={p.name}
+                _blank
+              >
+                <h3 safe>{p.prettyName}</h3>
+                <p safe>{p.description}</p>
 
-          <li>
-            <ProjectStars
-              repoName="tinylibs"
-              npmName={['fast-defer', 'object-code', 'cache-parser']}
-            />
-            <Link
-              href="https://github.com/arthurfiorette/tinylibs"
-              title="TinyLibs"
-              _blank
-            >
-              Collection of <mark class="index__highlight">Utility Libraries</mark> for
-              javascript.
-            </Link>
-          </li>
-
-          <li>
-            <ProjectStars
-              repoName="prisma-json-types-generator"
-              npmName="prisma-json-types-generator"
-            />
-            <Link
-              href="https://github.com/arthurfiorette/prisma-json-types-generator"
-              title="Prisma Json Types Generator"
-              _blank
-            >
-              Type safe <mark class="index__highlight">Postgres Json</mark> for prisma
-              schemas.
-            </Link>
-          </li>
-
-          <li>
-            <ProjectStars
-              repoName="kitajs"
-              repoOwner="kitajs"
-              npmName={[
-                '@kitajs/cli',
-                '@kitajs/parser',
-                '@kitajs/ts-plugin',
-                '@kitajs/generator',
-                '@kitajs/common',
-                '@kitajs/runtime'
-              ]}
-            />
-            <Link href="https://github.com/kitajs/kitajs" title="Kita" _blank>
-              Revolutionary <mark class="index__highlight">type safe router</mark> for
-              javascript backends.
-            </Link>
-          </li>
-
-          <li>
-            <ProjectStars
-              repoName="html"
-              repoOwner="kitajs"
-              npmName={['@kitajs/html', '@kitajs/ts-html-plugin']}
-            />
-            <Link href="https://github.com/kitajs/html" title="Kita/Html" _blank>
-              The fastest <mark class="index__highlight">JSX runtime</mark> to generate
-              HTML strings.
-            </Link>
-            <br />
-            <small style={{ color: 'var(--color-200)' }}>
-              <i>(This website was built with it)</i>
-            </small>
-          </li>
+                <small class="project-stars__card">
+                  {p.downloads &&
+                    ((
+                      <>
+                        📥{(p.downloads / 1000).toFixed(1) as 'safe'}k/week
+                        <span style={{ display: 'inline-block', width: '1rem' }} />
+                      </>
+                    ) as 'safe')}{' '}
+                  {p.stars} ⭐
+                </small>
+              </Link>
+            </li>
+          ))}
         </ul>
 
         <p>In case you are interested, you also can...</p>

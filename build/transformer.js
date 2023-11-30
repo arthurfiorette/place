@@ -31,11 +31,11 @@ module.exports = new Transformer({
           return {
             type: 'html',
             content,
-            uniqueKey: path,
+            uniqueKey: crypto.createHash('md5').update(content).digest('hex'),
             bundleBehavior: 'isolated',
             id: crypto.createHash('md5').update(content).digest('hex'),
             isSource: true,
-            meta: { pathName: `${path}.html` }
+            meta: { pathName: `${path}.html` },
           };
         })
       );

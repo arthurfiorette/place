@@ -24,6 +24,14 @@ a {
   h1 {
     font-size: 1.5rem;
     font-weight: bold;
+
+    a {
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
   }
 
   .resume__contact {
@@ -63,7 +71,6 @@ a {
 }
 
 .resume__education {
- 
   ul {
     display: flex;
     flex-direction: row;

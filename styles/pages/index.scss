@@ -6,23 +6,6 @@
   margin-bottom: 10rem;
 }
 
-.index__project-list {
-  text-align: center;
-
-  li {
-    &::marker {
-      content: '';
-    }
-    
-
-    &:not(:first-child) {
-      margin-top: 1rem;
-    }
-
-    margin: 0.5rem 0;
-  }
-}
-
 .index__highlight {
   color: var(--color-primary);
   background-color: transparent;
@@ -39,7 +22,6 @@
 .index__post-preview {
   li {
     margin: 1.5rem 0;
-
 
     div {
       display: flex;
@@ -63,6 +45,72 @@
       padding-left: 1rem;
       color: var(--color-100);
       margin: 0;
+    }
+  }
+}
+
+.index__showcase {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  @media (max-width: 800px) {
+    flex: 50%;
+  }
+
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+
+  li {
+    border-radius: 1rem;
+    box-shadow:
+      0 0 0.1rem var(--color-secondary),
+      var(--color-secondary) 0 0 0.2rem inset;
+
+    margin: 1rem;
+
+    &:hover {
+      box-shadow:
+        0 0 0.1rem var(--color-primary),
+        var(--color-primary) 0 0 0.2rem inset;
+      cursor: pointer;
+    }
+
+    a {
+      color: unset;
+      padding: 1rem;
+      aspect-ratio: 1;
+      display: block;
+      height: 10rem;
+      width: 10rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+
+    h3 {
+      margin: 0;
+      text-align: center;
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+
+    p {
+      text-align: center;
+      margin: 0.8rem 0;
+      font-size: 0.8rem;
+    }
+
+    small {
+      width: 100%;
+      text-align: center;
+      color: var(--color-100);
+      line-height: 0.5rem;
     }
   }
 }
