@@ -3,7 +3,7 @@
   "private": true,
   "license": "GPL-v3.0",
   "scripts": {
-    "build": "rm -rf dist && parcel build pages/**/*.tsx --public-url ./ --no-source-maps",
+    "build": "rm -rf dist && parcel build pages/**/*.tsx --public-url ./place --no-source-maps",
     "dev": "nodemon -w '**/*' -e tsx,scss,ts -x \"pnpm build && pnpm start\"",
     "start": "serve dist -n",
     "test": "xss-scan",
