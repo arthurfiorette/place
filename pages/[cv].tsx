@@ -149,7 +149,7 @@ export default function Resume({
             <small safe>{resume.title}</small>
             <br />
             <h1 >
-              <a href="/" safe>{resume.name}</a>
+              <a href="./index.tsx" safe>{resume.name}</a>
             </h1>
           </div>
 
