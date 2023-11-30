@@ -134,7 +134,7 @@ export default async function Home() {
 
         <ul class="index__project-list">
           <li>
-            <Link href="/curriculum" title="View my Curriculum.">
+            <Link href="./[cv].tsx" title="View my Curriculum.">
               View my <mark class="index__highlight">Curriculum</mark> 📃.
             </Link>
           </li>

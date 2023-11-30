@@ -54,7 +54,7 @@ const Curriculum = {
     ],
     ossTitle: 'Open Source',
     oss: [
-      'Despite my work, family and hobbies, I always try to find time to contribute to open source, as I acknowledge its importance to the world. Thankfully, I have been able to contribute and maintain many projects out there and as of today they go beyond <b>half a million weekly downloads</b> on npm for packages I authored and still maintain to this day.',
+      'Despite my work, family and hobbies, I always try to find time to contribute to open source, as I acknowledge its importance to the world. Thankfully, I have been able to contribute and maintain many projects out there and as of today they go beyond <b>a million monthly downloads</b> only on npm packages I authored and keep maintaining to this day.',
       'Apart from that, I\'ve contributed to many open source projects and organizations, including <b>Vercel</b>, <b>Fastify</b>, <b>Prisma</b>, <b>Axios</b> and others. You can find more about my open source contributions on <a href="https://github.com/arthurfiorette" target="_blank">github.com/arthurfiorette</a>.'
     ]
   },
@@ -108,7 +108,7 @@ const Curriculum = {
     ],
     ossTitle: 'Código Aberto',
     oss: [
-      'Apesar do meu trabalho, família e hobbies, sempre tento encontrar tempo para contribuir para projetos de código aberto, pois reconheço sua importância para o mundo. Felizmente, pude contribuir e manter muitos projetos e até hoje eles têm passam de <b>meio milhão de downloads semanais</b> no npm para pacotes que eu autorizo e continuo mantendo até hoje.',
+      'Apesar do meu trabalho, família e hobbies, sempre tento encontrar tempo para contribuir para projetos de código aberto, pois reconheço sua importância para o mundo. Felizmente, pude contribuir e manter muitos projetos e até hoje eles têm passam de <b>um milhão de downloads mensais</b> no npm para pacotes que eu autorizo e continuo mantendo até hoje.',
       'Além disso, contribuí para diversos projetos e organizações de código aberto, incluindo <b>Vercel</b>, <b>Fastify</b>, <b>Prisma</b>, <b>Axios</b> e outros. Você pode encontrar mais sobre minhas contribuições de código aberto em <a href="https://github.com/arthurfiorette" target="_blank">github.com/arthurfiorette</a>.'
     ]
   }
