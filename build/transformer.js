@@ -21,8 +21,12 @@ module.exports = new Transformer({
     // In case of static paths, we need to generate all the pages
     // We are using a custom `pathName` property to tell our namer
     // to generate different names for each page
-    if (page.getStaticPaths) {
+    paths: if (page.getStaticPaths) {
       const paths = await page.getStaticPaths();
+
+      if(!paths.length) {
+        break paths;
+      }
 
       return Promise.all(
         paths.map(async (path) => {
@@ -41,7 +45,7 @@ module.exports = new Transformer({
       );
     }
 
-    const content = await page.default();
+    const content = await page.default({ path: asset.filePath });
 
     asset.type = 'html';
     asset.setCode(content);

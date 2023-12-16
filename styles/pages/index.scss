@@ -1,9 +1,11 @@
 .index__title {
-  font-size: 7vw;
+  font-size: min(10rem, 7vw);
   margin: 0 -100vw;
   text-align: center;
   margin-top: -10rem;
   margin-bottom: 10rem;
+  text-shadow: min(8px, 0.3vw) min(8px, 0.3vh) 0 var(--color-secondary);
+  letter-spacing: 0.2rem;
 }
 
 .index__highlight {
