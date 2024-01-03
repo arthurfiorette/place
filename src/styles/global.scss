@@ -1,0 +1,97 @@
+h1 {
+  text-align: center;
+  font-weight: bold;
+}
+
+p {
+  text-align: justify;
+}
+
+a {
+  color: var(--link-color);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+i {
+  font-style: italic;
+}
+
+b {
+  font-weight: bold;
+}
+
+small {
+  font-size: 0.8rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  body,
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+// Support for flag emojis
+@font-face {
+  font-family: 'Twemoji Country Flags';
+  unicode-range: U+1F1E6-1F1FF, U+1F3F4, U+E0062-E0063, U+E0065, U+E0067, U+E006C, U+E006E,
+    U+E0073-E0074, U+E0077, U+E007F;
+  src: url('https://cdn.jsdelivr.net/npm/country-flag-emoji-polyfill/dist/TwemojiCountryFlags.woff2')
+    format('woff2');
+  font-display: swap;
+}
+
+html {
+  font-family: 'Twemoji Country Flags', Poppins, sans-serif;
+  overflow-x: hidden;
+  min-height: 100%;
+  max-width: 100vw;
+}
+
+body {
+  font-size: 16px;
+  line-height: normal;
+
+  margin: 0 auto;
+  max-width: min(920px, 90vw);
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  color: var(--text-color);
+
+  background-color: var(--bg-color);
+  background-image: url('/images/background-dark.svg');
+}
+
+@media (prefers-color-scheme: light) {
+  body {
+    background-color: var(--bg-color);
+    background-image: url('/images/background-light.svg');
+  }
+}
+
+::-webkit-scrollbar {
+  position: absolute;
+  width: 0.8rem;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-500);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+ 

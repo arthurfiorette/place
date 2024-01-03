@@ -1,0 +1,54 @@
+{
+  "id": "curriculo",
+  "lang": "Ler em português 🇧🇷",
+  "month": "Dezembro 2023",
+  "name": "Arthur Fileti Fiorette",
+  "title": "Arquiteto de Software",
+  "phone": "+55 28 9 99772770",
+  "email": "me@arthur.place",
+  "about": [
+    "Desenvolvo software profissionalmente desde <b>2018</b> e contribuído para projetos de código aberto desde <b>2020</b>. Trabalhei em empresas do setor <b>Financeiro</b>, <b>ERP</b> e <b>Governamentais</b>. Ao longo desses anos, desenvolvi e arquitetei diversas aplicações de alto desempenho e escaláveis escritas em várias linguagens.",
+    "Sou um <b>desenvolvedor full-stack com foco no backend</b>. Tenho experiência em diversas linguagens de programação, frameworks e bancos de dados."
+  ],
+  "educationName": "Educação",
+  "education": [
+    {
+      "date": "2020-2022",
+      "title": "Técnico em Administração<br /><br />",
+      "institution": "IFES - Instituto Federal do Espírito Santo"
+    },
+    {
+      "date": "2023-hoje",
+      "title": "Graduação em Análise e Desenvolvimento de Sistemas",
+      "institution": "IFSC - Instituto Federal de Santa Catarina"
+    }
+  ],
+  "experienceName": "Experiência",
+  "experiences": [
+    {
+      "title": "Engenheiro de Software <small>@</small> Kasco P&D - Campinas, Brasil",
+      "start": "Abr de 2022",
+      "end": "Hoje",
+      "type": "Período integral",
+      "about": [
+        "Como Engenheiro de Software na equipe de P&D, meus principais objetivos são desenvolver e manter o lado do backend de um <b>sistema de gerenciamento de alimentação para grandes fazendas de gado</b>. Lá, tivemos que utilizar diversas tecnologias para oferecer a melhor experiência ao usuário para fazendeiros de baixa tecnologia e desempenho para lidar com milhões de previsões e cálculos.",
+        "Construí e arquitetei o backend usando <b>Fastify</b>, <b>NodeJS</b>, <b>Typescript</b>, <b>Open API</b>, <b>Postgres</b> e <b>Kita</b> - <i>um framework de código aberto do qual fui o criador</i>. Todas as interfaces foram construídas com <b>React</b>, <b>Typescript</b>, <b>Material UI</b> e geração de código para garantir a segurança de tipos."
+      ]
+    },
+    {
+      "title": "Desenvolvedor de Software <small>@</small> E&L Sistemas - Domingos Martins, Brasil",
+      "start": "Jan de 2021",
+      "end": "Abr de 2022",
+      "type": "Período integral",
+      "about": [
+        "Durante meu tempo na E&L, construí e participei de vários projetos, incluindo a liderança no desenvolvimento de um aplicativo web de <b>monitoramento de temperatura de vacinas contra a Covid-19</b> para o estado do Espírito Santo, um <b>aplicativo de rastreamento para veículos da frota</b> usado por várias empresas privadas e <b>automatizei o sistema interno de implantação</b> do produto líder de vendas deles, o que reduziu a implantação de um dia para alguns minutos e evitou vários problemas por meio de testes automatizados em seus serviços.",
+        "Várias tecnologias foram usadas durante meu tempo lá, incluindo <b>React</b>, <b>Typescript</b>, <b>NodeJS</b>, <b>Postgres</b>, <b>Nest</b>, <b>Nuxt</b>, <b>Web Sockets</b>, <b>Spring Boot</b> e <b>Jenkins</b>. Além disso, tive que ser um ótimo jogador de equipe, pois trabalhei com várias equipes internas e projetos."
+      ]
+    }
+  ],
+  "ossTitle": "Código Aberto",
+  "oss": [
+    "Apesar do meu trabalho, família e hobbies, sempre tento encontrar tempo para contribuir para projetos de código aberto, pois reconheço sua importância para o mundo. Felizmente, pude contribuir e manter muitos projetos e até hoje eles têm passam de <b>um milhão de downloads mensais</b> no npm para pacotes que eu autorizo e continuo mantendo até hoje.",
+    "Além disso, contribuí para diversos projetos e organizações de código aberto, incluindo <b>Vercel</b>, <b>Fastify</b>, <b>Prisma</b>, <b>Axios</b> e outros. Você pode encontrar mais sobre minhas contribuições de código aberto em <a href=\"https://github.com/arthurfiorette\" target=\"_blank\">github.com/arthurfiorette</a>."
+  ]
+}

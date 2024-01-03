@@ -1,5 +1,0 @@
-query getStargazerCount($name: String!, $owner: String!) {
-  repository(name: $name, owner: $owner) {
-    stargazerCount
-  }
-}

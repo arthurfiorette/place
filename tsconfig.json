@@ -1,24 +1,7 @@
 {
+  "extends": "astro/tsconfigs/base",
   "compilerOptions": {
-    "target": "ES2022",
-    "jsx": "react",
-    "jsxFactory": "Html.createElement",
-    "jsxFragmentFactory": "Html.Fragment",
-    "module": "CommonJS",
-    "removeComments": true,
-    "isolatedModules": true,
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "preserveSymlinks": true,
-    "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "allowJs": true,
-    "checkJs": false,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "resolveJsonModule": true,
-    "moduleResolution": "Node",
-    "outDir": "dist",
     "noImplicitAny": true,
     "strictNullChecks": true,
     "strictFunctionTypes": true,
@@ -32,14 +15,7 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedIndexedAccess": true,
-    "noImplicitOverride": true,
-    "importHelpers": true,
     "skipDefaultLibCheck": true,
-    "skipLibCheck": true,
-    "plugins": [{ "name": "@kitajs/ts-html-plugin" }]
-  },
-  "include": ["**/*.tsx", "**/*.ts", "**/*.json"],
-  "ts-node": {
-    "files": true
+    "skipLibCheck": true
   }
 }

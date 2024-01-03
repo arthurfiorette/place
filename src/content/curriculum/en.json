@@ -1,0 +1,54 @@
+{
+  "id": "curriculum",
+  "lang": "Read in english 🇺🇸",
+  "month": "December 2023",
+  "name": "Arthur Fileti Fiorette",
+  "title": "Software Architect",
+  "phone": "+55 28 9 99772770",
+  "email": "me@arthur.place",
+  "about": [
+    "I have been developing software since <b>2018</b> professionally and doing open source since <b>2020</b>. Passing through <b>Financial</b>, <b>ERP</b> and <b>Government companies</b>. Within all those years, I have developed and architected different high performance and scalable applications written in numerous languages.",
+    "I am a <b>full-stack developer with a strong focus on the backend</b>. I have experience with multiple programming languages, frameworks and databases."
+  ],
+  "educationName": "Education",
+  "education": [
+    {
+      "date": "2020-2022",
+      "title": "Technical in Management and Administration of Companies",
+      "institution": "IFES - Instituto Federal do Espirito Santo"
+    },
+    {
+      "date": "2023-today",
+      "title": "Graduate in Strategic Planning and Analysis Systems Development",
+      "institution": "IFSC - Instituto Federal de Santa Catarina"
+    }
+  ],
+  "experienceName": "Experience",
+  "experiences": [
+    {
+      "title": "Software Engineer <small>@</small> Kasco R&D - Campinas, Brazil",
+      "start": "Apr 2022",
+      "end": "Today",
+      "type": "Full time",
+      "about": [
+        "As a Software Engineer in the R&D team, my main goals are to develop and maintain the backend side of a <b>feed management system for large cattle farms</b>. There we had to use various technologies to achieve the best user experience to low tech farmers and performance to handle millions of forecasts and calculations.",
+        "Built and architected the backend to use <b>Fastify</b>, <b>NodeJS</b>, <b>Typescript</b>, <b>Open API</b>, <b>Postgres</b> and <b>Kita</b> - <i>a open source framework which I'm the creator of it</i>. All interfaces were built using <b>React</b>, <b>Typescript</b>, <b>Material UI</b> and code generation to ensure type safety."
+      ]
+    },
+    {
+      "title": "Software Developer <small>@</small> E&L Sistemas - Domingos Martins, Brazil",
+      "start": "Jan 2021",
+      "end": "Apr 2022",
+      "type": "Full time",
+      "about": [
+        "During my time at E&L, I built and participated in multiple projects, including leading the development of a <b>Covid-19 vaccine temperature monitoring</b> web application for the Espirito Santo state, A <b>tracking application for fleet vehicles</b> used by many private companies and <b>automated their internal deployment system</b> for their leading sale product, which reduced deployment from a day to a couple of minutes and avoided numerous problems by creating automated tests against their services.",
+        "A lot of technologies were used during my time there, including <b>React</b>, <b>Typescript</b>, <b>NodeJS</b>, <b>Postgres</b>, <b>Nest</b>, <b>Nuxt</b>, <b>Web Sockets</b>, <b>Spring Boot</b> and <b>Jenkins</b>. Also I had to be a great team player, as I had to work with various internal teams and projects."
+      ]
+    }
+  ],
+  "ossTitle": "Open Source",
+  "oss": [
+    "Despite my work, family and hobbies, I always try to find time to contribute to open source, as I acknowledge its importance to the world. Thankfully, I have been able to contribute and maintain many projects out there and as of today they go beyond <b>a million monthly downloads</b> only on npm packages I authored and keep maintaining to this day.",
+    "Apart from that, I've contributed to many open source projects and organizations, including <b>Vercel</b>, <b>Fastify</b>, <b>Prisma</b>, <b>Axios</b> and others. You can find more about my open source contributions on <a href=\"https://github.com/arthurfiorette\" target=\"_blank\">github.com/arthurfiorette</a>."
+  ]
+}

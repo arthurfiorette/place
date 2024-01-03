@@ -1,0 +1,288 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/index.astro';
+import { Icon } from 'astro-icon/components';
+
+export async function getStaticPaths() {
+  const cvs = await getCollection('curriculum');
+
+  return cvs.map((cv) => ({
+    params: { curriculum: cv.data.id },
+    props: {
+      ...cv,
+      cvs
+    }
+  }));
+}
+
+const cv = Astro.props;
+---
+
+<Layout header={false}>
+  <div class='layout'>
+    <nav>
+      <div class='home'>
+        <a href='../'>
+          <Icon name='mdi:arrow-left' />
+        </a>
+      </div>
+
+      <div class='langs'>
+        {
+          cv.cvs
+            .filter((cv2) => cv2.id !== cv.id)
+            .map((cv2) => <a href={cv2.data.id}>{cv2.data.lang}</a>)
+        }
+      </div>
+    </nav>
+
+    <header>
+      <div>
+        <small>{cv.data.title}</small>
+        <br />
+        <h1>
+          <a href='../'>
+            {cv.data.name}
+          </a>
+        </h1>
+      </div>
+
+      <div class='contact'>
+        {cv.data.phone} | {cv.data.email}
+      </div>
+
+      <a href={`https://arthur.place/${cv.data.id}`} target='_blank'></a>
+      <br />
+      <a href='https://linkedin.com/in/arthurfiorette' target='_blank'></a>
+
+      <div>{cv.data.month}</div>
+
+      <hr />
+    </header>
+
+    <div class='about'>
+      {cv.data.about.map((a) => <p set:html={a} />)}
+    </div>
+
+    <div class='education'>
+      <h4 class='layout-title'>
+        {cv.data.educationName}
+      </h4>
+
+      <ul>
+        {
+          cv.data.education.map((education) => (
+            <li>
+              <h4>{education.date}</h4>
+              <div class='title' set:html={education.title} />
+              <br />
+              <div>{education.institution}</div>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div class='experience'>
+      <h4 class='layout-title'>
+        {cv.data.experienceName}
+      </h4>
+
+      <ul>
+        {
+          cv.data.experiences.map((experience) => (
+            <li>
+              <div class='experience__title'>
+                <br />
+                <div>{experience.start}</div>
+                <div>{experience.end}</div>
+                <small>{experience.type}</small>
+              </div>
+
+              <div class='experience__about'>
+                <h4 set:html={experience.title} />
+
+                {experience.about.map((c) => (
+                  <p set:html={c} />
+                ))}
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div class='about'>
+      <h4 class='layout-title'>
+        {cv.data.ossTitle}
+      </h4>
+
+      {cv.data.oss.map((c) => <p set:html={c} />)}
+    </div>
+  </div>
+</Layout>
+
+<style lang='scss' is:global>
+  body {
+    background-image: none;
+    background-color: white;
+    color: black;
+  }
+
+  :root {
+    --color-primary: black;
+    --color-secondary: black;
+  }
+
+  a {
+    text-decoration: underline;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  header {
+    margin-bottom: 5rem;
+    text-align: center;
+
+    h1 {
+      font-size: 1.5rem;
+      font-weight: bold;
+
+      a {
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    .contact {
+      font-size: 0.8rem;
+    }
+
+    hr {
+      max-width: 50%;
+    }
+  }
+
+  nav {
+    font-size: 1rem;
+    margin-top: -2rem;
+    margin-bottom: 2rem;
+    position: relative;
+    align-items: center;
+
+    .home {
+      position: absolute;
+
+      svg {
+        width: 2rem;
+        height: 2rem;
+
+        &:hover {
+          color: var(--color-500);
+        }
+      }
+    }
+
+    .langs {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    a {
+      font-weight: bold;
+    }
+
+    @media print {
+      display: none;
+    }
+  }
+
+  .layout-title {
+    font-size: 1.5rem;
+    text-align: center;
+    margin: 5rem 0 2rem 0;
+  }
+
+  .layout {
+    margin: 4rem 0;
+  }
+
+  .about {
+    p:not(:first-child) {
+      margin-top: 1rem;
+    }
+  }
+
+  .education {
+    ul {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+
+      @media (max-width: 768px) {
+        flex-direction: column;
+
+        li:not(:first-child) {
+          margin-top: 2rem;
+        }
+      }
+
+      li {
+        text-align: center;
+        max-width: 24rem;
+
+        .title,
+        h6 {
+          font-weight: bold;
+        }
+      }
+    }
+  }
+
+  .experience {
+    ul {
+      li {
+        display: flex;
+        flex-direction: row;
+        break-inside: avoid;
+
+        .experience__title {
+          width: 15%;
+          margin-top: 1rem;
+          margin-right: 1rem;
+          font-weight: bold;
+          text-align: right;
+
+          small {
+            font-weight: normal;
+          }
+        }
+
+        .experience__about {
+          width: 85%;
+          text-align: justify;
+
+          h6 {
+            font-weight: bold;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+          }
+
+          p:not(:first-child) {
+            margin-top: 1rem;
+          }
+        }
+
+        &:not(:first-child) {
+          margin-top: 2rem;
+        }
+      }
+    }
+  }
+</style>

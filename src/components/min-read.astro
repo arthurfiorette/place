@@ -1,0 +1,11 @@
+---
+interface Props {
+  minRead: number;
+}
+
+const { minRead } = Astro.props;
+---
+
+<span title={`This content will probably consume around ${minRead} minutes to be read.`}>
+  ~<b>{minRead}</b> min read.
+</span>
