@@ -56,6 +56,15 @@ const { Content } = await post.render();
     <section class='md'>
       <Content />
     </section>
+
+    <script
+      src='https://utteranc.es/client.js'
+      repo='arthurfiorette/place'
+      issue-term='title'
+      label='posts'
+      theme='preferred-color-scheme'
+      crossorigin='anonymous'
+      async></script>
   </article>
 </Layout>
 
@@ -79,6 +88,7 @@ const { Content } = await post.render();
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 1rem;
   }
 
   .comments {
@@ -246,7 +256,7 @@ const { Content } = await post.render();
       padding: 1rem;
       background-color: var(--shade-bg) !important;
       border: 1px solid var(--shade-outline) !important;
-      word-spacing: 4px;
+      font-family: consolas;
 
       &,
       * {

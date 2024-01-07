@@ -29,6 +29,7 @@ small {
 }
 
 @media (prefers-reduced-motion: no-preference) {
+
   body,
   html {
     scroll-behavior: smooth;
@@ -40,8 +41,7 @@ small {
   font-family: 'Twemoji Country Flags';
   unicode-range: U+1F1E6-1F1FF, U+1F3F4, U+E0062-E0063, U+E0065, U+E0067, U+E006C, U+E006E,
     U+E0073-E0074, U+E0077, U+E007F;
-  src: url('https://cdn.jsdelivr.net/npm/country-flag-emoji-polyfill/dist/TwemojiCountryFlags.woff2')
-    format('woff2');
+  src: url('https://cdn.jsdelivr.net/npm/country-flag-emoji-polyfill/dist/TwemojiCountryFlags.woff2') format('woff2');
   font-display: swap;
 }
 
@@ -52,9 +52,20 @@ html {
   max-width: 100vw;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+summary {
+  line-height: 120%;
+}
+
 body {
   font-size: 16px;
-  line-height: normal;
+  line-height: 140%;
+  letter-spacing: 0.02rem;
 
   margin: 0 auto;
   max-width: min(920px, 90vw);
@@ -80,7 +91,7 @@ body {
 
 ::-webkit-scrollbar {
   position: absolute;
-  width: 0.8rem;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
@@ -88,10 +99,9 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-500);
+  background: var(--color-primary);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: var(--color-secondary);
 }
- 

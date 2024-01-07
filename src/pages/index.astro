@@ -177,7 +177,6 @@ const posts = await getCollection('blog');
     margin: 0 -100vw;
     text-align: center;
     margin-bottom: 10.5rem;
-    letter-spacing: 0.2rem;
 
     .name {
       background: linear-gradient(to right, var(--color-secondary), var(--color-primary));
@@ -212,6 +211,7 @@ const posts = await getCollection('blog');
       margin: 1rem;
       border-radius: 0.5rem;
       border: 1px solid transparent;
+      border: 1px solid var(--shade-bg);
 
       &:hover {
         cursor: pointer;

@@ -5,8 +5,6 @@ keywords: [javascript, isr, nextjs, react]
 description:
   Learn how to manually build a dynamic website without a single line of JS being executed on the
   frontend.
-issue: 403
-color: '#fff'
 ---
 
 I'm not going to showcase this project for you because this is the engine that powers this

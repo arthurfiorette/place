@@ -5,8 +5,6 @@ keywords: [typescript, meta programming]
 description:
   Read your code and generate more code. Embrace meta programming and write type safe code
   at compile time.
-issue: 403
-color: '#fff'
 ---
 
 I'm not going to showcase this project for you because this is the engine that powers this

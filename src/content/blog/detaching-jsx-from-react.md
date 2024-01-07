@@ -3,8 +3,6 @@ title: 'Detaching JSX from React'
 date: 2023/11/13 02:20:00
 keywords: [javascript, react]
 description: Learn how to use the best templating language of all times to your advantage.
-issue: 403
-color: '#fff'
 ---
 
 First of all, let me show this code snippet:
