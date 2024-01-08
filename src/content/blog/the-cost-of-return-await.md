@@ -6,14 +6,26 @@ description: Awaiting a promise before returning it slows down your code.
 published: true
 ---
 
+<div
+  style="
+    color: crimson;
+    text-align: center;
+    font-size: 1.5rem;
+    padding: 3rem;
+    background-color: hsla(348, 83%, 47%, 25%);
+    border: 1px solid crimson;
+  ">
+  This post is obsolete, this behavior was fixed in recent versions of NodeJS.
+</div>
+
 <h3 style="margin-bottom: 3rem">
-  <b>TL;DR</b>:
-  Enable the
+  <b>TL;DR</b>: Enable the
   <a href="https://eslint.org/docs/rules/no-return-await">
     <code>no-return-await</code>
   </a>
   ESLint rule.
 </h3>
+
 
 A major paradigm of large-scale application development is choosing to code in high-level
 languages. They speed up development stages but with a tradeoff to be slower at runtime.
