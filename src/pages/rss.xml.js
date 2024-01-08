@@ -7,14 +7,15 @@ export async function GET(context) {
   return rss({
     title: "Arthur's place blog",
 
-    description:
-      'A blog about web development, design and other things I like.',
+    description: 'A blog about web development, design and other things I like.',
     site: context.site,
 
-    items: posts.map((post) => ({
-      ...post.data,
-      link: `/${post.slug}`,
-      pubDate: new Date(post.data.date).toUTCString()
-    }))
+    items: posts
+      .filter((p) => p.data.published)
+      .map((post) => ({
+        ...post.data,
+        link: `/${post.slug}`,
+        pubDate: new Date(post.data.date).toUTCString()
+      }))
   });
 }

@@ -30,7 +30,8 @@ export default defineConfig({
           'linkedin',
           'at',
           'arrow-left',
-          'file-download'
+          'file-download',
+          'lightbulb-alert-outline'
         ]
       }
     })

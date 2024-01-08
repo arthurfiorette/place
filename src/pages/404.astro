@@ -1,0 +1,32 @@
+---
+import Layout from '../layouts/index.astro';
+---
+
+<Layout header={false}>
+  <section>
+    <h1>404</h1>
+
+    <p>
+      The page you are looking for does not exist. <a href='/'>Go back home</a>.
+    </p>
+  </section>
+</Layout>
+
+<style lang='scss'>
+  section {
+    font-weight: 400;
+    margin: 0;
+    line-height: 1.2;
+    text-align: center;
+  }
+
+  h1 {
+    font-size: 8rem;
+    font-weight: 700;
+    color: var(--color-secondary);
+  }
+
+  p {
+    font-size: 1rem;
+  }
+</style>

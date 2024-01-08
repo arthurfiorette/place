@@ -3,6 +3,7 @@ title: 'How Return Await can slow down your code'
 date: 2022/03/26 08:17:00
 keywords: [performance, javascript]
 description: Awaiting a promise before returning it slows down your code.
+published: true
 ---
 
 <h3 style="margin-bottom: 3rem">

@@ -9,7 +9,7 @@ import { getReadTime } from '../util/read-time';
 import { getNpmDownloadCount } from '../util/npm';
 import { getStargazerCount } from '../util/github';
 
-const posts = await getCollection('blog');
+const posts = (await getCollection('blog')).filter((p) => p.data.published);
 
 for (const project of OssProjects) {
   const [downloads, stars] = await Promise.all([
@@ -165,7 +165,7 @@ for (const project of OssProjects) {
   </section>
 
   {
-    posts.length && (
+    !!posts.length && (
       <section>
         <p>
           If you're interested in sharpening your programming skills and discovering
