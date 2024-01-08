@@ -38,8 +38,17 @@ jobs:
           node-version: '18'
           cache: 'pnpm'
 
+      - name: Restore puppeteer install
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/puppeteer
+          key: ${{ runner.os }}-puppeteer
+
       - name: Install packages
         run: pnpm install --frozen-lockfile
+
+      - name: Install chrome
+        run: pnpm puppeteer browsers install chrome
 
       - name: Build
         run: pnpm build
