@@ -29,7 +29,8 @@ export default defineConfig({
           'twitch',
           'linkedin',
           'at',
-          'arrow-left'
+          'arrow-left',
+          'file-download'
         ]
       }
     })

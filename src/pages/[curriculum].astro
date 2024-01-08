@@ -21,8 +21,8 @@ const cv = Astro.props;
 <Layout header={false}>
   <div class='layout'>
     <nav>
-      <div class='home'>
-        <a href='../'>
+      <div class='icon'>
+        <a href='/' title="Go back">
           <Icon name='mdi:arrow-left' />
         </a>
       </div>
@@ -31,8 +31,16 @@ const cv = Astro.props;
         {
           cv.cvs
             .filter((cv2) => cv2.id !== cv.id)
-            .map((cv2) => <a href={cv2.data.id}>{cv2.data.lang}</a>)
+            .map((cv2) => (
+              <a href={`https://arthur.place/${cv2.data.id}`}>{cv2.data.lang}</a>
+            ))
         }
+      </div>
+
+      <div class='icon'>
+        <a href={`https://arthur.place/${cv.data.id}.pdf`} title="Download as PDF">
+          <Icon name='mdi:file-download' color='green' />
+        </a>
       </div>
     </nav>
 
@@ -41,19 +49,18 @@ const cv = Astro.props;
         <small>{cv.data.title}</small>
         <br />
         <h1>
-          <a href='../'>
-            {cv.data.name}
-          </a>
+          {cv.data.name}
         </h1>
       </div>
 
       <div class='contact'>
-        {cv.data.phone} | {cv.data.email}
+        <div>{cv.data.phone} | {cv.data.email}</div>
+        <a href='https://arthur.place' target='_blank'>arthur.place</a>
+        <br />
+        <a href='https://linkedin.com/in/arthurfiorette' target='_blank'
+          >linkedin.com/in/arthurfiorette</a
+        >
       </div>
-
-      <a href={`https://arthur.place/${cv.data.id}`} target='_blank'></a>
-      <br />
-      <a href='https://linkedin.com/in/arthurfiorette' target='_blank'></a>
 
       <div>{cv.data.month}</div>
 
@@ -124,14 +131,20 @@ const cv = Astro.props;
 
 <style lang='scss' is:global>
   body {
-    background-image: none;
-    background-color: white;
-    color: black;
+    background-image: none !important;
+    background-color: white !important;
+    color: black !important;
+
+    @media print {
+      a {
+        text-decoration: underline !important;
+      }
+    }
   }
 
   :root {
-    --color-primary: black;
-    --color-secondary: black;
+    --color-primary: black !important;
+    --color-secondary: black !important;
   }
 
   a {
@@ -161,6 +174,7 @@ const cv = Astro.props;
 
     .contact {
       font-size: 0.8rem;
+      margin-bottom: 1rem;
     }
 
     hr {
@@ -169,14 +183,16 @@ const cv = Astro.props;
   }
 
   nav {
-    font-size: 1rem;
     margin-top: -2rem;
     margin-bottom: 2rem;
-    position: relative;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
 
-    .home {
-      position: absolute;
+    .icon {
+      @media print {
+        display: none !important;
+      }
 
       svg {
         width: 2rem;
@@ -192,14 +208,15 @@ const cv = Astro.props;
       display: flex;
       gap: 1rem;
       justify-content: center;
+
+      @media print {
+        margin: 0.5rem 0 !important;
+        font-size: 0.8rem !important;
+      }
     }
 
     a {
       font-weight: bold;
-    }
-
-    @media print {
-      display: none;
     }
   }
 
@@ -211,6 +228,10 @@ const cv = Astro.props;
 
   .layout {
     margin: 4rem 0;
+
+    @media print {
+      margin: 0;
+    }
   }
 
   .about {
