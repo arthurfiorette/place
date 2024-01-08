@@ -19,11 +19,13 @@
     "@astrojs/rss": "^4.0.1",
     "@astrojs/sitemap": "^3.0.4",
     "@iconify-json/mdi": "^1.1.64",
+    "@octokit/graphql": "^7.0.2",
     "astro": "^4.0.8",
     "astro-icon": "^1.0.1",
     "rehype-autolink-headings": "^7.1.0",
     "reset-css": "^5.0.2",
-    "sass": "^1.69.6"
+    "sass": "^1.69.6",
+    "undici": "^6.3.0"
   },
   "packageManager": "pnpm@8.10.5",
   "devDependencies": {

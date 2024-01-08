@@ -6,8 +6,20 @@ import Time from '../components/time.astro';
 import Layout from '../layouts/index.astro';
 import { OssProjects } from '../projects';
 import { getReadTime } from '../util/read-time';
+import { getNpmDownloadCount } from '../util/npm';
+import { getStargazerCount } from '../util/github';
 
 const posts = await getCollection('blog');
+
+for (const project of OssProjects) {
+  const [downloads, stars] = await Promise.all([
+    getNpmDownloadCount(project.npm),
+    getStargazerCount({ owner: project.owner, name: project.name })
+  ]);
+
+  project.downloads = downloads || 0;
+  project.stars = stars.repository?.stargazerCount || 0 || 0;
+}
 ---
 
 <Layout header={false}>
@@ -51,9 +63,9 @@ const posts = await getCollection('blog');
               <p>{p.description}</p>
 
               <small>
-                {p.downloads && (
+                {!!p.downloads && (
                   <>
-                    📥{(p.downloads / 1000).toFixed(1)}k/week
+                    📥 {(p.downloads / 1000).toFixed(1)}k/week
                     <span style={{ display: 'inline-block', width: '1rem' }} />
                   </>
                 )}
@@ -73,6 +85,17 @@ const posts = await getCollection('blog');
         </a>
       </li>
     </ul>
+
+    <small class='showcase-resume'>
+      <span>
+        📥 {OssProjects.reduce((acc, p) => acc + p.downloads / 250, 0).toFixed(1)}k/month
+        <span style={{ display: 'inline-block', width: '1rem' }}></span>
+      </span>
+
+      <span>
+        {OssProjects.reduce((acc, p) => acc + p.stars, 0)} ⭐
+      </span>
+    </small>
   </section>
 
   <section>
@@ -191,6 +214,16 @@ const posts = await getCollection('blog');
     p {
       margin: 2rem 0;
     }
+  }
+
+  .showcase-resume {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    color: var(--color-primary);
   }
 
   .showcase {
