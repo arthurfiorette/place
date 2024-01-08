@@ -22,7 +22,7 @@ const cv = Astro.props;
   <div class='layout'>
     <nav>
       <div class='icon'>
-        <a href='/' title="Go back">
+        <a href='/' title='Go back'>
           <Icon name='mdi:arrow-left' />
         </a>
       </div>
@@ -38,7 +38,7 @@ const cv = Astro.props;
       </div>
 
       <div class='icon'>
-        <a href={`https://arthur.place/${cv.data.id}.pdf`} title="Download as PDF">
+        <a href={`https://arthur.place/${cv.data.id}.pdf`} title='Download as PDF'>
           <Icon name='mdi:file-download' color='green' />
         </a>
       </div>
@@ -183,9 +183,9 @@ const cv = Astro.props;
   }
 
   nav {
-    margin-top: -2rem;
-    margin-bottom: 2rem;
-    display: flex;
+    margin-top: -2rem !important;
+    margin-bottom: 2rem !important;
+    display: flex !important;
     justify-content: space-between;
     align-items: center;
 
