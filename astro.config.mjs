@@ -1,8 +1,8 @@
-import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
-import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import icon from 'astro-icon';
+import { defineConfig } from 'astro/config';
+import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 
 // https://astro.build/config
 export default defineConfig({
