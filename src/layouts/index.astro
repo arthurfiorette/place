@@ -82,9 +82,15 @@ const ldJson = JSON.stringify({
 
     <slot name='head' />
 
-    <style>
+    <style lang='scss'>
       main {
         margin: auto 0;
+      }
+
+      body {
+        @media (max-width: 920px) {
+          overflow-x: hidden;
+        }
       }
     </style>
   </head>
