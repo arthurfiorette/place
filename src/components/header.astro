@@ -3,14 +3,33 @@
 ---
 
 <header>
-  <a href='/' title="Arthur's place">Arthur's Place</a>
+  <a href='/' title="Arthur's place">Arthur Fiorette</a>
 </header>
 
 <style lang='scss'>
   header {
-    padding-top: 2rem;
+    background-color: var(--shade-bg);
+    border-bottom: 1px solid var(--shade-outline);
+    width: 100vw;
+    padding: 1rem;
     margin: 0;
-    margin-bottom: auto;
-    font-size: 1.4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+
+    a {
+      font-size: 2rem;
+      font-weight: bold;
+      background: linear-gradient(to right, var(--color-secondary), var(--color-primary));
+      background-clip: text;
+      color: transparent;
+
+      &:hover {
+        background: var(--color-secondary);
+
+        background-clip: text;
+      }
+    }
   }
 </style>

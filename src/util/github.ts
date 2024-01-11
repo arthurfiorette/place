@@ -11,7 +11,7 @@ query getStargazerCount($name: String!, $owner: String!) {
 `;
 
 export function getStargazerCount(props: { name: string; owner: string }) {
-  return graphql(STARGAZER_COUNT_GQL, {
+  return graphql<any>(STARGAZER_COUNT_GQL, {
     ...props,
     headers: { authorization: `token ${import.meta.env.GH_TOKEN}` }
   });

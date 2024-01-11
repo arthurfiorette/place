@@ -20,7 +20,7 @@ async function generatePDF(url, outputPath) {
     waitUntil: 'networkidle0'
   });
 
-  await page.pdf({ path: outputPath, format: 'A3', tagged: true, scale: 1 });
+  await page.pdf({ path: outputPath, format: 'A4', tagged: true, scale: 0.75 });
 }
 
 await generatePDF('http://localhost:18347/curriculo', 'dist/curriculo.pdf');

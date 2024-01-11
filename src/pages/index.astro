@@ -197,9 +197,12 @@ for (const project of OssProjects) {
 <style lang='scss'>
   .title {
     font-size: min(10rem, 8vw);
-    margin: 0 -100vw;
+    min-width: 100vw;
     text-align: center;
+    margin: 0 auto;
     margin-bottom: 10.5rem;
+    margin-left: 50%;
+    transform: translateX(-50%);
 
     .name {
       background: linear-gradient(to right, var(--color-secondary), var(--color-primary));
@@ -209,7 +212,8 @@ for (const project of OssProjects) {
   }
 
   section {
-    margin: 12vh 0;
+    margin: 12rem 0;
+    max-width: min(920px, 90vw);
 
     p {
       margin: 2rem 0;

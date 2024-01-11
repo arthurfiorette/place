@@ -183,11 +183,14 @@ const cv = Astro.props;
   }
 
   nav {
-    margin-top: -2rem !important;
     margin-bottom: 2rem !important;
     display: flex !important;
     justify-content: space-between;
     align-items: center;
+
+    @media print {
+      margin-bottom: -2rem !important;
+    }
 
     .icon {
       @media print {
@@ -223,12 +226,10 @@ const cv = Astro.props;
   .layout-title {
     font-size: 1.5rem;
     text-align: center;
-    margin: 5rem 0 2rem 0;
+    margin: 2rem 0;
   }
 
   .layout {
-    margin: 4rem 0;
-
     @media print {
       margin: 0;
     }
@@ -287,7 +288,7 @@ const cv = Astro.props;
 
         .experience__about {
           width: 85%;
-          text-align: justify;
+          text-align: left;
 
           h6 {
             font-weight: bold;

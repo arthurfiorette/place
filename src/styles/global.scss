@@ -4,7 +4,7 @@ h1 {
 }
 
 p {
-  text-align: justify;
+  text-align: left;
 }
 
 a {
@@ -26,6 +26,10 @@ b {
 
 small {
   font-size: 0.8rem;
+}
+
+* {
+  min-width: 0;
 }
 
 @media (prefers-reduced-motion: no-preference) {
