@@ -8,6 +8,7 @@ import { OssProjects } from '../projects';
 import { getReadTime } from '../util/read-time';
 import { getNpmDownloadCount } from '../util/npm';
 import { getStargazerCount } from '../util/github';
+import { abbrNumber } from '../util/number';
 
 const posts = (await getCollection('blog')).filter((p) => p.data.published);
 
@@ -65,7 +66,7 @@ for (const project of OssProjects) {
               <small>
                 {!!p.downloads && (
                   <>
-                    📥 {(p.downloads / 1000).toFixed(1)}k/week
+                    📥 {abbrNumber(p.downloads * 4)}/month
                     <span style={{ display: 'inline-block', width: '1rem' }} />
                   </>
                 )}
@@ -88,7 +89,7 @@ for (const project of OssProjects) {
 
     <small class='showcase-resume'>
       <span>
-        📥 {OssProjects.reduce((acc, p) => acc + p.downloads / 250, 0).toFixed(1)}k/month
+        📥 {abbrNumber(OssProjects.reduce((acc, p) => acc + p.downloads * 4, 0))}/month
         <span style={{ display: 'inline-block', width: '1rem' }}></span>
       </span>
 

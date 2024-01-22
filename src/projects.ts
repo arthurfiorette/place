@@ -36,7 +36,7 @@ export const OssProjects = [
   {
     name: 'html',
     prettyName: 'Kita/Html',
-    npm: ['@kitajs/html', '@kitajs/ts-html-plugin'],
+    npm: ['@kitajs/html', '@kitajs/ts-html-plugin', '@kitajs/fastify-html-plugin'],
     owner: 'kitajs',
     description: 'The fastest JSX runtime to generate HTML strings.',
     stars: 1,
