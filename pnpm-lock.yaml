@@ -36,8 +36,8 @@ dependencies:
     specifier: ^1.69.6
     version: 1.69.6
   undici:
-    specifier: ^6.3.0
-    version: 6.3.0
+    specifier: ^6.11.1
+    version: 6.11.1
 
 devDependencies:
   '@biomejs/biome':
@@ -671,11 +671,6 @@ packages:
     requiresBuild: true
     dev: false
     optional: true
-
-  /@fastify/busboy@2.1.0:
-    resolution: {integrity: sha512-+KpH+QxZU7O4675t3mnkQKcZZg56u+K/Ct2K+N2AZYNVK8kyeo/bI18tI8aPm3tvNNRyTWfj6s5tnGNlcbQRsA==}
-    engines: {node: '>=14'}
-    dev: false
 
   /@iconify-json/mdi@1.1.64:
     resolution: {integrity: sha512-zGeo5TjhNFAY6FmSDBLAzDO811t77r6v/mDi7CAL9w5eXqKez6bIjk8R9AL/RHIeq44ALP4Ozr4lMqFTkHr7ug==}
@@ -4954,11 +4949,9 @@ packages:
       through: 2.3.8
     dev: true
 
-  /undici@6.3.0:
-    resolution: {integrity: sha512-zkSMOXs2topAR1LF0PxAaNNvhdX4LYEcmRMJLMh3mjgfZpBtc/souXOp4aYiR5Q46HrBPA2/8DkEZhD3eNFE1Q==}
+  /undici@6.11.1:
+    resolution: {integrity: sha512-KyhzaLJnV1qa3BSHdj4AZ2ndqI0QWPxYzaIOio0WzcEJB9gvuysprJSLtpvc2D9mhR9jPDUk7xlJlZbH2KR5iw==}
     engines: {node: '>=18.0'}
-    dependencies:
-      '@fastify/busboy': 2.1.0
     dev: false
 
   /unherit@3.0.1:
