@@ -10,7 +10,7 @@ import { getNpmDownloadCount } from '../util/npm';
 import { getStargazerCount } from '../util/github';
 import { abbrNumber } from '../util/number';
 
-const posts = (await getCollection('blog')).filter((p) => p.data.published);
+const posts = (await getCollection('blog')).filter((p) => p.data.published === true);
 
 for (const project of OssProjects) {
   const [downloads, stars] = await Promise.all([

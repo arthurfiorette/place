@@ -50,6 +50,12 @@ const { Content } = await post.render();
       <h1>{post.data.title}</h1>
 
       <summary>{post.data.description}</summary>
+
+      {
+        post.data.published === 'preview' && (
+          <div class='preview'>This post is a preview and may not be final.</div>
+        )
+      }
     </header>
 
     <section class='md'>
@@ -147,6 +153,17 @@ const { Content } = await post.render();
       }
     }
   }
+
+  .preview {
+    margin-top: 5rem;
+    margin-bottom: 5rem;
+    padding: 2rem;
+    text-align: center;
+    font-size: 2rem;
+    background-color: #f5a623;
+    border: 1px solid var(--shade-outline);
+    border-radius: 0.5rem;
+  }
 </style>
 
 <style is:global lang='scss'>
@@ -176,6 +193,19 @@ const { Content } = await post.render();
 
     h3 {
       font-size: 1.5rem;
+    }
+
+    menu,
+    ol,
+    ul {
+      list-style: disc;
+    }
+
+    kbd {
+      padding: 0 0.3rem;
+      border: 1px solid var(--shade-outline);
+      border-radius: 0.2rem;
+      background-color: var(--shade-bg);
     }
 
     h1,
