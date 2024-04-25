@@ -40,12 +40,11 @@ const { Content } = await post.render();
 
   <article>
     <header class='header'>
-      <div>
+      <div class='header-stats'>
         <MinRead minRead={getReadTime(post.body)} />
-      </div>
-
-      <div class='header-info'>
-        <Time datetime={date} />
+        <div class='header-info'>
+          <Time datetime={date} />
+        </div>
       </div>
 
       <h1>{post.data.title}</h1>
@@ -70,7 +69,11 @@ const { Content } = await post.render();
 
 <style lang='scss'>
   .header {
-    margin: 4rem 0;
+    margin: 2rem 0 4rem 0;
+
+    .header-stats {
+      margin-bottom: 2rem;
+    }
 
     h1 {
       margin-bottom: 2rem;
@@ -109,7 +112,6 @@ const { Content } = await post.render();
       font-size: 1rem;
     }
   }
-
 
   .comment-list {
     list-style: none;
