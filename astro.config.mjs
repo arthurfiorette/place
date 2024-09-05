@@ -1,8 +1,10 @@
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
+import tailwind from '@astrojs/tailwind';
 import icon from 'astro-icon';
 import { defineConfig } from 'astro/config';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
+import compress from 'astro-compress';
 
 // https://astro.build/config
 export default defineConfig({
@@ -17,6 +19,7 @@ export default defineConfig({
       }
     }
   },
+  output:'static',
   integrations: [
     mdx(),
     sitemap(),
@@ -26,6 +29,7 @@ export default defineConfig({
           'github',
           'account-file-outline',
           'twitter',
+          'npm',
           'twitch',
           'linkedin',
           'at',
@@ -34,6 +38,14 @@ export default defineConfig({
           'lightbulb-alert-outline'
         ]
       }
-    })
+    }),
+    compress({
+      CSS: true,
+      Image: true,
+      JavaScript: true,
+      SVG: true,
+      HTML: true
+    }),
+    tailwind()
   ]
 });

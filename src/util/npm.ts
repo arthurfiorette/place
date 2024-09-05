@@ -7,15 +7,7 @@ export async function getNpmDownloadCount(pkg: string | string[]) {
 
   let total = 0;
 
-  for (const result of results) {
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-    const data = (await result.body.json()) as any;
-
-    if ('timeout' in result) {
-      console.log(`Npm request timeout out: ${data.pkg}`);
-      continue;
-    }
-
+  for (const data of results) {
     if (Array.isArray(data.downloads)) {
       for (const day of data.downloads) {
         total += day.downloads;
@@ -28,8 +20,17 @@ export async function getNpmDownloadCount(pkg: string | string[]) {
   return total;
 }
 
+// @ts-expect-error - global untyped cache
+const cache: Record<string, any> = globalThis.npmCache || (globalThis.npmCache = {});
+
 function requestDownloadCount(pkg: string) {
+  if (cache[pkg]) {
+    return cache[pkg];
+  }
+
+  console.log(`Requesting ${pkg} data.`)
+
   return request(`https://api.npmjs.org/downloads/range/last-week/${pkg}`, {
     headersTimeout: 1000
-  });
+  }).then((res) => (cache[pkg] = res.body.json())).catch(() => 0);
 }

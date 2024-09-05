@@ -1,7 +1,7 @@
 {
   "id": "curriculo",
   "lang": "Ler em português 🇧🇷",
-  "month": "Dezembro 2023",
+  "month": "Ultimo atualizado em dezembro, 2023",
   "name": "Arthur Fileti Fiorette",
   "title": "Arquiteto de Software",
   "phone": "+55 28 9 99772770",
@@ -14,7 +14,7 @@
   "education": [
     {
       "date": "2020-2022",
-      "title": "Técnico em Administração<br /><br />",
+      "title": "Técnico em Administração",
       "institution": "IFES - Instituto Federal do Espírito Santo"
     },
     {
@@ -49,6 +49,7 @@
   "ossTitle": "Código Aberto",
   "oss": [
     "Apesar do meu trabalho, família e hobbies, sempre tento encontrar tempo para contribuir para projetos de código aberto, pois reconheço sua importância para o mundo. Felizmente, pude contribuir e manter muitos projetos e até hoje eles têm passam de <b>um milhão de downloads mensais</b> no npm para pacotes que eu autorizo e continuo mantendo até hoje.",
-    "Além disso, contribuí para diversos projetos e organizações de código aberto, incluindo <b>Vercel</b>, <b>Fastify</b>, <b>Prisma</b>, <b>Axios</b> e outros. Você pode encontrar mais sobre minhas contribuições de código aberto em <a href=\"https://github.com/arthurfiorette\" target=\"_blank\">github.com/arthurfiorette</a>."
+    "Além disso, contribuí para diversos projetos e organizações de código aberto, incluindo <b>Vercel</b>, <b>Fastify</b>, <b>Prisma</b>, <b>Axios</b> e outros.",
+    "Você pode encontrar mais sobre minhas contribuições de código aberto em <a href=\"https://github.com/arthurfiorette\" target=\"_blank\">github.com/arthurfiorette</a>"
   ]
 }

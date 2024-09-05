@@ -1,8 +1,18 @@
-export const OssProjects = [
+export interface OssProject {
+  name: string;
+  prettyName: string;
+  npm: string[];
+  owner: string;
+  description: string;
+  stars: number;
+  downloads: number;
+}
+
+export const OssProjects: OssProject[] = [
   {
     name: 'axios-cache-interceptor',
     prettyName: 'Axios Cache Interceptor',
-    npm: 'axios-cache-interceptor',
+    npm: ['axios-cache-interceptor'],
     owner: 'arthurfiorette',
     description: 'Small and efficient cache interceptor for axios.',
     stars: 1,
@@ -11,7 +21,7 @@ export const OssProjects = [
   {
     name: 'prisma-json-types-generator',
     prettyName: 'Prisma Json Types Generator',
-    npm: 'prisma-json-types-generator',
+    npm: ['prisma-json-types-generator'],
     owner: 'arthurfiorette',
     description: 'Type safe Postgres Json for prisma schemas.',
     stars: 1,
@@ -50,5 +60,18 @@ export const OssProjects = [
     description: 'Collection of Utility Libraries for javascript.',
     stars: 1,
     downloads: 1
+  },
+  {
+    name: 'proposal-safe-assignment-operator',
+    prettyName: 'ECMAScript Safe Assignment Operator Proposal',
+    npm: [],
+    owner: 'arthurfiorette',
+    description: 'A new JS proposal to add a ?= operator for safe assignment.',
+    stars: 1,
+    downloads: 1
   }
 ];
+
+export function ossProjectSorter(a: OssProject, b: OssProject) {
+  return b.stars * (1000 / 2.1) + b.downloads - (a.stars * (1000 / 2.1) + a.downloads);
+}

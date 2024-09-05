@@ -1,14 +1,12 @@
 ---
 import Seo, { type Props as SeoProps } from '../components/seo.astro';
-import Header from '../components/header.astro';
-import Footer from '../components/footer.astro';
 
 interface Props {
-  header?: boolean;
   seo?: SeoProps;
+  light?: boolean;
 }
 
-const { header = true, seo } = Astro.props;
+const { seo, light } = Astro.props;
 
 const ldJson = JSON.stringify({
   '@context': 'http://www.schema.org',
@@ -30,7 +28,8 @@ const ldJson = JSON.stringify({
 });
 ---
 
-<html lang='en'>
+<!doctype html>
+<html lang='en' class={light ? 'light' : 'dark'}>
   <head>
     <!-- Simple meta -->
     <meta name='theme-color' content='#000000' />
@@ -79,27 +78,24 @@ const ldJson = JSON.stringify({
     <Seo {...seo} />
 
     <slot name='head' />
-
-    <style lang='scss'>
-      main {
-        margin: auto 0;
-      }
-
-      body {
-        @media (max-width: 920px) {
-          overflow-x: hidden !important;
-        }
-      }
-    </style>
   </head>
 
-  <body>
-    {header && <Header />}
-
-    <main>
+  <body
+    class='antialiased tracking-tight dark:bg-neutral-900 dark:text-neutral-50 dark:bg-[url("/images/background-dark.svg")] h-screen'>
+    <div class='flex flex-col items-center justify-center gap-5 p-5 min-h-screen'>
       <slot />
-    </main>
-
-    <Footer />
+    </div>
   </body>
 </html>
+
+<style is:global>
+  /* Support for flag emojis */
+  @font-face {
+    font-family: 'Twemoji Country Flags';
+    unicode-range: U+1F1E6-1F1FF, U+1F3F4, U+E0062-E0063, U+E0065, U+E0067, U+E006C,
+      U+E006E, U+E0073-E0074, U+E0077, U+E007F;
+    src: url('https://cdn.jsdelivr.net/npm/country-flag-emoji-polyfill/dist/TwemojiCountryFlags.woff2')
+      format('woff2');
+    font-display: swap;
+  }
+</style>

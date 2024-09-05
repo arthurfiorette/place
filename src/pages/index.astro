@@ -1,16 +1,12 @@
 ---
-import { Icon } from 'astro-icon/components';
-import { getCollection } from 'astro:content';
-import MinRead from '../components/min-read.astro';
-import Time from '../components/time.astro';
-import Layout from '../layouts/index.astro';
-import { OssProjects } from '../projects';
-import { getReadTime } from '../util/read-time';
-import { getNpmDownloadCount } from '../util/npm';
+import Section from '../components/section.astro';
+import Document from '../layouts/document.astro';
+import { OssProjects, ossProjectSorter } from '../projects';
 import { getStargazerCount } from '../util/github';
+import { getNpmDownloadCount } from '../util/npm';
 import { abbrNumber } from '../util/number';
 
-const posts = (await getCollection('blog')).filter((p) => p.data.published === true);
+// const posts = (await getCollection('blog')).filter((p) => p.data.published === true);
 
 for (const project of OssProjects) {
   const [downloads, stars] = await Promise.all([
@@ -19,14 +15,14 @@ for (const project of OssProjects) {
   ]);
 
   project.downloads = downloads || 0;
-  project.stars = stars.repository?.stargazerCount || 0;
+  project.stars = stars || 0;
 }
 ---
 
-<Layout header={false}>
-  <section>
-    <h1 class='title'>
-      Eai 👋 <br />I am <span class='name'>Arthur Fiorette</span>
+<Document>
+  <Section>
+    <h1 class='text-center'>
+      Eai 👋<br />I am <span class='name'>Arthur Fiorette</span>
     </h1>
 
     <p>
@@ -42,399 +38,51 @@ for (const project of OssProjects) {
       develop various applications, including SaaS enterprise projects, a TypeScript
       framework, and even my own programming language.
     </p>
-  </section>
+  </Section>
 
-  <section>
+  <Section>
     <p>
       I enjoy taking on new coding challenges and building libraries. I occasionally write
       about software-related topics. Additionally, You can explore some of my open source
       projects below:
     </p>
 
-    <ul class='showcase'>
+    <div class='text-center text-sm mx-auto italic'>
+      A total of {OssProjects.reduce((acc, p) => acc + p.stars, 0)} ★ stars and {
+        abbrNumber(OssProjects.reduce((acc, p) => acc + p.downloads * 4, 0))
+      } ↓ downloads per month only counting projects authored by me.
+    </div>
+
+    <div class='w-full flex flex-wrap items-stretch justify-center'>
       {
-        OssProjects.map((p) => (
-          <li>
+        OssProjects.sort(ossProjectSorter).map((p) => (
+          <div class='hover:bg-neutral-800 bh p-4 m-2 w-[45%] rounded-md border border-transparent hover:border-neutral-700'>
             <a
               href={`https://github.com/${p.owner}/${p.name}`}
-              title={`${p.prettyName}: ${p.description}`}
               target='_blank'
+              class='no-underline text-current font-normal h-full'
               rel='noopener noreferrer'>
-              <h3>{p.prettyName}</h3>
-              <p>{p.description}</p>
+              <div class='flex flex-col items-stretch justify-between h-full gap-2'>
+                <h4 class='!m-0'>{p.prettyName}</h4>
+                <div class='text-sm'>{p.description}</div>
+                <div class='text-sm'>
+                  {!!p.stars && (
+                    <span class='hover:text-neutral-200'>
+                      <b>{p.stars}</b> ★ on github <br />
+                    </span>
+                  )}
 
-              <small>
-                {!!p.downloads && (
-                  <>
-                    📥 {abbrNumber(p.downloads * 4)}/month
-                    <span style={{ display: 'inline-block', width: '1rem' }} />
-                  </>
-                )}
-                {p.stars} ⭐
-              </small>
+                  {!!p.downloads && (
+                    <span class='hover:text-neutral-200'>
+                      <b>{abbrNumber(p.downloads * 4)}</b> ↓ per month
+                    </span>
+                  )}
+                </div>
+              </div>
             </a>
-          </li>
+          </div>
         ))
       }
-
-      <li>
-        <a
-          href='https://github.com/arthurfiorette?tab=repositories&sort=stargazers'
-          title='View my Github profile.'
-          target='_blank'>
-          <h1 style='font-weight: normal'>And <b>many</b> others!</h1>
-        </a>
-      </li>
-    </ul>
-
-    <small class='showcase-resume'>
-      <span>
-        📥 {abbrNumber(OssProjects.reduce((acc, p) => acc + p.downloads * 4, 0))}/month
-        <span style={{ display: 'inline-block', width: '1rem' }}></span>
-      </span>
-
-      <span>
-        {OssProjects.reduce((acc, p) => acc + p.stars, 0)} ⭐
-      </span>
-    </small>
-  </section>
-
-  <section>
-    <p>
-      Discover more about my online world by checking out my social media and other
-      platforms.
-    </p>
-
-    <ul class='linktree'>
-      <li>
-        <a href='./curriculum' title='View my Curriculum.'>
-          <Icon name='mdi:account-file-outline' />
-          <h3>Curriculum</h3>
-        </a>
-      </li>
-      <li>
-        <a
-          href='https://github.com/arthurfiorette'
-          title='Star my projects on Github.'
-          target='_blank'
-          rel='noopener noreferrer'>
-          <Icon name='mdi:github' />
-          <h3>Github</h3>
-        </a>
-      </li>
-      <li>
-        <a
-          href='https://twitter.com/arthurfiorette'
-          title='Like some of my tweets.'
-          target='_blank'
-          rel='noopener noreferrer'>
-          <Icon name='mdi:twitter' />
-          <h3>Twitter</h3>
-        </a>
-      </li>
-      <li>
-        <a
-          href='https://linkedin.com/in/arthurfiorette'
-          title='Connect with me on LinkedIn.'
-          target='_blank'
-          rel='noopener noreferrer'>
-          <Icon name='mdi:linkedin' />
-          <h3>LinkedIn</h3>
-        </a>
-      </li>
-      <li>
-        <a
-          href='https://twitch.tv/arthurfiorette'
-          title='Follow me on Twitch.'
-          target='_blank'
-          rel='noopener noreferrer'>
-          <Icon name='mdi:twitch' />
-          <h3>Twitch</h3>
-        </a>
-      </li>
-      <li>
-        <a
-          href='mailto://me@arthur.place'
-          title='Send me an email.'
-          target='_blank'
-          rel='noopener noreferrer'>
-          <Icon name='mdi:at' />
-          <h3>Mail</h3>
-        </a>
-      </li>
-    </ul>
-  </section>
-
-  {
-    !!posts.length && (
-      <section>
-        <p>
-          If you're interested in sharpening your programming skills and discovering
-          insights to become a better programmer, I've got you covered. Here's a sneak
-          peek into my latest {posts.length} blog posts:
-        </p>
-
-        <ol class='post-preview'>
-          {posts
-            .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
-            .map((p) => (
-              <li>
-                <a href={`/${p.slug}`} title={p.data.description}>
-                  <h2>{p.data.title}</h2>
-                  <p>{p.data.description}</p>
-                  <small>
-                    <Time datetime={p.data.date} />
-                    <MinRead minRead={getReadTime(p.body)} />
-                  </small>
-                </a>
-              </li>
-            ))}
-        </ol>
-      </section>
-    )
-  }
-</Layout>
-
-<style lang='scss'>
-  .title {
-    font-size: min(10rem, 8vw);
-    min-width: 100vw;
-    text-align: center;
-    margin: 0 auto;
-    margin-bottom: 10.5rem;
-    margin-left: 50%;
-    transform: translateX(-50%);
-
-    .name {
-      background: linear-gradient(to right, var(--color-secondary), var(--color-primary));
-      background-clip: text;
-      color: transparent;
-    }
-  }
-
-  section {
-    margin: 6rem 0;
-    max-width: min(920px, 90vw);
-
-    p {
-      margin: 2rem 0;
-    }
-  }
-
-  .showcase-resume {
-    display: flex;
-    flex-direction: row;
-    font-size: 1.125rem;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1rem;
-    color: var(--color-primary);
-  }
-
-  .showcase {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-
-    @media (max-width: 800px) {
-      flex: 50%;
-    }
-
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-
-    li {
-      transition: all 150ms ease-in-out;
-      margin: 1rem;
-      border-radius: 0.5rem;
-      border: 1px solid transparent;
-      border: 1px solid var(--shade-bg);
-
-      &:hover {
-        cursor: pointer;
-        background-color: var(--shade-bg);
-        border: 1px solid var(--shade-outline);
-
-        h3 {
-          color: var(--color-primary);
-        }
-      }
-
-      a {
-        color: unset;
-        padding: 1rem;
-        aspect-ratio: 15/10;
-        height: 10rem;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-around;
-
-        &:hover {
-          text-decoration: none;
-        }
-      }
-
-      h3 {
-        margin: 0;
-        text-align: center;
-        font-weight: bold;
-        font-size: 1.3rem;
-      }
-
-      p {
-        text-align: center;
-        margin: 0.8rem 0;
-        font-size: 0.8rem;
-      }
-
-      small {
-        width: 100%;
-        text-align: center;
-        color: var(--color-100);
-        line-height: 0.5rem;
-      }
-    }
-  }
-
-  .linktree {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 1rem;
-
-    @media (max-width: 800px) {
-      flex: 50%;
-    }
-
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-
-    li {
-      border-radius: 0.5rem;
-      transition: all 150ms ease-in-out;
-      border: 1px solid transparent;
-
-      &:hover {
-        cursor: pointer;
-        background-color: var(--shade-bg);
-        border: 1px solid var(--shade-outline);
-      }
-
-      &:hover {
-        svg {
-          color: var(--color-primary);
-        }
-
-        a {
-          color: transparent;
-        }
-      }
-
-      svg,
-      a {
-        transition: color 150ms ease-in-out;
-      }
-
-      svg {
-        width: 5rem;
-        height: 5rem;
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        margin: auto;
-        z-index: -1;
-
-        color: var(--shade-bg);
-      }
-
-      a {
-        aspect-ratio: 1;
-        width: 8rem;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: relative;
-
-        color: unset;
-        font-size: 1.25rem;
-        font-weight: bold;
-
-        &:hover {
-          text-decoration: none;
-        }
-      }
-    }
-  }
-
-  .post-preview {
-    display: flex;
-    flex-direction: column;
-
-    li {
-      transition: all 150ms ease-in-out;
-      border-radius: 0.5rem;
-      border: 1px solid transparent;
-
-      &:not(:first-child) {
-        margin-top: 1rem;
-      }
-
-      &:hover {
-        cursor: pointer;
-        background-color: var(--shade-bg);
-        border: 1px solid var(--shade-outline);
-      }
-
-      a {
-        color: unset;
-        padding: 2rem;
-        display: block;
-
-        &:hover {
-          text-decoration: none;
-
-          h2 {
-            color: var(--color-primary);
-          }
-        }
-      }
-
-      small {
-        color: var(--color-100);
-      }
-
-      h2 {
-        font-size: 2rem;
-        margin-bottom: 1rem;
-        text-align: center;
-      }
-
-      div {
-        display: flex;
-        flex-direction: row;
-        justify-content: start;
-        align-items: center;
-        font-size: 0.8rem;
-
-        > :not(:first-child) {
-          padding-left: 1rem;
-        }
-      }
-
-      p {
-        padding-top: 0.2rem;
-        color: var(--color-100);
-        margin: 0;
-      }
-    }
-  }
-</style>
+    </div>
+  </Section>
+</Document>
