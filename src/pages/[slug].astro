@@ -1,21 +1,21 @@
 ---
-import { type CollectionEntry, getCollection } from "astro:content";
+import { type CollectionEntry, getCollection } from 'astro:content';
 
-import Document from "../layouts/document.astro";
+import Document from '../layouts/document.astro';
 
-import Section from "../components/section.astro";
-import PostHeader from "../components/post-header.astro";
+import Section from '../components/section.astro';
+import PostHeader from '../components/post-header.astro';
 
 export async function getStaticPaths() {
-  const posts = await getCollection("blog");
+  const posts = await getCollection('blog');
 
   return posts.map((post) => ({
     params: { slug: post.slug },
-    props: post,
+    props: post
   }));
 }
 
-type Props = CollectionEntry<"blog">;
+type Props = CollectionEntry<'blog'>;
 
 const post = Astro.props;
 const date = new Date(post.data.date);
@@ -28,44 +28,59 @@ const { Content } = await post.render();
     title: post.data.title,
     description: post.data.description,
     keywords: post.data.keywords,
-    urlPath: "/" + post.slug,
-  }}
->
-  <slot name="head">
-    <meta name="article:published_time" content={date.toISOString()} />
-    <meta name="article:modified_time" content={date.toISOString()} />
-    <meta name="article:section" content={post.data.title} />
-    <meta name="article:title" content={post.data.title} />
-    <meta name="article:description" content={post.data.description} />
-    <meta name="article:tag" content={post.data.keywords.join(", ")} />
+    urlPath: '/' + post.slug
+  }}>
+  <slot name='head'>
+    <meta name='article:published_time' content={date.toISOString()} />
+    <meta name='article:modified_time' content={date.toISOString()} />
+    <meta name='article:section' content={post.data.title} />
+    <meta name='article:title' content={post.data.title} />
+    <meta name='article:description' content={post.data.description} />
+    <meta name='article:tag' content={post.data.keywords.join(', ')} />
   </slot>
 
   <PostHeader date={date} post={post} />
-  <Section class="md">
+
+  <script is:inline>
+    const pre = document.querySelectorAll('pre');
+
+    pre.forEach((element) => {
+      element.addEventListener('click', () => {
+        navigator.clipboard.writeText(element.innerText);
+        element.style.backgroundColor = 'rgba(0, 0, 0, 0.1)';
+        setTimeout(() => {
+          element.style.backgroundColor = 'rgba(0, 0, 0, 0.01)';
+        }, 1000);
+      });
+    });
+  </script>
+
+  <Section class='md'>
     <Content />
   </Section>
 
   <script
-    src="https://utteranc.es/client.js"
-    repo="arthurfiorette/place"
-    issue-term="title"
-    label="posts"
-    theme="preferred-color-scheme"
-    crossorigin="anonymous"
+    src='https://utteranc.es/client.js'
+    repo='arthurfiorette/place'
+    issue-term='title'
+    label='posts'
+    theme='preferred-color-scheme'
+    crossorigin='anonymous'
     async></script>
 </Document>
 
-<style is:global lang="scss">
+<style is:global lang='scss'>
   .md {
     pre {
-      @apply font-mono p-4 border border-transparent rounded-md;
-      background: #18181b70 !important;
+      @apply font-mono p-4 rounded-md;
+      background: rgba(0, 0, 0, 0.01) !important;
       transition: all 0.2s ease !important;
-      backdrop-filter: blur(1.4px) !important;
+      backdrop-filter: blur(0.1rem) !important;
+      font-family: monospace !important;
+    }
 
-      &:hover {
-        @apply border-neutral-800/70;
-      }
+    &:hover {
+      cursor: copy;
     }
 
     img {
