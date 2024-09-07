@@ -2,23 +2,10 @@
 import { getReadTime } from "../util/read-time";
 import MinRead from "./min-read.astro";
 import Time from "./time.astro";
-
-interface Post {
-  id: string;
-  slug: string;
-  body: string;
-  collection: string;
-  data: {
-    title: string;
-    description: string;
-    date: Date;
-    keywords: string[];
-    published: boolean | "preview";
-  };
-}
+import { type PostProps } from "../types/post";
 
 interface Props {
-  data: Post;
+  data: PostProps;
 }
 
 const {

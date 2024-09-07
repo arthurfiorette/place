@@ -1,0 +1,34 @@
+---
+import MinRead from "../components/min-read.astro";
+import Time from "../components/time.astro";
+import { getReadTime } from "../util/read-time";
+import { type PostProps } from "../types/post";
+
+interface Props {
+  date: Date;
+  post: PostProps;
+}
+
+const { date, post } = Astro.props;
+---
+
+<header class="prose">
+  <div class="mb-8 flex flex-col text-neutral-400">
+    <MinRead minRead={getReadTime(post.body)} />
+    <div class="flex justify-between items-center mb-4">
+      <Time datetime={date} />
+    </div>
+  </div>
+  <h1 class="text-neutral-200">{post.data.title}</h1>
+  <summary
+    class="text-[1.5rem] text-neutral-100 text-center my-8 justify-center items-center flex flex-col"
+  >
+    {post.data.description}
+  </summary>
+
+  {
+    post.data.published === "preview" && (
+      <div class="preview">This post is a preview and may not be final.</div>
+    )
+  }
+</header>
