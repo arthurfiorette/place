@@ -13,7 +13,7 @@ export default defineConfig({
     rehypePlugins: [rehypeAutolinkHeadings],
     shikiConfig: {
       wrap: true,
-      theme: 'material-theme-darker'
+      theme: 'vitesse-dark'
     }
   },
   output: 'static',
