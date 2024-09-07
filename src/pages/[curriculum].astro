@@ -1,49 +1,52 @@
 ---
-import { getCollection } from 'astro:content';
-import Section from '../components/section.astro';
-import Document from '../layouts/document.astro';
+import { getCollection } from "astro:content";
+import Section from "../components/section.astro";
+import Document from "../layouts/document.astro";
 
 export async function getStaticPaths() {
-  const cvs = await getCollection('curriculum');
+  const cvs = await getCollection("curriculum");
 
   return cvs.map((cv) => ({
     params: { curriculum: cv.data.id },
     props: {
       ...cv,
-      cvs
-    }
+      cvs,
+    },
   }));
 }
 
 const cv = Astro.props;
 ---
 
-<Document light>
-  <div class='print:hidden prose'>
+<Document light header={false} footer={false}>
+  <div class="print:hidden prose">
     <div>
       {
         cv.cvs
           .filter((cv2) => cv2.id !== cv.id)
           .map((cv2) => (
-            <a class="no-underline hover:underline" href={`/${cv2.data.id}`}>👉 {cv2.data.lang}</a>
+            <a class="no-underline hover:underline" href={`/${cv2.data.id}`}>
+              👉 {cv2.data.lang}
+            </a>
           ))
       }
     </div>
   </div>
 
   <Section>
-    <small class='block text-right'>{cv.data.title}</small>
-    <h1 class='!mb-0 text-center'>
+    <small class="block text-right">{cv.data.title}</small>
+    <h1 class="!mb-0 text-center">
       {cv.data.name}
     </h1>
-    <small class='text-center block'
-      >{cv.data.phone} | <a href={`mailto:${cv.data.email}`}>{cv.data.email}</a></small
+    <small class="text-center block"
+      >{cv.data.phone} | <a href={`mailto:${cv.data.email}`}>{cv.data.email}</a
+      ></small
     >
 
-    <p class='text-lg ml-5 text-right'>
-      <a href='https://arthur.place' target='_blank'>arthur.place</a>
+    <p class="text-lg ml-5 text-right">
+      <a href="https://arthur.place" target="_blank">arthur.place</a>
       <br />
-      <a href='https://linkedin.com/in/arthurfiorette' target='_blank'>
+      <a href="https://linkedin.com/in/arthurfiorette" target="_blank">
         linkedin.com/in/arthurfiorette
       </a>
       <br />
@@ -56,7 +59,7 @@ const cv = Astro.props;
   </Section>
 
   <Section>
-    <h2 class='!mb-0'>
+    <h2 class="!mb-0">
       {cv.data.educationName}
     </h2>
 
@@ -64,9 +67,9 @@ const cv = Astro.props;
       {
         cv.data.education.map((education) => (
           <li>
-            <h4 class='!m-0'>{education.date}</h4>
-            <div class='text-lg' set:html={education.title} />
-            <div class='text-sm'>{education.institution}</div>
+            <h4 class="!m-0">{education.date}</h4>
+            <div class="text-lg" set:html={education.title} />
+            <div class="text-sm">{education.institution}</div>
           </li>
         ))
       }
@@ -74,27 +77,27 @@ const cv = Astro.props;
   </Section>
 
   <Section>
-    <h2 class='!mb-0'>
+    <h2 class="!mb-0">
       {cv.data.experienceName}
     </h2>
 
     <ul>
       {
         cv.data.experiences.map((experience) => (
-          <li class='grid grid-cols-[15%,1fr] grid-rows-[2rem,1fr] gap-5'>
-            <div class='text-2xl' />
+          <li class="grid grid-cols-[15%,1fr] grid-rows-[2rem,1fr] gap-5">
+            <div class="text-2xl" />
 
-            <h4 class='!m-0 !align-center' set:html={experience.title} />
+            <h4 class="!m-0 !align-center" set:html={experience.title} />
 
-            <div class='text-lg text-right'>
-              <b class='block'>{experience.start} </b>
-              <b class='block'>{experience.end}</b>
+            <div class="text-lg text-right">
+              <b class="block">{experience.start} </b>
+              <b class="block">{experience.end}</b>
               <small>{experience.type}</small>
             </div>
 
             <div>
               {experience.about.map((c, i) => (
-                <p class={i === 0 ? '!mt-0 text-lg' : 'text-lg'} set:html={c} />
+                <p class={i === 0 ? "!mt-0 text-lg" : "text-lg"} set:html={c} />
               ))}
             </div>
           </li>
@@ -104,12 +107,12 @@ const cv = Astro.props;
   </Section>
 
   <Section>
-    <h2 class='!mb-0'>
+    <h2 class="!mb-0">
       {cv.data.ossTitle}
     </h2>
 
     <div>
-      {cv.data.oss.map((c) => <p class='text-lg' set:html={c} />)}
+      {cv.data.oss.map((c) => <p class="text-lg" set:html={c} />)}
     </div>
   </Section>
 </Document>

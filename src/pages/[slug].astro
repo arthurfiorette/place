@@ -1,20 +1,20 @@
 ---
-import { type CollectionEntry, getCollection } from 'astro:content';
-import MinRead from '../components/min-read.astro';
-import Time from '../components/time.astro';
-import Layout from '../layouts/index.astro';
-import { getReadTime } from '../util/read-time';
+import { type CollectionEntry, getCollection } from "astro:content";
+import MinRead from "../components/min-read.astro";
+import Time from "../components/time.astro";
+import Document from "../layouts/document.astro";
+import { getReadTime } from "../util/read-time";
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog');
+  const posts = await getCollection("blog");
 
   return posts.map((post) => ({
     params: { slug: post.slug },
-    props: post
+    props: post,
   }));
 }
 
-type Props = CollectionEntry<'blog'>;
+type Props = CollectionEntry<"blog">;
 
 const post = Astro.props;
 const date = new Date(post.data.date);
@@ -22,27 +22,28 @@ const date = new Date(post.data.date);
 const { Content } = await post.render();
 ---
 
-<Layout
+<Document
   seo={{
     title: post.data.title,
     description: post.data.description,
     keywords: post.data.keywords,
-    urlPath: '/' + post.slug
-  }}>
-  <slot name='head'>
-    <meta name='article:published_time' content={date.toISOString()} />
-    <meta name='article:modified_time' content={date.toISOString()} />
-    <meta name='article:section' content={post.data.title} />
-    <meta name='article:title' content={post.data.title} />
-    <meta name='article:description' content={post.data.description} />
-    <meta name='article:tag' content={post.data.keywords.join(', ')} />
+    urlPath: "/" + post.slug,
+  }}
+>
+  <slot name="head">
+    <meta name="article:published_time" content={date.toISOString()} />
+    <meta name="article:modified_time" content={date.toISOString()} />
+    <meta name="article:section" content={post.data.title} />
+    <meta name="article:title" content={post.data.title} />
+    <meta name="article:description" content={post.data.description} />
+    <meta name="article:tag" content={post.data.keywords.join(", ")} />
   </slot>
 
   <article>
-    <header class='header'>
-      <div class='header-stats'>
+    <header class="header">
+      <div class="header-stats">
         <MinRead minRead={getReadTime(post.body)} />
-        <div class='header-info'>
+        <div class="header-info">
           <Time datetime={date} />
         </div>
       </div>
@@ -52,28 +53,30 @@ const { Content } = await post.render();
       <summary>{post.data.description}</summary>
 
       {
-        post.data.published === 'preview' && (
-          <div class='preview'>This post is a preview and may not be final.</div>
+        post.data.published === "preview" && (
+          <div class="preview">
+            This post is a preview and may not be final.
+          </div>
         )
       }
     </header>
 
-    <section class='md'>
+    <section class="md">
       <Content />
     </section>
 
     <script
-      src='https://utteranc.es/client.js'
-      repo='arthurfiorette/place'
-      issue-term='title'
-      label='posts'
-      theme='preferred-color-scheme'
-      crossorigin='anonymous'
+      src="https://utteranc.es/client.js"
+      repo="arthurfiorette/place"
+      issue-term="title"
+      label="posts"
+      theme="preferred-color-scheme"
+      crossorigin="anonymous"
       async></script>
   </article>
-</Layout>
+</Document>
 
-<style lang='scss'>
+<style lang="scss">
   .header {
     margin: 2rem 0 4rem 0;
 
@@ -166,7 +169,7 @@ const { Content } = await post.render();
   }
 </style>
 
-<style is:global lang='scss'>
+<style is:global lang="scss">
   .md {
     line-height: 1.5rem;
 
@@ -214,7 +217,9 @@ const { Content } = await post.render();
       margin-top: 5rem;
       margin-bottom: 2rem;
 
-      width: calc(min(55rem, 87.5vw) + min((87.5vw - min(55rem, 87.5vw))/2, 3rem) * 2);
+      width: calc(
+        min(55rem, 87.5vw) + min((87.5vw - min(55rem, 87.5vw))/2, 3rem) * 2
+      );
       margin-left: calc(min((87.5vw - min(55rem, 87.5vw))/2, 3rem) * -1);
 
       @media (max-width: 768px) {
@@ -232,7 +237,7 @@ const { Content } = await post.render();
       border: 1px solid var(--shade-outline);
 
       &:before {
-        content: '';
+        content: "";
         border-width: 0.4rem;
         border-style: solid;
         border-color: transparent transparent transparent #fff;

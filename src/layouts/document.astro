@@ -1,101 +1,126 @@
 ---
-import Seo, { type Props as SeoProps } from '../components/seo.astro';
+import Footer from "../components/footer.astro";
+import MainNav from "../components/main-nav.astro";
+import Seo, { type Props as SeoProps } from "../components/seo.astro";
 
 interface Props {
   seo?: SeoProps;
+  header?: boolean;
   light?: boolean;
+  footer?: boolean;
 }
 
-const { seo, light } = Astro.props;
+const { seo, header = true, footer = true, light } = Astro.props;
 
 const ldJson = JSON.stringify({
-  '@context': 'http://www.schema.org',
-  '@type': 'person',
-  name: 'Arthur Fileti Fiorette',
-  jobTitle: 'Web Developer',
-  gender: 'male',
-  url: 'https://arthur.place',
+  "@context": "http://www.schema.org",
+  "@type": "person",
+  name: "Arthur Fileti Fiorette",
+  jobTitle: "Web Developer",
+  gender: "male",
+  url: "https://arthur.place",
   address: {
-    '@type': 'PostalAddress',
-    addressLocality: 'Venda Nova do Imigrante',
-    addressRegion: 'Espírito Santo (ES)',
-    addressCountry: 'Brazil'
+    "@type": "PostalAddress",
+    addressLocality: "Venda Nova do Imigrante",
+    addressRegion: "Espírito Santo (ES)",
+    addressCountry: "Brazil",
   },
-  email: 'arthur.fiorette@gmail.com',
-  birthDate: '2005-02-27',
-  nationality: 'Brazilian',
-  telephone: '+5528999772770'
+  email: "arthur.fiorette@gmail.com",
+  birthDate: "2005-02-27",
+  nationality: "Brazilian",
+  telephone: "+5528999772770",
 });
 ---
 
 <!doctype html>
-<html lang='en' class={light ? 'light' : 'dark'}>
+<html lang="en" class={light ? "light" : "dark"}>
   <head>
     <!-- Simple meta -->
-    <meta name='theme-color' content='#000000' />
-    <meta charset='utf-8' />
-    <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+    <meta name="theme-color" content="#000000" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta
-      name='viewport'
-      content='width=device-width, initial-scale=1, viewport-fit=cover'
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
     />
 
     <!-- General SEO -->
-    <script type='application/ld+json' set:html={ldJson} />
-    <link rel='manifest' href='/manifest.json' />
-    <meta name='robots' content='index, follow' />
+    <script type="application/ld+json" set:html={ldJson} />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="robots" content="index, follow" />
 
     <!-- Public metrics available at plausible.io/arthur.place -->
-    <script defer data-domain='arthur.place' src='https://plausible.io/js/script.js'
-    ></script>
+    <script
+      defer
+      data-domain="arthur.place"
+      src="https://plausible.io/js/script.js"></script>
 
     <!-- Icons -->
-    <link rel='apple-touch-icon' sizes='180x180' href='/icons/apple-touch-icon.png' />
-    <link rel='icon' type='image/png' sizes='32x32' href='/icons/favicon-32x32.png' />
     <link
-      rel='shortcut icon'
-      type='image/png'
-      sizes='32x32'
-      href='/icons/favicon-32x32.png'
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/icons/apple-touch-icon.png"
     />
-    <link rel='icon' type='image/png' sizes='16x16' href='/icons/favicon-16x16.png' />
     <link
-      rel='shortcut icon'
-      type='image/png'
-      sizes='16x16'
-      href='/icons/favicon-16x16.png'
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/icons/favicon-32x32.png"
+    />
+    <link
+      rel="shortcut icon"
+      type="image/png"
+      sizes="32x32"
+      href="/icons/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/icons/favicon-16x16.png"
+    />
+    <link
+      rel="shortcut icon"
+      type="image/png"
+      sizes="16x16"
+      href="/icons/favicon-16x16.png"
     />
 
     {/* font */}
-    <link rel='preconnect' href='https://fonts.googleapis.com' />
-    <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin='' />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
 
     <link
-      href='https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&family=Work+Sans:wght@300;500&display=swap'
-      rel='stylesheet'
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&family=Work+Sans:wght@300;500&display=swap"
+      rel="stylesheet"
     />
 
     <Seo {...seo} />
 
-    <slot name='head' />
+    <slot name="head" />
   </head>
 
   <body
-    class='antialiased tracking-tight dark:bg-neutral-900 dark:text-neutral-50 dark:bg-[url("/images/background-dark.svg")] h-screen'>
-    <div class='flex flex-col items-center justify-center gap-5 p-5 min-h-screen'>
-      <slot />
+    class='antialiased flex w-full flex-col justify-center items-center tracking-tight dark:bg-neutral-900 dark:text-neutral-50 dark:bg-[url("/images/background-dark.svg")] min-h-screen'
+  >
+    <div class="flex justify-start items-start max-[950px]:flex-col-reverse">
+      <main class="flex flex-col items-center justify-center gap-5 p-5 h-full">
+        <slot />
+      </main>
+      {header && <MainNav />}
     </div>
+    {footer && <Footer />}
   </body>
 </html>
 
 <style is:global>
   /* Support for flag emojis */
   @font-face {
-    font-family: 'Twemoji Country Flags';
-    unicode-range: U+1F1E6-1F1FF, U+1F3F4, U+E0062-E0063, U+E0065, U+E0067, U+E006C,
-      U+E006E, U+E0073-E0074, U+E0077, U+E007F;
-    src: url('https://cdn.jsdelivr.net/npm/country-flag-emoji-polyfill/dist/TwemojiCountryFlags.woff2')
-      format('woff2');
+    font-family: "Twemoji Country Flags";
+    unicode-range: U+1F1E6-1F1FF, U+1F3F4, U+E0062-E0063, U+E0065, U+E0067,
+      U+E006C, U+E006E, U+E0073-E0074, U+E0077, U+E007F;
+    src: url("https://cdn.jsdelivr.net/npm/country-flag-emoji-polyfill/dist/TwemojiCountryFlags.woff2")
+      format("woff2");
     font-display: swap;
   }
 </style>

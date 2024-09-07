@@ -1,0 +1,28 @@
+---
+import { Icon } from "astro-icon/components";
+import type { LinkProps } from "../types/link";
+
+interface Props {
+  data: LinkProps;
+}
+
+const { data } = Astro.props;
+---
+
+<a
+  href={data.href}
+  class="transition-all relative z-0 group flex p-4 rounded-md border border-transparent items-center justify-center text-2xl hover:bg-neutral-800 hover:border-neutral-600"
+  href={data.href}
+  title={data.title}
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  <Icon
+    name={data.icon}
+    class="transition-all text-neutral-800/70 group-hover:text-cream-light w-20 h-20"
+  />
+  <span
+    class="transition-all group-hover:-z-10 group-hover:opacity-0 opacity-100 font-semibold tracking-normal absolute"
+    >{data.label}</span
+  >
+</a>

@@ -1,17 +1,28 @@
 ---
-import Section from '../components/section.astro';
-import Document from '../layouts/document.astro';
-import { OssProjects, ossProjectSorter } from '../projects';
-import { getStargazerCount } from '../util/github';
-import { getNpmDownloadCount } from '../util/npm';
-import { abbrNumber } from '../util/number';
+import { getCollection } from "astro:content";
+import ProjectCard from "../components/project-card.astro";
+import Section from "../components/section.astro";
+import SocialMediaCard from "../components/social-media-card.astro";
+import { OssProjects, ossProjectSorter } from "../content/link/projects";
+import { SocialMediaLinks } from "../content/link/social-media";
+import Document from "../layouts/document.astro";
+import { getStargazerCount } from "../util/github";
+import { getNpmDownloadCount } from "../util/npm";
+import { abbrNumber } from "../util/number";
+import PostCard from "../components/post-card.astro";
 
-// const posts = (await getCollection('blog')).filter((p) => p.data.published === true);
+const posts = (await getCollection("blog")).filter(
+  (p) => p.data.published === true
+);
+
+const sortedPosts = posts.sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
 
 for (const project of OssProjects) {
   const [downloads, stars] = await Promise.all([
     getNpmDownloadCount(project.npm),
-    getStargazerCount({ owner: project.owner, name: project.name })
+    getStargazerCount({ owner: project.owner, name: project.name }),
   ]);
 
   project.downloads = downloads || 0;
@@ -21,68 +32,87 @@ for (const project of OssProjects) {
 
 <Document>
   <Section>
-    <h1 class='text-center'>
-      Eai 👋<br />I am <span class='name'>Arthur Fiorette</span>
+    <h1
+      class="transition-all text-center !text-6xl max-[650px]:!text-4xl !pt-10"
+    >
+      Eai 👋<br />I am <span class="text-cream-light">Arthur Fiorette</span>
     </h1>
 
     <p>
-      I'm a passionate software engineer from Brazil 🇧🇷. My love for open source projects
-      connects people worldwide and drives us toward a better future. When I'm not coding,
-      you'll find me enjoying mountain biking, playing Counter-Strike, volleyball, or
-      helping beginners with coding.
+      I'm a passionate software engineer from Brazil 🇧🇷. My love for open source
+      projects connects people worldwide and drives us toward a better future.
+      When I'm not coding, you'll find me enjoying mountain biking, playing
+      Counter-Strike, volleyball, or helping beginners with coding.
     </p>
 
     <p>
-      I'm dedicated to full-stack development. I started my coding journey in late 2018
-      with Java, initially tinkering with Minecraft plugins. Since then, I've grown to
-      develop various applications, including SaaS enterprise projects, a TypeScript
-      framework, and even my own programming language.
+      I'm dedicated to full-stack development. I started my coding journey in
+      late 2018 with Java, initially tinkering with Minecraft plugins. Since
+      then, I've grown to develop various applications, including SaaS
+      enterprise projects, a TypeScript framework, and even my own programming
+      language.
     </p>
   </Section>
 
   <Section>
+    <p class="mt-8 mb-4">
+      Discover more about my online world by checking out my social media and
+      other platforms.
+    </p>
+    <div
+      class="transition-all grid grid-cols-6 max-[450px]:grid-cols-2 max-[750px]:grid-cols-3 items-center gap-4 my-6"
+    >
+      {
+        SocialMediaLinks.map((mediaLink) => (
+          <SocialMediaCard data={mediaLink} />
+        ))
+      }
+    </div>
+  </Section>
+
+  <Section>
     <p>
-      I enjoy taking on new coding challenges and building libraries. I occasionally write
-      about software-related topics. Additionally, You can explore some of my open source
-      projects below:
+      I enjoy taking on new coding challenges and building libraries. I
+      occasionally write about software-related topics. Additionally, You can
+      explore some of my open source projects below:
     </p>
 
-    <div class='text-center text-sm mx-auto italic'>
+    <div class="text-center text-sm mx-auto italic">
       A total of {OssProjects.reduce((acc, p) => acc + p.stars, 0)} ★ stars and {
         abbrNumber(OssProjects.reduce((acc, p) => acc + p.downloads * 4, 0))
       } ↓ downloads per month only counting projects authored by me.
     </div>
 
-    <div class='w-full flex flex-wrap items-stretch justify-center'>
+    <ol
+      class="list-none w-full my-8 gap-x-4 gap-y-1 !p-0 grid grid-cols-2 max-[500px]:grid-cols-1"
+    >
       {
-        OssProjects.sort(ossProjectSorter).map((p) => (
-          <div class='hover:bg-neutral-800 bh p-4 m-2 w-[45%] rounded-md border border-transparent hover:border-neutral-700'>
-            <a
-              href={`https://github.com/${p.owner}/${p.name}`}
-              target='_blank'
-              class='no-underline text-current font-normal h-full'
-              rel='noopener noreferrer'>
-              <div class='flex flex-col items-stretch justify-between h-full gap-2'>
-                <h4 class='!m-0'>{p.prettyName}</h4>
-                <div class='text-sm'>{p.description}</div>
-                <div class='text-sm'>
-                  {!!p.stars && (
-                    <span class='hover:text-neutral-200'>
-                      <b>{p.stars}</b> ★ on github <br />
-                    </span>
-                  )}
-
-                  {!!p.downloads && (
-                    <span class='hover:text-neutral-200'>
-                      <b>{abbrNumber(p.downloads * 4)}</b> ↓ per month
-                    </span>
-                  )}
-                </div>
-              </div>
-            </a>
-          </div>
+        OssProjects.sort(ossProjectSorter).map((project) => (
+          <li class="!p-0 !h-auto">
+            <ProjectCard data={project} />
+          </li>
         ))
       }
-    </div>
+    </ol>
   </Section>
+
+  {
+    !!posts.length && (
+      <Section>
+        <p>
+          If you're interested in sharpening your programming skills and
+          discovering insights to become a better programmer, I've got you
+          covered. Here's a sneak peek into my latest 1 blog posts:
+        </p>
+
+        <ol class="!p-0 !m-0 list-none w-full">
+          {sortedPosts.map((post) => (
+            <li class="transition-all hover:bg-neutral-800/70 border border-neutral-800/70 hover:border-neutral-600 p-4 rounded-lg w-full inline-flex items-center justify-center">
+              <PostCard data={post} />
+            </li>
+          ))}
+        </ol>
+      </Section>
+    )
+  }
 </Document>

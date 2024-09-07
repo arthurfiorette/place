@@ -5,8 +5,12 @@ interface Props {
 ---
 
 <section
-  class={['prose dark:prose-invert lg:prose-xl items-center w-full', Astro.props.class]
+  class={[
+    "prose dark:prose-invert lg:prose-xl items-center w-full max-w-3xl",
+    Astro.props.class,
+  ]
     .filter(Boolean)
-    .join(' ')}>
+    .join(" ")}
+>
   <slot />
 </section>
