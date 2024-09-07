@@ -2,13 +2,13 @@
 import ProjectCard from "../components/project-card.astro";
 import Section from "../components/section.astro";
 import SocialMediaCard from "../components/social-media-card.astro";
-import { OssProjects, ossProjectSorter } from "../content/link/projects";
-import { SocialMediaLinks } from "../content/link/social-media";
+import { OssProjects, ossProjectSorter } from "../util/link/projects";
+import { SocialMediaLinks } from "../util/link/social-media";
 import Document from "../layouts/document.astro";
 import { getStargazerCount } from "../util/github";
 import { getNpmDownloadCount } from "../util/npm";
 import { abbrNumber } from "../util/number";
-import { posts, sortedPosts } from "../content/posts/get-posts";
+import { posts, sortedPosts } from "../util/posts/get-posts";
 import PostCard from "../components/post-card.astro";
 
 for (const project of OssProjects) {

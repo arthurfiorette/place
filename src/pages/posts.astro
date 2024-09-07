@@ -1,11 +1,11 @@
 ---
 import Section from "../components/section.astro";
-import { OssProjects } from "../content/link/projects";
+import { OssProjects } from "../util/link/projects";
 import Document from "../layouts/document.astro";
 import { getStargazerCount } from "../util/github";
 import { getNpmDownloadCount } from "../util/npm";
 import PostCard from "../components/post-card.astro";
-import { posts } from "../content/posts/get-posts";
+import { posts } from "../util/posts/get-posts";
 import MainNav from "../components/main-nav.astro";
 
 for (const project of OssProjects) {
