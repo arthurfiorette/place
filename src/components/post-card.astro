@@ -6,20 +6,22 @@ import { type PostProps } from "../types/post";
 
 interface Props {
   data: PostProps;
+  minimalistic?: boolean;
 }
 
 const {
   data: { data: post, slug, body },
+  minimalistic = false,
 } = Astro.props;
 ---
 
 <a
   href={`/${slug}`}
   title={post.description}
-  class="no-underline group p-4 block"
+  class={`no-underline group p-4  block ${minimalistic && "!flex !flex-col !justify-start p-2"}`}
 >
   <h2
-    class="font-normal !text-3xl text-center font-sans !mt-0 group-hover:text-cream-light"
+    class={`font-normal !text-3xl text-center font-sans !mt-0 group-hover:text-cream-light ${minimalistic && "!text-left "}`}
   >
     {post.title}
   </h2>

@@ -1,5 +1,4 @@
 ---
-import { getCollection } from "astro:content";
 import ProjectCard from "../components/project-card.astro";
 import Section from "../components/section.astro";
 import SocialMediaCard from "../components/social-media-card.astro";
@@ -9,15 +8,8 @@ import Document from "../layouts/document.astro";
 import { getStargazerCount } from "../util/github";
 import { getNpmDownloadCount } from "../util/npm";
 import { abbrNumber } from "../util/number";
+import { posts, sortedPosts } from "../content/posts/get-posts";
 import PostCard from "../components/post-card.astro";
-
-const posts = (await getCollection("blog")).filter(
-  (p) => p.data.published === true
-);
-
-const sortedPosts = posts.sort(
-  (a, b) => b.data.date.getTime() - a.data.date.getTime()
-);
 
 for (const project of OssProjects) {
   const [downloads, stars] = await Promise.all([
@@ -31,7 +23,7 @@ for (const project of OssProjects) {
 ---
 
 <Document>
-  <Section>
+  <Section class="max-[1000px]:py-14">
     <h1
       class="transition-all text-center !text-6xl max-[650px]:!text-4xl !pt-10"
     >

@@ -6,11 +6,18 @@ import Seo, { type Props as SeoProps } from "../components/seo.astro";
 interface Props {
   seo?: SeoProps;
   header?: boolean;
+  headerClass?: string;
   light?: boolean;
   footer?: boolean;
 }
 
-const { seo, header = true, footer = true, light } = Astro.props;
+const {
+  seo,
+  header = true,
+  footer = true,
+  light,
+  headerClass = "!text-sm !font-normal",
+} = Astro.props;
 
 const ldJson = JSON.stringify({
   "@context": "http://www.schema.org",
@@ -103,11 +110,11 @@ const ldJson = JSON.stringify({
   <body
     class='antialiased flex w-full flex-col justify-center items-center tracking-tight dark:bg-neutral-900 dark:text-neutral-50 dark:bg-[url("/images/background-dark.svg")] min-h-screen'
   >
-    <div class="flex justify-start items-start max-[950px]:flex-col-reverse">
+    <div class="flex justify-start items-start max-[1000px]:flex-col-reverse">
       <main class="flex flex-col items-center justify-center gap-5 p-5 h-full">
         <slot />
       </main>
-      {header && <MainNav />}
+      {header && <MainNav class={headerClass} />}
     </div>
     {footer && <Footer />}
   </body>

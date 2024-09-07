@@ -12,16 +12,20 @@ interface Props {
 const { date, post } = Astro.props;
 ---
 
-<header class="prose">
-  <div class="mb-8 flex flex-col text-neutral-400">
-    <MinRead minRead={getReadTime(post.body)} />
-    <div class="flex justify-between items-center mb-4">
-      <Time datetime={date} />
+<header
+  class="prose dark:prose-invert lg:prose-xl items-center w-full max-w-3xl py-10 max-[1000px]:pt-28"
+>
+  <div>
+    <h1 class="text-neutral-200">{post.data.title}</h1>
+    <div class="flex gap-1.5 text-base text-neutral-400 w-full">
+      <MinRead minRead={getReadTime(post.body)} />
+      <div class="flex justify-between items-center mb-4">
+        <Time datetime={date} />
+      </div>
     </div>
   </div>
-  <h1 class="text-neutral-200">{post.data.title}</h1>
   <summary
-    class="text-[1.5rem] text-neutral-100 text-center my-8 justify-center items-center flex flex-col"
+    class="text-[1.5rem] w-full text-neutral-100 text-center my-8 justify-center items-center flex flex-col"
   >
     {post.data.description}
   </summary>

@@ -1,10 +1,20 @@
 ---
 import { Icon } from "astro-icon/components";
 import { NavLinks } from "../content/link/nav-links";
+
+interface Props {
+  class?: string;
+}
 ---
 
 <aside
-  class="sticky max-[950px]:top-0 max-[950px]:flex-row max-[950px]:rounded-none max-[950px]:w-full max-[950px]:bg-neutral-900 max-[950px]:gap-6 left-4 top-60 flex flex-col gap-1.5 justify-center items-center w-auto bg-transparent max-h-40 py-2 px-1.5 rounded-md border border-neutral-600/40"
+  class={[
+    "sticky max-[1000px]:fixed max-[1000px]:top-0 max-[1000px]:left-0 max-[1000px]:flex-row max-[1000px]:rounded-none max-[1000px]:w-full max-[1000px]:bg-neutral-900 max-[1000px]:gap-6 left-4 top-60 flex flex-col gap-1.5 justify-center items-center w-auto bg-transparent max-h-40 py-2 px-1.5 rounded-md border border-neutral-600/40",
+    ,
+    Astro.props.class,
+  ]
+    .filter(Boolean)
+    .join(" ")}
 >
   {
     NavLinks.map((navLink) => (
@@ -15,9 +25,9 @@ import { NavLinks } from "../content/link/nav-links";
       >
         <Icon
           name={navLink.icon}
-          class="transition-all w-6 h-6 group-hover:text-cream-light"
+          class="transition-all !w-6 !h-6 group-hover:text-cream-light"
         />
-        <span class="transition-all opacity-0 group-hover:opacity-100 max-[950px]:translate-x-0 max-[950px]:-translate-y-12 max-[950px]:group-hover:translate-y-0 group-hover:translate-x-0 -translate-x-12 absolute max-[950px]:left-0 max-[950px]:top-full max-[950px]:ml-0 max-[950px]:mt-2.5 left-full ml-2 .5 px-3.5 py-0.5 rounded-sm bg-neutral-900  border border-neutral-600">
+        <span class="!text-sm !font-normal transition-all opacity-0 group-hover:opacity-100 max-[1000px]:translate-x-0 max-[1000px]:-translate-y-12 max-[1000px]:group-hover:translate-y-0 group-hover:translate-x-0 -translate-x-12 absolute max-[1000px]:left-0 max-[1000px]:top-full max-[1000px]:ml-0 max-[1000px]:mt-2.5 left-full ml-2 .5 px-3.5 py-0.5 rounded-sm bg-neutral-900  border border-neutral-600">
           {navLink.label}
         </span>
       </a>

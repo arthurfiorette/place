@@ -12,14 +12,14 @@ export const NavLinks: LinkProps[] = [
     id: 2,
     label: "Posts",
     title: "View Posts.",
-    href: "#posts",
+    href: "/posts",
     icon: "mdi:post-outline",
   },
   {
     id: 3,
     label: "Curriculum",
     title: "View Curriculum.",
-    href: "#account",
+    href: "/curriculum",
     icon: "mdi:account-file-outline",
   },
 ];

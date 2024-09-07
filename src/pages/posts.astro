@@ -1,0 +1,37 @@
+---
+import Section from "../components/section.astro";
+import { OssProjects } from "../content/link/projects";
+import Document from "../layouts/document.astro";
+import { getStargazerCount } from "../util/github";
+import { getNpmDownloadCount } from "../util/npm";
+import PostCard from "../components/post-card.astro";
+import { posts } from "../content/posts/get-posts";
+import MainNav from "../components/main-nav.astro";
+
+for (const project of OssProjects) {
+  const [downloads, stars] = await Promise.all([
+    getNpmDownloadCount(project.npm),
+    getStargazerCount({ owner: project.owner, name: project.name }),
+  ]);
+
+  project.downloads = downloads || 0;
+  project.stars = stars || 0;
+}
+---
+
+<Document header={false}>
+  <Section class="flex items-start gap-5">
+    {
+      !!posts.length && (
+        <ol class="!p-0 !m-0 list-none w-full">
+          {posts.map((post) => (
+            <li class="transition-all hover:bg-neutral-800/70 border border-neutral-800/70 hover:border-neutral-600 p-4 rounded-lg w-full block">
+              <PostCard minimalistic data={post} />
+            </li>
+          ))}
+        </ol>
+      )
+    }
+    <MainNav />
+  </Section>
+</Document>
