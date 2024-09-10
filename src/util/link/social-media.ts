@@ -36,4 +36,11 @@ export const SocialMediaLinks: LinkProps[] = [
     href: "mailto:me@arthur.place",
     icon: "mdi:at",
   },
+  {
+    id: 6,
+    label: "Bluesky",
+    title: "Follow me on Bluesky.",
+    href: "https://bsky.app/profile/arthur.place",
+    icon: "ri:bluesky-fill",
+  },
 ];
