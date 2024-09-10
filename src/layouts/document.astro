@@ -7,7 +7,9 @@ interface Props {
   seo?: SeoProps;
   header?: boolean;
   headerClass?: string;
+  class?: string;
   light?: boolean;
+  mainClass?: string;
   footer?: boolean;
 }
 
@@ -111,7 +113,14 @@ const ldJson = JSON.stringify({
     class='antialiased flex w-full flex-col justify-center items-center tracking-tight dark:bg-neutral-900 dark:text-neutral-50 dark:bg-[url("/images/background-dark.svg")] min-h-screen'
   >
     <div class="flex justify-start items-start max-[1000px]:flex-col-reverse">
-      <main class="flex flex-col items-center justify-center gap-5 p-5 h-full">
+      <main
+        class={[
+          "flex flex-col items-center justify-center gap-5 p-5 h-full",
+          Astro.props.class,
+        ]
+          .filter(Boolean)
+          .join(" ")}
+      >
         <slot />
       </main>
       {header && <MainNav class={headerClass} />}

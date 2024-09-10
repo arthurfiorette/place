@@ -18,8 +18,8 @@ export async function getStaticPaths() {
 const cv = Astro.props;
 ---
 
-<Document light header={false} footer={false}>
-  <div class="print:hidden prose">
+<Document light header={false} footer={false} class="!gap-2.5">
+  <div class="print:hidden absolute top-3.5 prose">
     <div>
       {
         cv.cvs
@@ -33,9 +33,9 @@ const cv = Astro.props;
     </div>
   </div>
 
-  <Section>
+  <Section class="mt-4">
     <small class="block text-right">{cv.data.title}</small>
-    <h1 class="!mb-0 text-center">
+    <h1 class="!mb-0 text-center !text-5xl">
       {cv.data.name}
     </h1>
     <small class="text-center block"
@@ -43,10 +43,16 @@ const cv = Astro.props;
       ></small
     >
 
-    <p class="text-lg ml-5 text-right">
-      <a href="https://arthur.place" target="_blank">arthur.place</a>
+    <p class="text-lg !mt-1 ml-5 text-right">
+      <a class="text-base" href="https://arthur.place" target="_blank"
+        >arthur.place</a
+      >
       <br />
-      <a href="https://linkedin.com/in/arthurfiorette" target="_blank">
+      <a
+        class="text-base"
+        href="https://linkedin.com/in/arthurfiorette"
+        target="_blank"
+      >
         linkedin.com/in/arthurfiorette
       </a>
       <br />
@@ -55,20 +61,23 @@ const cv = Astro.props;
   </Section>
 
   <Section>
-    {cv.data.about.map((a) => <p set:html={a} />)}
+    {cv.data.about.map((a) => <p set:html={a} class="text-base !m-1" />)}
   </Section>
 
   <Section>
-    <h2 class="!mb-0">
+    <h2 class="!mb-0 !text-xl">
       {cv.data.educationName}
     </h2>
 
-    <ul>
+    <ul class="flex flex-col !gap-0">
       {
         cv.data.education.map((education) => (
-          <li>
-            <h4 class="!m-0">{education.date}</h4>
-            <div class="text-lg" set:html={education.title} />
+          <li class="!p-1 !m-0">
+            <h4 class="!m-0 text-base">{education.date}</h4>
+            <div
+              class="!m-0 text-base font-medium"
+              set:html={education.title}
+            />
             <div class="text-sm">{education.institution}</div>
           </li>
         ))
@@ -76,29 +85,31 @@ const cv = Astro.props;
     </ul>
   </Section>
 
-  <Section>
-    <h2 class="!mb-0">
+  <Section class="!m-0 !p-0">
+    <h2 class="!mb-0 !p-0 !text-xl">
       {cv.data.experienceName}
     </h2>
 
-    <ul>
+    <ul class="!m-0 !p-0">
       {
         cv.data.experiences.map((experience) => (
-          <li class="grid grid-cols-[15%,1fr] grid-rows-[2rem,1fr] gap-5">
-            <div class="text-2xl" />
-
-            <h4 class="!m-0 !align-center" set:html={experience.title} />
-
-            <div class="text-lg text-right">
-              <b class="block">{experience.start} </b>
-              <b class="block">{experience.end}</b>
+          <li class="flex gap-5 mt-2">
+            <div class="text-lg text-right whitespace-nowrap">
+              <b class="block text-base">{experience.start} </b>
+              <b class="block text-base">{experience.end}</b>
               <small>{experience.type}</small>
             </div>
 
-            <div>
-              {experience.about.map((c, i) => (
-                <p class={i === 0 ? "!mt-0 text-lg" : "text-lg"} set:html={c} />
-              ))}
+            <div class="flex flex-col gap-1.5">
+              <h4
+                class="!m-0 !align-center text-lg"
+                set:html={experience.title}
+              />
+              <div>
+                {experience.about.map((c) => (
+                  <p class="!m-0 text-base" set:html={c} />
+                ))}
+              </div>
             </div>
           </li>
         ))
@@ -107,12 +118,16 @@ const cv = Astro.props;
   </Section>
 
   <Section>
-    <h2 class="!mb-0">
+    <h2 class="!m-0 !p-0 !text-xl">
       {cv.data.ossTitle}
     </h2>
 
     <div>
-      {cv.data.oss.map((c) => <p class="text-lg" set:html={c} />)}
+      {
+        cv.data.oss.map((c) => (
+          <p class="text-base !my-0 !py-0 !pt-2" set:html={c} />
+        ))
+      }
     </div>
   </Section>
 </Document>
