@@ -1,310 +1,133 @@
 ---
-import { getCollection } from 'astro:content';
-import Layout from '../layouts/index.astro';
-import { Icon } from 'astro-icon/components';
+import { getCollection } from "astro:content";
+import Section from "../components/section.astro";
+import Document from "../layouts/document.astro";
 
 export async function getStaticPaths() {
-  const cvs = await getCollection('curriculum');
+  const cvs = await getCollection("curriculum");
 
   return cvs.map((cv) => ({
     params: { curriculum: cv.data.id },
     props: {
       ...cv,
-      cvs
-    }
+      cvs,
+    },
   }));
 }
 
 const cv = Astro.props;
 ---
 
-<Layout header={false}>
-  <div class='layout'>
-    <nav>
-      <div class='icon'>
-        <a href='/' title='Go back'>
-          <Icon name='mdi:arrow-left' />
-        </a>
-      </div>
-
-      <div class='langs'>
-        {
-          cv.cvs
-            .filter((cv2) => cv2.id !== cv.id)
-            .map((cv2) => (
-              <a href={`https://arthur.place/${cv2.data.id}`}>{cv2.data.lang}</a>
-            ))
-        }
-      </div>
-
-      <div class='icon'>
-        <a href={`https://arthur.place/${cv.data.id}.pdf`} title='Download as PDF'>
-          <Icon name='mdi:file-download' color='green' />
-        </a>
-      </div>
-    </nav>
-
-    <header>
-      <div>
-        <small>{cv.data.title}</small>
-        <br />
-        <h1>
-          {cv.data.name}
-        </h1>
-      </div>
-
-      <div class='contact'>
-        <div>{cv.data.phone} | {cv.data.email}</div>
-        <a href='https://arthur.place' target='_blank'>arthur.place</a>
-        <br />
-        <a href='https://linkedin.com/in/arthurfiorette' target='_blank'
-          >linkedin.com/in/arthurfiorette</a
-        >
-      </div>
-
-      <div>{cv.data.month}</div>
-
-      <hr />
-    </header>
-
-    <div class='about'>
-      {cv.data.about.map((a) => <p set:html={a} />)}
-    </div>
-
-    <div class='education'>
-      <h4 class='layout-title'>
-        {cv.data.educationName}
-      </h4>
-
-      <ul>
-        {
-          cv.data.education.map((education) => (
-            <li>
-              <h4>{education.date}</h4>
-              <div class='title' set:html={education.title} />
-              <br />
-              <div>{education.institution}</div>
-            </li>
+<Document light header={false} footer={false} class="!gap-2.5">
+  <div class="print:hidden absolute top-3.5 prose">
+    <div>
+      {
+        cv.cvs
+          .filter((cv2) => cv2.id !== cv.id)
+          .map((cv2) => (
+            <a class="no-underline hover:underline" href={`/${cv2.data.id}`}>
+              👉 {cv2.data.lang}
+            </a>
           ))
-        }
-      </ul>
-    </div>
-
-    <div class='experience'>
-      <h4 class='layout-title'>
-        {cv.data.experienceName}
-      </h4>
-
-      <ul>
-        {
-          cv.data.experiences.map((experience) => (
-            <li>
-              <div class='experience__title'>
-                <br />
-                <div>{experience.start}</div>
-                <div>{experience.end}</div>
-                <small>{experience.type}</small>
-              </div>
-
-              <div class='experience__about'>
-                <h4 set:html={experience.title} />
-
-                {experience.about.map((c) => (
-                  <p set:html={c} />
-                ))}
-              </div>
-            </li>
-          ))
-        }
-      </ul>
-    </div>
-
-    <div class='about'>
-      <h4 class='layout-title'>
-        {cv.data.ossTitle}
-      </h4>
-
-      {cv.data.oss.map((c) => <p set:html={c} />)}
+      }
     </div>
   </div>
-</Layout>
 
-<style lang='scss' is:global>
-  body {
-    background-image: none !important;
-    background-color: white !important;
-    color: black !important;
+  <Section class="mt-4">
+    <small class="block text-right">{cv.data.title}</small>
+    <h1 class="!mb-0 text-center !text-5xl">
+      {cv.data.name}
+    </h1>
+    <small class="text-center block"
+      >{cv.data.phone} | <a href={`mailto:${cv.data.email}`}>{cv.data.email}</a
+      ></small
+    >
 
-    @media print {
-      a {
-        text-decoration: underline !important;
+    <p class="text-lg !mt-1 ml-5 text-right">
+      <a class="text-base" href="https://arthur.place" target="_blank"
+        >arthur.place</a
+      >
+      <br />
+      <a
+        class="text-base"
+        href="https://linkedin.com/in/arthurfiorette"
+        target="_blank"
+      >
+        linkedin.com/in/arthurfiorette
+      </a>
+      <br />
+      <small>{cv.data.month}</small>
+    </p>
+  </Section>
+
+  <Section>
+    {cv.data.about.map((a) => <p set:html={a} class="text-base !m-1" />)}
+  </Section>
+
+  <Section>
+    <h2 class="!mb-0 !text-xl">
+      {cv.data.educationName}
+    </h2>
+
+    <ul class="flex flex-col !gap-0">
+      {
+        cv.data.education.map((education) => (
+          <li class="!p-1 !m-0">
+            <h4 class="!m-0 text-base">{education.date}</h4>
+            <div
+              class="!m-0 text-base font-medium"
+              set:html={education.title}
+            />
+            <div class="text-sm">{education.institution}</div>
+          </li>
+        ))
       }
-    }
-  }
+    </ul>
+  </Section>
 
-  :root {
-    --color-primary: black !important;
-    --color-secondary: black !important;
-  }
+  <Section class="!m-0 !p-0">
+    <h2 class="!mb-0 !p-0 !text-xl">
+      {cv.data.experienceName}
+    </h2>
 
-  a {
-    text-decoration: underline;
+    <ul class="!m-0 !p-0">
+      {
+        cv.data.experiences.map((experience) => (
+          <li class="flex gap-5 mt-2">
+            <div class="text-lg text-right whitespace-nowrap">
+              <b class="block text-base">{experience.start} </b>
+              <b class="block text-base">{experience.end}</b>
+              <small>{experience.type}</small>
+            </div>
 
-    &:hover {
-      text-decoration: none;
-    }
-  }
-
-  header {
-    margin-bottom: 5rem;
-    text-align: center;
-
-    h1 {
-      font-size: 1.5rem;
-      font-weight: bold;
-
-      a {
-        text-decoration: none;
-
-        &:hover {
-          text-decoration: underline;
-        }
+            <div class="flex flex-col gap-1.5">
+              <h4
+                class="!m-0 !align-center text-lg"
+                set:html={experience.title}
+              />
+              <div>
+                {experience.about.map((c) => (
+                  <p class="!m-0 text-base" set:html={c} />
+                ))}
+              </div>
+            </div>
+          </li>
+        ))
       }
-    }
+    </ul>
+  </Section>
 
-    .contact {
-      font-size: 0.8rem;
-      margin-bottom: 1rem;
-    }
+  <Section>
+    <h2 class="!m-0 !p-0 !text-xl">
+      {cv.data.ossTitle}
+    </h2>
 
-    hr {
-      max-width: 50%;
-    }
-  }
-
-  nav {
-    margin-bottom: 2rem !important;
-    display: flex !important;
-    justify-content: space-between;
-    align-items: center;
-
-    @media print {
-      margin-bottom: -2rem !important;
-    }
-
-    .icon {
-      @media print {
-        display: none !important;
+    <div>
+      {
+        cv.data.oss.map((c) => (
+          <p class="text-base !my-0 !py-0 !pt-2" set:html={c} />
+        ))
       }
-
-      svg {
-        width: 2rem;
-        height: 2rem;
-
-        &:hover {
-          color: var(--color-500);
-        }
-      }
-    }
-
-    .langs {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-
-      @media print {
-        margin: 0.5rem 0 !important;
-        font-size: 0.8rem !important;
-      }
-    }
-
-    a {
-      font-weight: bold;
-    }
-  }
-
-  .layout-title {
-    font-size: 1.5rem;
-    text-align: center;
-    margin: 2rem 0;
-  }
-
-  .layout {
-    @media print {
-      margin: 0;
-    }
-  }
-
-  .about {
-    p:not(:first-child) {
-      margin-top: 1rem;
-    }
-  }
-
-  .education {
-    ul {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-
-      @media (max-width: 768px) {
-        flex-direction: column;
-
-        li:not(:first-child) {
-          margin-top: 2rem;
-        }
-      }
-
-      li {
-        text-align: center;
-        max-width: 24rem;
-
-        .title,
-        h6 {
-          font-weight: bold;
-        }
-      }
-    }
-  }
-
-  .experience {
-    ul {
-      li {
-        display: flex;
-        flex-direction: row;
-        break-inside: avoid;
-
-        .experience__title {
-          width: 15%;
-          margin-top: 1rem;
-          margin-right: 1rem;
-          font-weight: bold;
-          text-align: right;
-
-          small {
-            font-weight: normal;
-          }
-        }
-
-        .experience__about {
-          width: 85%;
-          text-align: left;
-
-          h6 {
-            font-weight: bold;
-            margin-bottom: 1rem;
-            font-size: 1.1rem;
-          }
-
-          p:not(:first-child) {
-            margin-top: 1rem;
-          }
-        }
-
-        &:not(:first-child) {
-          margin-top: 2rem;
-        }
-      }
-    }
-  }
-</style>
+    </div>
+  </Section>
+</Document>

@@ -6,7 +6,11 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true
+      "recommended": true,
+      "suspicious": {
+        "noExplicitAny": "off",
+        "noAssignInExpressions": "off"
+      }
     }
   },
   "formatter": {
@@ -19,12 +23,6 @@
     }
   },
   "files": {
-    "ignore": [
-      "dist/**/*",
-      "old/**/*",
-      ".astro/**/*",
-      "node_modules/**/*",
-      "pnpm-lock.json"
-    ]
+    "ignore": ["dist/**/*", ".astro/**/*", "node_modules/**/*", "pnpm-lock.json"]
   }
 }

@@ -1,7 +1,7 @@
 {
   "id": "curriculum",
   "lang": "Read in english 🇺🇸",
-  "month": "December 2023",
+  "month": "Last updated on december, 2023",
   "name": "Arthur Fileti Fiorette",
   "title": "Software Architect",
   "phone": "+55 28 9 99772770",
@@ -49,6 +49,7 @@
   "ossTitle": "Open Source",
   "oss": [
     "Despite my work, family and hobbies, I always try to find time to contribute to open source, as I acknowledge its importance to the world. Thankfully, I have been able to contribute and maintain many projects out there and as of today they go beyond <b>a million monthly downloads</b> only on npm packages I authored and keep maintaining to this day.",
-    "Apart from that, I've contributed to many open source projects and organizations, including <b>Vercel</b>, <b>Fastify</b>, <b>Prisma</b>, <b>Axios</b> and others. You can find more about my open source contributions on <a href=\"https://github.com/arthurfiorette\" target=\"_blank\">github.com/arthurfiorette</a>."
+    "Apart from that, I've contributed to many open source projects and organizations, including <b>Vercel</b>, <b>Fastify</b>, <b>Prisma</b>, <b>Axios</b> and others.",
+    "You can find more about my open source contributions on <a href=\"https://github.com/arthurfiorette\" target=\"_blank\">github.com/arthurfiorette</a>."
   ]
 }

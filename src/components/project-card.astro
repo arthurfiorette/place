@@ -1,0 +1,55 @@
+---
+import { abbrNumber } from '../util/number';
+
+interface Data {
+  owner: any;
+  name: any;
+  prettyName: any;
+  description: any;
+  stars: any;
+  downloads: any;
+}
+
+interface Props {
+  data: Data;
+}
+
+const { data } = Astro.props;
+
+const monthlyDownloads = data.downloads * 4;
+---
+
+<div
+  class='group transition-all hover:bg-neutral-800 p-4 w-full h-full mx-auto rounded-md border border-neutral-800/70 hover:border-neutral-700'>
+  <a
+    href={`https://github.com/${data.owner}/${data.name}`}
+    target='_blank'
+    class='no-underline text-current font-normal h-full'
+    rel='noopener noreferrer'>
+    <div class='flex flex-col justify-between h-full space-y-2'>
+      <h4 class='!m-0 group-hover:text-cream-light text-center'>{data.prettyName}</h4>
+      <span class='text-sm'>{data.description}</span>
+      <div class='text-sm'>
+        {
+          !!data.stars && (
+            <div class='hover:text-cream-light' title={`${data.stars}`}>
+              <b>📥 {data.stars}</b> ★ on github
+            </div>
+          )
+        }
+
+        {
+          !!monthlyDownloads && (
+            <div class='hover:text-cream-light' title={`${monthlyDownloads}`}>
+              <b>
+                📥
+                {abbrNumber(monthlyDownloads)}
+              </b>{' '}
+              ↓ per month
+            </div>
+          )
+        }
+      </div>
+    </div>
+  </a>
+</div>

@@ -8,7 +8,7 @@ const blog = defineCollection({
     description: z.string(),
     date: z.coerce.date(),
     keywords: z.array(z.string()),
-    published: z.union([z.boolean(), z.literal('preview')]).default(false),
+    published: z.union([z.boolean(), z.literal('preview')]).default(false)
   })
 });
 
@@ -49,4 +49,18 @@ const curriculum = defineCollection({
   })
 });
 
-export const collections = { blog, curriculum };
+const projects = defineCollection({
+  type: 'data',
+
+  schema: z.object({
+    name: z.string(),
+    prettyName: z.string(),
+    npm: z.array(z.string()),
+    owner: z.string(),
+    description: z.string(),
+    stars: z.number().default(0),
+    downloads: z.number().default(0)
+  })
+});
+
+export const collections = { blog, curriculum, projects };

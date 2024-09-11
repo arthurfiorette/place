@@ -1,0 +1,7 @@
+{
+  "name": "tinylibs",
+  "prettyName": "TinyLibs",
+  "npm": ["fast-defer", "object-code", "cache-parser"],
+  "owner": "arthurfiorette",
+  "description": "Collection of Utility Libraries for javascript."
+}

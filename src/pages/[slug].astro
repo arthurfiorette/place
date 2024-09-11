@@ -1,9 +1,10 @@
 ---
 import { type CollectionEntry, getCollection } from 'astro:content';
-import MinRead from '../components/min-read.astro';
-import Time from '../components/time.astro';
-import Layout from '../layouts/index.astro';
-import { getReadTime } from '../util/read-time';
+
+import Document from '../layouts/document.astro';
+
+import Section from '../components/section.astro';
+import PostHeader from '../components/post-header.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
@@ -22,12 +23,12 @@ const date = new Date(post.data.date);
 const { Content } = await post.render();
 ---
 
-<Layout
+<Document
   seo={{
     title: post.data.title,
     description: post.data.description,
     keywords: post.data.keywords,
-    urlPath: '/' + post.slug
+    urlPath: `/${post.slug}`
   }}>
   <slot name='head'>
     <meta name='article:published_time' content={date.toISOString()} />
@@ -38,268 +39,31 @@ const { Content } = await post.render();
     <meta name='article:tag' content={post.data.keywords.join(', ')} />
   </slot>
 
-  <article>
-    <header class='header'>
-      <div class='header-stats'>
-        <MinRead minRead={getReadTime(post.body)} />
-        <div class='header-info'>
-          <Time datetime={date} />
-        </div>
-      </div>
+  <PostHeader date={date} post={post} />
 
-      <h1>{post.data.title}</h1>
+  <Section class='md'>
+    <Content />
+  </Section>
 
-      <summary>{post.data.description}</summary>
-
-      {
-        post.data.published === 'preview' && (
-          <div class='preview'>This post is a preview and may not be final.</div>
-        )
-      }
-    </header>
-
-    <section class='md'>
-      <Content />
-    </section>
-
-    <script
-      src='https://utteranc.es/client.js'
-      repo='arthurfiorette/place'
-      issue-term='title'
-      label='posts'
-      theme='preferred-color-scheme'
-      crossorigin='anonymous'
-      async></script>
-  </article>
-</Layout>
-
-<style lang='scss'>
-  .header {
-    margin: 2rem 0 4rem 0;
-
-    .header-stats {
-      margin-bottom: 2rem;
-    }
-
-    h1 {
-      margin-bottom: 2rem;
-      font-size: 3rem;
-    }
-
-    summary {
-      font-size: 1.5rem;
-      text-align: center;
-      margin: 2rem 0;
-    }
-  }
-
-  .header-info {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-  }
-
-  .comments {
-    h2 {
-      font-size: 2rem;
-      margin-top: 5rem;
-      margin-left: 1rem;
-    }
-  }
-
-  .write-comment {
-    margin-top: 1rem;
-    margin-bottom: 2rem;
-    text-align: center;
-
-    a {
-      display: inline-block;
-      font-size: 1rem;
-    }
-  }
-
-  .comment-list {
-    list-style: none;
-
-    li {
-      .author {
-        font-size: 1rem;
-
-        a {
-          color: var(--text-color);
-        }
-
-        time {
-          display: block;
-          font-size: 0.7rem;
-          opacity: 0.8;
-        }
-      }
-
-      .content {
-        margin-bottom: 1rem;
-        margin-top: 0.25rem;
-        font-size: 1.1rem;
-        line-height: 1.5rem;
-        font-weight: 300;
-        padding-left: 1rem;
-        font-size: 0.8rem;
-        border-left: 0.2rem solid var(--link-color);
-      }
-
-      .children {
-        margin-left: 2rem;
-      }
-    }
-  }
-
-  .preview {
-    margin-top: 5rem;
-    margin-bottom: 5rem;
-    padding: 2rem;
-    text-align: center;
-    font-size: 2rem;
-    background-color: #f5a623;
-    border: 1px solid var(--shade-outline);
-    border-radius: 0.5rem;
-  }
-</style>
+  <script
+    src='https://utteranc.es/client.js'
+    repo='arthurfiorette/place'
+    issue-term='title'
+    label='posts'
+    theme='preferred-color-scheme'
+    crossorigin='anonymous'
+    async></script>
+</Document>
 
 <style is:global lang='scss'>
   .md {
-    line-height: 1.5rem;
-
-    p {
-      margin: 1rem 0;
-    }
-
-    mark {
-      background-color: transparent;
-      font-weight: bold;
-    }
-
-    em {
-      font-style: italic;
-    }
-
-    h1 {
-      font-size: 2.5rem;
-    }
-
-    h2 {
-      font-size: 2rem;
-    }
-
-    h3 {
-      font-size: 1.5rem;
-    }
-
-    menu,
-    ol,
-    ul {
-      list-style: disc;
-    }
-
-    kbd {
-      padding: 0 0.3rem;
-      border: 1px solid var(--shade-outline);
-      border-radius: 0.2rem;
-      background-color: var(--shade-bg);
-    }
-
-    h1,
-    h2,
-    h3 {
-      margin-top: 5rem;
-      margin-bottom: 2rem;
-
-      width: calc(min(55rem, 87.5vw) + min((87.5vw - min(55rem, 87.5vw))/2, 3rem) * 2);
-      margin-left: calc(min((87.5vw - min(55rem, 87.5vw))/2, 3rem) * -1);
-
-      @media (max-width: 768px) {
-        margin-top: 3rem;
-      }
-    }
-
-    summary {
-      padding: 1rem;
-      display: block;
-      padding-left: 2.2rem;
-      position: relative;
-      cursor: pointer;
-      background-color: var(--shade-bg);
-      border: 1px solid var(--shade-outline);
-
-      &:before {
-        content: '';
-        border-width: 0.4rem;
-        border-style: solid;
-        border-color: transparent transparent transparent #fff;
-        position: absolute;
-        top: 1.3rem;
-        left: 1rem;
-        transform: rotate(0);
-        transform-origin: 0.2rem 50%;
-        transition: 0.25s transform ease;
-      }
-    }
-
-    details {
-      margin: 0 auto;
-      margin-bottom: 0.5rem;
-      border-radius: 5px;
-
-      &[open] > summary:before {
-        transform: rotate(90deg);
-      }
-
-      summary::-webkit-details-marker {
-        display: none;
-      }
-
-      & > ul {
-        padding-bottom: 1rem;
-        margin-bottom: 0;
-      }
-    }
-
-    iframe {
-      margin: 1rem 0;
-
-      border: none;
-      border-radius: 1rem;
-
-      width: 100%;
-      height: 100%;
-      aspect-ratio: 16/9;
-
-      @media (max-width: 768px) {
-        height: 90vh;
-      }
-    }
-
-    > * {
-      break-inside: avoid !important;
-    }
-
     pre {
-      line-height: unset;
+      @apply font-mono p-4 rounded-md;
+      font-family: monospace !important;
+    }
 
-      padding: 1rem;
-      background-color: var(--shade-bg) !important;
-      border: 1px solid var(--shade-outline) !important;
-      font-family: monospace;
-
-      &,
-      * {
-        @media (prefers-color-scheme: dark) {
-          color: var(--shiki-dark) !important;
-          font-style: var(--shiki-dark-font-style) !important;
-          font-weight: var(--shiki-dark-font-weight) !important;
-          text-decoration: var(--shiki-dark-text-decoration) !important;
-        }
-      }
+    img {
+      @apply mx-auto;
     }
   }
 </style>

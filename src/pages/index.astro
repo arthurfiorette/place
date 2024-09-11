@@ -1,32 +1,22 @@
 ---
 import { Icon } from 'astro-icon/components';
-import { getCollection } from 'astro:content';
-import MinRead from '../components/min-read.astro';
-import Time from '../components/time.astro';
-import Layout from '../layouts/index.astro';
-import { OssProjects } from '../projects';
-import { getReadTime } from '../util/read-time';
-import { getNpmDownloadCount } from '../util/npm';
-import { getStargazerCount } from '../util/github';
+import PostCard from '../components/post-card.astro';
+import ProjectCard from '../components/project-card.astro';
+import Section from '../components/section.astro';
+import SocialMediaCard from '../components/social-media-card.astro';
+import Document from '../layouts/document.astro';
+import { SocialMediaLinks } from '../util/link/social-media';
 import { abbrNumber } from '../util/number';
+import { posts, sortedPosts } from '../util/posts/get-posts';
+import { loadProjects } from '../util/projects';
 
-const posts = (await getCollection('blog')).filter((p) => p.data.published === true);
-
-for (const project of OssProjects) {
-  const [downloads, stars] = await Promise.all([
-    getNpmDownloadCount(project.npm),
-    getStargazerCount({ owner: project.owner, name: project.name })
-  ]);
-
-  project.downloads = downloads || 0;
-  project.stars = stars.repository?.stargazerCount || 0;
-}
+const projects = await loadProjects();
 ---
 
-<Layout header={false}>
-  <section>
-    <h1 class='title'>
-      Eai 👋 <br />I am <span class='name'>Arthur Fiorette</span>
+<Document>
+  <Section class='max-[1000px]:py-14'>
+    <h1 class='transition-all text-center !text-7xl max-[650px]:!text-4xl !pt-10'>
+      Eai 👋<br />I am <span class='text-cream-light'>Arthur Fiorette</span>
     </h1>
 
     <p>
@@ -42,399 +32,69 @@ for (const project of OssProjects) {
       develop various applications, including SaaS enterprise projects, a TypeScript
       framework, and even my own programming language.
     </p>
-  </section>
+  </Section>
 
-  <section>
+  <Section>
+    <p class='mt-8 mb-4'>
+      Discover more about my online world by checking out my social media and other
+      platforms.
+    </p>
+    <div
+      class='transition-all grid grid-cols-6 justify-items-center max-[450px]:grid-cols-2 max-[750px]:grid-cols-3 items-center gap-4 my-6'>
+      {SocialMediaLinks.map((mediaLink) => <SocialMediaCard data={mediaLink} />)}
+    </div>
+  </Section>
+
+  <Section>
     <p>
       I enjoy taking on new coding challenges and building libraries. I occasionally write
       about software-related topics. Additionally, You can explore some of my open source
       projects below:
     </p>
 
-    <ul class='showcase'>
-      {
-        OssProjects.map((p) => (
-          <li>
-            <a
-              href={`https://github.com/${p.owner}/${p.name}`}
-              title={`${p.prettyName}: ${p.description}`}
-              target='_blank'
-              rel='noopener noreferrer'>
-              <h3>{p.prettyName}</h3>
-              <p>{p.description}</p>
+    <div class='text-center text-sm mx-auto italic'>
+      A total of
+      <span class='text-cream-light'>
+        {projects.reduce((acc, p) => acc + p.stars, 0)}
+        <Icon name='mdi:star' class='inline' /> stars
+      </span>
+      and
+      <span class='text-cream-light'>
+        {abbrNumber(projects.reduce((acc, p) => acc + p.downloads * 4, 0))}
+        <Icon name='mdi:downloads' class='inline' /> monhtly downloads
+      </span>
+      when countring only projects authored by me.
+    </div>
 
-              <small>
-                {!!p.downloads && (
-                  <>
-                    📥 {abbrNumber(p.downloads * 4)}/month
-                    <span style={{ display: 'inline-block', width: '1rem' }} />
-                  </>
-                )}
-                {p.stars} ⭐
-              </small>
-            </a>
+    <ol
+      class='list-none w-full my-8 gap-x-4 gap-y-1 !p-0 grid grid-cols-2 max-[500px]:grid-cols-1'>
+      {
+        projects.map((project) => (
+          <li class='!p-0 !h-auto'>
+            <ProjectCard data={project} />
           </li>
         ))
       }
-
-      <li>
-        <a
-          href='https://github.com/arthurfiorette?tab=repositories&sort=stargazers'
-          title='View my Github profile.'
-          target='_blank'>
-          <h1 style='font-weight: normal'>And <b>many</b> others!</h1>
-        </a>
-      </li>
-    </ul>
-
-    <small class='showcase-resume'>
-      <span>
-        📥 {abbrNumber(OssProjects.reduce((acc, p) => acc + p.downloads * 4, 0))}/month
-        <span style={{ display: 'inline-block', width: '1rem' }}></span>
-      </span>
-
-      <span>
-        {OssProjects.reduce((acc, p) => acc + p.stars, 0)} ⭐
-      </span>
-    </small>
-  </section>
-
-  <section>
-    <p>
-      Discover more about my online world by checking out my social media and other
-      platforms.
-    </p>
-
-    <ul class='linktree'>
-      <li>
-        <a href='./curriculum' title='View my Curriculum.'>
-          <Icon name='mdi:account-file-outline' />
-          <h3>Curriculum</h3>
-        </a>
-      </li>
-      <li>
-        <a
-          href='https://github.com/arthurfiorette'
-          title='Star my projects on Github.'
-          target='_blank'
-          rel='noopener noreferrer'>
-          <Icon name='mdi:github' />
-          <h3>Github</h3>
-        </a>
-      </li>
-      <li>
-        <a
-          href='https://twitter.com/arthurfiorette'
-          title='Like some of my tweets.'
-          target='_blank'
-          rel='noopener noreferrer'>
-          <Icon name='mdi:twitter' />
-          <h3>Twitter</h3>
-        </a>
-      </li>
-      <li>
-        <a
-          href='https://linkedin.com/in/arthurfiorette'
-          title='Connect with me on LinkedIn.'
-          target='_blank'
-          rel='noopener noreferrer'>
-          <Icon name='mdi:linkedin' />
-          <h3>LinkedIn</h3>
-        </a>
-      </li>
-      <li>
-        <a
-          href='https://twitch.tv/arthurfiorette'
-          title='Follow me on Twitch.'
-          target='_blank'
-          rel='noopener noreferrer'>
-          <Icon name='mdi:twitch' />
-          <h3>Twitch</h3>
-        </a>
-      </li>
-      <li>
-        <a
-          href='mailto://me@arthur.place'
-          title='Send me an email.'
-          target='_blank'
-          rel='noopener noreferrer'>
-          <Icon name='mdi:at' />
-          <h3>Mail</h3>
-        </a>
-      </li>
-    </ul>
-  </section>
+    </ol>
+  </Section>
 
   {
     !!posts.length && (
-      <section>
+      <Section>
         <p>
           If you're interested in sharpening your programming skills and discovering
           insights to become a better programmer, I've got you covered. Here's a sneak
-          peek into my latest {posts.length} blog posts:
+          peek into my latest 1 blog posts:
         </p>
 
-        <ol class='post-preview'>
-          {posts
-            .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
-            .map((p) => (
-              <li>
-                <a href={`/${p.slug}`} title={p.data.description}>
-                  <h2>{p.data.title}</h2>
-                  <p>{p.data.description}</p>
-                  <small>
-                    <Time datetime={p.data.date} />
-                    <MinRead minRead={getReadTime(p.body)} />
-                  </small>
-                </a>
-              </li>
-            ))}
+        <ol class='!p-0 !m-0 list-none w-full'>
+          {sortedPosts.map((post) => (
+            <li class='transition-all hover:bg-neutral-800/70 border border-neutral-800/70 hover:border-neutral-600 p-4 rounded-lg w-full inline-flex items-center justify-center'>
+              <PostCard data={post} />
+            </li>
+          ))}
         </ol>
-      </section>
+      </Section>
     )
   }
-</Layout>
-
-<style lang='scss'>
-  .title {
-    font-size: min(10rem, 8vw);
-    min-width: 100vw;
-    text-align: center;
-    margin: 0 auto;
-    margin-bottom: 10.5rem;
-    margin-left: 50%;
-    transform: translateX(-50%);
-
-    .name {
-      background: linear-gradient(to right, var(--color-secondary), var(--color-primary));
-      background-clip: text;
-      color: transparent;
-    }
-  }
-
-  section {
-    margin: 6rem 0;
-    max-width: min(920px, 90vw);
-
-    p {
-      margin: 2rem 0;
-    }
-  }
-
-  .showcase-resume {
-    display: flex;
-    flex-direction: row;
-    font-size: 1.125rem;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1rem;
-    color: var(--color-primary);
-  }
-
-  .showcase {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-
-    @media (max-width: 800px) {
-      flex: 50%;
-    }
-
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-
-    li {
-      transition: all 150ms ease-in-out;
-      margin: 1rem;
-      border-radius: 0.5rem;
-      border: 1px solid transparent;
-      border: 1px solid var(--shade-bg);
-
-      &:hover {
-        cursor: pointer;
-        background-color: var(--shade-bg);
-        border: 1px solid var(--shade-outline);
-
-        h3 {
-          color: var(--color-primary);
-        }
-      }
-
-      a {
-        color: unset;
-        padding: 1rem;
-        aspect-ratio: 15/10;
-        height: 10rem;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-around;
-
-        &:hover {
-          text-decoration: none;
-        }
-      }
-
-      h3 {
-        margin: 0;
-        text-align: center;
-        font-weight: bold;
-        font-size: 1.3rem;
-      }
-
-      p {
-        text-align: center;
-        margin: 0.8rem 0;
-        font-size: 0.8rem;
-      }
-
-      small {
-        width: 100%;
-        text-align: center;
-        color: var(--color-100);
-        line-height: 0.5rem;
-      }
-    }
-  }
-
-  .linktree {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 1rem;
-
-    @media (max-width: 800px) {
-      flex: 50%;
-    }
-
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-
-    li {
-      border-radius: 0.5rem;
-      transition: all 150ms ease-in-out;
-      border: 1px solid transparent;
-
-      &:hover {
-        cursor: pointer;
-        background-color: var(--shade-bg);
-        border: 1px solid var(--shade-outline);
-      }
-
-      &:hover {
-        svg {
-          color: var(--color-primary);
-        }
-
-        a {
-          color: transparent;
-        }
-      }
-
-      svg,
-      a {
-        transition: color 150ms ease-in-out;
-      }
-
-      svg {
-        width: 5rem;
-        height: 5rem;
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        margin: auto;
-        z-index: -1;
-
-        color: var(--shade-bg);
-      }
-
-      a {
-        aspect-ratio: 1;
-        width: 8rem;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: relative;
-
-        color: unset;
-        font-size: 1.25rem;
-        font-weight: bold;
-
-        &:hover {
-          text-decoration: none;
-        }
-      }
-    }
-  }
-
-  .post-preview {
-    display: flex;
-    flex-direction: column;
-
-    li {
-      transition: all 150ms ease-in-out;
-      border-radius: 0.5rem;
-      border: 1px solid transparent;
-
-      &:not(:first-child) {
-        margin-top: 1rem;
-      }
-
-      &:hover {
-        cursor: pointer;
-        background-color: var(--shade-bg);
-        border: 1px solid var(--shade-outline);
-      }
-
-      a {
-        color: unset;
-        padding: 2rem;
-        display: block;
-
-        &:hover {
-          text-decoration: none;
-
-          h2 {
-            color: var(--color-primary);
-          }
-        }
-      }
-
-      small {
-        color: var(--color-100);
-      }
-
-      h2 {
-        font-size: 2rem;
-        margin-bottom: 1rem;
-        text-align: center;
-      }
-
-      div {
-        display: flex;
-        flex-direction: row;
-        justify-content: start;
-        align-items: center;
-        font-size: 0.8rem;
-
-        > :not(:first-child) {
-          padding-left: 1rem;
-        }
-      }
-
-      p {
-        padding-top: 0.2rem;
-        color: var(--color-100);
-        margin: 0;
-      }
-    }
-  }
-</style>
+</Document>

@@ -1,0 +1,7 @@
+{
+  "name": "proposal-safe-assignment-operator",
+  "prettyName": "ECMAScript Safe Assignment Operator Proposal",
+  "npm": [],
+  "owner": "arthurfiorette",
+  "description": "A new JS proposal to add a ?= operator for safe assignment."
+}

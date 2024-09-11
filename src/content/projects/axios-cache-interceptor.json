@@ -1,0 +1,7 @@
+{
+  "name": "axios-cache-interceptor",
+  "prettyName": "Axios Cache Interceptor",
+  "npm": ["axios-cache-interceptor"],
+  "owner": "arthurfiorette",
+  "description": "Small and efficient cache interceptor for axios."
+}

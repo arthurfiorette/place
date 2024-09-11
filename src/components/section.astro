@@ -1,0 +1,13 @@
+---
+interface Props {
+  class?: string;
+}
+---
+
+<section
+  class:list={[
+    'prose dark:prose-invert lg:prose-xl items-center w-full max-w-3xl',
+    Astro.props.class
+  ]}>
+  <slot />
+</section>
