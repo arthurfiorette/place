@@ -89,7 +89,11 @@ const projects = await loadProjects();
 
         <ol class='!p-0 !m-0 list-none w-full'>
           {sortedPosts.map((post) => (
-            <li class='transition-all hover:bg-neutral-800/70 border border-neutral-800/70 hover:border-neutral-600 p-4 rounded-lg w-full inline-flex items-center justify-center'>
+            <li
+              class:list={[
+                'transition-all hover:bg-neutral-800/70 border border-neutral-800/70 hover:border-neutral-600 p-4 rounded-lg w-full inline-flex items-center justify-center',
+                !post.data.published && '!bg-yellow-950'
+              ]}>
               <PostCard data={post} />
             </li>
           ))}

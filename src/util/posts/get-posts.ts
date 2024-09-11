@@ -1,7 +1,7 @@
-import { getCollection } from "astro:content";
+import { getCollection } from 'astro:content';
 
-export const posts = (await getCollection("blog")).filter(
-  (p) => p.data.published === true
+export const posts = (await getCollection('blog')).filter((p) =>
+  import.meta.env.MODE !== 'development' ? p.data.published : true
 );
 
 export const sortedPosts = posts.sort(

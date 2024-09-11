@@ -2,10 +2,10 @@
 import { getReadTime } from '../util/read-time';
 import MinRead from './min-read.astro';
 import Time from './time.astro';
-import { type PostProps } from '../types/post';
+import type { CollectionEntry } from 'astro:content';
 
 interface Props {
-  data: PostProps;
+  data: CollectionEntry<'blog'>;
   minimalistic?: boolean;
 }
 

@@ -12,7 +12,11 @@ import { posts } from '../util/posts/get-posts';
       !!posts.length && (
         <ol class='!p-0 !m-0 list-none w-full'>
           {posts.map((post) => (
-            <li class='transition-all hover:bg-neutral-800/70 border border-neutral-800/70 hover:border-neutral-600 p-4 rounded-lg w-full block'>
+            <li
+              class:list={[
+                'transition-all hover:bg-neutral-800/70 border border-neutral-800/70 hover:border-neutral-600 p-4 rounded-lg w-full block',
+                !post.data.published && '!bg-yellow-950'
+              ]}>
               <PostCard minimalistic data={post} />
             </li>
           ))}

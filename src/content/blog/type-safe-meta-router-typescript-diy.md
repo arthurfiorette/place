@@ -3,10 +3,9 @@ title: 'Building a Type-Safe Meta-Router in TypeScript: A DIY Guide'
 date: 2024/04/24 22:14:37
 keywords: [typescript, meta programming, compiler]
 description: "Unlocking the Power of Meta-Programming: A Guide to TypeScript's Compiler API"
-published: 'preview'
 ---
 
-Essa é a história de como eu criei os core-concepts do meu "framework" backend [Kita.js](https://kita.js.org) e usei o TypeScript Compiler API para criar um sistema único de análise estática, type-checking e code generation para criação de rotas em um servidor HTTP.
+> Essa é a história de como eu criei o core-concept do meu "framework" backend [Kita.js](https://kitajs.org) e usufrui do TypeScript Compiler API para criar um sistema único de análise estática, type-checking e code generation para criação de rotas em um servidor HTTP.
 
 ## Ecosistema
 
@@ -87,62 +86,76 @@ A repetição piora mil vezes mais quando você tem que definir os mesmos modelo
 
 Definir o mesmo modelo umas 5 vezes não costuma ser um grande problema em grandes projetos, afinal projetos grandes/empresariais são os que realmente pagam as contas no final do mês.
 
-Apenas usando <kbd>Ctrl+C</kbd>/<kbd>Ctrl+V</kbd> e algumas mudanças que podem ser facilitadas com regexes dentre as _N_ cópias de schema que precisam ser feitas já podem ser o suficiente.
+Apenas usando <kbd>Ctrl+C</kbd> ou <kbd>Ctrl+V</kbd> e algumas mudanças que podem ser facilitadas com regexes dentre as _N_ cópias de schema que precisam ser feitas já podem ser o suficiente.
 
 O grande problema disso tudo mora em manter a consistência entre essas cópias durante os longos anos de vida de um projeto e todas as suas mudanças que o tempo trará consigo.
 
 ## Esboçando ideias
 
-Antes de decidir o que precisamos e podemos reduzir, vamos tentar esboçar um exemplo mínimo de uma rota sem perder nenhuma informação:
+Antes de decidir o que precisamos e podemos reduzir, vamos tentar criar um código de uma rota aonde o texto diz tudo que é necessário de informação, mas ainda não da maneira correta:
 
 ```ts
 export function createUser(id: string, name: string) {
-  return myService.editUser(id, name);
+  return myService.createUser(id, name);
 }
 ```
 
-Tecnicamente, o código acima nos diz tudo que é necessário, porém **ainda** está faltando algumas informações específicas que são necessárias para um web service.
+Tecnicamente, essa função acima nos diz o seu contrato perfeitamente, porém **ainda** não é o suficiente para um web service.
 
 Se você se acha o rei da arquitetura de software, você provavelmente deve estar pensando:
 
-> _"Whoa! That's what a Controller should do!"_
+> _"Whoa! We need a Controller!"_
 
-Sim, de certa forma você não está errado, mas lembre-se que estamos programando em JavaScript e com isso podemos burlar algumas coisas em favor da tão sonhada **Developer Experience**.
+Sim, e é isso que vamos fazer, só que sem a parte chata de um controller. Por que? Por que eu e você programamos em javascript e isso já é por si só uma boa desculpa.
 
-Informações como:
+## Requisitos
+
+Um controller básico deve portar essas informações:
 
 - O método HTTP que a rota deve responder
 - O caminho da rota
 - De onde o ID do usuário vem
 - De onde o nome do usuário vem
 - O que será retornado
-- _(E muitas outras informações que não convém ao nosso exemplo)_
+- _(E outros dados que não convém ao nosso exemplo)_
 
-Ainda precisam ser definidas de alguma forma. Poderiamos melhorar um pouco mais o nosso exemplo para conter essas informações:
+`type X<Y> = Y` é uma simples abreviação de `Y = Y` que contém visualmente uma informação a mais: `X`.
+
+Com isso, pode-se criar alguns type helpers que visualmente indicariam de onde vem cada informação:
 
 ```ts
-// routes/user.ts
-
 type Body<T> = T;
 type Path<T> = T;
-type User = { id: string; name: string };
+type Header<T> = T;
+type Query<T> = T;
+```
 
-/**
- * @operationId createUser
- */
+E ao aplicar esses type helpers ao nosso exemplo, visualmente temos uma melhor ideia de onde vem cada informação mantendo a tipagem original:
+
+```ts
+// post('123', 'John Doe'); still works
+export function post(id: Path<string>, name: Body<string>) {
+  return myService.editUser(id, name);
+}
+```
+
+Sendo criativo e embelezando um pouco mais o código, um resultado como o seguinte é possível:
+
+```ts
+// src/routes/user.ts
+
+/** @operationId editUser */
 export function post(id: Path<string>, name: Body<string>): User {
   return myService.editUser(id, name);
 }
 ```
 
-E ao colocar o código acima dentro de um arquivo localizado em `/routes/user.ts` e seguir a metodologia de filesystem routing, tecnicamente já temos toda a informação necessária definida de forma explícita e sem repetição.
-
-Mesmo que aparenta perfeito, o exemplo acima não consegue ser executado sem etapas de compilação adicionais, uma vez que ao transpilar o código typescript para javascript antes de executá-lo, todas essas informações serão perdidas e não conseguiremos mais acessá-las:
+Mesmo que aparenta funcional, o exemplo acima não consegue ser executado sem etapas de compilação adicionais, uma vez que ao transpilar o código typescript, todas essas informações serão perdidas e não conseguiremos mais acessá-las:
 
 ```js
-// routes/user.js
+// dist/routes/user.js
 
-// We lost all the information we had in the typescript file
+// what is id and name?
 export function post(id, name) {
   return myService.editUser(id, name);
 }
@@ -152,4 +165,77 @@ export function post(id, name) {
 
 Se você se considera um pouco mais curioso, já deve ter se perguntado como que ao rodar `tsc` e a tipagem ser removida mas o código não.
 
-Como que `export function post(id` continuou no `.js` mas o `: Path<string>` foi removido?
+Como que `post(id, name)` continuou no `.js` mas o `: Path<string>` e `: Body<string>` não? **A primeira resposta para essa pergunta é AST.**
+
+Ao abrirmos o exemplo acima no [astexplorer.net](https://astexplorer.net/#/gist/9136944ed4a8b216b458f61f741ce24a/ce324a7e4e90a81212c74f76f1f5dc36060f0f7e) você verá a Abstract Syntax Tree (AST) inteira que o TypeScript gera ao transpilar seu código.
+
+```js
+AST = {
+  fileName: 'src/routes/user.ts',
+  kind: ts.SyntaxKind.SourceFile,
+  statements: [
+    {
+      kind: ts.SyntaxKind.FunctionDeclaration,
+      name: {
+        escapedText: 'post',
+        kind: ts.SyntaxKind.Identifier
+      },
+      parameters: [
+        {
+          kind: ts.SyntaxKind.Parameter,
+          name: {
+            escapedText: 'id',
+            kind: ts.SyntaxKind.Identifier
+          },
+          type: {
+            kind: ts.SyntaxKind.TypeReference,
+            typeArguments: [
+              {
+                kind: ts.SyntaxKind.StringKeyword
+              }
+            ],
+            typeName: {
+              escapedText: 'Path',
+              kind: ts.SyntaxKind.Identifier
+            }
+          }
+        },
+        {
+          kind: ts.SyntaxKind.Parameter,
+          name: {
+            escapedText: 'name',
+            kind: ts.SyntaxKind.Identifier
+          },
+          type: {
+            kind: ts.SyntaxKind.TypeReference,
+            typeArguments: [
+              {
+                kind: ts.SyntaxKind.StringKeyword
+              }
+            ],
+            typeName: {
+              escapedText: 'Body',
+              kind: ts.SyntaxKind.Identifier
+            }
+          }
+        }
+      ],
+      jsDoc: [
+        {
+          kind: ts.SyntaxKind.JSDocComment,
+          tags: [
+            {
+              comment: 'editUser',
+              kind: ts.SyntaxKind.JSDocTag,
+              tagName: {
+                escapedText: 'operationId',
+                kind: ts.SyntaxKind.Identifier
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+};
+```

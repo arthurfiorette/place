@@ -1,0 +1,95 @@
+{
+  "end": 136,
+  "fileName": "src/routes/user.ts",
+  "kind": 308,
+  "pos": 0,
+  "statements": [
+    {
+      "end": 136,
+      "jsDoc": [
+        {
+          "end": 28,
+          "flags": 8388608,
+          "kind": 323,
+          "pos": 0,
+          "tags": [
+            {
+              "comment": "editUser",
+              "end": 26,
+              "flags": 8388608,
+              "kind": 330,
+              "pos": 4,
+              "tagName": {
+                "end": 16,
+                "escapedText": "operationId",
+                "flags": 8388608,
+                "kind": 79,
+                "pos": 5
+              }
+            }
+          ]
+        }
+      ],
+      "kind": 259,
+      "name": {
+        "end": 49,
+        "escapedText": "post",
+        "flags": 0,
+        "kind": 79,
+        "pos": 44
+      },
+      "parameters": [
+        {
+          "end": 66,
+          "flags": 0,
+          "kind": 166,
+          "name": { "end": 52, "escapedText": "id", "flags": 0, "kind": 79, "pos": 50 },
+          "pos": 50,
+          "transformFlags": 1,
+          "type": {
+            "end": 66,
+            "flags": 0,
+            "kind": 180,
+            "pos": 53,
+            "transformFlags": 1,
+            "typeArguments": [
+              { "end": 65, "flags": 0, "kind": 152, "pos": 59, "transformFlags": 1 }
+            ],
+            "typeName": {
+              "end": 58,
+              "escapedText": "Path",
+              "flags": 0,
+              "kind": 79,
+              "pos": 53
+            }
+          }
+        },
+        {
+          "end": 86,
+          "flags": 0,
+          "kind": 166,
+          "name": { "end": 72, "escapedText": "name", "flags": 0, "kind": 79, "pos": 67 },
+          "pos": 67,
+          "transformFlags": 1,
+          "type": {
+            "end": 86,
+            "flags": 0,
+            "kind": 180,
+            "pos": 73,
+            "transformFlags": 1,
+            "typeArguments": [
+              { "end": 85, "flags": 0, "kind": 152, "pos": 79, "transformFlags": 1 }
+            ],
+            "typeName": {
+              "end": 78,
+              "escapedText": "Body",
+              "flags": 0,
+              "kind": 79,
+              "pos": 73
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

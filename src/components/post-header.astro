@@ -1,40 +1,37 @@
 ---
-import MinRead from "../components/min-read.astro";
-import Time from "../components/time.astro";
-import { getReadTime } from "../util/read-time";
-import { type PostProps } from "../types/post";
+import type { CollectionEntry } from 'astro:content';
+import MinRead from '../components/min-read.astro';
+import Time from '../components/time.astro';
+import { getReadTime } from '../util/read-time';
 
 interface Props {
   date: Date;
-  post: PostProps;
+  post: CollectionEntry<'blog'>;
 }
 
 const { date, post } = Astro.props;
 ---
 
 <header
-  class="prose dark:prose-invert lg:prose-xl items-center w-full max-w-3xl py-10 max-[1000px]:pt-28"
->
+  class='prose dark:prose-invert lg:prose-xl items-center w-full max-w-3xl py-10 max-[1000px]:pt-28'>
   <div>
-    <h1 class="text-neutral-200 text-center">{post.data.title}</h1>
+    <h1 class='text-neutral-200 text-center'>{post.data.title}</h1>
     <div
-      class="gap-1.5 text-base flex justify-center items-center text-neutral-400 w-full"
-    >
+      class='gap-1.5 text-base flex justify-center items-center text-neutral-400 w-full'>
       <MinRead minRead={getReadTime(post.body)} />
       <Time datetime={date} />
     </div>
   </div>
   <summary
-    class="text-[1.5rem] italic w-full text-neutral-100 text-center my-8 justify-center items-center flex flex-col"
-  >
-    <q>
+    class='text-[1.5rem] italic w-full text-neutral-100 text-center my-8 justify-center items-center flex flex-col'>
+    <div class='inline text-xl text-left'>
       {post.data.description}
-    </q>
+    </div>
   </summary>
 
   {
-    post.data.published === "preview" && (
-      <div class="preview">This post is a preview and may not be final.</div>
+    post.data.published === 'preview' && (
+      <div class='preview'>This post is a preview and may not be final.</div>
     )
   }
 </header>

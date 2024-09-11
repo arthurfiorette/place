@@ -59,7 +59,22 @@ const { Content } = await post.render();
   .md {
     pre {
       @apply font-mono p-4 rounded-md;
-      font-family: monospace !important;
+      font-family: 'Cascadia Code', Consolas, monaco, monospace !important;
+      font-variant-ligatures: common-ligatures !important;
+    }
+
+    :not(pre) > code {
+      @apply bg-neutral-800 p-1 rounded-md font-normal text-cream-light;
+      font-family: 'Cascadia Code', Consolas, monaco, monospace !important;
+      font-variant-ligatures: common-ligatures !important;
+    }
+
+    a[href] {
+      @apply font-normal no-underline hover:underline;
+    }
+
+    blockquote {
+      @apply font-normal not-italic;
     }
 
     img {
