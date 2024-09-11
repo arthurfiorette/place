@@ -1,0 +1,14 @@
+{
+  "name": "kitajs",
+  "prettyName": "Kita",
+  "npm": [
+    "@kitajs/cli",
+    "@kitajs/parser",
+    "@kitajs/ts-plugin",
+    "@kitajs/generator",
+    "@kitajs/common",
+    "@kitajs/runtime"
+  ],
+  "owner": "kitajs",
+  "description": "Revolutionary type safe router for javascript backends."
+}

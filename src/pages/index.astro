@@ -1,86 +1,76 @@
 ---
-import ProjectCard from "../components/project-card.astro";
-import Section from "../components/section.astro";
-import SocialMediaCard from "../components/social-media-card.astro";
-import { OssProjects, ossProjectSorter } from "../util/link/projects";
-import { SocialMediaLinks } from "../util/link/social-media";
-import Document from "../layouts/document.astro";
-import { getStargazerCount } from "../util/github";
-import { getNpmDownloadCount } from "../util/npm";
-import { abbrNumber } from "../util/number";
-import { posts, sortedPosts } from "../util/posts/get-posts";
-import PostCard from "../components/post-card.astro";
+import { Icon } from 'astro-icon/components';
+import PostCard from '../components/post-card.astro';
+import ProjectCard from '../components/project-card.astro';
+import Section from '../components/section.astro';
+import SocialMediaCard from '../components/social-media-card.astro';
+import Document from '../layouts/document.astro';
+import { SocialMediaLinks } from '../util/link/social-media';
+import { abbrNumber } from '../util/number';
+import { posts, sortedPosts } from '../util/posts/get-posts';
+import { loadProjects } from '../util/projects';
 
-for (const project of OssProjects) {
-  const [downloads, stars] = await Promise.all([
-    getNpmDownloadCount(project.npm),
-    getStargazerCount({ owner: project.owner, name: project.name }),
-  ]);
-
-  project.downloads = downloads || 0;
-  project.stars = stars || 0;
-}
+const projects = await loadProjects();
 ---
 
 <Document>
-  <Section class="max-[1000px]:py-14">
-    <h1
-      class="transition-all text-center !text-7xl max-[650px]:!text-4xl !pt-10"
-    >
-      Eai 👋<br />I am <span class="text-cream-light">Arthur Fiorette</span>
+  <Section class='max-[1000px]:py-14'>
+    <h1 class='transition-all text-center !text-7xl max-[650px]:!text-4xl !pt-10'>
+      Eai 👋<br />I am <span class='text-cream-light'>Arthur Fiorette</span>
     </h1>
 
     <p>
-      I'm a passionate software engineer from Brazil 🇧🇷. My love for open source
-      projects connects people worldwide and drives us toward a better future.
-      When I'm not coding, you'll find me enjoying mountain biking, playing
-      Counter-Strike, volleyball, or helping beginners with coding.
+      I'm a passionate software engineer from Brazil 🇧🇷. My love for open source projects
+      connects people worldwide and drives us toward a better future. When I'm not coding,
+      you'll find me enjoying mountain biking, playing Counter-Strike, volleyball, or
+      helping beginners with coding.
     </p>
 
     <p>
-      I'm dedicated to full-stack development. I started my coding journey in
-      late 2018 with Java, initially tinkering with Minecraft plugins. Since
-      then, I've grown to develop various applications, including SaaS
-      enterprise projects, a TypeScript framework, and even my own programming
-      language.
+      I'm dedicated to full-stack development. I started my coding journey in late 2018
+      with Java, initially tinkering with Minecraft plugins. Since then, I've grown to
+      develop various applications, including SaaS enterprise projects, a TypeScript
+      framework, and even my own programming language.
     </p>
   </Section>
 
   <Section>
-    <p class="mt-8 mb-4">
-      Discover more about my online world by checking out my social media and
-      other platforms.
+    <p class='mt-8 mb-4'>
+      Discover more about my online world by checking out my social media and other
+      platforms.
     </p>
     <div
-      class="transition-all grid grid-cols-6 justify-items-center max-[450px]:grid-cols-2 max-[750px]:grid-cols-3 items-center gap-4 my-6"
-    >
-      {
-        SocialMediaLinks.map((mediaLink) => (
-          <SocialMediaCard data={mediaLink} />
-        ))
-      }
+      class='transition-all grid grid-cols-6 justify-items-center max-[450px]:grid-cols-2 max-[750px]:grid-cols-3 items-center gap-4 my-6'>
+      {SocialMediaLinks.map((mediaLink) => <SocialMediaCard data={mediaLink} />)}
     </div>
   </Section>
 
   <Section>
     <p>
-      I enjoy taking on new coding challenges and building libraries. I
-      occasionally write about software-related topics. Additionally, You can
-      explore some of my open source projects below:
+      I enjoy taking on new coding challenges and building libraries. I occasionally write
+      about software-related topics. Additionally, You can explore some of my open source
+      projects below:
     </p>
 
-    <div class="text-center text-sm mx-auto italic">
-      A total of {OssProjects.reduce((acc, p) => acc + p.stars, 0)} ★ stars and {
-        abbrNumber(OssProjects.reduce((acc, p) => acc + p.downloads * 4, 0))
-      } ↓ downloads per month only counting projects authored by me.
+    <div class='text-center text-sm mx-auto italic'>
+      A total of
+      <span class='text-cream-light'>
+        {projects.reduce((acc, p) => acc + p.stars, 0)}
+        <Icon name='mdi:star' class='inline' /> stars
+      </span>
+      and
+      <span class='text-cream-light'>
+        {abbrNumber(projects.reduce((acc, p) => acc + p.downloads * 4, 0))}
+        <Icon name='mdi:downloads' class='inline' /> monhtly downloads
+      </span>
+      when countring only projects authored by me.
     </div>
 
     <ol
-      class="list-none w-full my-8 gap-x-4 gap-y-1 !p-0 grid grid-cols-2 max-[500px]:grid-cols-1"
-    >
+      class='list-none w-full my-8 gap-x-4 gap-y-1 !p-0 grid grid-cols-2 max-[500px]:grid-cols-1'>
       {
-        OssProjects.sort(ossProjectSorter).map((project) => (
-          <li class="!p-0 !h-auto">
+        projects.map((project) => (
+          <li class='!p-0 !h-auto'>
             <ProjectCard data={project} />
           </li>
         ))
@@ -92,14 +82,14 @@ for (const project of OssProjects) {
     !!posts.length && (
       <Section>
         <p>
-          If you're interested in sharpening your programming skills and
-          discovering insights to become a better programmer, I've got you
-          covered. Here's a sneak peek into my latest 1 blog posts:
+          If you're interested in sharpening your programming skills and discovering
+          insights to become a better programmer, I've got you covered. Here's a sneak
+          peek into my latest 1 blog posts:
         </p>
 
-        <ol class="!p-0 !m-0 list-none w-full">
+        <ol class='!p-0 !m-0 list-none w-full'>
           {sortedPosts.map((post) => (
-            <li class="transition-all hover:bg-neutral-800/70 border border-neutral-800/70 hover:border-neutral-600 p-4 rounded-lg w-full inline-flex items-center justify-center">
+            <li class='transition-all hover:bg-neutral-800/70 border border-neutral-800/70 hover:border-neutral-600 p-4 rounded-lg w-full inline-flex items-center justify-center'>
               <PostCard data={post} />
             </li>
           ))}

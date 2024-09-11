@@ -30,8 +30,8 @@ const ldJson = JSON.stringify({
   url: "https://arthur.place",
   address: {
     "@type": "PostalAddress",
-    addressLocality: "Venda Nova do Imigrante",
-    addressRegion: "Espírito Santo (ES)",
+    addressLocality: "Centro",
+    addressRegion: "Bluemenau (SC)",
     addressCountry: "Brazil",
   },
   email: "arthur.fiorette@gmail.com",
@@ -114,12 +114,10 @@ const ldJson = JSON.stringify({
   >
     <div class="flex justify-start items-start max-[1000px]:flex-col-reverse">
       <main
-        class={[
+        class:list={[
           "flex flex-col items-center justify-center gap-5 p-5 h-full",
           Astro.props.class,
-        ]
-          .filter(Boolean)
-          .join(" ")}
+        ] }
       >
         <slot />
       </main>

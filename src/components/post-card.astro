@@ -1,8 +1,8 @@
 ---
-import { getReadTime } from "../util/read-time";
-import MinRead from "./min-read.astro";
-import Time from "./time.astro";
-import { type PostProps } from "../types/post";
+import { getReadTime } from '../util/read-time';
+import MinRead from './min-read.astro';
+import Time from './time.astro';
+import { type PostProps } from '../types/post';
 
 interface Props {
   data: PostProps;
@@ -11,22 +11,26 @@ interface Props {
 
 const {
   data: { data: post, slug, body },
-  minimalistic = false,
+  minimalistic = false
 } = Astro.props;
 ---
 
 <a
   href={`/${slug}`}
   title={post.description}
-  class={`no-underline group p-4  block ${minimalistic && "!flex !flex-col !justify-start p-2"}`}
->
+  class:list={[
+    'no-underline group p-4 block',
+    minimalistic && '!flex !flex-col !justify-start p-2'
+  ]}>
   <h2
-    class={`font-normal !text-3xl text-center font-sans !mt-0 group-hover:text-cream-light ${minimalistic && "!text-left "}`}
-  >
+    class:list={[
+      'font-normal !text-3xl text-center font-sans !mt-0 group-hover:text-cream-light',
+      minimalistic && '!text-left'
+    ]}>
     {post.title}
   </h2>
-  <p class="!mb-0 font-light !text-lg text-neutral-300">{post.description}</p>
-  <small class="font-light !text-base text-neutral-300">
+  <p class='!mb-0 font-light !text-lg text-neutral-300'>{post.description}</p>
+  <small class='font-light !text-base text-neutral-300'>
     <Time datetime={post.date} />
     <MinRead minRead={getReadTime(body)} />
   </small>

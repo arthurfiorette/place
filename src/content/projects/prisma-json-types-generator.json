@@ -1,0 +1,7 @@
+{
+  "name": "prisma-json-types-generator",
+  "prettyName": "Prisma Json Types Generator",
+  "npm": ["prisma-json-types-generator"],
+  "owner": "arthurfiorette",
+  "description": "Type safe Postgres Json for prisma schemas."
+}

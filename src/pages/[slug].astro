@@ -41,20 +41,6 @@ const { Content } = await post.render();
 
   <PostHeader date={date} post={post} />
 
-  <script is:inline>
-    const pre = document.querySelectorAll('pre');
-
-    pre.forEach((element) => {
-      element.addEventListener('click', () => {
-        navigator.clipboard.writeText(element.innerText);
-        element.style.backgroundColor = 'rgba(0, 0, 0, 0.1)';
-        setTimeout(() => {
-          element.style.backgroundColor = 'rgba(0, 0, 0, 0.01)';
-        }, 1000);
-      });
-    });
-  </script>
-
   <Section class='md'>
     <Content />
   </Section>
@@ -73,14 +59,7 @@ const { Content } = await post.render();
   .md {
     pre {
       @apply font-mono p-4 rounded-md;
-      background: rgba(0, 0, 0, 0.01) !important;
-      transition: all 0.2s ease !important;
-      backdrop-filter: blur(0.1rem) !important;
       font-family: monospace !important;
-    }
-
-    &:hover {
-      cursor: copy;
     }
 
     img {
