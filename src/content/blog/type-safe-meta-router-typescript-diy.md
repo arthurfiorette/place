@@ -167,8 +167,8 @@ O TypeScript transforma o código fonte em uma árvore de sintaxe abstrata (AST,
 
 Ao abrirmos o código acima no [astexplorer.net](https://astexplorer.net/#/gist/9136944ed4a8b216b458f61f741ce24a/ce324a7e4e90a81212c74f76f1f5dc36060f0f7e) você verá a Abstract Syntax Tree (AST) inteira que o TypeScript gera ao transpilar seu código.
 
-```sh
-AST = {
+```ts
+const AST = {
   fileName: 'src/routes/user.ts',
   kind: ts.SyntaxKind.SourceFile,
   statements: [

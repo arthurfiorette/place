@@ -1,4 +1,5 @@
 ---
+import { Icon } from 'astro-icon/components';
 import { abbrNumber } from '../util/number';
 
 interface Data {
@@ -33,7 +34,7 @@ const monthlyDownloads = data.downloads * 4;
         {
           !!data.stars && (
             <div class='hover:text-cream-light' title={`${data.stars}`}>
-              <b>📥 {data.stars}</b> ★ on github
+              <b>{data.stars}</b> <Icon name="mdi:star" class="inline text-yellow-400"/> on github
             </div>
           )
         }
@@ -42,10 +43,9 @@ const monthlyDownloads = data.downloads * 4;
           !!monthlyDownloads && (
             <div class='hover:text-cream-light' title={`${monthlyDownloads}`}>
               <b>
-                📥
                 {abbrNumber(monthlyDownloads)}
               </b>{' '}
-              ↓ per month
+              <Icon name="mdi:downloads" class="inline text-blue-400" />  per month
             </div>
           )
         }
