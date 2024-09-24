@@ -17,6 +17,9 @@ export default defineConfig({
       theme: 'vitesse-dark'
     }
   },
+  build: {
+    format: 'file',
+  },
   output: 'static',
   integrations: [
     mdx(),
