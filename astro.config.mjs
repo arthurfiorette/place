@@ -5,12 +5,13 @@ import icon from 'astro-icon';
 import { defineConfig } from 'astro/config';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import compress from 'astro-compress';
+import rehypeSlug from 'rehype-slug';
 
 // https://astro.build/config
 export default defineConfig({
   site: 'https://arthur.place',
   markdown: {
-    rehypePlugins: [rehypeAutolinkHeadings],
+    rehypePlugins: [rehypeSlug, [rehypeAutolinkHeadings, { behavior: 'wrap' }]],
     shikiConfig: {
       wrap: true,
       theme: 'vitesse-dark'
