@@ -54,13 +54,14 @@ const ldJson = JSON.stringify({
     />
 
     <!-- General SEO -->
-    <script type="application/ld+json" set:html={ldJson} />
+    <script is:inline type="application/ld+json" set:html={ldJson} />
     <link rel="manifest" href="/manifest.json" />
     <meta name="robots" content="index, follow" />
 
     <!-- Public metrics available at plausible.io/arthur.place -->
     <script
       defer
+      is:inline
       data-domain="arthur.place"
       src="https://plausible.io/js/script.js"></script>
 
