@@ -163,13 +163,11 @@ export function post(id, name) {
 
 ## Typescript, but not the one you know
 
-Se você se considera um pouco mais curioso, já deve ter se perguntado como que ao rodar `tsc` e a tipagem ser removida mas o código não.
+O TypeScript transforma o código fonte em uma árvore de sintaxe abstrata (AST, ou Abstract Syntax Tree) para facilitar a análise e manipulação do código pelo compilador.
 
-Como que `post(id, name)` continuou no `.js` mas o `: Path<string>` e `: Body<string>` não? **A primeira resposta para essa pergunta é AST.**
+Ao abrirmos o código acima no [astexplorer.net](https://astexplorer.net/#/gist/9136944ed4a8b216b458f61f741ce24a/ce324a7e4e90a81212c74f76f1f5dc36060f0f7e) você verá a Abstract Syntax Tree (AST) inteira que o TypeScript gera ao transpilar seu código.
 
-Ao abrirmos o exemplo acima no [astexplorer.net](https://astexplorer.net/#/gist/9136944ed4a8b216b458f61f741ce24a/ce324a7e4e90a81212c74f76f1f5dc36060f0f7e) você verá a Abstract Syntax Tree (AST) inteira que o TypeScript gera ao transpilar seu código.
-
-```js
+```sh
 AST = {
   fileName: 'src/routes/user.ts',
   kind: ts.SyntaxKind.SourceFile,
