@@ -6,7 +6,11 @@ function ossProjectSorter(
   a: CollectionEntry<'projects'>['data'],
   b: CollectionEntry<'projects'>['data']
 ) {
-  return b.stars * (1000 / 2.1) + b.downloads - (a.stars * (1000 / 2.1) + a.downloads);
+  return (
+    b.stars * (1000 / 2.1) +
+    b.downloads -
+    (a.stars * (1000 / 2.1) + a.downloads)
+  );
 }
 
 export async function loadProjects() {
@@ -17,9 +21,10 @@ export async function loadProjects() {
       getNpmDownloadCount(project.data.npm).then(
         (downloads) => (project.data.downloads = downloads)
       ),
-      getStargazerCount({ owner: project.data.owner, name: project.data.name }).then(
-        (stars) => (project.data.stars = stars)
-      )
+      getStargazerCount({
+        owner: project.data.owner,
+        name: project.data.name
+      }).then((stars) => (project.data.stars = stars))
     ])
   );
 

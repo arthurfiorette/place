@@ -1,8 +1,8 @@
 ---
+import type { CollectionEntry } from 'astro:content';
 import { getReadTime } from '../util/read-time';
 import MinRead from './min-read.astro';
 import Time from './time.astro';
-import type { CollectionEntry } from 'astro:content';
 
 interface Props {
   data: CollectionEntry<'blog'>;

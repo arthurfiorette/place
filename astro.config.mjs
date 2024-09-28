@@ -1,10 +1,10 @@
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
+import compress from 'astro-compress';
 import icon from 'astro-icon';
 import { defineConfig } from 'astro/config';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
-import compress from 'astro-compress';
 import rehypeSlug from 'rehype-slug';
 
 // https://astro.build/config
@@ -18,7 +18,7 @@ export default defineConfig({
     }
   },
   build: {
-    format: 'file',
+    format: 'file'
   },
   output: 'static',
   integrations: [

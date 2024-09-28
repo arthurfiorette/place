@@ -1,17 +1,17 @@
 ---
-import { getCollection } from "astro:content";
-import Section from "../components/section.astro";
-import Document from "../layouts/document.astro";
+import { getCollection } from 'astro:content';
+import Section from '../components/section.astro';
+import Document from '../layouts/document.astro';
 
 export async function getStaticPaths() {
-  const cvs = await getCollection("curriculum");
+  const cvs = await getCollection('curriculum');
 
   return cvs.map((cv) => ({
     params: { curriculum: cv.data.id },
     props: {
       ...cv,
-      cvs,
-    },
+      cvs
+    }
   }));
 }
 

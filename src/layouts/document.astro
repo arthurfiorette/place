@@ -1,7 +1,7 @@
 ---
-import Footer from "../components/footer.astro";
-import MainNav from "../components/main-nav.astro";
-import Seo, { type Props as SeoProps } from "../components/seo.astro";
+import Footer from '../components/footer.astro';
+import MainNav from '../components/main-nav.astro';
+import Seo, { type Props as SeoProps } from '../components/seo.astro';
 
 interface Props {
   seo?: SeoProps;
@@ -18,26 +18,26 @@ const {
   header = true,
   footer = true,
   light,
-  headerClass = "!text-sm !font-normal",
+  headerClass = '!text-sm !font-normal'
 } = Astro.props;
 
 const ldJson = JSON.stringify({
-  "@context": "http://www.schema.org",
-  "@type": "person",
-  name: "Arthur Fileti Fiorette",
-  jobTitle: "Web Developer",
-  gender: "male",
-  url: "https://arthur.place",
+  '@context': 'http://www.schema.org',
+  '@type': 'person',
+  name: 'Arthur Fileti Fiorette',
+  jobTitle: 'Web Developer',
+  gender: 'male',
+  url: 'https://arthur.place',
   address: {
-    "@type": "PostalAddress",
-    addressLocality: "Centro",
-    addressRegion: "Bluemenau (SC)",
-    addressCountry: "Brazil",
+    '@type': 'PostalAddress',
+    addressLocality: 'Centro',
+    addressRegion: 'Bluemenau (SC)',
+    addressCountry: 'Brazil'
   },
-  email: "arthur.fiorette@gmail.com",
-  birthDate: "2005-02-27",
-  nationality: "Brazilian",
-  telephone: "+5528999772770",
+  email: 'arthur.fiorette@gmail.com',
+  birthDate: '2005-02-27',
+  nationality: 'Brazilian',
+  telephone: '+5528999772770'
 });
 ---
 
@@ -58,13 +58,10 @@ const ldJson = JSON.stringify({
     <link rel="manifest" href="/manifest.json" />
     <meta name="robots" content="index, follow" />
 
-    <!-- Public metrics available at plausible.io/arthur.place -->
-    <script
-      defer
-      is:inline
-      data-domain="arthur.place"
-      src="https://plausible.io/js/script.js"></script>
-
+    <!-- Public metrics available at plausible.arthur.one/arthur.place -->
+    <script defer data-domain="arthur.place" src="https://plausible.arthur.one/js/script.outbound-links.js"></script>
+    <script>{`window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }`}</script>
+    
     <!-- Icons -->
     <link
       rel="apple-touch-icon"

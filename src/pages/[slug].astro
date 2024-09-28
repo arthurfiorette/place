@@ -3,8 +3,8 @@ import { type CollectionEntry, getCollection } from 'astro:content';
 
 import Document from '../layouts/document.astro';
 
-import Section from '../components/section.astro';
 import PostHeader from '../components/post-header.astro';
+import Section from '../components/section.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');

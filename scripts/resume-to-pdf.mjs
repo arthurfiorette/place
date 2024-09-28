@@ -1,5 +1,5 @@
-import fs from 'fs';
-import path from 'path';
+import fs from 'node:fs';
+import path from 'node:path';
 import express from 'express';
 import puppeteer from 'puppeteer';
 
@@ -12,7 +12,7 @@ const address = server.address();
 const baseUrl =
   typeof address === 'object' ? `http://localhost:${address.port}` : address;
 
-console.log(baseUrl)
+console.log(baseUrl);
 
 const FILENAMES = ['curriculo', 'curriculum'];
 

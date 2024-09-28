@@ -21,16 +21,19 @@ export async function getNpmDownloadCount(pkg: string | string[]) {
 }
 
 // @ts-expect-error - global untyped cache
-const cache: Record<string, any> = globalThis.npmCache || (globalThis.npmCache = {});
+const cache: Record<string, any> =
+  globalThis.npmCache || (globalThis.npmCache = {});
 
 function requestDownloadCount(pkg: string) {
   if (cache[pkg]) {
     return cache[pkg];
   }
 
-  console.log(`Requesting ${pkg} data.`)
+  console.log(`Requesting ${pkg} data.`);
 
   return request(`https://api.npmjs.org/downloads/range/last-week/${pkg}`, {
     headersTimeout: 1000
-  }).then((res) => (cache[pkg] = res.body.json())).catch(() => 0);
+  })
+    .then((res) => (cache[pkg] = res.body.json()))
+    .catch(() => 0);
 }
