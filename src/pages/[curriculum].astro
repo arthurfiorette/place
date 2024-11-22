@@ -18,41 +18,40 @@ export async function getStaticPaths() {
 const cv = Astro.props;
 ---
 
-<Document light header={false} footer={false} class="!gap-2.5">
-  <div class="print:hidden absolute top-3.5 prose">
+<Document light header={false} footer={false} class='!gap-2.5'>
+  <div class='print:hidden absolute top-3.5 prose'>
     <div>
-      {
-        cv.cvs
-          .filter((cv2) => cv2.id !== cv.id)
-          .map((cv2) => (
-            <a class="no-underline hover:underline" href={`/${cv2.data.id}`}>
-              👉 {cv2.data.lang}
-            </a>
-          ))
-      }
+      {cv.cvs
+        .filter((cv2) => cv2.id !== cv.id)
+        .map((cv2) => (
+          <a class='no-underline hover:underline' href={`/${cv2.data.id}`}>
+            {cv2.data.lang}
+          </a>
+        ))}
+      <div class='mx-[1vw] inline-block' />
+      <a href={`/${cv.data.id}.pdf`} class='no-underline hover:underline'>
+        📄 Download as PDF
+      </a>
+      <div class='mx-[1vw] inline-block' />
+      <a href="/" class='no-underline hover:underline'>
+        🏠 Homepage
+      </a>
     </div>
   </div>
 
-  <Section class="mt-4">
-    <small class="block text-right">{cv.data.title}</small>
-    <h1 class="!mb-0 text-center !text-5xl">
-      {cv.data.name}
-    </h1>
-    <small class="text-center block"
-      >{cv.data.phone} | <a href={`mailto:${cv.data.email}`}>{cv.data.email}</a
-      ></small
-    >
+  <Section class='[&:not(print)]:mt-5'>
+    <small class='block text-right'>{cv.data.title}</small>
+    <h1 class='!mb-0 text-center !text-5xl'>{cv.data.name}</h1>
+    <small class='text-center block'>
+      {cv.data.phone} | <a href={`mailto:${cv.data.email}`}>{cv.data.email}</a>
+    </small>
 
-    <p class="text-lg !mt-1 ml-5 text-right">
-      <a class="text-base" href="https://arthur.place" target="_blank"
-        >arthur.place</a
-      >
+    <p class='text-lg !mt-1 ml-5 text-right'>
+      <a class='text-base' href='https://arthur.place' target='_blank'>
+        arthur.place
+      </a>
       <br />
-      <a
-        class="text-base"
-        href="https://linkedin.com/in/arthurfiorette"
-        target="_blank"
-      >
+      <a class='text-base' href='https://linkedin.com/in/arthurfiorette' target='_blank'>
         linkedin.com/in/arthurfiorette
       </a>
       <br />
@@ -61,73 +60,57 @@ const cv = Astro.props;
   </Section>
 
   <Section>
-    {cv.data.about.map((a) => <p set:html={a} class="text-base !m-1" />)}
+    {cv.data.about.map((a) => (
+      <p set:html={a} class='text-base !m-1' />
+    ))}
   </Section>
 
   <Section>
-    <h2 class="!mb-0 !text-xl">
-      {cv.data.educationName}
-    </h2>
+    <h2 class='!mb-0 !text-xl'>{cv.data.educationName}</h2>
 
-    <ul class="flex flex-col !gap-0">
-      {
-        cv.data.education.map((education) => (
-          <li class="!p-1 !m-0">
-            <h4 class="!m-0 text-base">{education.date}</h4>
-            <div
-              class="!m-0 text-base font-medium"
-              set:html={education.title}
-            />
-            <div class="text-sm">{education.institution}</div>
-          </li>
-        ))
-      }
+    <ul class='flex flex-col !gap-0'>
+      {cv.data.education.map((education) => (
+        <li class='!p-1 !m-0'>
+          <h4 class='!m-0 text-base'>{education.date}</h4>
+          <div class='!m-0 text-base font-medium' set:html={education.title} />
+          <div class='text-sm'>{education.institution}</div>
+        </li>
+      ))}
     </ul>
   </Section>
 
-  <Section class="!m-0 !p-0">
-    <h2 class="!mb-0 !p-0 !text-xl">
-      {cv.data.experienceName}
-    </h2>
+  <Section class='!m-0 !p-0'>
+    <h2 class='!mb-0 !p-0 !text-xl'>{cv.data.experienceName}</h2>
 
-    <ul class="!m-0 !p-0">
-      {
-        cv.data.experiences.map((experience) => (
-          <li class="flex gap-5 mt-2">
-            <div class="text-lg text-right whitespace-nowrap">
-              <b class="block text-base">{experience.start} </b>
-              <b class="block text-base">{experience.end}</b>
-              <small>{experience.type}</small>
-            </div>
+    <ul class='!m-0 !p-0'>
+      {cv.data.experiences.map((experience) => (
+        <li class='flex gap-5 mt-2'>
+          <div class='text-lg text-right whitespace-nowrap'>
+            <b class='block text-base'>{experience.start} </b>
+            <b class='block text-base'>{experience.end}</b>
+            <small>{experience.type}</small>
+          </div>
 
-            <div class="flex flex-col gap-1.5">
-              <h4
-                class="!m-0 !align-center text-lg"
-                set:html={experience.title}
-              />
-              <div>
-                {experience.about.map((c) => (
-                  <p class="!m-0 text-base" set:html={c} />
-                ))}
-              </div>
+          <div class='flex flex-col gap-1.5'>
+            <h4 class='!m-0 !align-center text-lg' set:html={experience.title} />
+            <div>
+              {experience.about.map((c) => (
+                <p class='!m-0 text-base' set:html={c} />
+              ))}
             </div>
-          </li>
-        ))
-      }
+          </div>
+        </li>
+      ))}
     </ul>
   </Section>
 
   <Section>
-    <h2 class="!m-0 !p-0 !text-xl">
-      {cv.data.ossTitle}
-    </h2>
+    <h2 class='!m-0 !p-0 !text-xl'>{cv.data.ossTitle}</h2>
 
     <div>
-      {
-        cv.data.oss.map((c) => (
-          <p class="text-base !my-0 !py-0 !pt-2" set:html={c} />
-        ))
-      }
+      {cv.data.oss.map((c) => (
+        <p class='text-base !my-0 !py-0 !pt-2' set:html={c} />
+      ))}
     </div>
   </Section>
 </Document>
