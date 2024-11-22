@@ -30,8 +30,8 @@ async function generatePDF(url, outputPath) {
   await page.pdf({ path: outputPath, format: 'A4', tagged: true, scale: 0.75 });
 }
 
-await generatePDF(`${baseUrl}/curriculo`, 'dist/curriculo.pdf');
-await generatePDF(`${baseUrl}/curriculum`, 'dist/curriculum.pdf');
+await generatePDF(`${baseUrl}/curriculo.html`, 'dist/curriculo.pdf');
+await generatePDF(`${baseUrl}/curriculum.html`, 'dist/curriculum.pdf');
 
 await browser.close();
 server.close();
