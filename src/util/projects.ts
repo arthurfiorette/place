@@ -6,11 +6,7 @@ function ossProjectSorter(
   a: CollectionEntry<'projects'>['data'],
   b: CollectionEntry<'projects'>['data']
 ) {
-  return (
-    b.stars * (1000 / 2.1) +
-    b.downloads -
-    (a.stars * (1000 / 2.1) + a.downloads)
-  );
+  return b.stars * (1000 / 2.1) + b.downloads - (a.stars * (1000 / 2.1) + a.downloads);
 }
 
 export async function loadProjects() {

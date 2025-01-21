@@ -21,8 +21,7 @@ export async function getNpmDownloadCount(pkg: string | string[]) {
 }
 
 // @ts-expect-error - global untyped cache
-const cache: Record<string, any> =
-  globalThis.npmCache || (globalThis.npmCache = {});
+const cache: Record<string, any> = globalThis.npmCache || (globalThis.npmCache = {});
 
 function requestDownloadCount(pkg: string) {
   if (cache[pkg]) {

@@ -9,8 +9,7 @@ app.use(express.static(path.join('dist')));
 const server = app.listen();
 
 const address = server.address();
-const baseUrl =
-  typeof address === 'object' ? `http://localhost:${address.port}` : address;
+const baseUrl = typeof address === 'object' ? `http://localhost:${address.port}` : address;
 
 console.log(baseUrl);
 
@@ -31,9 +30,7 @@ async function generatePDF(url, outputPath) {
 }
 
 await Promise.all(
-  FILENAMES.map((name) =>
-    generatePDF(`${baseUrl}/${name}.html`, `dist/${name}.pdf`)
-  )
+  FILENAMES.map((name) => generatePDF(`${baseUrl}/${name}.html`, `dist/${name}.pdf`))
 );
 
 await browser.close();

@@ -10,7 +10,7 @@
     "format": "biome format --write .",
     "lint": "biome check .",
     "lint:ci": "biome ci .",
-    "lint:fix": "biome check --apply-unsafe .",
+    "lint:fix": "biome check --write --unsafe .",
     "preview": "astro preview",
     "start": "astro dev"
   },
@@ -34,6 +34,7 @@
     "undici": "^7.2.3"
   },
   "devDependencies": {
+    "@arthurfiorette/biomejs-config": "^1.0.6",
     "@biomejs/biome": "^1.9.4",
     "@types/express": "^5.0.0",
     "express": "^4.21.2",

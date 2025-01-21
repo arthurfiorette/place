@@ -1,36 +1,11 @@
 {
-  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
-  "organizeImports": {
-    "enabled": true
-  },
+  "$schema": "https://biomejs.dev/schemas/latest/schema.json",
+  "extends": ["@arthurfiorette/biomejs-config"],
   "linter": {
-    "enabled": true,
     "rules": {
-      "recommended": true,
       "suspicious": {
-        "noExplicitAny": "off",
         "noAssignInExpressions": "off"
-      },
-      "style": {
-        "noParameterAssign": "off"
       }
     }
-  },
-  "formatter": {
-    "indentStyle": "space"
-  },
-  "javascript": {
-    "formatter": {
-      "quoteStyle": "single",
-      "trailingCommas": "none"
-    }
-  },
-  "files": {
-    "ignore": [
-      "dist/**/*",
-      ".astro/**/*",
-      "node_modules/**/*",
-      "pnpm-lock.json"
-    ]
   }
 }
