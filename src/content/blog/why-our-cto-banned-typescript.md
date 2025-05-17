@@ -5,7 +5,7 @@ keywords:
   [typescript, javascript, migration, refactor, developer-humor]
 description: I migrated one of our biggest JavaScript codebases to TypeScript — and after everything started working too well, our CTO banned it.
 published: true
-image: /images/why-our-cto-banned-typescript-after-one-migration.jpg
+image: /images/why-our-cto-banned-typescript.jpg
 ---
 
 At our company, TypeScript was the golden ticket. Strong types. Better tooling. Fewer bugs. We’d seen the hype. We’d read the case studies. “Just add types,” they said — so we did.
@@ -72,11 +72,16 @@ The CTO looked visibly shaken.
 
 “If we keep this up,” he said slowly, “how will we differentiate between mid-levels and seniors?”
 
-Silence.
+Then came the memo:
 
-A week later, a memo was issued:
+> _“Effective immediately: TypeScript is banned from production repositories. JavaScript will be our primary language of truth — flexible, expressive, and forgiving. Runtime errors are an opportunity for resilience. Let your intuition guide you, not the compiler.”_
 
-> “Effective immediately: TypeScript is banned from production repositories. Use JavaScript with caution and the dignity of runtime errors.”
+The justification? Here’s what the memo listed as **"benefits of reverting to JavaScript":**
+
+- **Faster Prototyping:** "Without strict types slowing us down, we can iterate like it's 2013 again."
+- **Creative Debugging Opportunities:** "Null is a canvas. Type errors are puzzles for the curious."
+- **Valuable Tribal Knowledge:** "Understanding the codebase should require mentorship and senior guidance."
+- **Job Security Through Ambiguity:** "If everything is clear, how will we justify three-day bug hunts?"
 
 ## Was TypeScript to Blame?
 
