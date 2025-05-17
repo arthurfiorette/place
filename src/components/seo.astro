@@ -1,5 +1,7 @@
 ---
-export interface Props {
+import { SEO as BaseSEO } from 'astro-seo';
+
+interface SeoProps {
   baseUrl?: string;
   description?: string;
   keywords?: string[];
@@ -8,7 +10,7 @@ export interface Props {
   imagePath?: string;
 }
 
-let {
+const {
   baseUrl = 'https://arthur.place',
   description = 'My own room in the internet!',
   keywords = [
@@ -26,30 +28,47 @@ let {
   urlPath = '/',
   title = "Arthur's place",
   imagePath = '/images/logo-1280-720.png'
-} = Astro.props;
+} = Astro.props as SeoProps;
 
-urlPath = new URL(urlPath, baseUrl).toString();
-imagePath = new URL(imagePath, baseUrl).toString();
+const fullUrl = baseUrl && urlPath ? new URL(urlPath, baseUrl).toString() : undefined;
+const fullImageUrl = baseUrl && imagePath ? new URL(imagePath, baseUrl).toString() : undefined;
 ---
 
-<title>{title}</title>
-
-<meta name='description' content={description} />
-<meta name='keywords' content={keywords.join(', ')} />
-<meta name='author' content='Arthur Fiorette' />
-
-<meta name='og:type' content='website' />
-
-<meta name='og:title' content={title} />
-<meta name='og:site_name' content="Arthur's place" />
-<meta name='og:description' content={description} />
-<meta name='og:url' content={urlPath} />
-<meta name='og:image' content={imagePath} />
-
-<meta name='twitter:card' content='summary_large_image' />
-<meta name='twitter:title' content={title} />
-<meta name='twitter:description' content={description} />
-<meta name='twitter:image' content={imagePath} />
-
-<meta name='twitter:site' content='@arthurfiorette' />
-<meta name='twitter:creator' content='@arthurfiorette' />
+<BaseSEO
+  title={title}
+  description={description}
+  canonical={fullUrl}
+  openGraph={{
+    basic: {
+      title: title ?? '',
+      type: 'website',
+      image: fullImageUrl ?? '',
+      url: fullUrl,
+    },
+    optional: {
+      description,
+      siteName: title,
+    },
+    image: {
+      url: fullImageUrl,
+      alt: title,
+    },
+  }}
+  twitter={{
+    card: 'summary_large_image',
+    title,
+    description,
+    image: fullImageUrl,
+    imageAlt: title,
+  }}
+  extend={{
+    meta: keywords?.length
+      ? [
+          {
+            name: 'keywords',
+            content: keywords.join(', '),
+          },
+        ]
+      : [],
+  }}
+/>
