@@ -28,7 +28,8 @@ const { Content } = await post.render();
     title: post.data.title,
     description: post.data.description,
     keywords: post.data.keywords,
-    urlPath: `/${post.slug}`
+    urlPath: `/${post.slug}`,
+    imagePath: post.data.image
   }}>
   <slot name='head'>
     <meta name='article:published_time' content={date.toISOString()} />

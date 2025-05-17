@@ -14,6 +14,19 @@ const { date, post } = Astro.props;
 
 <header
   class='prose dark:prose-invert lg:prose-xl items-center w-full max-w-3xl py-10 max-[1000px]:pt-28'>
+  {
+    post.data.image && (
+      <img
+        class='rounded-lg w-full mx-auto max-w-3xl h-auto my-5'
+        src={post.data.image}
+        alt={post.data.title}
+        loading='lazy'
+        decoding='async'
+        height='auto'
+      />
+    )
+  }
+
   <div>
     <h1 class='text-neutral-200 text-center'>{post.data.title}</h1>
     <div
@@ -22,6 +35,7 @@ const { date, post } = Astro.props;
       <Time datetime={date} />
     </div>
   </div>
+
   <summary
     class='text-[1.5rem] italic w-full text-neutral-100 text-center my-8 justify-center items-center flex flex-col'>
     <div class='inline text-xl text-left'>
