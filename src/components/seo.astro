@@ -1,5 +1,6 @@
 ---
 export interface Props {
+  baseUrl?: string;
   description?: string;
   keywords?: string[];
   urlPath?: string;
@@ -7,7 +8,8 @@ export interface Props {
   imagePath?: string;
 }
 
-const {
+let {
+  baseUrl = 'https://arthur.place',
   description = 'My own room in the internet!',
   keywords = [
     'arthur',
@@ -25,6 +27,8 @@ const {
   title = "Arthur's place",
   imagePath = '/images/logo-1280-720.png'
 } = Astro.props;
+
+imagePath = new URL(imagePath, baseUrl).toString();
 ---
 
 <title>{title}</title>
