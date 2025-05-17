@@ -28,6 +28,7 @@ let {
   imagePath = '/images/logo-1280-720.png'
 } = Astro.props;
 
+urlPath = new URL(urlPath, baseUrl).toString();
 imagePath = new URL(imagePath, baseUrl).toString();
 ---
 
