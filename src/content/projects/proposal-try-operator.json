@@ -1,0 +1,7 @@
+{
+  "name": "proposal-try-operator",
+  "prettyName": "ECMAScript Try Operator",
+  "npm": [],
+  "owner": "arthurfiorette",
+  "description": "A proposal to bring ergonomic, inline error handling to JavaScript through a new try operator that never throws and always returns a Result."
+}

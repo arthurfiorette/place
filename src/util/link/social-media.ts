@@ -12,8 +12,8 @@ export const SocialMediaLinks: LinkProps[] = [
     id: 2,
     label: 'Twitter',
     title: 'Like some of my tweets.',
-    href: 'https://twitter.com/arthurfiorette',
-    icon: 'mdi:twitter'
+    href: 'https://x.com/arthurfiorette',
+    icon: 'ri:twitter-x-fill'
   },
   {
     id: 3,

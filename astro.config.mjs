@@ -29,7 +29,6 @@ export default defineConfig({
         mdi: [
           'github',
           'account-file-outline',
-          'twitter',
           'npm',
           'twitch',
           'linkedin',
@@ -42,7 +41,7 @@ export default defineConfig({
           'downloads',
           'star'
         ],
-        ri: ['bluesky-fill']
+        ri: ['bluesky-fill', 'twitter-x-fill']
       }
     }),
     compress({
