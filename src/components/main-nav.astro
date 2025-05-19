@@ -9,7 +9,7 @@ interface Props {
 
 <aside
   class:list={[
-    'sticky max-[1000px]:fixed max-[1000px]:top-0 max-[1000px]:left-0 max-[1000px]:flex-row max-[1000px]:rounded-none max-[1000px]:w-full max-[1000px]:bg-neutral-900 max-[1000px]:gap-6 left-4 top-60 flex flex-col gap-1.5 justify-center items-center w-auto bg-transparent max-h-40 py-2 px-1.5 rounded-md border border-neutral-600/40',
+    'sticky max-w-prose:fixed max-w-prose:top-0 max-w-prose:left-0 max-w-prose:flex-row max-w-prose:rounded-none max-w-prose:w-full max-w-prose:bg-neutral-900 max-w-prose:gap-6 left-4 top-60 flex flex-col gap-1.5 justify-center items-center w-auto bg-transparent max-h-40 py-2 px-1.5 rounded-md border border-neutral-600/40',
     Astro.props.class
   ]}>
   {
@@ -22,7 +22,7 @@ interface Props {
           name={navLink.icon}
           class='transition-all !w-6 !h-6 group-hover:text-cream-light'
         />
-        <span class='!text-sm !font-normal transition-all opacity-0 group-hover:opacity-100 max-[1000px]:translate-x-0 max-[1000px]:-translate-y-12 max-[1000px]:group-hover:translate-y-0 group-hover:translate-x-0 -translate-x-12 absolute max-[1000px]:left-0 max-[1000px]:top-full max-[1000px]:ml-0 max-[1000px]:mt-2.5 left-full ml-2 .5 px-3.5 py-0.5 rounded-sm bg-neutral-900  border border-neutral-600'>
+        <span class='!text-sm !font-normal transition-all opacity-0 group-hover:opacity-100 max-w-prose:translate-x-0 max-w-prose:-translate-y-12 max-w-prose:group-hover:translate-y-0 group-hover:translate-x-0 -translate-x-12 absolute max-w-prose:left-0 max-w-prose:top-full max-w-prose:ml-0 max-w-prose:mt-2.5 left-full ml-2 .5 px-3.5 py-0.5 rounded-sm bg-neutral-900  border border-neutral-600'>
           {navLink.label}
         </span>
       </a>
