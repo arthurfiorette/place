@@ -19,19 +19,19 @@ const {
   href={`/${slug}`}
   title={post.description}
   class:list={[
-    'no-underline group p-4 block',
+    'no-underline group p-4 block w-full',
     minimalistic && '!flex !flex-col !justify-start p-2'
   ]}>
+  <small class='font-light !text-base text-neutral-400 mb-3 block'>
+    <Time datetime={post.date} />
+    <MinRead minRead={getReadTime(body)} />
+  </small>
   <h2
     class:list={[
-      'font-normal !text-3xl text-center font-sans !mt-0 group-hover:text-cream-light',
+      'font-normal !text-3xl !text-center font-sans !mt-0 group-hover:text-cream-light',
       minimalistic && '!text-left'
     ]}>
     {post.title}
   </h2>
   <p class='!mb-0 font-light !text-lg text-neutral-300'>{post.description}</p>
-  <small class='font-light !text-base text-neutral-300'>
-    <Time datetime={post.date} />
-    <MinRead minRead={getReadTime(body)} />
-  </small>
 </a>
