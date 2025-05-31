@@ -31,9 +31,9 @@ And finally, add the following scripts to your `package.json` to easily format a
 {
   "scripts": {
     "format": "biome format --write .",
+    "lint-ci": "biome ci .",
+    "lint-fix": "biome check --write --unsafe .",
     "lint": "biome check .",
-    "lint:ci": "biome ci .",
-    "lint:fix": "biome check --write --unsafe ."
   }
 }
 ```
