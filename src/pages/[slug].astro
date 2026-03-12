@@ -1,16 +1,14 @@
 ---
-import { type CollectionEntry, getCollection } from 'astro:content';
-
-import Document from '../layouts/document.astro';
-
+import { type CollectionEntry, getCollection, render } from 'astro:content';
 import PostHeader from '../components/post-header.astro';
 import Section from '../components/section.astro';
+import Document from '../layouts/document.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
 
   return posts.map((post) => ({
-    params: { slug: post.slug },
+    params: { slug: post.id },
     props: post
   }));
 }
@@ -20,7 +18,7 @@ type Props = CollectionEntry<'blog'>;
 const post = Astro.props;
 const date = new Date(post.data.date);
 
-const { Content } = await post.render();
+const { Content } = await render(post);
 ---
 
 <Document
@@ -28,7 +26,7 @@ const { Content } = await post.render();
     title: post.data.title,
     description: post.data.description,
     keywords: post.data.keywords,
-    urlPath: `/${post.slug}`,
+    urlPath: `/${post.id}`,
     imagePath: post.data.image
   }}>
   <slot name='head'>
@@ -57,7 +55,9 @@ const { Content } = await post.render();
     async></script>
 </Document>
 
-<style is:global lang='scss'>
+<style is:global>
+  @reference "../styles/global.css";
+
   .md {
     pre {
       @apply font-mono p-4 rounded-md;

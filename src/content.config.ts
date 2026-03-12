@@ -1,7 +1,8 @@
 import { defineCollection, z } from 'astro:content';
+import { glob } from 'astro/loaders';
 
 const blog = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/blog' }),
 
   schema: z.object({
     title: z.string(),
@@ -16,7 +17,7 @@ const blog = defineCollection({
 // I know this is exactly what i18n should be used for, but I will not implement i18n for a single route,
 // so I will just use a different collection for each language
 const curriculum = defineCollection({
-  type: 'data',
+  loader: glob({ pattern: '**/*.json', base: './src/content/curriculum' }),
 
   schema: z.object({
     id: z.string(),
@@ -51,7 +52,7 @@ const curriculum = defineCollection({
 });
 
 const projects = defineCollection({
-  type: 'data',
+  loader: glob({ pattern: '**/*.json', base: './src/content/projects' }),
 
   schema: z.object({
     name: z.string(),

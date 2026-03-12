@@ -13,10 +13,7 @@ query getStargazerCount($name: String!, $owner: String!) {
 // @ts-expect-error - global untyped cache
 const cache: Record<string, any> = globalThis.gqlCache || (globalThis.gqlCache = {});
 
-export async function getStargazerCount(props: {
-  name: string;
-  owner: string;
-}): Promise<number> {
+export async function getStargazerCount(props: { name: string; owner: string }): Promise<number> {
   if (cache[props.name]) {
     return cache[props.name];
   }

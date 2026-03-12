@@ -1,9 +1,9 @@
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
-import tailwind from '@astrojs/tailwind';
+import tailwindcss from '@tailwindcss/vite';
+import { defineConfig } from 'astro/config';
 import compress from 'astro-compress';
 import icon from 'astro-icon';
-import { defineConfig } from 'astro/config';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeSlug from 'rehype-slug';
 
@@ -21,6 +21,9 @@ export default defineConfig({
     format: 'file'
   },
   output: 'static',
+  vite: {
+    plugins: [tailwindcss()]
+  },
   integrations: [
     mdx(),
     sitemap(),
@@ -50,7 +53,6 @@ export default defineConfig({
       JavaScript: true,
       SVG: true,
       HTML: true
-    }),
-    tailwind()
+    })
   ]
 });

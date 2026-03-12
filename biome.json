@@ -1,6 +1,11 @@
 {
   "$schema": "https://biomejs.dev/schemas/latest/schema.json",
   "extends": ["@arthurfiorette/biomejs-config"],
+  "css": {
+    "parser": {
+      "tailwindDirectives": true
+    }
+  },
   "linter": {
     "rules": {
       "suspicious": {
