@@ -10,13 +10,13 @@ interface Props {
 }
 
 const {
-  data: { data: post, slug, body },
+  data: { data: post, id, body },
   minimalistic = false
 } = Astro.props;
 ---
 
 <a
-  href={`/${slug}`}
+  href={`/${id}`}
   title={post.description}
   class:list={[
     'no-underline group p-4 block w-full',
