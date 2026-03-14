@@ -10,15 +10,13 @@ query getStargazerCount($name: String!, $owner: String!) {
 
 `;
 
-// @ts-expect-error - global untyped cache
-const cache: Record<string, any> = globalThis.gqlCache || (globalThis.gqlCache = {});
+declare global {
+  var gqlCache: Record<string, any>;
+}
 
-export async function getStargazerCount(props: {
-  name: string;
-  owner: string;
-}): Promise<number> {
-  if (cache[props.name]) {
-    return cache[props.name];
+export async function getStargazerCount(props: { name: string; owner: string }): Promise<number> {
+  if (globalThis.gqlCache[props.name]) {
+    return globalThis.gqlCache[props.name];
   }
 
   console.log(`Requesting ${props.owner}/${props.name} repository data`);
@@ -27,6 +25,6 @@ export async function getStargazerCount(props: {
     ...props,
     headers: { authorization: `token ${import.meta.env.GH_TOKEN}` }
   })
-    .then((res) => (cache[props.name] = res?.repository?.stargazerCount || 0))
+    .then((res) => (globalThis.gqlCache[props.name] = res?.repository?.stargazerCount || 0))
     .catch(() => 0);
 }

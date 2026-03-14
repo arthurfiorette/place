@@ -1,4 +1,3 @@
-import fs from 'node:fs';
 import path from 'node:path';
 import express from 'express';
 import puppeteer from 'puppeteer';
@@ -16,7 +15,7 @@ console.log(baseUrl);
 const FILENAMES = ['curriculo', 'curriculum'];
 
 const browser = await puppeteer.launch({
-  headless: 'new'
+  args: ['--no-sandbox', '--disable-setuid-sandbox']
 });
 
 async function generatePDF(url, outputPath) {

@@ -31,7 +31,7 @@ const { date, post } = Astro.props;
     <h1 class='text-neutral-200 text-center'>{post.data.title}</h1>
     <div
       class='gap-1.5 text-base flex justify-center items-center text-neutral-400 w-full'>
-      <MinRead minRead={getReadTime(post.body)} />
+      <MinRead minRead={getReadTime(post.body!)} />
       <Time datetime={date} />
     </div>
   </div>

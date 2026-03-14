@@ -1,7 +1,9 @@
 ---
+import '../styles/global.css';
 import Footer from '../components/footer.astro';
 import MainNav from '../components/main-nav.astro';
-import Seo, { type Props as SeoProps } from '../components/seo.astro';
+import type {  SeoProps } from '../components/seo.astro';
+import Seo from '../components/seo.astro';
 
 interface Props {
   seo?: SeoProps;
@@ -95,8 +97,7 @@ const ldJson = JSON.stringify({
       sizes="16x16"
       href="/icons/favicon-16x16.png"
     />
-
-    {/* font */}
+ 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
 

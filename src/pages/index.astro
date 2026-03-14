@@ -15,7 +15,7 @@ const projects = await loadProjects();
 
 <Document>
   <Section class='max-w-prose:py-14'>
-    <h1 class='transition-all text-center !text-7xl max-[650px]:!text-4xl !pt-10'>
+    <h1 class='transition-all text-center text-7xl! max-[650px]:text-4xl! pt-10!'>
       Eai 👋<br />I am <span class='text-cream-light'>Arthur Fiorette</span>
     </h1>
 
@@ -67,10 +67,10 @@ const projects = await loadProjects();
     </div>
 
     <ol
-      class='list-none w-full my-8 gap-x-4 gap-y-1 !p-0 grid grid-cols-2 max-[500px]:grid-cols-1'>
+      class='list-none w-full my-8 gap-x-4 gap-y-1 p-0! grid grid-cols-2 max-[500px]:grid-cols-1'>
       {
         projects.map((project) => (
-          <li class='!p-0 !h-auto'>
+          <li class='p-0! h-auto!'>
             <ProjectCard data={project} />
           </li>
         ))

@@ -14,7 +14,7 @@ export async function GET(context) {
       .filter((p) => p.data.published)
       .map((post) => ({
         ...post.data,
-        link: `/${post.slug}`,
+        link: `/${post.id}`,
         pubDate: new Date(post.data.date).toUTCString()
       }))
   });

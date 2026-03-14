@@ -1,11 +1,12 @@
 {
-  "$schema": "https://biomejs.dev/schemas/latest/schema.json",
+  "$schema": "node_modules/@biomejs/biome/configuration_schema.json",
   "extends": ["@arthurfiorette/biomejs-config"],
-  "linter": {
-    "rules": {
-      "suspicious": {
-        "noAssignInExpressions": "off"
-      }
+  "css": {
+    "parser": {
+      "tailwindDirectives": true
     }
+  },
+  "html": {
+    "experimentalFullSupportEnabled": true
   }
 }
