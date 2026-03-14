@@ -5,27 +5,43 @@ import { NavLinks } from '../util/link/nav-links';
 interface Props {
   class?: string;
 }
+
+const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
 ---
 
 <aside
   class:list={[
-    'sticky max-w-prose:fixed max-w-prose:top-0 max-w-prose:left-0 max-w-prose:flex-row max-w-prose:rounded-none max-w-prose:w-full max-w-prose:bg-neutral-900 max-w-prose:gap-6 left-4 top-60 flex flex-col gap-1.5 justify-center items-center w-auto bg-transparent max-h-40 py-2 px-1.5 rounded-md border border-neutral-600/40',
+    'sticky left-4 top-60 flex flex-col gap-1.5 justify-center items-center w-auto bg-neutral-900/25 backdrop-blur-sm max-h-40 py-1.5 px-1 rounded-md border border-neutral-700/40',
+    'max-[1024px]:fixed max-[1024px]:top-auto max-[1024px]:left-1/2 max-[1024px]:-translate-x-1/2 max-[1024px]:bottom-3 max-[1024px]:flex-row max-[1024px]:w-[min(94vw,24rem)] max-[1024px]:max-h-none max-[1024px]:rounded-xl max-[1024px]:bg-neutral-900/90 max-[1024px]:border-neutral-600/50 max-[1024px]:backdrop-blur-md max-[1024px]:px-2.5 max-[1024px]:py-2 max-[1024px]:z-50',
     Astro.props.class
   ]}>
   {
-    NavLinks.map((navLink) => (
-      <a
-        href={navLink.href}
-        title={navLink.title}
-        class='group relative transition-all flex items-center justify-center p-2 rounded-md hover:bg-neutral-800 border border-transparent hover:border-neutral-600'>
-        <Icon
-          name={navLink.icon}
-          class='transition-all !w-6 !h-6 group-hover:text-cream-light'
-        />
-        <span class='!text-sm !font-normal transition-all opacity-0 group-hover:opacity-100 max-w-prose:translate-x-0 max-w-prose:-translate-y-12 max-w-prose:group-hover:translate-y-0 group-hover:translate-x-0 -translate-x-12 absolute max-w-prose:left-0 max-w-prose:top-full max-w-prose:ml-0 max-w-prose:mt-2.5 left-full ml-2 .5 px-3.5 py-0.5 rounded-sm bg-neutral-900  border border-neutral-600'>
-          {navLink.label}
-        </span>
-      </a>
-    ))
+    NavLinks.map((navLink) => {
+      const isActive = pathname === navLink.href;
+
+      return (
+        <a
+          href={navLink.href}
+          aria-label={navLink.label}
+          title={navLink.title}
+          class:list={[
+            'group relative transition-all flex items-center justify-center gap-2 min-h-11 min-w-11 p-2 rounded-md hover:bg-neutral-800 border border-transparent hover:border-neutral-600',
+            'max-[1024px]:flex-1 max-[1024px]:flex-col max-[1024px]:gap-1 max-[1024px]:py-1.5 max-[1024px]:px-1',
+            isActive && 'bg-neutral-800 border-neutral-600 text-cream-light'
+          ]}>
+          <Icon
+            name={navLink.icon}
+            class:list={[
+              'transition-all !w-6 !h-6 group-hover:text-cream-light',
+              isActive && 'text-cream-light'
+            ]}
+          />
+          <span
+            class='text-sm font-medium text-neutral-100 transition-all opacity-0 group-hover:opacity-100 group-hover:translate-x-0 -translate-x-12 absolute left-full ml-2.5 px-3.5 py-0.5 rounded-sm bg-neutral-900 border border-neutral-500 whitespace-nowrap max-[1024px]:opacity-100 max-[1024px]:translate-x-0 max-[1024px]:static max-[1024px]:bg-transparent max-[1024px]:border-0 max-[1024px]:p-0 max-[1024px]:m-0 max-[1024px]:text-[0.72rem] max-[1024px]:font-semibold max-[1024px]:tracking-wide max-[1024px]:uppercase'>
+            {navLink.label}
+          </span>
+        </a>
+      );
+    })
   }
 </aside>

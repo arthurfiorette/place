@@ -13,7 +13,7 @@ const { date, post } = Astro.props;
 ---
 
 <header
-  class='prose dark:prose-invert lg:prose-xl items-center w-full max-w-3xl py-10 max-w-prose:pt-28'>
+  class='items-center w-full max-w-3xl py-10 max-w-prose:pt-28 space-y-6'>
   {
     post.data.image && (
       <img
@@ -28,17 +28,17 @@ const { date, post } = Astro.props;
   }
 
   <div>
-    <h1 class='text-neutral-200 text-center'>{post.data.title}</h1>
+    <h1 class='text-neutral-200 text-center text-6xl max-[650px]:text-4xl mb-2'>{post.data.title}</h1>
     <div
-      class='gap-1.5 text-base flex justify-center items-center text-neutral-400 w-full'>
+      class='gap-1.5 text-sm flex justify-center items-center text-neutral-400 w-full'>
       <MinRead minRead={getReadTime(post.body!)} />
       <Time datetime={date} />
     </div>
   </div>
 
   <summary
-    class='text-[1.5rem] italic w-full text-neutral-100 text-center my-8 justify-center items-center flex flex-col'>
-    <div class='inline text-xl text-left'>
+    class='italic w-full text-neutral-100 text-center my-8 justify-center items-center flex flex-col'>
+    <div class='inline text-2xl leading-relaxed max-w-3xl'>
       {post.data.description}
     </div>
   </summary>

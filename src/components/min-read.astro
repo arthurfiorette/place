@@ -4,8 +4,9 @@ interface Props {
 }
 
 const { minRead } = Astro.props;
+const normalized = minRead <= 0 ? '<1' : `~${minRead}`;
 ---
 
-<span title={`This content will probably consume around ${minRead} minutes to be read.`}>
-  ~<b>{minRead}</b> min read.
+<span title={`This content will probably consume around ${Math.max(1, minRead)} minutes to be read.`}>
+  <b>{normalized}</b> min read.
 </span>

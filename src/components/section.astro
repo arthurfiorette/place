@@ -1,13 +1,17 @@
 ---
 interface Props {
   class?: string;
+  id?: string;
 }
+
+const { class: className, ...attrs } = Astro.props;
 ---
 
 <section
+  {...attrs}
   class:list={[
-    'prose dark:prose-invert lg:prose-xl items-center w-full max-w-3xl',
-    Astro.props.class
+    'items-center w-full max-w-3xl space-y-6',
+    className
   ]}>
   <slot />
 </section>

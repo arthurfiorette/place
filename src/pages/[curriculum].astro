@@ -18,8 +18,8 @@ export async function getStaticPaths() {
 const cv = Astro.props;
 ---
 
-<Document light header={false} footer={false} class='!gap-2.5'>
-  <div class='print:hidden absolute top-3.5 prose'>
+<Document light header={false} footer={false} class='gap-4'>
+  <div class='print:hidden absolute top-3.5 text-sm'>
     <div>
       {cv.cvs
         .filter((cv2) => cv2.id !== cv.id)
@@ -39,19 +39,23 @@ const cv = Astro.props;
     </div>
   </div>
 
-  <Section class='[&:not(print)]:mt-5'>
-    <small class='block text-right'>{cv.data.title}</small>
-    <h1 class='mb-0! text-center text-5xl!'>{cv.data.name}</h1>
-    <small class='text-center block'>
+  <Section class='[&:not(print)]:mt-5 cv'>
+    <small class='block text-right text-sm text-neutral-600'>{cv.data.title}</small>
+    <h1 class='mb-0 text-center text-5xl max-[650px]:text-4xl'>{cv.data.name}</h1>
+    <small class='text-center block text-base'>
       {cv.data.phone} | <a href={`mailto:${cv.data.email}`}>{cv.data.email}</a>
     </small>
 
-    <p class='text-lg mt-1! ml-5 text-right'>
-      <a class='text-base' href='https://arthur.place' target='_blank'>
+    <p class='text-base mt-1 ml-5 text-right'>
+      <a class='text-base' href='https://arthur.place' target='_blank' rel='noopener noreferrer'>
         arthur.place
       </a>
       <br />
-      <a class='text-base' href='https://linkedin.com/in/arthurfiorette' target='_blank'>
+      <a
+        class='text-base'
+        href='https://linkedin.com/in/arthurfiorette'
+        target='_blank'
+        rel='noopener noreferrer'>
         linkedin.com/in/arthurfiorette
       </a>
       <br />
@@ -61,42 +65,42 @@ const cv = Astro.props;
 
   <Section>
     {cv.data.about.map((a) => (
-      <p set:html={a} class='text-base m-1!' />
+      <p set:html={a} class='text-base my-1' />
     ))}
   </Section>
 
   <Section>
-    <h2 class='mb-0! text-xl!'>{cv.data.educationName}</h2>
+    <h2 class='mb-0 text-2xl'>{cv.data.educationName}</h2>
 
-    <ul class='flex flex-col gap-0!'>
+    <ul class='flex flex-col gap-2'>
       {cv.data.education.map((education) => (
-        <li class='p-1! m-0!'>
-          <h4 class='m-0! text-base'>{education.date}</h4>
-          <div class='m-0! text-base font-medium' set:html={education.title} />
+        <li class='py-1 m-0'>
+          <h4 class='m-0 text-base font-mono text-neutral-600'>{education.date}</h4>
+          <div class='m-0 text-base font-medium' set:html={education.title} />
           <div class='text-sm'>{education.institution}</div>
         </li>
       ))}
     </ul>
   </Section>
 
-  <Section class='m-0! p-0!'>
-    <h2 class='mb-0! p-0! text-xl!'>{cv.data.experienceName}</h2>
+  <Section class='m-0 p-0'>
+    <h2 class='mb-0 p-0 text-2xl'>{cv.data.experienceName}</h2>
 
-    <ul class='m-0! p-0!'>
+    <ul class='m-0 p-0'>
       {cv.data.experiences.map((experience) => (
-        <li class='flex gap-5 mt-2'>
-          <div class='text-lg text-right whitespace-nowrap'>
+        <li class='flex gap-5 mt-3 max-[650px]:flex-col max-[650px]:gap-1'>
+          <div class='text-right whitespace-nowrap max-[650px]:text-left'>
             <b class='block text-base'>{experience.start} </b>
             <b class='block text-base'>{experience.end}</b>
-            <small>{experience.type}</small>
+            <small class='font-mono text-neutral-600'>{experience.type}</small>
           </div>
 
           <div class='flex flex-col gap-1.5'>
             {/* biome-ignore lint/a11y/useHeadingContent: broken */}
-            <h4 class='m-0! align-center! text-lg' set:html={experience.title} />
+            <h4 class='m-0 align-center text-lg' set:html={experience.title} />
             <div>
               {experience.about.map((c) => (
-                <p class='m-0! text-base' set:html={c} />
+                <p class='m-0 text-base' set:html={c} />
               ))}
             </div>
           </div>
@@ -106,11 +110,11 @@ const cv = Astro.props;
   </Section>
 
   <Section>
-    <h2 class='m-0! p-0! text-xl!'>{cv.data.ossTitle}</h2>
+    <h2 class='m-0 p-0 text-2xl'>{cv.data.ossTitle}</h2>
 
     <div>
       {cv.data.oss.map((c) => (
-        <p class='text-base my-0! py-0! pt-2!' set:html={c} />
+        <p class='text-base my-0 py-0 pt-2' set:html={c} />
       ))}
     </div>
   </Section>

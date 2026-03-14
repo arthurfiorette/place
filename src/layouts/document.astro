@@ -117,7 +117,8 @@ const ldJson = JSON.stringify({
     <div class="flex justify-start items-start max-w-prose:flex-col-reverse">
       <main
         class:list={[
-          "flex flex-col items-center justify-center gap-5 p-5 h-full",
+          "flex flex-col items-center justify-center gap-8 p-5 h-full",
+          header && "max-[1024px]:pb-24",
           Astro.props.class,
         ] }
       >

@@ -41,7 +41,7 @@ const { Content } = await render(post);
 
   <PostHeader date={date} post={post} />
 
-  <Section class='md'>
+  <Section class='md prose dark:prose-invert lg:prose-xl w-full max-w-3xl'>
     <Content />
   </Section>
 
@@ -61,7 +61,7 @@ const { Content } = await render(post);
 
   .md {
     pre {
-      @apply font-mono p-4 rounded-md;
+      @apply font-mono p-4 rounded-md border border-neutral-700 bg-neutral-950 overflow-x-auto text-sm leading-6;
       font-family: 'Cascadia Code', Consolas, monaco, monospace;
       font-variant-ligatures: common-ligatures;
     }
