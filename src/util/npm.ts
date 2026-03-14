@@ -20,12 +20,15 @@ export async function getNpmDownloadCount(pkg: string | string[]) {
   return total;
 }
 
-// @ts-expect-error - global untyped cache
-const cache: Record<string, any> = globalThis.npmCache || (globalThis.npmCache = {});
+declare global {
+  var npmCache: Record<string, any>;
+}
+
+globalThis.npmCache ??= {};
 
 function requestDownloadCount(pkg: string) {
-  if (cache[pkg]) {
-    return cache[pkg];
+  if (globalThis.npmCache[pkg]) {
+    return globalThis.npmCache[pkg];
   }
 
   console.log(`Requesting ${pkg} data.`);
@@ -33,6 +36,6 @@ function requestDownloadCount(pkg: string) {
   return request(`https://api.npmjs.org/downloads/range/last-week/${pkg}`, {
     headersTimeout: 1000
   })
-    .then((res) => (cache[pkg] = res.body.json()))
+    .then((res) => (globalThis.npmCache[pkg] = res.body.json()))
     .catch(() => 0);
 }

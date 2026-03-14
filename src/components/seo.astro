@@ -1,7 +1,7 @@
 ---
-import { SEO as BaseSEO } from 'astro-seo';
+import   { SEO   } from 'astro-seo';
 
-interface SeoProps {
+export interface SeoProps {
   baseUrl?: string;
   description?: string;
   keywords?: string[];
@@ -34,7 +34,7 @@ const fullUrl = baseUrl && urlPath ? new URL(urlPath, baseUrl).toString() : unde
 const fullImageUrl = baseUrl && imagePath ? new URL(imagePath, baseUrl).toString() : undefined;
 ---
 
-<BaseSEO
+<SEO
   title={title}
   description={description}
   canonical={fullUrl}
