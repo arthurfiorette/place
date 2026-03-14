@@ -1,0 +1,8 @@
+- pnpm dev  # run local dev server
+- pnpm build  # build static site + generate curriculum PDFs
+- pnpm preview  # preview production build
+- pnpm lint  # biome checks
+- pnpm lint:fix  # biome autofix (unsafe allowed)
+- pnpm format  # biome formatting
+- pnpm lint:ci  # CI lint mode
+- git status / git diff / git log  # inspect repository changes

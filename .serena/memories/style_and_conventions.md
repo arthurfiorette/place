@@ -1,0 +1,5 @@
+- Stack: TypeScript + Astro .astro components + Tailwind utilities + Markdown/JSON content collections.
+- Lint/format with Biome using @arthurfiorette/biomejs-config.
+- Prefer utility classes and class:list patterns in components.
+- Content models are defined in src/content.config.ts with zod schemas.
+- Project uses dark visual theme for site pages and clean print-like style for curriculum route.

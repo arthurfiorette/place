@@ -1,0 +1,4 @@
+- Personal website/blog/CV built with Astro static site.
+- Main features: homepage portfolio, blog posts, project showcase with GitHub/NPM stats, curriculum pages in EN/PT, RSS and sitemap.
+- Source lives in src/ with pages, components, content collections, util, and styles.
+- Deploys to GitHub Pages via workflow.

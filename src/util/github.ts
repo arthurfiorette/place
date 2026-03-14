@@ -14,6 +14,8 @@ declare global {
   var gqlCache: Record<string, any>;
 }
 
+globalThis.gqlCache ??= {};
+
 export async function getStargazerCount(props: { name: string; owner: string }): Promise<number> {
   if (globalThis.gqlCache[props.name]) {
     return globalThis.gqlCache[props.name];
