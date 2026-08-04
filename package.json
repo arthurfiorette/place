@@ -32,7 +32,7 @@
     "reset-css": "^5.0.2",
     "sass": "^1.98.0",
     "tailwindcss": "^4.2.1",
-    "undici": "^7.24.0"
+    "undici": "^7.29.0"
   },
   "devDependencies": {
     "@arthurfiorette/biomejs-config": "^2.0.1",
