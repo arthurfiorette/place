@@ -1,9 +1,12 @@
 ---
 import '../styles/global.css';
+import '../styles/source.css';
 import Footer from '../components/footer.astro';
 import MainNav from '../components/main-nav.astro';
 import type {  SeoProps } from '../components/seo.astro';
 import Seo from '../components/seo.astro';
+import ThemePreference from '../components/theme-preference.astro';
+import ThemeSwitch from '../components/theme-switch.astro';
 import { SocialMediaLinks } from '../util/link/social-media';
 
 interface Props {
@@ -12,10 +15,8 @@ interface Props {
   /** Path of this page's markdown version (from a sibling .md.ts endpoint), if any. */
   markdown?: string;
   header?: boolean;
-  headerClass?: string;
   class?: string;
   light?: boolean;
-  mainClass?: string;
   footer?: boolean;
 }
 
@@ -25,8 +26,7 @@ const {
   markdown,
   header = true,
   footer = true,
-  light,
-  headerClass = '!text-sm !font-normal'
+  light
 } = Astro.props;
 
 const ldJson = JSON.stringify({
@@ -36,7 +36,7 @@ const ldJson = JSON.stringify({
   name: 'Arthur Fileti Fiorette',
   // Ties this site to the same person on other platforms (entity disambiguation).
   sameAs: SocialMediaLinks.map((link) => link.href).filter((href) => href.startsWith('https://')),
-  jobTitle: 'Web Developer',
+  jobTitle: 'Senior Software Developer',
   gender: 'male',
   url: 'https://arthur.place',
   address: {
@@ -47,22 +47,25 @@ const ldJson = JSON.stringify({
   },
   email: 'arthur.fiorette@gmail.com',
   birthDate: '2005-02-27',
-  nationality: 'Brazilian',
-  telephone: '+5528999772770'
+  nationality: 'Brazilian'
 });
 ---
 
 <!doctype html>
-<html lang={lang} class={light ? "light" : "dark"}>
+<html lang={lang} class={light ? 'light' : undefined}>
   <head>
     <!-- Simple meta -->
-    <meta name="theme-color" content="#000000" />
+    <meta name='color-scheme' content={light ? 'light' : 'light dark'} />
+    <meta name='theme-color' content='#161819' media='(prefers-color-scheme: dark)' />
+    <meta name='theme-color' content='#f5f1e8' media='(prefers-color-scheme: light)' />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, viewport-fit=cover"
     />
+
+    {!light && <ThemePreference />}
 
     <!-- General SEO -->
     <script is:inline type="application/ld+json" set:html={ldJson} />
@@ -113,35 +116,36 @@ const ldJson = JSON.stringify({
       href="/icons/favicon-16x16.png"
     />
  
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
-
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&family=Work+Sans:wght@300;500&display=swap"
-      rel="stylesheet"
-    />
-
     <Seo {...seo} />
 
     <slot name="head" />
   </head>
 
-  <body
-    class='antialiased flex w-full flex-col justify-center items-center tracking-tight dark:bg-neutral-900 dark:text-neutral-50 dark:bg-[url("/images/background-dark.svg")] min-h-screen'
-  >
-    <div class="flex justify-start items-start max-w-prose:flex-col-reverse">
+  <body class={light ? 'cv-document' : 'site-document'}>
+    {!light && <a class='skip-link' href='#main'>Skip to content</a>}
+    <div class={light ? 'cv-shell' : 'site-shell'}>
+      {header && !light && <header class='site-header'>
+        <div class='site-header-row'>
+          <a class='site-name' href='/'>arthur.place<span aria-hidden='true'> /</span></a>
+          <div class='relative ml-auto'>
+            <MainNav />
+            <div class='absolute right-0 top-full'>
+              <ThemeSwitch />
+            </div>
+          </div>
+        </div>
+      </header>}
       <main
+        id='main'
         class:list={[
-          "flex flex-col items-center justify-center gap-8 p-5 h-full",
-          header && "max-[1024px]:pb-24",
+          light ? 'cv-page' : 'site-main',
           Astro.props.class,
         ] }
       >
         <slot />
       </main>
-      {header && <MainNav class={headerClass} />}
+      {footer && <Footer markdown={markdown} />}
     </div>
-    {footer && <Footer />}
   </body>
 </html>
 

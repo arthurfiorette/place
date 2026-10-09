@@ -1,5 +1,4 @@
 ---
-import { Icon } from 'astro-icon/components';
 import type { LinkProps } from '../types/link';
 
 interface Props {
@@ -11,17 +10,10 @@ const { data } = Astro.props;
 
 <a
   href={data.href}
-  class="transition-all relative z-0 group flex min-h-11 min-w-11 p-3 rounded-md border border-transparent items-center justify-center text-2xl hover:bg-neutral-800 hover:border-neutral-600"
+  class='social-link'
   title={data.title}
   target="_blank"
   rel="noopener noreferrer"
 >
-  <Icon
-    name={data.icon}
-    class="transition-all text-neutral-800/70 group-hover:text-cream-light w-16 h-16"
-  />
-  <span
-    class="transition-all group-hover:-z-10 group-hover:opacity-0 opacity-100 font-semibold tracking-normal absolute"
-    >{data.label}</span
-  >
+  {data.label}
 </a>

@@ -1,8 +1,8 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-import MinRead from '../components/min-read.astro';
-import Time from '../components/time.astro';
 import { getReadTime } from '../util/read-time';
+import MinRead from './min-read.astro';
+import Time from './time.astro';
 
 interface Props {
   date: Date;
@@ -12,40 +12,16 @@ interface Props {
 const { date, post } = Astro.props;
 ---
 
-<header
-  class='items-center w-full max-w-3xl py-10 max-w-prose:pt-28 space-y-6'>
-  {
-    post.data.image && (
-      <img
-        class='rounded-lg w-full mx-auto max-w-3xl h-auto my-5'
-        src={post.data.image}
-        alt={post.data.title}
-        loading='lazy'
-        decoding='async'
-        height='auto'
-      />
-    )
-  }
-
-  <div>
-    <h1 class='text-neutral-200 text-center text-6xl max-[650px]:text-4xl mb-2'>{post.data.title}</h1>
-    <div
-      class='gap-1.5 text-sm flex justify-center items-center text-neutral-400 w-full'>
-      <MinRead minRead={getReadTime(post.body!)} />
-      <Time datetime={date} />
-    </div>
+<header class='article-header source-block'>
+  <a class='back-link' href='/posts'>← all posts</a>
+  <h1>{post.data.title}</h1>
+  <p class='article-description'>{post.data.description}</p>
+  <div class='post-meta'>
+    <Time datetime={date} />
+    <MinRead minRead={getReadTime(post.body ?? '')} />
+    {post.data.published && <a href={`/${post.id}.md`}>markdown</a>}
   </div>
-
-  <summary
-    class='italic w-full text-neutral-100 text-center my-8 justify-center items-center flex flex-col'>
-    <div class='inline text-2xl leading-relaxed max-w-3xl'>
-      {post.data.description}
-    </div>
-  </summary>
-
-  {
-    post.data.published === 'preview' && (
-      <div class='preview'>This post is a preview and may not be final.</div>
-    )
-  }
+  {post.data.published === 'preview' && <p class='post-status'>This post is a preview and may not be final.</p>}
+  {!post.data.published && <p class='post-status'>This post is a draft.</p>}
+  {post.data.image && <img class='article-image' src={post.data.image} alt={post.data.title} decoding='async' />}
 </header>

@@ -1,0 +1,682 @@
+:root {
+  color-scheme: light dark;
+  --page-bg: light-dark(#f5f1e8, #161819);
+  --sheet-bg: light-dark(#f5f1e8f5, #161819f2);
+  --surface-bg: light-dark(#ebe5d8, #1d2021);
+  --ink: light-dark(#3c3836, #ebdbb2);
+  --muted-ink: light-dark(#655b50, #bdae93);
+  --comment-ink: light-dark(#766958, #a89984);
+  --rule: light-dark(#c9c0b0, #3c3836);
+  --subtle-rule: light-dark(#d9d1c4, #3c383680);
+  --accent-ink: light-dark(#526617, #b8bb26);
+  --link-ink: light-dark(#386961, #83a598);
+  --metric-ink: light-dark(#885e0c, #fabd2f);
+  --selection-bg: light-dark(#cedbb3, #3c503b);
+  --circuit: url("/images/background-light.svg");
+  --source-font: "Cascadia Code", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --circuit: url("/images/background-dark.svg");
+  }
+}
+
+/* The saved preference applies before paint; native radios also work without JS. */
+:root[data-theme="light"],
+:root:has(#theme-light:checked) {
+  color-scheme: light;
+  --circuit: url("/images/background-light.svg");
+}
+
+:root[data-theme="dark"],
+:root:has(#theme-dark:checked) {
+  color-scheme: dark;
+  --circuit: url("/images/background-dark.svg");
+}
+
+/* Curriculum and its PDF always remain a conventional white document. */
+:root.light {
+  color-scheme: light;
+  background: white;
+}
+
+.site-document {
+  margin: 0;
+  background: var(--page-bg) var(--circuit);
+  color: var(--ink);
+  font-family: var(--source-font);
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+.site-document ::selection {
+  color: var(--ink);
+  background: var(--selection-bg);
+}
+
+.site-document :where(h1, h2, h3, h4, h5, h6) {
+  margin: 0;
+  font-family: inherit;
+  font-weight: 500;
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+
+.site-document :where(h1) {
+  font-size: 26px;
+}
+
+.site-document :where(h2) {
+  color: var(--accent-ink);
+  font-size: 17px;
+}
+
+.site-document :where(h3) {
+  font-size: 15px;
+}
+
+.site-document :where(p) {
+  margin: 0;
+}
+
+.site-document :where(a) {
+  color: var(--link-ink);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+}
+
+.site-document :where(a:hover) {
+  color: var(--ink);
+}
+
+.site-document :where(a:focus-visible, summary:focus-visible, pre:focus-visible) {
+  outline: 2px solid var(--accent-ink);
+  outline-offset: 5px;
+}
+
+.site-document :where(section, h2, h3) {
+  scroll-margin-top: 24px;
+}
+
+.site-document :where(code, pre, kbd) {
+  font-family: var(--source-font);
+}
+
+.skip-link {
+  position: absolute;
+  left: 16px;
+  top: -100px;
+  z-index: 10;
+  padding: 8px;
+  background: var(--surface-bg);
+}
+
+.skip-link:focus {
+  top: 8px;
+}
+
+.site-shell {
+  max-width: 920px;
+  min-height: 100vh;
+  margin-inline: auto;
+  padding: 0 32px 16px;
+  display: flex;
+  flex-direction: column;
+  background: var(--sheet-bg);
+}
+
+.site-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.site-header {
+  margin-left: 24px;
+  padding: 22px 0;
+  border-bottom: 1px dashed var(--rule);
+}
+
+.site-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px 24px;
+  flex-wrap: wrap;
+}
+
+.site-name {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.site-name span {
+  color: var(--comment-ink);
+}
+
+.site-nav {
+  display: flex;
+  margin-left: auto;
+  gap: 24px;
+  font-size: 13px;
+  text-transform: lowercase;
+}
+
+.site-nav a {
+  padding-block: 5px;
+  text-decoration: none;
+}
+
+.site-nav a[aria-current="page"] {
+  color: var(--accent-ink);
+  text-decoration: underline;
+}
+
+.theme-switch {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  color: var(--comment-ink);
+  font-size: 11px;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.theme-switch label {
+  position: relative;
+  cursor: pointer;
+  /* The second line sits in the header's existing bottom padding. */
+  padding-block: 0;
+}
+
+/* Visually hide inputs while preserving radio semantics and arrow-key navigation. */
+.theme-switch input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  clip-path: inset(50%);
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.theme-switch label:has(input:checked) {
+  color: var(--accent-ink);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.theme-switch label:has(input:focus-visible) {
+  outline: 2px solid var(--accent-ink);
+  outline-offset: 3px;
+}
+
+.source-body {
+  position: relative;
+  padding: 32px 0 0 24px;
+}
+
+.source-body::before {
+  content: "";
+  position: absolute;
+  top: 24px;
+  bottom: 0;
+  left: 0;
+  width: 1px;
+  background: var(--rule);
+}
+
+.source-block {
+  position: relative;
+  margin-bottom: 30px;
+  min-width: 0;
+}
+
+.source-comment {
+  color: var(--comment-ink);
+  font-size: 13px;
+}
+
+.accent {
+  color: var(--accent-ink);
+}
+
+.source-intro h1 {
+  margin: 7px 0 12px;
+  color: var(--accent-ink);
+}
+
+.source-intro p {
+  max-width: 72ch;
+  font-size: 14px;
+}
+
+.source-intro :where(p) + p {
+  margin-top: 16px;
+}
+
+.text-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  font-size: 13px;
+}
+
+.text-links a {
+  color: var(--accent-ink);
+  text-decoration: none;
+}
+
+.text-links a:hover {
+  text-decoration: underline;
+}
+
+.social-link {
+  text-transform: lowercase;
+}
+
+.section-heading {
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.section-heading h2 {
+  flex: 1;
+}
+
+.section-heading > a {
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.project-list,
+.post-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.project-list > li + li,
+.post-list > li + li {
+  border-top: 1px solid var(--subtle-rule);
+}
+
+.project-totals {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 24px;
+  color: var(--muted-ink);
+  font-size: 12px;
+  margin-bottom: 12px;
+}
+
+.project-totals strong {
+  color: var(--metric-ink);
+  font-weight: 500;
+}
+
+.project-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 16px;
+  padding: 14px 0;
+}
+
+.project-description :where(h3) a {
+  text-decoration: none;
+}
+
+.project-description :where(h3) a:hover {
+  text-decoration: underline;
+}
+
+.project-description p {
+  margin-top: 4px;
+  color: var(--muted-ink);
+  font-size: 13px;
+}
+
+.project-metrics {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  color: var(--muted-ink);
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.project-metrics strong {
+  color: var(--metric-ink);
+  font-weight: 500;
+}
+
+.post-row {
+  display: grid;
+  grid-template-columns: 100px minmax(0, 1fr);
+  gap: 18px;
+  padding: 18px 0;
+}
+
+.post-date {
+  color: var(--muted-ink);
+  font-size: 12px;
+  padding-top: 2px;
+}
+
+.post-row h3 {
+  font-size: 16px;
+}
+
+.post-row :where(h3) a {
+  text-decoration: none;
+}
+
+.post-row :where(h3) a:hover {
+  text-decoration: underline;
+}
+
+.post-row p {
+  margin: 6px 0;
+  color: var(--muted-ink);
+  font-size: 13px;
+}
+
+.post-meta {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  color: var(--muted-ink);
+  font-size: 12px;
+}
+
+.post-meta b {
+  font-weight: inherit;
+}
+
+.post-status {
+  color: var(--metric-ink);
+  font-size: 12px;
+}
+
+.archive-meta {
+  color: var(--muted-ink);
+}
+
+.history-note {
+  max-width: 76ch;
+  color: var(--muted-ink);
+  font-size: 14px;
+}
+
+.archive-meta a {
+  color: var(--accent-ink);
+}
+
+.empty-note {
+  color: var(--muted-ink);
+  font-size: 14px;
+}
+
+.site-footer {
+  margin: 10px 0 0 24px;
+  padding: 20px 0;
+  border-top: 1px dashed var(--rule);
+  color: var(--muted-ink);
+  font-size: 12px;
+}
+
+.site-footer .text-links {
+  font-size: inherit;
+}
+
+.article-header {
+  padding-bottom: 24px;
+  border-bottom: 1px dashed var(--rule);
+}
+
+.back-link {
+  font-size: 12px;
+}
+
+.article-header h1 {
+  margin: 18px 0 14px;
+  color: var(--accent-ink);
+  font-size: 28px;
+  line-height: 1.45;
+}
+
+.article-description {
+  color: var(--muted-ink);
+  font-size: 14px;
+}
+
+.article-header .post-meta {
+  margin-top: 18px;
+}
+
+.article-image {
+  width: 100%;
+  height: auto;
+  margin-top: 24px;
+}
+
+.article-contents {
+  margin-bottom: 28px;
+  font-size: 13px;
+}
+
+.article-contents summary {
+  color: var(--accent-ink);
+  cursor: pointer;
+  width: fit-content;
+}
+
+.article-contents ul {
+  list-style: none;
+  padding-left: 20px;
+  margin: 14px 0;
+  border-left: 1px solid var(--rule);
+}
+
+.article-contents li + li {
+  margin-top: 8px;
+}
+
+.article-copy {
+  max-width: 76ch;
+  font-size: 15px;
+  line-height: 1.9;
+  overflow-wrap: anywhere;
+}
+
+.article-copy :where(h2) {
+  margin: 36px 0 16px;
+  font-size: 19px;
+}
+
+.article-copy :where(h3, h4) {
+  margin: 28px 0 14px;
+  font-size: 17px;
+}
+
+.article-copy :where(h2, h3, h4) a {
+  color: var(--accent-ink);
+  text-decoration: none;
+}
+
+.article-copy :where(h2, h3, h4) a:hover {
+  text-decoration: underline;
+}
+
+.article-copy :where(p) {
+  margin: 18px 0;
+}
+
+.article-copy :where(ul, ol) {
+  padding-left: 24px;
+  margin: 20px 0;
+  list-style: revert;
+}
+
+.article-copy :where(li) {
+  padding-left: 6px;
+  margin: 10px 0;
+}
+
+.article-copy :where(li)::marker {
+  color: var(--comment-ink);
+}
+
+.article-copy :where(blockquote) {
+  margin: 28px 0;
+  padding: 0 0 0 20px;
+  border-left: 2px solid var(--accent-ink);
+  color: var(--muted-ink);
+}
+
+.article-copy :where(img) {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 24px auto;
+}
+
+.article-copy :where(hr) {
+  border: 0;
+  border-top: 1px dashed var(--rule);
+  margin: 28px 0;
+}
+
+.article-copy :where(details) {
+  border-left: 1px solid var(--rule);
+  padding-left: 16px;
+  margin: 20px 0;
+}
+
+.article-copy :where(summary) {
+  color: var(--accent-ink);
+  cursor: pointer;
+}
+
+.article-copy :where(:not(pre) > code, kbd) {
+  color: var(--accent-ink);
+  background: var(--surface-bg);
+  padding: 2px 4px;
+  font-size: 0.9em;
+}
+
+.article-copy :where(pre) {
+  margin: 24px 0;
+  padding: 16px 18px;
+  border: 1px solid var(--rule);
+  background: var(--surface-bg);
+  overflow-x: auto;
+  font-size: 13px;
+  line-height: 1.8;
+  tab-size: 2;
+  counter-reset: code-line;
+}
+
+/* Shiki emits both sets of variables. The same CSS switch also recolors code. */
+.article-copy :where(.astro-code, .astro-code span) {
+  color: light-dark(var(--shiki-light), var(--shiki-dark));
+}
+
+.article-copy :where(.line) {
+  display: inline-block;
+  position: relative;
+  min-width: 100%;
+  padding-left: 4ch;
+  counter-increment: code-line;
+}
+
+.article-copy :where(.line)::before {
+  content: counter(code-line) / "";
+  position: absolute;
+  left: 0;
+  width: 2ch;
+  text-align: right;
+  color: var(--comment-ink);
+  user-select: none;
+}
+
+.article-discussion {
+  border-top: 1px dashed var(--rule);
+  padding-top: 28px;
+  margin: 36px 0;
+  font-size: 13px;
+}
+
+@media (max-width: 650px) {
+  .site-document {
+    font-size: 14px;
+  }
+
+  .site-shell {
+    padding-inline: 18px;
+  }
+
+  .site-header,
+  .site-footer {
+    margin-left: 0;
+  }
+
+  .site-header {
+    padding-top: 18px;
+  }
+
+  .site-nav {
+    gap: 20px;
+    font-size: 12px;
+  }
+
+  .theme-switch {
+    justify-content: flex-start;
+  }
+
+  .source-body {
+    padding-left: 18px;
+    padding-top: 25px;
+  }
+
+  .source-intro h1 {
+    font-size: 23px;
+  }
+
+  .section-heading {
+    gap: 12px;
+  }
+
+  .project-row,
+  .post-row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 6px;
+  }
+
+  .project-metrics {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+  }
+
+  .article-header h1 {
+    font-size: 23px;
+  }
+
+  .article-copy {
+    font-size: 14px;
+  }
+
+  .article-copy :where(pre) {
+    padding-inline: 10px;
+    font-size: 12px;
+  }
+}

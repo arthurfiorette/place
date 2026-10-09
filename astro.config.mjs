@@ -59,8 +59,20 @@ export default defineConfig({
       hastPlugins: [satteriHeadingIdsPlugin(), autolinkHeadings]
     }),
     shikiConfig: {
-      wrap: true,
-      theme: 'vitesse-dark'
+      wrap: false,
+      // Both palettes are emitted at build time; CSS chooses without a script.
+      themes: { light: 'gruvbox-light-medium', dark: 'gruvbox-dark-hard' },
+      defaultColor: false,
+      transformers: [
+        {
+          pre(node) {
+            // Long code examples must remain keyboard-scrollable without JavaScript.
+            node.properties.tabIndex = 0;
+            node.properties.role = 'region';
+            node.properties['aria-label'] = 'Code example';
+          }
+        }
+      ]
     }
   },
   build: {
@@ -100,7 +112,7 @@ export default defineConfig({
       injectAlternateLink: false,
       siteName: "Arthur's place",
       siteDescription:
-        'Personal site of Arthur Fiorette, a software engineer from Brazil: open source projects, posts and curriculum.'
+        'Personal site of Arthur Fiorette, a senior software developer from Brazil focused on open source and developer tools: projects, posts and curriculum.'
     }),
     compress({
       CSS: true,

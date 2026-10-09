@@ -2,15 +2,16 @@
 interface Props {
   class?: string;
   id?: string;
+  source?: boolean;
 }
 
-const { class: className, ...attrs } = Astro.props;
+const { class: className, source, ...attrs } = Astro.props;
 ---
 
 <section
   {...attrs}
   class:list={[
-    'items-center w-full max-w-3xl space-y-6',
+    source ? 'source-block' : 'items-center w-full max-w-3xl space-y-6',
     className
   ]}>
   <slot />

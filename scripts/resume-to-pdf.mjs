@@ -16,21 +16,19 @@ const FILENAMES = ['curriculo', 'curriculum'];
 
 // page.pdf() is chromium-only. Playwright already runs chromium without its
 // sandbox on Linux, so the old --no-sandbox args are not needed.
-const browser = await chromium.launch();
+await using browser = await chromium.launch();
 
 async function generatePDF(url, outputPath) {
-  const page = await browser.newPage();
+  await using page = await browser.newPage();
 
-  await page.goto(url, {
-    waitUntil: 'networkidle'
-  });
-
-  await page.pdf({ path: outputPath, format: 'A4', tagged: true, scale: 0.75 });
+  await page.emulateMedia({ media: 'print' });
+  await page.goto(url, { waitUntil: 'networkidle' });
+  // Printing must wait for the same local font used by the browser layout.
+  await page.evaluate(() => document.fonts.ready);
+  await page.pdf({ path: outputPath, preferCSSPageSize: true, tagged: true });
+  console.log(`Generated PDF: ${outputPath}`);
 }
 
 await Promise.all(
   FILENAMES.map((name) => generatePDF(`${baseUrl}/${name}.html`, `dist/${name}.pdf`))
-);
-
-await browser.close();
-server.close();
+).finally(() => server.close());

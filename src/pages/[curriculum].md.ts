@@ -14,19 +14,25 @@ description: ${JSON.stringify(`Curriculum of ${cv.name}, ${cv.title}.`)}
 
 ${cv.title}. ${cv.email} | https://arthur.place | https://linkedin.com/in/arthurfiorette
 
-${cv.month}
-
 ${cv.about.join('\n\n')}
+
+## ${cv.experienceName}
+
+${cv.experienceNote}
+
+${cv.experiences.map((e) => `### ${e.title}\n\n${e.start} - ${e.end}\n\n${e.about.join('\n\n')}\n`)}
+
+## ${cv.ossTitle}
+
+${cv.oss.join('\n\n')}
+
+## ${cv.talksName}
+
+${cv.talks.join('\n\n')}
 
 ## ${cv.educationName}
 
 ${cv.education.map((e) => `- ${e.date}: ${e.title}, ${e.institution}`)}
 
-## ${cv.experienceName}
-
-${cv.experiences.map((e) => `### ${e.title}\n\n${e.start} - ${e.end} (${e.type})\n\n${e.about.join('\n\n')}\n`)}
-
-## ${cv.ossTitle}
-
-${cv.oss.join('\n\n')}
+${cv.month}
 `;

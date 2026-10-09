@@ -1,42 +1,31 @@
 ---
-import MainNav from '../components/main-nav.astro';
 import PostCard from '../components/post-card.astro';
 import Section from '../components/section.astro';
 import Document from '../layouts/document.astro';
-import { posts } from '../util/posts/get-posts';
+import { sortedPosts } from '../util/posts/get-posts';
+
+const years = [...new Set(sortedPosts.map((post) => post.data.date.getUTCFullYear()))];
 ---
 
 <Document
-  header={false}
   markdown='/posts.md'
   seo={{
     title: "Posts | Arthur's place",
     description: 'Backend engineering notes about TypeScript, architecture and open source.',
     urlPath: '/posts'
   }}>
-  <Section class='flex items-start gap-5'>
-    <div class='w-full'>
-      <h1 class='text-4xl mt-0 mb-2'>Posts</h1>
-      <p class='text-neutral-300 mt-0 mb-6'>
-        Backend engineering notes about TypeScript, architecture and open source.
-      </p>
-      {
-        !!posts.length && (
-          <ol class='p-0! m-0! list-none w-full space-y-3'>
-            {posts.map((post) => (
-              <li
-                class:list={[
-                  'transition-all hover:bg-neutral-800/70 border border-neutral-800/70 hover:border-neutral-600 p-4 rounded-lg w-full block',
-                  (post.data.published === false || post.data.published === 'preview') &&
-                    '!bg-amber-900/25 !border-amber-700/40'
-                ]}>
-                <PostCard minimalistic data={post} />
-              </li>
-            ))}
-          </ol>
-        )
-      }
-    </div>
-    <MainNav />
-  </Section>
+  <div class='source-body'>
+    <Section source class='source-intro'>
+      <h1>Writing<span class='accent'>.</span></h1>
+      <p>Notes on TypeScript, backend architecture, and open source.</p>
+      <p class='archive-meta'>{sortedPosts.length} post{sortedPosts.length === 1 ? '' : 's'} <span aria-hidden='true'>/</span> <a href='/rss.xml'>subscribe via RSS</a></p>
+    </Section>
+    {years.map((year) => <Section source>
+      <div class='section-heading'><h2>{year}</h2></div>
+      <ul class='post-list'>
+        {sortedPosts.filter((post) => post.data.date.getUTCFullYear() === year).map((post) => <li><PostCard data={post} /></li>)}
+      </ul>
+    </Section>)}
+    {!years.length && <p class='empty-note'>No posts yet. Check back soon or subscribe above.</p>}
+  </div>
 </Document>

@@ -1,29 +1,26 @@
 ---
 import { getCollection } from 'astro:content';
-import Section from '../components/section.astro';
 import Document from '../layouts/document.astro';
+import '../styles/curriculum.css';
 
 export async function getStaticPaths() {
   const cvs = await getCollection('curriculum');
 
   return cvs.map((cv) => ({
     params: { curriculum: cv.data.id },
-    props: {
-      ...cv,
-      cvs
-    }
+    props: { ...cv, cvs }
   }));
 }
 
 const cv = Astro.props;
+const portuguese = cv.id === 'pt';
 ---
 
 <Document
   light
   header={false}
   footer={false}
-  class='gap-4'
-  lang={cv.id === 'pt' ? 'pt-BR' : 'en'}
+  lang={portuguese ? 'pt-BR' : 'en'}
   markdown={`/${cv.data.id}.md`}
   seo={{
     title: `${cv.data.name} - ${cv.data.title}`,
@@ -31,103 +28,75 @@ const cv = Astro.props;
     urlPath: `/${cv.data.id}`,
     type: 'profile'
   }}>
-  <div class='print:hidden absolute top-3.5 text-sm'>
-    <div>
-      {cv.cvs
-        .filter((cv2) => cv2.id !== cv.id)
-        .map((cv2) => (
-          <a class='no-underline hover:underline' href={`/${cv2.data.id}`}>
-            {cv2.data.lang}
-          </a>
-        ))}
-      <div class='mx-[1vw] inline-block' />
-      <a href={`/${cv.data.id}.pdf`} class='no-underline hover:underline'>
-        📄 Download as PDF
-      </a>
-      <div class='mx-[1vw] inline-block' />
-      <a href="/" class='no-underline hover:underline'>
-        🏠 Homepage
-      </a>
-    </div>
-  </div>
+  <link slot='head' rel='preload' href='/fonts/source-sans-3/latin.woff2' as='font' type='font/woff2' crossorigin />
 
-  <Section class='[&:not(print)]:mt-5 cv'>
-    <small class='block text-right text-sm text-neutral-600'>{cv.data.title}</small>
-    <h1 class='mb-0 text-center text-5xl max-[650px]:text-4xl'>{cv.data.name}</h1>
-    <small class='text-center block text-base'>
-      {cv.data.phone} | <a href={`mailto:${cv.data.email}`}>{cv.data.email}</a>
-    </small>
-
-    <p class='text-base mt-1 ml-5 text-right'>
-      <a class='text-base' href='https://arthur.place' target='_blank' rel='noopener noreferrer'>
-        arthur.place
+  <nav class='cv-actions' aria-label={portuguese ? 'Opções do currículo' : 'Curriculum options'}>
+    {cv.cvs.filter((other) => other.id !== cv.id).map((other) => (
+      <a href={`/${other.data.id}`} lang={other.id === 'pt' ? 'pt-BR' : 'en'}>
+        {other.id === 'pt' ? 'Ler em português' : 'Read in English'}
       </a>
-      <br />
-      <a
-        class='text-base'
-        href='https://linkedin.com/in/arthurfiorette'
-        target='_blank'
-        rel='noopener noreferrer'>
-        linkedin.com/in/arthurfiorette
-      </a>
-      <br />
-      <small class="text-red-500">{cv.data.month}</small>
-    </p>
-  </Section>
-
-  <Section>
-    {cv.data.about.map((a) => (
-      <p set:html={a} class='text-base my-1' />
     ))}
-  </Section>
+    <a href={`/${cv.data.id}.pdf`}>{portuguese ? 'Baixar PDF' : 'Download PDF'}</a>
+    <a href={`/${cv.data.id}.md`}>Markdown</a>
+    <a href='/'>{portuguese ? 'Página inicial' : 'Homepage'}</a>
+  </nav>
 
-  <Section>
-    <h2 class='mb-0 text-2xl'>{cv.data.educationName}</h2>
-
-    <ul class='flex flex-col gap-2'>
-      {cv.data.education.map((education) => (
-        <li class='py-1 m-0'>
-          <h4 class='m-0 text-base font-mono text-neutral-600'>{education.date}</h4>
-          <div class='m-0 text-base font-medium' set:html={education.title} />
-          <div class='text-sm'>{education.institution}</div>
-        </li>
-      ))}
+  <header class='cv-header'>
+    <h1>{cv.data.name}</h1>
+    <p class='cv-role'>{cv.data.title}</p>
+    <ul class='cv-contact' aria-label={portuguese ? 'Contato' : 'Contact'}>
+      <li><a href={`mailto:${cv.data.email}`}>{cv.data.email}</a></li>
+      <li><a href='https://arthur.place'>https://arthur.place</a></li>
+      <li><a href='https://linkedin.com/in/arthurfiorette'>linkedin.com/in/arthurfiorette</a></li>
     </ul>
-  </Section>
+  </header>
 
-  <Section class='m-0 p-0'>
-    <h2 class='mb-0 p-0 text-2xl'>{cv.data.experienceName}</h2>
+  <section class='cv-summary' aria-label={portuguese ? 'Resumo profissional' : 'Professional summary'}>
+    {cv.data.about.map((paragraph) => <p set:html={paragraph} />)}
+  </section>
 
-    <ul class='m-0 p-0'>
+  <section class='cv-section' aria-labelledby='experience'>
+    <h2 id='experience'>{cv.data.experienceName}</h2>
+    <p class='cv-note'>{cv.data.experienceNote}</p>
+    <ul class='cv-entries'>
       {cv.data.experiences.map((experience) => (
-        <li class='flex gap-5 mt-3 max-[650px]:flex-col max-[650px]:gap-1'>
-          <div class='text-right whitespace-nowrap max-[650px]:text-left'>
-            <b class='block text-base'>{experience.start} </b>
-            <b class='block text-base'>{experience.end}</b>
-            <small class='font-mono text-neutral-600'>{experience.type}</small>
+        <li class='cv-entry'>
+          <div class='cv-dates'>
+            <div class='cv-period'><span>{experience.start}</span><span>{experience.end}</span></div>
           </div>
-
-          <div class='flex flex-col gap-1.5'>
-            {/* biome-ignore lint/a11y/useHeadingContent: broken */}
-            <h4 class='m-0 align-center text-lg' set:html={experience.title} />
-            <div>
-              {experience.about.map((c) => (
-                <p class='m-0 text-base' set:html={c} />
-              ))}
-            </div>
+          <div class='cv-entry-body'>
+            <h3><span set:html={experience.title} /></h3>
+            {experience.about.map((paragraph) => <p set:html={paragraph} />)}
           </div>
         </li>
       ))}
     </ul>
-  </Section>
+  </section>
 
-  <Section>
-    <h2 class='m-0 p-0 text-2xl'>{cv.data.ossTitle}</h2>
+  <section class='cv-section' aria-labelledby='open-source'>
+    <h2 id='open-source'>{cv.data.ossTitle}</h2>
+    {cv.data.oss.map((paragraph) => <p set:html={paragraph} />)}
+  </section>
 
-    <div>
-      {cv.data.oss.map((c) => (
-        <p class='text-base my-0 py-0 pt-2' set:html={c} />
+  <section class='cv-section' aria-labelledby='talks'>
+    <h2 id='talks'>{cv.data.talksName}</h2>
+    {cv.data.talks.map((paragraph) => <p set:html={paragraph} />)}
+  </section>
+
+  <section class='cv-section' aria-labelledby='education'>
+    <h2 id='education'>{cv.data.educationName}</h2>
+    <ul class='cv-entries'>
+      {cv.data.education.map((education) => (
+        <li class='cv-entry cv-education'>
+          <div class='cv-dates'>{education.date}</div>
+          <div class='cv-entry-body'>
+            <h3><span set:html={education.title} /></h3>
+            <p class='cv-institution'>{education.institution}</p>
+          </div>
+        </li>
       ))}
-    </div>
-  </Section>
+    </ul>
+  </section>
+
+  <footer class='cv-updated'>{cv.data.month}</footer>
 </Document>

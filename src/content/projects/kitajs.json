@@ -10,5 +10,5 @@
     "@kitajs/runtime"
   ],
   "owner": "kitajs",
-  "description": "Revolutionary type safe router for javascript backends."
+  "description": "Type-safe router for Fastify, built on the TypeScript compiler API."
 }
