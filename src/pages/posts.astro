@@ -6,7 +6,14 @@ import Document from '../layouts/document.astro';
 import { posts } from '../util/posts/get-posts';
 ---
 
-<Document header={false}>
+<Document
+  header={false}
+  markdown='/posts.md'
+  seo={{
+    title: "Posts | Arthur's place",
+    description: 'Backend engineering notes about TypeScript, architecture and open source.',
+    urlPath: '/posts'
+  }}>
   <Section class='flex items-start gap-5'>
     <div class='w-full'>
       <h1 class='text-4xl mt-0 mb-2'>Posts</h1>

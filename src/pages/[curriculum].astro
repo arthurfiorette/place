@@ -18,7 +18,19 @@ export async function getStaticPaths() {
 const cv = Astro.props;
 ---
 
-<Document light header={false} footer={false} class='gap-4'>
+<Document
+  light
+  header={false}
+  footer={false}
+  class='gap-4'
+  lang={cv.id === 'pt' ? 'pt-BR' : 'en'}
+  markdown={`/${cv.data.id}.md`}
+  seo={{
+    title: `${cv.data.name} - ${cv.data.title}`,
+    description: `Curriculum of ${cv.data.name}, ${cv.data.title}.`,
+    urlPath: `/${cv.data.id}`,
+    type: 'profile'
+  }}>
   <div class='print:hidden absolute top-3.5 text-sm'>
     <div>
       {cv.cvs

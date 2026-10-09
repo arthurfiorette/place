@@ -10,30 +10,25 @@ import { abbrNumber } from '../util/number';
 import { posts, sortedPosts } from '../util/posts/get-posts';
 import { loadProjects } from '../util/projects';
 
-const projects = await loadProjects();
+// Exported so index.md.ts renders the same content without duplicating it.
+export const intro = [
+  "I'm a passionate software engineer from Brazil 🇧🇷. My love for open source projects connects people worldwide and drives us toward a better future. When I'm not coding, you'll find me enjoying mountain biking, playing Counter-Strike, volleyball, or helping beginners with coding.",
+  "I'm dedicated to full-stack development. I started my coding journey in late 2018 with Java, initially tinkering with Minecraft plugins. Since then, I've grown to develop various applications, including SaaS enterprise projects, a TypeScript framework, and even my own programming language."
+];
+
+export const projects = await loadProjects();
+
 const blogCount = sortedPosts.length;
 const blogLabel = `${blogCount} blog post${blogCount === 1 ? '' : 's'}`;
 ---
 
-<Document>
+<Document markdown='/index.md'>
   <Section class='max-w-prose:py-14'>
     <h1 class='transition-all text-center text-6xl max-[650px]:text-4xl pt-8'>
       Eai 👋<br />I am <span class='text-cream-light'>Arthur Fiorette</span>
     </h1>
 
-    <p class='text-lg text-neutral-200'>
-      I'm a passionate software engineer from Brazil 🇧🇷. My love for open source projects
-      connects people worldwide and drives us toward a better future. When I'm not coding,
-      you'll find me enjoying mountain biking, playing Counter-Strike, volleyball, or
-      helping beginners with coding.
-    </p>
-
-    <p class='text-lg text-neutral-200'>
-      I'm dedicated to full-stack development. I started my coding journey in late 2018
-      with Java, initially tinkering with Minecraft plugins. Since then, I've grown to
-      develop various applications, including SaaS enterprise projects, a TypeScript
-      framework, and even my own programming language.
-    </p>
+    {intro.map((paragraph) => <p class='text-lg text-neutral-200'>{paragraph}</p>)}
 
     <div class='flex flex-wrap justify-center gap-3 pt-1'>
       <a

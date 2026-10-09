@@ -1,0 +1,11 @@
+# Search engines and AI crawlers are welcome.
+# Markdown versions of every page live next to the HTML (e.g. /posts.md),
+# with an index at https://arthur.place/llms.txt and the full text at
+# https://arthur.place/llms-full.txt.
+
+User-agent: *
+# https://contentsignals.org: search indexing, AI answers and AI training are all allowed.
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
+Allow: /
+
+Sitemap: https://arthur.place/sitemap-index.xml

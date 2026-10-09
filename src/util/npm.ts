@@ -1,5 +1,3 @@
-import { request } from 'undici';
-
 export async function getNpmDownloadCount(pkg: string | string[]) {
   const results = Array.isArray(pkg)
     ? await Promise.all(pkg.map(requestDownloadCount))
@@ -33,9 +31,10 @@ function requestDownloadCount(pkg: string) {
 
   console.log(`Requesting ${pkg} data.`);
 
-  return request(`https://api.npmjs.org/downloads/range/last-week/${pkg}`, {
-    headersTimeout: 1000
+  // Download counts are cosmetic, so a slow npm API must not stall the build.
+  return fetch(`https://api.npmjs.org/downloads/range/last-week/${pkg}`, {
+    signal: AbortSignal.timeout(1000)
   })
-    .then((res) => (globalThis.npmCache[pkg] = res.body.json()))
+    .then((res) => (globalThis.npmCache[pkg] = res.json()))
     .catch(() => 0);
 }
