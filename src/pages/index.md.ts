@@ -1,12 +1,11 @@
 import type { APIRoute } from 'astro';
 import { md } from 'astro-slop';
-import { SocialMediaLinks } from '../util/link/social-media';
 import { sortedPosts } from '../util/posts/get-posts';
-import { intro, projects } from './index.astro';
+import { history, intro, projects, socialLinks } from './index.astro';
 
 export const GET: APIRoute = () => md`---
 title: Arthur Fiorette
-description: Software engineer from Brazil building open source TypeScript tools.
+description: Senior software developer from Brazil focused on open source and developer tools.
 ---
 
 # Arthur Fiorette
@@ -15,7 +14,7 @@ ${intro.join('\n\n')}
 
 ## Links
 
-${SocialMediaLinks.map((link) => `- ${md.link(link.label, link.href)}`)}
+${socialLinks.map((link) => `- ${md.link(link.label, link.href)}`)}
 
 ## Open source projects
 
@@ -28,6 +27,10 @@ ${projects.map(
 ## Posts
 
 ${sortedPosts.map((post) => `- ${md.link(post.data.title, `/${post.id}.md`)}: ${post.data.description}`)}
+
+## A bit of history
+
+${history}
 
 ## Curriculum
 

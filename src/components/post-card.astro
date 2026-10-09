@@ -6,32 +6,20 @@ import Time from './time.astro';
 
 interface Props {
   data: CollectionEntry<'blog'>;
-  minimalistic?: boolean;
 }
 
-const {
-  data: { data: post, id, body },
-  minimalistic = false
-} = Astro.props;
+const { data: { data: post, id, body } } = Astro.props;
 ---
 
-<a
-  href={`/${id}`}
-  title={post.description}
-  class:list={[
-    'no-underline group p-4 block w-full',
-    minimalistic && 'flex! flex-col! justify-start! p-2'
-  ]}>
-  <small class='font-normal text-sm text-neutral-400 mb-3 block'>
-    <Time datetime={post.date} />
-    <MinRead minRead={getReadTime(body!)} />
-  </small>
-  <h2
-    class:list={[
-      'font-semibold text-2xl text-center mt-0 group-hover:text-cream-light',
-      minimalistic && 'text-left!'
-    ]}>
-    {post.title}
-  </h2>
-  <p class='mb-0 font-normal text-lg text-neutral-300'>{post.description}</p>
-</a>
+<article class='post-row'>
+  <Time datetime={post.date} className='post-date' />
+  <div>
+    <h3><a href={`/${id}`}>{post.title}</a></h3>
+    <p>{post.description}</p>
+    <div class='post-meta'>
+      <MinRead minRead={getReadTime(body ?? '')} />
+      {!post.published && <span class='post-status'>draft</span>}
+      {post.published === 'preview' && <span class='post-status'>preview</span>}
+    </div>
+  </div>
+</article>

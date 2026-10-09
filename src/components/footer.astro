@@ -1,9 +1,17 @@
 ---
+interface Props {
+  markdown?: string;
+}
+
+const { markdown } = Astro.props;
 const year = new Date().getFullYear();
 ---
 
-<footer class="footer m-0 mt-8 pb-8">
-  <span class="text-center text-sm font-normal text-neutral-400">
-    Arthur Fiorette © {year}
-  </span>
+<footer class='site-footer'>
+  <span>Arthur Fiorette © {year}</span>
+  <div class='text-links'>
+    {markdown && <a href={markdown}>markdown</a>}
+    <a href='/rss.xml'>rss</a>
+    <a href='https://github.com/arthurfiorette/place'>source</a>
+  </div>
 </footer>

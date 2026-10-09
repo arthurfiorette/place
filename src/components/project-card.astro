@@ -1,57 +1,35 @@
 ---
-import { Icon } from 'astro-icon/components';
+import type { CollectionEntry } from 'astro:content';
 import { abbrNumber } from '../util/number';
 
-interface Data {
-  owner: any;
-  name: any;
-  prettyName: any;
-  description: any;
-  stars: any;
-  downloads: any;
-}
-
 interface Props {
-  data: Data;
+  data: CollectionEntry<'projects'>['data'];
 }
 
 const { data } = Astro.props;
-
+// The existing data source returns a week of downloads, not a calendar month.
 const monthlyDownloads = data.downloads * 4;
 ---
 
-<div
-  class='group transition-all hover:bg-neutral-800 p-4 w-full h-full mx-auto rounded-md border border-neutral-800/70 hover:border-neutral-700'>
-  <a
-    href={`https://github.com/${data.owner}/${data.name}`}
-    target='_blank'
-    class='no-underline text-current font-normal h-full'
-    rel='noopener noreferrer'>
-    <div class='flex flex-col justify-between h-full gap-3'>
-      <h4 class='!m-0 group-hover:text-cream-light text-center text-2xl font-semibold'>
+<div class='project-row'>
+  <div class='project-description'>
+    <h3>
+      <a href={`https://github.com/${data.owner}/${data.name}`} target='_blank' rel='noopener noreferrer'>
         {data.prettyName}
-      </h4>
-      <span class='text-sm text-neutral-300'>{data.description}</span>
-      <div class='text-sm font-mono text-neutral-300'>
-        {
-          !!data.stars && (
-            <div class='hover:text-cream-light' title={`${data.stars}`}>
-              <b>{data.stars}</b> <Icon name="mdi:star" class="inline text-yellow-400"/> on github
-            </div>
-          )
-        }
-
-        {
-          !!monthlyDownloads && (
-            <div class='hover:text-cream-light' title={`${monthlyDownloads}`}>
-              <b>
-                {abbrNumber(monthlyDownloads)}
-              </b>{' '}
-              <Icon name="mdi:downloads" class="inline text-blue-400" />  per month
-            </div>
-          )
-        }
-      </div>
-    </div>
-  </a>
+      </a>
+    </h3>
+    <p>{data.description}</p>
+  </div>
+  <div class='project-metrics'>
+    {data.stars > 0 && (
+      <span title={`${data.stars.toLocaleString('en-US')} GitHub stars`}>
+        <span aria-hidden='true'>☆ </span><strong>{abbrNumber(data.stars)}</strong> stars
+      </span>
+    )}
+    {Number.isFinite(monthlyDownloads) && monthlyDownloads > 0 && (
+      <span title='Estimated monthly npm downloads: the last 7 days multiplied by 4.'>
+        <strong>~{abbrNumber(monthlyDownloads)}</strong> downloads / mo
+      </span>
+    )}
+  </div>
 </div>

@@ -1,5 +1,4 @@
 ---
-import { Icon } from 'astro-icon/components';
 import PostCard from '../components/post-card.astro';
 import ProjectCard from '../components/project-card.astro';
 import Section from '../components/section.astro';
@@ -7,116 +6,60 @@ import SocialMediaCard from '../components/social-media-card.astro';
 import Document from '../layouts/document.astro';
 import { SocialMediaLinks } from '../util/link/social-media';
 import { abbrNumber } from '../util/number';
-import { posts, sortedPosts } from '../util/posts/get-posts';
+import { sortedPosts } from '../util/posts/get-posts';
 import { loadProjects } from '../util/projects';
 
-// Exported so index.md.ts renders the same content without duplicating it.
+// Shared with the markdown endpoint so both versions tell the same story.
 export const intro = [
-  "I'm a passionate software engineer from Brazil 🇧🇷. My love for open source projects connects people worldwide and drives us toward a better future. When I'm not coding, you'll find me enjoying mountain biking, playing Counter-Strike, volleyball, or helping beginners with coding.",
-  "I'm dedicated to full-stack development. I started my coding journey in late 2018 with Java, initially tinkering with Minecraft plugins. Since then, I've grown to develop various applications, including SaaS enterprise projects, a TypeScript framework, and even my own programming language."
+  "I'm a senior software developer from Brazil, focused on open source and developer tools. I work across the stack, and my love for open source connects me with people around the world."
 ];
-
+export const history = "I started my coding journey in late 2018 with Java, initially tinkering with Minecraft plugins. Since then, I've grown to develop various applications, including SaaS enterprise projects, a TypeScript framework, and even my own programming language.";
 export const projects = await loadProjects();
 
-const blogCount = sortedPosts.length;
-const blogLabel = `${blogCount} blog post${blogCount === 1 ? '' : 's'}`;
+export const socialLinks = SocialMediaLinks.filter((link) => [1, 2, 3, 5].includes(link.id));
+const stars = projects.reduce((total, project) => total + project.stars, 0);
+const monthlyDownloads = projects.reduce((total, project) => total + (Number.isFinite(project.downloads) ? project.downloads * 4 : 0), 0);
+const latestPosts = sortedPosts.slice(0, 3);
 ---
 
 <Document markdown='/index.md'>
-  <Section class='max-w-prose:py-14'>
-    <h1 class='transition-all text-center text-6xl max-[650px]:text-4xl pt-8'>
-      Eai 👋<br />I am <span class='text-cream-light'>Arthur Fiorette</span>
-    </h1>
+  <div class='source-body'>
+    <Section source class='source-intro'>
+      <p class='source-comment'>// @arthurfiorette</p>
+      <h1>Arthur Fiorette<span class='accent'>.</span></h1>
+      {intro.map((paragraph) => <p>{paragraph}</p>)}
+    </Section>
 
-    {intro.map((paragraph) => <p class='text-lg text-neutral-200'>{paragraph}</p>)}
+    <Section source>
+      <div class='text-links'>
+        {socialLinks.map((link) => <SocialMediaCard data={link} />)}
+      </div>
+    </Section>
 
-    <div class='flex flex-wrap justify-center gap-3 pt-1'>
-      <a
-        href='#projects'
-        class='no-underline rounded-md border border-cream-medium bg-cream-light text-neutral-900 px-4 py-2 font-medium hover:bg-cream-medium hover:border-cream-light'>
-        View Projects
-      </a>
-      <a
-        href='#posts'
-        class='no-underline rounded-md border border-neutral-700 px-4 py-2 hover:border-neutral-500 hover:bg-neutral-800'>
-        Read Posts
-      </a>
-      <a
-        href='/curriculum'
-        class='no-underline rounded-md border border-neutral-700 px-4 py-2 hover:border-neutral-500 hover:bg-neutral-800'>
-        Open Curriculum
-      </a>
-    </div>
-  </Section>
+    <Section source id='projects'>
+      <div class='section-heading'><h2>open source</h2></div>
+      {(stars > 0 || monthlyDownloads > 0) && <p class='project-totals'>
+        {stars > 0 && <span><strong>{abbrNumber(stars)}</strong> GitHub stars</span>}
+        {monthlyDownloads > 0 && <span title='Estimate based on the last 7 days of npm downloads, multiplied by 4.'><strong>~{abbrNumber(monthlyDownloads)}</strong> npm downloads / month</span>}
+      </p>}
+      <ul class='project-list'>
+        {projects.map((project) => <li><ProjectCard data={project} /></li>)}
+      </ul>
+    </Section>
 
-  <Section>
-    <p class='mt-4 mb-3 text-neutral-300'>
-      Discover more about my online world by checking out my social media and other
-      platforms.
-    </p>
-    <div
-      class='transition-all grid grid-cols-6 justify-items-center max-[450px]:grid-cols-2 max-[750px]:grid-cols-3 items-center gap-3 my-5'>
-      {SocialMediaLinks.map((mediaLink) => <SocialMediaCard data={mediaLink} />)}
-    </div>
-  </Section>
+    <Section source id='posts'>
+      <div class='section-heading'>
+        <h2>writing</h2>
+        <a href='/posts'>all posts →</a>
+      </div>
+      {latestPosts.length ? <ul class='post-list'>
+        {latestPosts.map((post) => <li><PostCard data={post} /></li>)}
+      </ul> : <p class='empty-note'>No posts yet. <a href='/rss.xml'>Subscribe via RSS</a> for future writing.</p>}
+    </Section>
 
-  <Section class='scroll-mt-16' id='projects'>
-    <h2 class='text-3xl mb-0'>Open Source Projects</h2>
-    <p class='text-neutral-200 mt-2'>
-      I enjoy taking on new coding challenges and building libraries. I occasionally write
-      about software-related topics. Additionally, you can explore some of my open source
-      projects below:
-    </p>
-
-    <div class='text-center text-sm mx-auto italic mt-8'>
-      A total of
-      <span class='text-cream-light'>
-        {projects.reduce((acc, p) => acc + p.stars, 0)}
-        <Icon name='mdi:star' class='inline' /> stars
-      </span>
-      and
-      <span class='text-cream-light'>
-        {abbrNumber(projects.reduce((acc, p) => acc + p.downloads * 4, 0))}
-        <Icon name='mdi:downloads' class='inline' /> monthly downloads
-      </span>
-      when counting only projects authored by me.
-    </div>
-
-    <ol
-      class='list-none w-full my-6 gap-x-4 gap-y-3 p-0! grid grid-cols-2 max-[500px]:grid-cols-1'>
-      {
-        projects.map((project) => (
-          <li class='p-0! h-auto!'>
-            <ProjectCard data={project} />
-          </li>
-        ))
-      }
-    </ol>
-  </Section>
-
-  {
-    !!posts.length && (
-      <Section class='scroll-mt-16' id='posts'>
-        <h2 class='text-3xl mb-0'>Latest Writing</h2>
-        <p class='text-neutral-200 mt-2'>
-          If you're interested in sharpening your programming skills and discovering
-          insights to become a better programmer, I've got you covered. Here's a sneak
-          peek into my latest {blogLabel}:
-        </p>
-
-        <ol class='!p-0 !m-0 list-none w-full space-y-3'>
-          {sortedPosts.map((post) => (
-            <li
-              class:list={[
-                'transition-all hover:bg-neutral-800/70 border border-neutral-800/70 hover:border-neutral-600 p-4 rounded-lg w-full inline-flex items-center justify-center',
-                (post.data.published === false || post.data.published === 'preview') &&
-                  '!bg-amber-900/25 !border-amber-700/40'
-              ]}>
-              <PostCard data={post} />
-            </li>
-          ))}
-        </ol>
-      </Section>
-    )
-  }
+    <Section source>
+      <div class='section-heading'><h2>a bit of history</h2></div>
+      <p class='history-note'>{history}</p>
+    </Section>
+  </div>
 </Document>

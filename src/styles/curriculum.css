@@ -1,0 +1,331 @@
+/* Locally served Latin subsets cover both CV languages and keep PDF exports offline. */
+@font-face {
+  font-family: "Source Sans 3";
+  font-style: normal;
+  font-weight: 200 900;
+  font-display: swap;
+  src: url("/fonts/source-sans-3/latin.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Source Sans 3";
+  font-style: italic;
+  font-weight: 200 900;
+  font-display: swap;
+  src: url("/fonts/source-sans-3/latin-italic.woff2") format("woff2");
+}
+
+.cv-document {
+  margin: 0;
+  background: white;
+  color: #252525;
+  font-family: "Source Sans 3", "Segoe UI", Arial, sans-serif;
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+.cv-shell {
+  max-width: 900px;
+  margin-inline: auto;
+  padding: 24px 40px 36px;
+}
+
+.cv-document :where(h1, h2, h3) {
+  font-family: inherit;
+  font-weight: 600;
+  line-height: 1.25;
+  text-wrap: pretty;
+  color: #171717;
+}
+
+.cv-document :where(p) {
+  margin: 0;
+  text-wrap: pretty;
+}
+
+.cv-document :where(p + p) {
+  margin-top: 8px;
+}
+
+.cv-document :where(b, strong) {
+  font-weight: 600;
+}
+
+.cv-document :where(a) {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: #a3a3a3;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.cv-document :where(a:hover) {
+  text-decoration-color: currentColor;
+}
+
+.cv-document :where(a:focus-visible) {
+  outline: 2px solid #555;
+  outline-offset: 4px;
+}
+
+.cv-actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px 28px;
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 32px;
+}
+
+.cv-actions a {
+  padding-block: 5px;
+}
+
+.cv-header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.cv-header h1 {
+  margin: 0;
+  font-size: 36px;
+  letter-spacing: -0.02em;
+}
+
+.cv-role {
+  color: #555;
+  font-size: 19px;
+  margin: 5px 0 10px;
+}
+
+.cv-contact {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 4px 20px;
+  list-style: none;
+  padding: 0;
+  margin: 3px 0;
+  font-size: 15px;
+}
+
+.cv-contact a {
+  text-decoration: none;
+}
+
+.cv-contact a:hover {
+  text-decoration: underline;
+}
+
+.cv-section {
+  margin-top: 28px;
+}
+
+.cv-section h2 {
+  margin: 0 0 14px;
+  font-size: 22px;
+}
+
+.cv-entries {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.cv-entry {
+  display: grid;
+  grid-template-columns: 108px minmax(0, 1fr);
+  gap: 22px;
+}
+
+.cv-entry + .cv-entry {
+  margin-top: 22px;
+}
+
+.cv-dates {
+  text-align: right;
+  color: #555;
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+}
+
+.cv-period {
+  font-weight: 600;
+}
+
+.cv-period span {
+  display: block;
+}
+
+.cv-dates small {
+  display: block;
+  font-size: 13px;
+  margin-top: 3px;
+}
+
+.cv-entry-body h3 {
+  font-size: 18px;
+  margin: 0 0 8px;
+}
+
+.cv-entry-body h3 small {
+  font-size: inherit;
+  font-weight: 400;
+}
+
+.cv-institution {
+  color: #555;
+  font-size: 15px;
+}
+
+.cv-updated {
+  margin-top: 28px;
+  text-align: right;
+  color: #666;
+  font-size: 13px;
+}
+
+@media screen and (max-width: 600px) {
+  .cv-shell {
+    padding: 18px 22px 28px;
+  }
+
+  .cv-actions {
+    gap: 8px 20px;
+    margin-bottom: 24px;
+  }
+
+  .cv-header h1 {
+    font-size: 30px;
+  }
+
+  .cv-contact {
+    gap: 4px 16px;
+    overflow-wrap: anywhere;
+  }
+
+  .cv-entry {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 6px;
+  }
+
+  .cv-dates {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 16px;
+    text-align: left;
+  }
+
+  .cv-period {
+    display: flex;
+    gap: 5px;
+  }
+
+  .cv-period span + span::before {
+    content: "– ";
+  }
+
+  .cv-dates small {
+    margin-top: 0;
+    align-self: center;
+  }
+}
+
+@page {
+  size: A4;
+  margin: 14mm 16mm;
+}
+
+@media print {
+  .cv-document {
+    font-size: 10.5pt;
+    line-height: 1.32;
+  }
+
+  .cv-shell {
+    max-width: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .cv-actions {
+    display: none;
+  }
+
+  .cv-header {
+    margin-bottom: 10pt;
+  }
+
+  .cv-header h1 {
+    font-size: 25pt;
+  }
+
+  .cv-role {
+    font-size: 12pt;
+    margin: 3pt 0 5pt;
+  }
+
+  .cv-contact {
+    font-size: 9.5pt;
+    margin: 2pt 0;
+  }
+
+  .cv-section {
+    margin-top: 12pt;
+  }
+
+  .cv-section h2 {
+    font-size: 13pt;
+    margin-bottom: 6pt;
+  }
+
+  .cv-entry {
+    grid-template-columns: 62pt minmax(0, 1fr);
+    gap: 12pt;
+    break-inside: avoid;
+  }
+
+  .cv-entry + .cv-entry {
+    margin-top: 8pt;
+  }
+
+  .cv-dates,
+  .cv-institution {
+    font-size: 9.5pt;
+  }
+
+  .cv-dates small {
+    font-size: 8.5pt;
+  }
+
+  .cv-entry-body h3 {
+    font-size: 11pt;
+    margin-bottom: 4pt;
+  }
+
+  .cv-updated {
+    font-size: 8.5pt;
+    margin-top: 8pt;
+  }
+
+  .cv-document :where(p + p) {
+    margin-top: 4pt;
+  }
+
+  /* Keep section labels attached without forcing whole sections onto a new page. */
+  .cv-document :where(h1, h2, h3) {
+    break-after: avoid;
+  }
+
+  .cv-document :where(p) {
+    orphans: 3;
+    widows: 3;
+  }
+
+  .cv-document :where(a) {
+    text-decoration: none;
+  }
+}

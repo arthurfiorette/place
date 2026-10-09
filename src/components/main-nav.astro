@@ -1,20 +1,15 @@
 ---
-import { Icon } from 'astro-icon/components';
 import { NavLinks } from '../util/link/nav-links';
 
 interface Props {
   class?: string;
 }
 
-const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
+// Static builds use .html paths; the dev server uses extensionless routes.
+const pathname = Astro.url.pathname.replace(/\.html$/, '').replace(/\/index$/, '/').replace(/\/$/, '') || '/';
 ---
 
-<aside
-  class:list={[
-    'sticky left-4 top-60 flex flex-col gap-1.5 justify-center items-center w-auto bg-neutral-900/25 backdrop-blur-sm max-h-40 py-1.5 px-1 rounded-md border border-neutral-700/40',
-    'max-[1024px]:fixed max-[1024px]:top-auto max-[1024px]:left-1/2 max-[1024px]:-translate-x-1/2 max-[1024px]:bottom-3 max-[1024px]:flex-row max-[1024px]:w-[min(94vw,24rem)] max-[1024px]:max-h-none max-[1024px]:rounded-xl max-[1024px]:bg-neutral-900/90 max-[1024px]:border-neutral-600/50 max-[1024px]:backdrop-blur-md max-[1024px]:px-2.5 max-[1024px]:py-2 max-[1024px]:z-50',
-    Astro.props.class
-  ]}>
+<nav aria-label='Main' class:list={['site-nav', Astro.props.class]}>
   {
     NavLinks.map((navLink) => {
       const isActive = pathname === navLink.href;
@@ -22,26 +17,11 @@ const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
       return (
         <a
           href={navLink.href}
-          aria-label={navLink.label}
           title={navLink.title}
-          class:list={[
-            'group relative transition-all flex items-center justify-center gap-2 min-h-11 min-w-11 p-2 rounded-md hover:bg-neutral-800 border border-transparent hover:border-neutral-600',
-            'max-[1024px]:flex-1 max-[1024px]:flex-col max-[1024px]:gap-1 max-[1024px]:py-1.5 max-[1024px]:px-1',
-            isActive && 'bg-neutral-800 border-neutral-600 text-cream-light'
-          ]}>
-          <Icon
-            name={navLink.icon}
-            class:list={[
-              'transition-all !w-6 !h-6 group-hover:text-cream-light',
-              isActive && 'text-cream-light'
-            ]}
-          />
-          <span
-            class='text-sm font-medium text-neutral-100 transition-all opacity-0 group-hover:opacity-100 group-hover:translate-x-0 -translate-x-12 absolute left-full ml-2.5 px-3.5 py-0.5 rounded-sm bg-neutral-900 border border-neutral-500 whitespace-nowrap max-[1024px]:opacity-100 max-[1024px]:translate-x-0 max-[1024px]:static max-[1024px]:bg-transparent max-[1024px]:border-0 max-[1024px]:p-0 max-[1024px]:m-0 max-[1024px]:text-[0.72rem] max-[1024px]:font-semibold max-[1024px]:tracking-wide max-[1024px]:uppercase'>
-            {navLink.label}
-          </span>
+          aria-current={isActive ? 'page' : undefined}>
+          {navLink.label}
         </a>
       );
     })
   }
-</aside>
+</nav>

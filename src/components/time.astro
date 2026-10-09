@@ -10,5 +10,5 @@ const date = datetime instanceof Date ? datetime : new Date(datetime);
 ---
 
 <time datetime={date.toISOString()} title={date.toLocaleString()} class={className}>
-  {date.toDateString()}
+  {date.toISOString().slice(0, 10)}
 </time>

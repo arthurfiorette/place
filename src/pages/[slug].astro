@@ -1,7 +1,6 @@
 ---
 import { type CollectionEntry, getCollection, render } from 'astro:content';
 import PostHeader from '../components/post-header.astro';
-import Section from '../components/section.astro';
 import Document from '../layouts/document.astro';
 
 export async function getStaticPaths() {
@@ -18,7 +17,8 @@ type Props = CollectionEntry<'blog'>;
 const post = Astro.props;
 const date = new Date(post.data.date);
 
-const { Content } = await render(post);
+const { Content, headings } = await render(post);
+const sections = headings.filter((heading) => heading.depth === 2);
 
 const url = `https://arthur.place/${post.id}`;
 const ldJson = JSON.stringify({
@@ -54,49 +54,32 @@ const ldJson = JSON.stringify({
     <script is:inline type='application/ld+json' set:html={ldJson} />
   </Fragment>
 
-  <PostHeader date={date} post={post} />
-
-  <Section class='md prose dark:prose-invert lg:prose-xl w-full max-w-3xl'>
-    <Content />
-  </Section>
-
-  <script
-    is:inline
-    src='https://utteranc.es/client.js'
-    repo='arthurfiorette/place'
-    issue-term='title'
-    label='posts'
-    theme='preferred-color-scheme'
-    crossorigin='anonymous'
-    async></script>
+  <div class='source-body'>
+    <article>
+      <PostHeader date={date} post={post} />
+      {sections.length > 1 && <details class='article-contents'>
+        <summary>on this page</summary>
+        <nav aria-label='Table of contents'>
+          <ul>{sections.map((heading) => <li><a href={`#${heading.slug}`}>{heading.text}</a></li>)}</ul>
+        </nav>
+      </details>}
+      <div class='article-copy'><Content /></div>
+    </article>
+    <section class='article-discussion' aria-labelledby='discussion-heading'>
+      <div class='section-heading'><h2 id='discussion-heading'>discussion</h2></div>
+      <div class='text-links'>
+        <a href='/posts'>← all posts</a>
+        <a href={`https://github.com/arthurfiorette/place/issues?q=${encodeURIComponent(`is:issue ${post.data.title}`)}`}>comments on GitHub</a>
+      </div>
+      <script
+        is:inline
+        src='https://utteranc.es/client.js'
+        repo='arthurfiorette/place'
+        issue-term='title'
+        label='posts'
+        theme='preferred-color-scheme'
+        crossorigin='anonymous'
+        async></script>
+    </section>
+  </div>
 </Document>
-
-<style is:global>
-  @reference "../styles/global.css";
-
-  .md {
-    pre {
-      @apply font-mono p-4 rounded-md border border-neutral-700 bg-neutral-950 overflow-x-auto text-sm leading-6;
-      font-family: 'Cascadia Code', Consolas, monaco, monospace;
-      font-variant-ligatures: common-ligatures;
-    }
-
-    :not(pre) > code {
-      @apply bg-neutral-800 p-1 rounded-md font-normal text-cream-light;
-      font-family: 'Cascadia Code', Consolas, monaco, monospace;
-      font-variant-ligatures: common-ligatures;
-    }
-
-    a[href] {
-      @apply font-normal no-underline hover:underline;
-    }
-
-    blockquote {
-      @apply font-normal not-italic;
-    }
-
-    img {
-      @apply mx-auto;
-    }
-  }
-</style>
