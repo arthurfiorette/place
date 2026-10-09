@@ -7,11 +7,34 @@ const { markdown } = Astro.props;
 const year = new Date().getFullYear();
 ---
 
-<footer class='site-footer'>
-  <span>Arthur Fiorette © {year}</span>
-  <div class='text-links'>
+<footer class='site-footer grid grid-cols-1 items-center justify-items-center gap-x-6 gap-y-3 min-[550px]:grid-cols-[1fr_auto] min-[800px]:grid-cols-[1fr_auto_1fr]'>
+  <span class='min-[550px]:justify-self-start'>Arthur Fiorette © {year}</span>
+    <span class='footer-note group relative row-start-3 max-w-full min-[550px]:col-span-2 min-[550px]:row-start-2 min-[800px]:col-span-1 min-[800px]:col-start-2 min-[800px]:row-start-1'>
+      <a href='https://justfuckingusehtml.com/' aria-describedby='footer-js-note'>almost no JavaScript was harmed</a>
+      <span
+        id='footer-js-note'
+        role='tooltip'
+        class='invisible absolute right-0 bottom-full z-10 w-72 max-w-full pb-2 group-hover:visible group-focus-within:visible'>
+        <span class='block border border-[var(--rule)] bg-[var(--surface-bg)] p-3 text-[var(--ink)]'>
+          I mean it. Disable JavaScript in your browser. This page still works.
+        </span>
+      </span>
+    </span>
+  <div class='text-links min-[550px]:col-start-2 min-[550px]:row-start-1 min-[550px]:justify-self-end min-[800px]:col-start-3'>
     {markdown && <a href={markdown}>markdown</a>}
     <a href='/rss.xml'>rss</a>
     <a href='https://github.com/arthurfiorette/place'>source</a>
   </div>
 </footer>
+
+<style>
+  .footer-note > a {
+    color: var(--comment-ink);
+    text-decoration: none;
+  }
+
+  .footer-note > a:hover {
+    color: var(--ink);
+    text-decoration: underline;
+  }
+</style>

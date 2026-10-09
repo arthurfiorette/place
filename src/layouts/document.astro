@@ -5,6 +5,7 @@ import Footer from '../components/footer.astro';
 import MainNav from '../components/main-nav.astro';
 import type {  SeoProps } from '../components/seo.astro';
 import Seo from '../components/seo.astro';
+import ThemePreference from '../components/theme-preference.astro';
 import ThemeSwitch from '../components/theme-switch.astro';
 import { SocialMediaLinks } from '../util/link/social-media';
 
@@ -46,8 +47,7 @@ const ldJson = JSON.stringify({
   },
   email: 'arthur.fiorette@gmail.com',
   birthDate: '2005-02-27',
-  nationality: 'Brazilian',
-  telephone: '+5528999772770'
+  nationality: 'Brazilian'
 });
 ---
 
@@ -64,6 +64,8 @@ const ldJson = JSON.stringify({
       name="viewport"
       content="width=device-width, initial-scale=1, viewport-fit=cover"
     />
+
+    {!light && <ThemePreference />}
 
     <!-- General SEO -->
     <script is:inline type="application/ld+json" set:html={ldJson} />
@@ -125,8 +127,12 @@ const ldJson = JSON.stringify({
       {header && !light && <header class='site-header'>
         <div class='site-header-row'>
           <a class='site-name' href='/'>arthur.place<span aria-hidden='true'> /</span></a>
-          <MainNav />
-          <ThemeSwitch />
+          <div class='relative ml-auto'>
+            <MainNav />
+            <div class='absolute right-0 top-full'>
+              <ThemeSwitch />
+            </div>
+          </div>
         </div>
       </header>}
       <main

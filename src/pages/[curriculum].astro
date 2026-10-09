@@ -37,6 +37,7 @@ const portuguese = cv.id === 'pt';
       </a>
     ))}
     <a href={`/${cv.data.id}.pdf`}>{portuguese ? 'Baixar PDF' : 'Download PDF'}</a>
+    <a href={`/${cv.data.id}.md`}>Markdown</a>
     <a href='/'>{portuguese ? 'Página inicial' : 'Homepage'}</a>
   </nav>
 
@@ -45,10 +46,7 @@ const portuguese = cv.id === 'pt';
     <p class='cv-role'>{cv.data.title}</p>
     <ul class='cv-contact' aria-label={portuguese ? 'Contato' : 'Contact'}>
       <li><a href={`mailto:${cv.data.email}`}>{cv.data.email}</a></li>
-      <li><a href={`tel:${cv.data.phone.replace(/[^+\d]/g, '')}`}>{cv.data.phone}</a></li>
-    </ul>
-    <ul class='cv-contact'>
-      <li><a href='https://arthur.place'>arthur.place</a></li>
+      <li><a href='https://arthur.place'>https://arthur.place</a></li>
       <li><a href='https://linkedin.com/in/arthurfiorette'>linkedin.com/in/arthurfiorette</a></li>
     </ul>
   </header>
@@ -59,12 +57,12 @@ const portuguese = cv.id === 'pt';
 
   <section class='cv-section' aria-labelledby='experience'>
     <h2 id='experience'>{cv.data.experienceName}</h2>
+    <p class='cv-note'>{cv.data.experienceNote}</p>
     <ul class='cv-entries'>
       {cv.data.experiences.map((experience) => (
         <li class='cv-entry'>
           <div class='cv-dates'>
             <div class='cv-period'><span>{experience.start}</span><span>{experience.end}</span></div>
-            <small>{experience.type}</small>
           </div>
           <div class='cv-entry-body'>
             <h3><span set:html={experience.title} /></h3>
@@ -78,6 +76,11 @@ const portuguese = cv.id === 'pt';
   <section class='cv-section' aria-labelledby='open-source'>
     <h2 id='open-source'>{cv.data.ossTitle}</h2>
     {cv.data.oss.map((paragraph) => <p set:html={paragraph} />)}
+  </section>
+
+  <section class='cv-section' aria-labelledby='talks'>
+    <h2 id='talks'>{cv.data.talksName}</h2>
+    {cv.data.talks.map((paragraph) => <p set:html={paragraph} />)}
   </section>
 
   <section class='cv-section' aria-labelledby='education'>

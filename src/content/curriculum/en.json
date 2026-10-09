@@ -1,55 +1,68 @@
 {
   "id": "curriculum",
   "lang": "🇺🇸 Read in english",
-  "month": "Last updated: December 2023",
+  "month": "Last updated: October 2026",
   "name": "Arthur Fileti Fiorette",
-  "title": "Software Architect",
-  "phone": "+55 28 9 99772770",
+  "title": "Senior Software Developer",
   "email": "me@arthur.place",
   "about": [
-    "I have been developing software since 2018 professionally and doing open source since 2020. Passing through Financial, ERP and Government companies. Within all those years, I have developed and architected different high performance and scalable applications written in numerous languages.",
-    "I am a <b>full-stack developer with a strong focus on the backend</b>. I have experience with multiple programming languages, frameworks and databases."
+    "Senior software developer from Brazil focused on <b>developer tools and platform infrastructure</b>. I like building the surfaces other developers depend on: build and deploy pipelines, public APIs and SDKs, CLIs, code generators and, lately, agent harnesses and MCP servers. TypeScript is most of my stack, with Rust where it pays off. Writing code since 2018, professionally since 2021.",
+    "I own problems end to end, from bundler plugin to edge runtime to billing, and treat open source as part of the job: I maintain packages with millions of monthly downloads, contribute upstream to the tools I depend on and co-authored a Stage 0 TC39 proposal. Fluent in English; open to relocation across Europe and the Americas."
   ],
   "educationName": "Education",
   "education": [
     {
       "date": "2020-2022",
-      "title": "Technical in Management and Administration of Companies",
-      "institution": "IFES - Instituto Federal do Espirito Santo"
+      "title": "Technical Diploma in Business Administration",
+      "institution": "IFES - Instituto Federal do Espírito Santo"
     },
     {
-      "date": "2023-today",
-      "title": "Graduate in Strategic Planning and Analysis Systems Development",
+      "date": "2023-2025 (incomplete)",
+      "title": "Systems Analysis and Development",
       "institution": "IFSC - Instituto Federal de Santa Catarina"
     }
   ],
   "experienceName": "Experience",
+  "experienceNote": "Freelance work and engagements under NDA are not listed.",
   "experiences": [
+    {
+      "title": "Senior Platform Developer <small>@</small> Zephyr Cloud - USA (Remote)",
+      "start": "Jul 2024",
+      "end": "Oct 2026",
+      "about": [
+        "Zephyr Cloud is a deployment and release platform for micro frontends and Module Federation. I worked across the whole stack: the <b>build plugins for Vite, Webpack, Rspack, Rollup, Parcel, Astro, Nuxt and other bundlers</b> and the agent they share, the edge engine that serves applications on Cloudflare, Netlify, Fastly, Akamai, AWS and Kubernetes, and the control plane with deploys, rollbacks, environments and integrations into the customer's own infrastructure.",
+        "Drove the platform's engineering infrastructure: migrated the API from NestJS to Hono with an <b>OpenAPI-first contract and a generated TypeScript SDK</b>, moved Nx to Turborepo with remote caching, added per-PR preview environments, supply chain policies and Sentry and OpenTelemetry observability, and set up the team's AI tooling: agent guides, MCP servers and reusable skills and commands.",
+        "<b>TAP is Zephyr's collaborative AI platform</b>: a Tauri desktop app with a Rust core, backed by Cloudflare Workers, Durable Objects, Queues and D1. There I owned the Windows port and the silent desktop updater, identity relocation and realtime recovery in chat, the Polar-based miniapp marketplace, and the signed native distribution of ze-harness, an open source terminal agent harness, through Homebrew and WinGet.",
+        "Led billing on both products: Stripe subscriptions with tiers, seats, yearly cycles, coupons, scheduled changes and multi-organization plans, usage metering through Queues and Durable Objects, 3DS2 authentication, referrals and transactional emails."
+      ]
+    },
     {
       "title": "Software Engineer <small>@</small> Kasco R&D - Campinas, Brazil",
       "start": "Apr 2022",
-      "end": "Today",
-      "type": "Full time",
+      "end": "Jul 2024",
       "about": [
-        "As a Software Engineer in the R&D team, my main goals are to develop and maintain the backend side of a <b>feed management system for large cattle farms</b>. There we had to use various technologies to achieve the best user experience to low tech farmers and performance to handle millions of forecasts and calculations.",
-        "Built and architected the backend to use Fastify, NodeJS, Typescript, Open API, Postgres and Kita - <i>a open source framework which I'm the creator of it</i>. All interfaces were built using React, Typescript, Material UI and code generation to ensure type safety."
+        "Developed and maintained the backend of a <b>feed management system for large cattle farms</b>, balancing a simple experience for low-tech farmers with the performance needed to run millions of forecasts and calculations.",
+        "Architected the backend with Fastify, Node.js, TypeScript, OpenAPI, PostgreSQL and Kita, <i>an open source framework I created</i>. Built the interfaces with React, TypeScript, Material UI and a typed client generated from the OpenAPI schema."
       ]
     },
     {
       "title": "Software Developer <small>@</small> E&L Sistemas - Domingos Martins, Brazil",
       "start": "Jan 2021",
       "end": "Apr 2022",
-      "type": "Full time",
       "about": [
-        "During my time at E&L, I built and participated in multiple projects, including leading the development of a Covid-19 vaccine temperature monitoring web application for the Espirito Santo state, A tracking application for fleet vehicles used by many private companies and automated their internal deployment system for their leading sale product, which <b>reduced deployment from a day to a couple of minutes</b> and avoided numerous problems by creating automated tests against their services.",
-        "A lot of technologies were used during my time there, including React, Typescript, NodeJS, Postgres, Nest, Nuxt, Web Sockets, Spring Boot and Jenkins. Also I had to be a great team player, as I had to work with various internal teams and projects."
+        "Led the development of a COVID-19 vaccine temperature monitoring web application for the state of Espírito Santo and built a fleet vehicle tracking application used by several private companies. Automated the deployment of the company's flagship product, <b>cutting deploys from a day to a few minutes</b>, and added automated tests against its services to catch regressions early.",
+        "Worked with React, TypeScript, Node.js, PostgreSQL, NestJS, Nuxt, WebSockets, Spring Boot and Jenkins, collaborating with several internal teams across projects."
       ]
     }
   ],
   "ossTitle": "Open Source",
   "oss": [
-    "Despite my work, family and hobbies, I always try to find time to contribute to open source, as I acknowledge its importance to the world. Thankfully, I have been able to contribute and maintain many projects out there and as of today they go beyond <b>a million monthly downloads</b> only on npm packages I authored and keep maintaining to this day.",
-    "Apart from that, I've contributed to many open source projects and organizations, including Vercel, Fastify, Prisma, Axios and others.",
-    "You can find more about my open source contributions on <a href=\"https://github.com/arthurfiorette\" target=\"_blank\">github.com/arthurfiorette</a>."
+    "I maintain <a href=\"https://github.com/arthurfiorette/axios-cache-interceptor\" target=\"_blank\">axios-cache-interceptor</a> and <a href=\"https://github.com/arthurfiorette/prisma-json-types-generator\" target=\"_blank\">prisma-json-types-generator</a> (~1.5M and ~2.1M npm downloads a month), plus the small libraries behind them (try, fast-defer, object-code, cache-parser). Together, the packages I publish see <b>around 10M downloads a month</b>. I also created the <a href=\"https://github.com/kitajs\" target=\"_blank\">Kita</a> ecosystem: a type-safe backend framework for Fastify and <a href=\"https://github.com/kitajs/html\" target=\"_blank\">@kitajs/html</a>, one of the fastest JSX runtimes for generating HTML.",
+    "I co-authored the <a href=\"https://github.com/arthurfiorette/proposal-try-operator\" target=\"_blank\">ECMAScript Try Operator</a> proposal (Stage 0). Upstream, I am a frequent contributor to ts-json-schema-generator and have contributed to Fastify, orval, prisma-kysely, swc-node, pnpm, nixpacks, Stripe, Scalar, Cloudflare and others, mostly around TypeScript types, code generation, Node.js runtime behavior and performance.",
+    "More at <a href=\"https://github.com/arthurfiorette\" target=\"_blank\">github.com/arthurfiorette</a>."
+  ],
+  "talksName": "Talks",
+  "talks": [
+    "<b>Engenharia além do prompt</b>, or Engineering beyond the prompt (Domingos Martins, Brazil, September 2026): a 40-minute talk on agent harnesses, repository context, tools and MCP servers, and validation in AI-assisted engineering workflows, with a worked example of generating end-to-end tests from recorded browser sessions."
   ]
 }

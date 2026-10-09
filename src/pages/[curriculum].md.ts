@@ -18,11 +18,17 @@ ${cv.about.join('\n\n')}
 
 ## ${cv.experienceName}
 
-${cv.experiences.map((e) => `### ${e.title}\n\n${e.start} - ${e.end} (${e.type})\n\n${e.about.join('\n\n')}\n`)}
+${cv.experienceNote}
+
+${cv.experiences.map((e) => `### ${e.title}\n\n${e.start} - ${e.end}\n\n${e.about.join('\n\n')}\n`)}
 
 ## ${cv.ossTitle}
 
 ${cv.oss.join('\n\n')}
+
+## ${cv.talksName}
+
+${cv.talks.join('\n\n')}
 
 ## ${cv.educationName}
 

@@ -11,9 +11,10 @@ import { loadProjects } from '../util/projects';
 
 // Shared with the markdown endpoint so both versions tell the same story.
 export const intro = [
-  "I'm a senior software developer from Brazil, focused on open source and developer tools. I work across the stack, and my love for open source connects me with people around the world."
+  "I'm a senior software developer from Brazil focused on open source and developer tools: build and deploy pipelines, type-safe APIs, code generators and, lately, agent harnesses. Most of my work is TypeScript, with Rust where it pays off."
 ];
-export const history = "I started my coding journey in late 2018 with Java, initially tinkering with Minecraft plugins. Since then, I've grown to develop various applications, including SaaS enterprise projects, a TypeScript framework, and even my own programming language.";
+export const history =
+  'I started coding in late 2018 with Java, writing Minecraft plugins. Open source came soon after and never left: axios-cache-interceptor, prisma-json-types-generator and the Kita ecosystem all grew out of problems I hit at work, and today the packages I publish see around 10M npm downloads a month. My first job came in 2021, building web apps and deployment automation for a software house, then two years on the backend of a feed management system for cattle farms. From 2024 to 2026 I was at Zephyr Cloud, working on bundler plugins, a multi-cloud edge runtime, billing and the infrastructure of an AI chat platform.';
 export const projects = await loadProjects();
 
 export const socialLinks = SocialMediaLinks.filter((link) => [1, 2, 3, 5].includes(link.id));
@@ -26,7 +27,7 @@ const latestPosts = sortedPosts.slice(0, 3);
   <div class='source-body'>
     <Section source class='source-intro'>
       <p class='source-comment'>// @arthurfiorette</p>
-      <h1>Arthur Fiorette<span class='accent'>.</span></h1>
+      <h1><span class='text-[var(--link-ink)]'>Arthur Fiorette</span><span class='accent'>.</span></h1>
       {intro.map((paragraph) => <p>{paragraph}</p>)}
     </Section>
 

@@ -8,8 +8,7 @@ app.use(express.static(path.join('dist')));
 const server = app.listen();
 
 const address = server.address();
-const baseUrl =
-  typeof address === 'object' ? `http://localhost:${address.port}` : address;
+const baseUrl = typeof address === 'object' ? `http://localhost:${address.port}` : address;
 
 console.log(baseUrl);
 

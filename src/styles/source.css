@@ -22,12 +22,14 @@
   }
 }
 
-/* Native radios override the browser preference for this document only. */
+/* The saved preference applies before paint; native radios also work without JS. */
+:root[data-theme="light"],
 :root:has(#theme-light:checked) {
   color-scheme: light;
   --circuit: url("/images/background-light.svg");
 }
 
+:root[data-theme="dark"],
 :root:has(#theme-dark:checked) {
   color-scheme: dark;
   --circuit: url("/images/background-dark.svg");
@@ -188,7 +190,8 @@
 .theme-switch label {
   position: relative;
   cursor: pointer;
-  padding-block: 5px;
+  /* The second line sits in the header's existing bottom padding. */
+  padding-block: 0;
 }
 
 /* Visually hide inputs while preserving radio semantics and arrow-key navigation. */
@@ -423,11 +426,6 @@
 }
 
 .site-footer {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 12px 24px;
   margin: 10px 0 0 24px;
   padding: 20px 0;
   border-top: 1px dashed var(--rule);

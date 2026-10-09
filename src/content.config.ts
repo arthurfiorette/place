@@ -26,7 +26,6 @@ const curriculum = defineCollection({
     month: z.string(),
     name: z.string(),
     title: z.string(),
-    phone: z.string(),
     email: z.string(),
     about: z.array(z.string()),
     educationName: z.string(),
@@ -38,17 +37,19 @@ const curriculum = defineCollection({
       })
     ),
     experienceName: z.string(),
+    experienceNote: z.string(),
     experiences: z.array(
       z.object({
         title: z.string(),
         start: z.string(),
         end: z.string(),
-        type: z.string(),
         about: z.array(z.string())
       })
     ),
     ossTitle: z.string(),
-    oss: z.array(z.string())
+    oss: z.array(z.string()),
+    talksName: z.string(),
+    talks: z.array(z.string())
   })
 });
 
