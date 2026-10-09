@@ -4,42 +4,47 @@
   "license": "GPL-v3.0",
   "type": "module",
   "scripts": {
-    "astro": "astro",
-    "build": "astro build && node scripts/resume-to-pdf.mjs",
+    "build": "astro build",
+    "postbuild": "node scripts/resume-to-pdf.mjs",
     "dev": "astro dev",
     "format": "biome format --write .",
     "lint": "biome check .",
-    "lint:ci": "biome ci .",
-    "lint:fix": "biome check --write --unsafe .",
-    "preview": "astro preview",
-    "start": "astro dev"
+    "lint-ci": "biome ci .",
+    "lint-fix": "biome check --write --unsafe .",
+    "preview": "astro preview"
   },
   "dependencies": {
-    "@astrojs/mdx": "^5.0.0",
-    "@astrojs/rss": "^4.0.17",
-    "@astrojs/sitemap": "^3.7.1",
+    "@astrojs/markdown-satteri": "^0.4.3",
+    "@astrojs/mdx": "^8.0.3",
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "^3.7.4",
     "@iconify-json/mdi": "^1.2.3",
     "@iconify-json/ri": "^1.2.10",
-    "@octokit/graphql": "^9.0.3",
-    "@tailwindcss/typography": "^0.5.19",
-    "@tailwindcss/vite": "^4.2.1",
-    "astro": "^6.0.4",
-    "astro-compress": "^2.3.9",
-    "astro-icon": "^1.1.5",
-    "astro-seo": "^1.1.0",
-    "rehype-autolink-headings": "^7.1.0",
-    "rehype-slug": "^6.0.0",
+    "@octokit/graphql": "^9.0.5",
+    "@tailwindcss/typography": "^0.5.20",
+    "@tailwindcss/vite": "^4.3.3",
+    "astro": "^7.3.8",
+    "astro-compress": "^2.4.3",
+    "astro-icon": "^1.2.0",
+    "astro-seo": "^1.2.0",
+    "astro-slop": "^0.1.3",
     "reset-css": "^5.0.2",
-    "sass": "^1.98.0",
-    "tailwindcss": "^4.2.1",
-    "undici": "^7.24.0"
+    "sass": "^1.105.1",
+    "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
     "@arthurfiorette/biomejs-config": "^2.0.1",
-    "@biomejs/biome": "^2.4.6",
+    "@biomejs/biome": "^2.5.15",
     "@types/express": "^5.0.6",
     "express": "^5.2.1",
-    "puppeteer": "^24.39.0"
+    "playwright": "^1.64.0"
   },
-  "packageManager": "pnpm@9.0.1"
+  "packageManager": "pnpm@12.10.1",
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "onFail": "error",
+      "version": ">=26"
+    }
+  }
 }

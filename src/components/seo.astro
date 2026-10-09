@@ -8,11 +8,16 @@ export interface SeoProps {
   urlPath?: string;
   title?: string;
   imagePath?: string;
+  /** Open Graph type, `article` for blog posts. */
+  type?: 'website' | 'article' | 'profile';
+  noindex?: boolean;
 }
+
+const SITE_NAME = "Arthur's place";
 
 const {
   baseUrl = 'https://arthur.place',
-  description = 'My own room in the internet!',
+  description = 'Arthur Fiorette is a software engineer from Brazil building open source TypeScript tools like Kita.js and axios-cache-interceptor. Projects, posts and curriculum.',
   keywords = [
     'arthur',
     'fileti',
@@ -26,8 +31,10 @@ const {
     'vitale'
   ],
   urlPath = '/',
-  title = "Arthur's place",
-  imagePath = '/images/logo-1280-720.png'
+  title = SITE_NAME,
+  imagePath = '/images/logo-1280-720.png',
+  type = 'website',
+  noindex = false
 } = Astro.props as SeoProps;
 
 const fullUrl = baseUrl && urlPath ? new URL(urlPath, baseUrl).toString() : undefined;
@@ -38,16 +45,17 @@ const fullImageUrl = baseUrl && imagePath ? new URL(imagePath, baseUrl).toString
   title={title}
   description={description}
   canonical={fullUrl}
+  noindex={noindex}
   openGraph={{
     basic: {
       title: title ?? '',
-      type: 'website',
+      type,
       image: fullImageUrl ?? '',
       url: fullUrl,
     },
     optional: {
       description,
-      siteName: title,
+      siteName: SITE_NAME,
     },
     image: {
       url: fullImageUrl,
@@ -56,6 +64,7 @@ const fullImageUrl = baseUrl && imagePath ? new URL(imagePath, baseUrl).toString
   }}
   twitter={{
     card: 'summary_large_image',
+    creator: '@arthurfiorette',
     title,
     description,
     image: fullImageUrl,
