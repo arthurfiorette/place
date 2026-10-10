@@ -64,7 +64,6 @@ const ldJson = JSON.stringify({
         </nav>
       </details>}
       <div class='article-copy'><Content /></div>
-      <div id='article-end' aria-hidden='true'></div>
     </article>
     <section class='article-discussion' aria-labelledby='discussion-heading'>
       <div class='section-heading'><h2 id='discussion-heading'>discussion</h2></div>
@@ -85,18 +84,31 @@ const ldJson = JSON.stringify({
   </div>
 
   <script is:inline>
-    // Scrolling isn't a click, so this can't be a class-based goal. The tracker's
+    // Scrolling isn't a click, so these can't be class-based goals. The tracker's
     // stub queues the call if the script hasn't loaded yet.
     (() => {
-      const end = document.getElementById('article-end');
-      if (!end || !('IntersectionObserver' in window)) return;
+      const copy = document.querySelector('.article-copy');
+      if (!copy) return;
 
-      const observer = new IntersectionObserver((entries) => {
-        if (!entries.some((entry) => entry.isIntersecting)) return;
-        observer.disconnect();
-        window.plausible?.('Article Read');
-      });
-      observer.observe(end);
+      // Progress is where the bottom of the viewport sits inside the article body,
+      // so a goal means the reader actually scrolled that far, not just landed.
+      const pending = [
+        [0.5, 'Article Read 50%'],
+        [1, 'Article Read']
+      ];
+
+      const check = () => {
+        const { top, height } = copy.getBoundingClientRect();
+        const progress = (window.innerHeight - top) / height;
+
+        while (pending.length && progress >= pending[0][0]) {
+          window.plausible?.(pending.shift()[1]);
+        }
+
+        if (!pending.length) window.removeEventListener('scroll', check);
+      };
+
+      window.addEventListener('scroll', check, { passive: true });
     })();
   </script>
 </Document>
