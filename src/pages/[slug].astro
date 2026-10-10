@@ -64,6 +64,7 @@ const ldJson = JSON.stringify({
         </nav>
       </details>}
       <div class='article-copy'><Content /></div>
+      <div id='article-end' aria-hidden='true'></div>
     </article>
     <section class='article-discussion' aria-labelledby='discussion-heading'>
       <div class='section-heading'><h2 id='discussion-heading'>discussion</h2></div>
@@ -82,4 +83,20 @@ const ldJson = JSON.stringify({
         async></script>
     </section>
   </div>
+
+  <script is:inline>
+    // Scrolling isn't a click, so this can't be a class-based goal. The tracker's
+    // stub queues the call if the script hasn't loaded yet.
+    (() => {
+      const end = document.getElementById('article-end');
+      if (!end || !('IntersectionObserver' in window)) return;
+
+      const observer = new IntersectionObserver((entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+        observer.disconnect();
+        window.plausible?.('Article Read');
+      });
+      observer.observe(end);
+    })();
+  </script>
 </Document>

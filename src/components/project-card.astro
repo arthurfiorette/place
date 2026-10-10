@@ -14,7 +14,11 @@ const monthlyDownloads = data.downloads * 4;
 <div class='project-row'>
   <div class='project-description'>
     <h3>
-      <a href={`https://github.com/${data.owner}/${data.name}`} target='_blank' rel='noopener noreferrer'>
+      <a
+        href={`https://github.com/${data.owner}/${data.name}`}
+        target='_blank'
+        rel='noopener noreferrer'
+        class='plausible-event-name=Project+Click'>
         {data.prettyName}
       </a>
     </h3>
