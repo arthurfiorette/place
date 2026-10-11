@@ -7,7 +7,7 @@
     "build": "astro build",
     "postbuild": "node scripts/resume-to-pdf.mjs",
     "dev": "astro dev",
-    "format": "biome format --write .",
+    "format": "biome format --write . && prettier --write **/*.md",
     "lint": "biome check .",
     "lint-ci": "biome ci .",
     "lint-fix": "biome check --write --unsafe .",
@@ -37,7 +37,9 @@
     "@biomejs/biome": "^2.5.15",
     "@types/express": "^5.0.6",
     "express": "^5.2.1",
-    "playwright": "^1.64.0"
+    "playwright": "^1.64.0",
+    "prettier": "^3.9.6",
+    "prettier-plugin-compact-markdown-table": "^0.1.0"
   },
   "packageManager": "pnpm@12.10.1",
   "devEngines": {

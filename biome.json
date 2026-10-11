@@ -1,6 +1,13 @@
 {
   "$schema": "node_modules/@biomejs/biome/configuration_schema.json",
   "extends": ["@arthurfiorette/biomejs-config"],
+  "assist": {
+    "actions": {
+      "source": {
+        "useSortedPackageJson": "on"
+      }
+    }
+  },
   "css": {
     "parser": {
       "tailwindDirectives": true

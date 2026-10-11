@@ -19,8 +19,9 @@ export function App() {
 
 If your mind is screaming: **"React! React! React!"**, then this article is for you.
 
-`React.createElement` is not React, `</>` is the syntax sugar for a JSX call. Although we focus on removing the `React === Javascript` brainwashing made somewhere
-between the **create-react-app fever** and the **learn react in 2 weeks google search tutorial free
+`React.createElement` is not React, `</>` is the syntax sugar for a JSX call. Although we
+focus on removing the `React === Javascript` brainwashing made somewhere between the
+**create-react-app fever** and the **learn react in 2 weeks google search tutorial free
 course 2020** era, firstly you need to understand a few things that makes React works so
 well with JSX.
 

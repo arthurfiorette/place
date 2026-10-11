@@ -10,7 +10,8 @@ published: true
 - Up to 100 chars per line for modern monitors.
 - Single quotes, no trailing commas, semicolons and spaces instead of tabs.
 
-Firstly, install [biome](https://biomejs.dev) and this [configuration](https://www.npmjs.com/package/@arthurfiorette/biomejs-config):
+Firstly, install [biome](https://biomejs.dev) and this
+[configuration](https://www.npmjs.com/package/@arthurfiorette/biomejs-config):
 
 ```sh
 pnpm i -D @arthurfiorette/biomejs-config @biomejs/biome
@@ -25,7 +26,8 @@ Then add the following to your `biome.json`:
 }
 ```
 
-And finally, add the following scripts to your `package.json` to easily format and lint your code:
+And finally, add the following scripts to your `package.json` to easily format and lint
+your code:
 
 ```jsonc
 {
@@ -33,7 +35,7 @@ And finally, add the following scripts to your `package.json` to easily format a
     "format": "biome format --write .",
     "lint-ci": "biome ci .",
     "lint-fix": "biome check --write --unsafe .",
-    "lint": "biome check .",
+    "lint": "biome check ."
   }
 }
 ```

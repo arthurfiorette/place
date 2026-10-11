@@ -2,3 +2,4 @@ allowBuilds:
   '@parcel/watcher': true
   esbuild: true
   sharp: true
+shellEmulator: true

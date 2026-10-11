@@ -3,8 +3,8 @@ title: 'Building a static regenerated website without Javascript'
 date: 2023/11/13 02:20:00
 keywords: [javascript, isr, nextjs, react]
 description:
-  Learn how to manually build a dynamic website without a single line of JS being executed on the
-  frontend.
+  Learn how to manually build a dynamic website without a single line of JS being executed
+  on the frontend.
 ---
 
 I'm not going to showcase this project for you because this is the engine that powers this
