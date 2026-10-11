@@ -8,6 +8,10 @@ export interface SeoProps {
   urlPath?: string;
   title?: string;
   imagePath?: string;
+  imageAlt?: string;
+  imageWidth?: number;
+  imageHeight?: number;
+  imageType?: string;
   /** Open Graph type, `article` for blog posts. */
   type?: 'website' | 'article' | 'profile';
   noindex?: boolean;
@@ -33,6 +37,10 @@ const {
   urlPath = '/',
   title = SITE_NAME,
   imagePath = '/images/logo-1280-720.png',
+  imageAlt = title,
+  imageWidth,
+  imageHeight,
+  imageType,
   type = 'website',
   noindex = false
 } = Astro.props as SeoProps;
@@ -59,7 +67,10 @@ const fullImageUrl = baseUrl && imagePath ? new URL(imagePath, baseUrl).toString
     },
     image: {
       url: fullImageUrl,
-      alt: title,
+      alt: imageAlt,
+      width: imageWidth,
+      height: imageHeight,
+      type: imageType,
     },
   }}
   twitter={{
@@ -68,7 +79,7 @@ const fullImageUrl = baseUrl && imagePath ? new URL(imagePath, baseUrl).toString
     title,
     description,
     image: fullImageUrl,
-    imageAlt: title,
+    imageAlt,
   }}
   extend={{
     meta: keywords?.length

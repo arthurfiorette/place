@@ -5,8 +5,10 @@ keywords: [typescript, javascript, migration, refactor, developer-humor]
 description:
   I migrated one of our biggest JavaScript codebases to TypeScript — and after everything
   started working too well, our CTO banned it.
-published: true
-image: /images/why-our-cto-banned-typescript.jpg
+published: false
+image:
+  src: ../../assets/blog/why-our-cto-banned-typescript.jpg
+  alt: A developer at a desk with a red prohibition symbol over the code on his monitor.
 ---
 
 At our company, TypeScript was the golden ticket. Strong types. Better tooling. Fewer

@@ -5,14 +5,35 @@ import { z } from 'astro/zod';
 const blog = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/blog' }),
 
-  schema: z.object({
-    title: z.string(),
-    description: z.string(),
-    date: z.coerce.date(),
-    keywords: z.array(z.string()),
-    image: z.string().optional(),
-    published: z.union([z.boolean(), z.literal('preview')]).default(false)
-  })
+  schema: ({ image }) => {
+    // Public and remote URLs still work; relative paths use Astro's asset pipeline.
+    const imageSource = z.union([
+      z.string().refine((src) => src.startsWith('/') || /^https?:\/\//.test(src)),
+      image()
+    ]);
+    return z.object({
+      title: z.string(),
+      description: z.string(),
+      date: z.coerce.date(),
+      keywords: z.array(z.string()),
+      image: z
+        .union([
+          // Normalize legacy image paths so renderers only handle one shape.
+          imageSource.transform((src) => ({
+            src,
+            alt: undefined,
+            description: undefined
+          })),
+          z.object({
+            src: imageSource,
+            alt: z.string(),
+            description: z.string().optional()
+          })
+        ])
+        .optional(),
+      published: z.union([z.boolean(), z.literal('preview')]).default(false)
+    });
+  }
 });
 
 // I know this is exactly what i18n should be used for, but I will not implement i18n for a single route,

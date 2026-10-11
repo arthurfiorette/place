@@ -1,4 +1,5 @@
 ---
+import { getImage } from 'astro:assets';
 import { type CollectionEntry, getCollection, render } from 'astro:content';
 import PostHeader from '../components/post-header.astro';
 import Document from '../layouts/document.astro';
@@ -20,6 +21,17 @@ const date = new Date(post.data.date);
 const { Content, headings } = await render(post);
 const sections = headings.filter((heading) => heading.depth === 2);
 
+// PostHeader serves responsive WebP; JPEG is the conservative choice for social
+// crawlers with uneven WebP support. Quality 80 balances size and fidelity,
+// rather than satisfying an Astro or SEO requirement.
+const cover = post.data.image?.src;
+const socialImage = cover && typeof cover !== 'string'
+  ? await getImage({ src: cover, width: Math.min(1200, cover.width), format: 'jpeg', quality: 80 })
+  : undefined;
+const imagePath = socialImage?.src ?? (typeof cover === 'string' ? cover : '/images/logo-1280-720.png');
+const imageWidth = socialImage ? Number(socialImage.attributes.width) : undefined;
+const imageHeight = socialImage ? Number(socialImage.attributes.height) : undefined;
+
 const url = `https://arthur.place/${post.id}`;
 const ldJson = JSON.stringify({
   '@context': 'https://schema.org',
@@ -30,7 +42,13 @@ const ldJson = JSON.stringify({
   datePublished: date.toISOString(),
   url,
   mainEntityOfPage: url,
-  image: new URL(post.data.image ?? '/images/logo-1280-720.png', 'https://arthur.place').toString(),
+  image: {
+    '@type': 'ImageObject',
+    url: new URL(imagePath, 'https://arthur.place').toString(),
+    width: imageWidth,
+    height: imageHeight,
+    caption: post.data.image?.description
+  },
   author: { '@type': 'Person', name: 'Arthur Fileti Fiorette', url: 'https://arthur.place' }
 });
 ---
@@ -42,9 +60,13 @@ const ldJson = JSON.stringify({
     description: post.data.description,
     keywords: post.data.keywords,
     urlPath: `/${post.id}`,
-    imagePath: post.data.image,
+    imagePath,
+    imageAlt: post.data.image?.alt,
+    imageWidth,
+    imageHeight,
+    imageType: socialImage ? 'image/jpeg' : undefined,
     type: 'article',
-    // Drafts stay reachable by direct link but must not be indexed.
+    // Drafts remain accessible by direct link but must not be indexed.
     noindex: !post.data.published
   }}>
   <Fragment slot='head'>

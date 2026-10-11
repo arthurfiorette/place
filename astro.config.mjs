@@ -8,18 +8,20 @@ import compress from 'astro-compress';
 import icon from 'astro-icon';
 import slop from 'astro-slop';
 
-// Draft posts still build (shareable by link) but must stay out of the sitemap.
+// Draft posts still build by direct link, but stay out of the sitemap.
 // The config can't query content collections, so read the frontmatter flag
 // directly; `published: preview` counts as listed, same as get-posts.ts.
 const blogDir = new URL('./src/content/blog/', import.meta.url);
 const draftPaths = new Set(
   readdirSync(blogDir)
-    .filter(
-      (file) =>
-        !/^published:\s*(true|['"]?preview['"]?)\s*$/m.test(
-          readFileSync(new URL(file, blogDir), 'utf8')
-        )
-    )
+    .filter((file) => {
+      // Restrict flag checks to frontmatter, not examples in the article body.
+      const frontmatter =
+        readFileSync(new URL(file, blogDir), 'utf8').match(
+          /^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/
+        )?.[1] ?? '';
+      return !/^published:[ \t]*(true|['"]?preview['"]?)[ \t]*(?:#.*)?$/m.test(frontmatter);
+    })
     .map((file) => `/${file.replace(/\.mdx?$/, '')}`)
 );
 
@@ -51,12 +53,33 @@ const autolinkHeadings = {
   }
 };
 
+// Keep native table semantics while making wide Markdown tables keyboard-scrollable.
+const scrollableTables = {
+  name: 'scrollable-tables',
+  element: {
+    filter: ['table'],
+    visit(node) {
+      return {
+        type: 'element',
+        tagName: 'div',
+        properties: {
+          className: ['article-table-scroll'],
+          tabIndex: 0,
+          role: 'region',
+          'aria-label': 'Table (scroll horizontally when needed)'
+        },
+        children: [node]
+      };
+    }
+  }
+};
+
 // https://astro.build/config
 export default defineConfig({
   site: 'https://arthur.place',
   markdown: {
     processor: satteri({
-      hastPlugins: [satteriHeadingIdsPlugin(), autolinkHeadings]
+      hastPlugins: [satteriHeadingIdsPlugin(), autolinkHeadings, scrollableTables]
     }),
     shikiConfig: {
       wrap: false,

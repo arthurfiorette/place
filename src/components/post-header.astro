@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import { getReadTime } from '../util/read-time';
 import MinRead from './min-read.astro';
@@ -23,5 +24,22 @@ const { date, post } = Astro.props;
   </div>
   {post.data.published === 'preview' && <p class='post-status'>This post is a preview and may not be final.</p>}
   {!post.data.published && <p class='post-status'>This post is a draft.</p>}
-  {post.data.image && <img class='article-image' src={post.data.image} alt={post.data.title} decoding='async' />}
+  {post.data.image && <figure class='article-figure'>
+    {typeof post.data.image.src === 'string' ? (
+      <img class='article-image' src={post.data.image.src} alt={post.data.image.alt ?? post.data.title} decoding='async' />
+    ) : (
+      <Image
+        class='article-image'
+        src={post.data.image.src}
+        alt={post.data.image.alt ?? post.data.title}
+        layout='constrained'
+        width={Math.min(832, post.data.image.src.width)}
+        sizes='(max-width: 650px) calc(100vw - 54px), (max-width: 920px) calc(100vw - 88px), 832px'
+        format='webp'
+        loading='eager'
+        decoding='async'
+      />
+    )}
+    {post.data.image.description && <figcaption class='mt-1.5 text-center text-[11px] leading-snug text-[var(--muted-ink)]'>{post.data.image.description}</figcaption>}
+  </figure>}
 </header>

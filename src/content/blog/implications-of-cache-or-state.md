@@ -4,6 +4,12 @@ date: 2022/09/23 07:52:00
 keywords: [architecture, design pattern]
 description: A guide to work with Cache over State for remote data management
 published: true
+image:
+  src: ../../assets/blog/implications-of-cache-or-state.png
+  alt:
+    A hand holds a photograph of a sunny workspace in front of the same window on a rainy
+    evening.
+  description: "Just because it was true yesterday doesn't mean it's true today. - My mom"
 ---
 
 _All of the concepts presented here are applicable to any other technology, even I have
