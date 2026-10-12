@@ -1,0 +1,688 @@
+---
+// Fig 3: the fold. A stepped transcript; the fold replaces the span with one grouped block
+// (note first, then the user's messages from the span). 
+import Autoplay from './autoplay.astro';
+import './figure.css';
+---
+
+<figure class="post-fig f3" aria-describedby="f3-desc">
+  <figcaption>
+    <p class="post-fig-title">figure 4: the fold</p>
+    <p class="muted">The build loop runs inline, then the agent picks where it started and folds it into one block.</p>
+  </figcaption>
+  <div id="f3-desc" class="sr-only"><slot /></div>
+
+  <div class="controls">
+    <fieldset class="chips" data-autoplay="1500">
+      <legend>step</legend>
+      <label><input type="radio" name="f3-step" id="f3-s0" />B</label>
+      <label><input type="radio" name="f3-step" id="f3-s1" />loop runs</label>
+      <label><input type="radio" name="f3-step" id="f3-s2" />user steps in</label>
+      <label><input type="radio" name="f3-step" id="f3-s3" />build passes</label>
+      <label><input type="radio" name="f3-step" id="f3-s4" />where was I?</label>
+      <label><input type="radio" name="f3-step" id="f3-s5" checked />fold</label>
+    </fieldset>
+    <span class="navs"
+      ><label class="nav prev" for="f3-s0">← prev</label><label class="nav prev" for="f3-s1">← prev</label
+      ><label class="nav prev" for="f3-s2">← prev</label><label class="nav prev" for="f3-s3">← prev</label
+      ><label class="nav prev" for="f3-s4">← prev</label>
+      <label class="nav next" for="f3-s1">next →</label><label class="nav next" for="f3-s2">next →</label
+      ><label class="nav next" for="f3-s3">next →</label><label class="nav next" for="f3-s4">next →</label
+      ><label class="nav next" for="f3-s5">next →</label></span
+    >
+  </div>
+  <div class="controls">
+    <fieldset class="chips">
+      <legend>since</legend>
+      <label><input type="radio" name="f3-at" id="f3-at3" />t3</label>
+      <label><input type="radio" name="f3-at" id="f3-at4" checked />t4</label>
+      <label><input type="radio" name="f3-at" id="f3-at8" />t8</label>
+    </fieldset>
+    <span class="hint">or click t3, t4 or t8 in the transcript</span>
+  </div>
+
+  <div class="term">
+    <ol class="log" aria-label="session transcript">
+      <li class="ln t0" style="--i: 0">
+        <span class="id"><span>t0</span></span><span class="who">system</span><span class="msg">system prompt + tools (~15K)</span>
+      </li>
+      <li class="ln user t1" style="--i: 1">
+        <span class="id"><span>t1</span></span><span class="who">user</span><span class="msg">“add a background job that exports orders to CSV”</span>
+      </li>
+      <li class="ln t2" style="--i: 2">
+        <span class="id"><span>t2</span></span><span class="who">agent</span><span class="msg">explore: reads src/jobs/, db/schema.ts</span>
+      </li>
+      <li class="ln t3 in3" style="--i: 3">
+        <span class="id"><label for="f3-at3">t3</label></span><span class="who">agent</span><span
+          class="msg"
+          title="SELECT id FROM export_jobs WHERE status = 'pending' ORDER BY created_at LIMIT 1 FOR UPDATE SKIP LOCKED. The row lock lives until commit; outside a transaction it is released at once and two workers can claim the same job."
+          >claim query in src/jobs/claim.ts (… FOR UPDATE SKIP LOCKED); caveat: lock held until commit</span
+        >
+      </li>
+      <li class="ln t4 in3 in4 st1" style="--i: 4">
+        <span class="id"><label for="f3-at4">t4</label></span><span class="who">agent</span><span class="msg">$ pnpm build</span>
+      </li>
+      <li class="ln tool t5 in3 in4 st1" style="--i: 5">
+        <span class="id"><span>t5</span></span><span class="who">tool</span><span class="msg split"
+          ><span class="tx"><span class="bad">✗</span> src/client/api.ts(12,5): error TS2322: Type 'string' is not assignable to type 'number'.</span
+          ><span class="more">(400 more lines)</span></span
+        >
+      </li>
+      <li class="ln t6 in3 in4 st1" style="--i: 6">
+        <span class="id"><span>t6</span></span><span class="who">agent</span><span class="msg">guess: change the field type in src/client/api.ts by hand</span>
+      </li>
+      <li class="ln user t7 in3 in4 st2" style="--i: 7">
+        <span class="id"><span>t7</span></span><span class="who">user</span><span class="msg"
+          >“don't edit generated files”<span class="aside in">← re-sent after the note, in the new block</span><span class="aside out"
+            >stays where it is, still cached</span
+          ></span
+        >
+      </li>
+      <li class="ln t8 in3 in4 in8 st2" style="--i: 8">
+        <span class="id"><label for="f3-at8">t8</label></span><span class="who">agent</span><span class="msg">the errors are all in the generated client, regenerating it</span>
+      </li>
+      <li class="ln t9 in3 in4 in8 st3" style="--i: 9">
+        <span class="id"><span>t9</span></span><span class="who">agent</span><span class="msg">$ pnpm generate &amp;&amp; pnpm build</span>
+      </li>
+      <li class="ln tool t10 in3 in4 in8 st3" style="--i: 10">
+        <span class="id"><span>t10</span></span><span class="who">tool</span><span class="msg"><span class="ok">✓</span> done in 41s</span>
+      </li>
+      <li class="ln wl" style="--i: 11">
+        <span class="id cmt">··</span><span class="who">agent</span><span class="msg"
+          >build passes. where was I? fold(since: "<span class="since a3">t3</span><span class="since a4">t4</span><span
+            class="since a8">t8</span
+          >", note: "...") <span class="cmt">-&gt;</span> "b2e4"</span
+        >
+      </li>
+
+      <li class="group" title="one fresh write: the note, then the user's messages from the span">
+        <details>
+          <summary>
+            <span class="id"></span><span class="who">note</span><span class="msg">
+              <span class="nt a3">
+                <span class="nl"><span class="k">changed:</span><span>claim query in src/jobs/claim.ts; regenerated src/client, no source edits</span></span>
+                <span class="nl"><span class="k">learned:</span><span>the claim query needs a transaction: SKIP LOCKED holds the row lock until commit</span></span>
+                <span class="nl"><span class="k"></span><span>the failures came from a stale generated client, not from src</span></span>
+                <span class="nl"><span class="k">rejected:</span><span>editing src/client/api.ts by hand (overwritten on next generate)</span></span>
+                <span class="nl"><span class="k">open:</span><span>does CI run generate before build? unchecked</span></span>
+              </span>
+              <span class="nt a4">
+                <span class="nl"><span class="k">changed:</span><span>regenerated src/client from the OpenAPI spec, no source edits</span></span>
+                <span class="nl"><span class="k">learned:</span><span>the failures came from a stale generated client, not from src</span></span>
+                <span class="nl"><span class="k">rejected:</span><span>editing src/client/api.ts by hand (overwritten on next generate)</span></span>
+                <span class="nl"><span class="k">open:</span><span>does CI run generate before build? unchecked</span></span>
+              </span>
+              <span class="nt a8">
+                <span class="nl"><span class="k">changed:</span><span>regenerated src/client from the OpenAPI spec, no source edits</span></span>
+                <span class="nl"><span class="k">open:</span><span>does CI run generate before build? unchecked</span></span>
+              </span>
+              <span class="nl"><span class="k">where:</span><span class="handle">↪ b2e4</span></span>
+            </span>
+          </summary>
+          <ol class="arc" aria-label="archived thread b2e4">
+            <li class="arc-h">thread b2e4, verbatim, not in the request</li>
+            <li class="ln in3">
+              <span class="id">t3</span><span class="who">agent</span><span class="msg">claim query in src/jobs/claim.ts (… FOR UPDATE SKIP LOCKED); caveat: lock held until commit</span>
+            </li>
+            <li class="ln in3 in4">
+              <span class="id">t4</span><span class="who">agent</span><span class="msg">$ pnpm build</span>
+            </li>
+            <li class="ln tool in3 in4">
+              <span class="id">t5</span><span class="who">tool</span><span class="msg">✗ src/client/api.ts(12,5): error TS2322: Type 'string' is not assignable to …</span>
+            </li>
+            <li class="ln in3 in4">
+              <span class="id">t6</span><span class="who">agent</span><span class="msg">guess: change the field type in src/client/api.ts by hand</span>
+            </li>
+            <li class="ln user in3 in4">
+              <span class="id">t7</span><span class="who">user</span><span class="msg">“don't edit generated files”</span>
+            </li>
+            <li class="ln in3 in4 in8">
+              <span class="id">t8</span><span class="who">agent</span><span class="msg">the errors are all in the generated client, regenerating it</span>
+            </li>
+            <li class="ln in3 in4 in8">
+              <span class="id">t9</span><span class="who">agent</span><span class="msg">$ pnpm generate &amp;&amp; pnpm build</span>
+            </li>
+            <li class="ln tool in3 in4 in8">
+              <span class="id">t10</span><span class="who">tool</span><span class="msg">✓ done in 41s</span>
+            </li>
+          </ol>
+        </details>
+        <div class="ln user gu">
+          <span class="id">t7</span><span class="who">user</span><span class="msg">“don't edit generated files”</span>
+        </div>
+      </li>
+    </ol>
+  </div>
+
+  <p class="legend" aria-hidden="true">
+    <span class="lc">cached prefix</span><span class="lf">fresh write</span><span class="le">span that folds</span><span class="la"
+      >archive, outside the request</span
+    >
+  </p>
+
+  <div class="caps" aria-hidden="true">
+    <p class="cap c0">
+      t0 to t3 are B: the request, exploring, the claim query. Each turn reads everything before it from the cache; only the newest line is a
+      fresh write.
+    </p>
+    <p class="cap c1">The build loop starts. Nothing marks where it began; the harness only numbers the turns.</p>
+    <p class="cap c2">400 lines of TS2322, a wrong guess, and the user steps in. Every log line is re-read on every turn.</p>
+    <p class="cap c3">Regenerate, build: it passes. The next thing is the frontend, not the build.</p>
+    <p class="cap c4">
+      "Where was I?" Every turn already has a mark. The agent picks one as since; the tinted lines are the span that folds.
+    </p>
+    <p class="cap c5 a4">
+      The view goes back to before t4 and one block is appended: the note, then the user's message from the span, verbatim. The cache hits up
+      to t3; the block is the only fresh write, so t7 is paid again, once. Open the note: the span is filed as b2e4.
+    </p>
+    <p class="cap c5 a3">
+      With since "t3" the fold also takes the claim query, so the note has to carry its SKIP LOCKED caveat. The cache hits up to t2; the block (note, then t7)
+      is the only fresh write.
+    </p>
+    <p class="cap c5 a8">
+      With since "t8" the failure, the guess and t7 stay on the line, still cached. The block holds only the note, and the note only covers the
+      regenerate.
+    </p>
+  </div>
+
+  <section class="pass" aria-label="second pass: the caveat has to be in the note">
+    <p class="ptitle">same fold, two notes: what happens twenty turns later</p>
+    <p class="muted">Left, a note that dropped the transaction caveat. Right, one that kept it. Both archives hold the caveat, neither agent opens them, and the later step goes two different ways.</p>
+    <div class="controls">
+      <fieldset class="chips" data-autoplay="2000">
+        <legend>step</legend>
+        <label><input type="radio" name="f3-pass" id="f3-p0" />notes</label>
+        <label><input type="radio" name="f3-pass" id="f3-p1" />later step</label>
+        <label><input type="radio" name="f3-pass" id="f3-p2" />agent acts</label>
+        <label><input type="radio" name="f3-pass" id="f3-p3" checked />result</label>
+      </fieldset>
+      <span class="navs"
+        ><label class="nav prev" for="f3-p0">← prev</label><label class="nav prev" for="f3-p1">← prev</label
+        ><label class="nav prev" for="f3-p2">← prev</label>
+        <label class="nav next" for="f3-p1">next →</label><label class="nav next" for="f3-p2">next →</label
+        ><label class="nav next" for="f3-p3">next →</label></span
+      >
+    </div>
+    <div class="pairwrap">
+      <div class="pair">
+        <p class="hd"><b>A</b> note without the caveat</p>
+        <p class="hd"><b>B</b> note with the caveat</p>
+
+        <div class="ln r1">
+          <details>
+            <summary>
+              <span class="id"></span><span class="who">note</span><span class="msg">the claim query works <span class="handle">↪ a91c</span></span>
+            </summary>
+            <ol class="arc" aria-label="archived thread a91c">
+              <li class="ln">
+                <span class="id">t3</span><span class="who">agent</span><span class="msg">… FOR UPDATE SKIP LOCKED; caveat: lock held until commit</span>
+              </li>
+            </ol>
+          </details>
+        </div>
+        <div class="ln r1">
+          <details>
+            <summary>
+              <span class="id"></span><span class="who">note</span><span class="msg"
+                >claim query in src/jobs/claim.ts. only valid inside a transaction: FOR UPDATE SKIP LOCKED holds the row lock until commit. <span
+                  class="handle">↪ a91c</span
+                ></span
+              >
+            </summary>
+            <ol class="arc" aria-label="archived thread a91c">
+              <li class="ln">
+                <span class="id">t3</span><span class="who">agent</span><span class="msg">… FOR UPDATE SKIP LOCKED; caveat: lock held until commit</span>
+              </li>
+            </ol>
+          </details>
+        </div>
+
+        <div class="ln user r2">
+          <span class="id">t20</span><span class="who">user</span><span class="msg">“move the claim query into the worker loop”</span>
+        </div>
+        <div class="ln user r2">
+          <span class="id">t20</span><span class="who">user</span><span class="msg">“move the claim query into the worker loop”</span>
+        </div>
+
+        <div class="ln r3">
+          <span class="id">t21</span><span class="who">agent</span><span class="msg">calls the claim query from the loop, outside a transaction</span>
+        </div>
+        <div class="ln r3">
+          <span class="id">t21</span><span class="who">agent</span><span class="msg">the lock only lives until commit, so it wraps claim + export in db.transaction()</span>
+        </div>
+
+        <div class="ln tool r4">
+          <span class="id">t22</span><span class="who">tool</span><span class="msg"><span class="bad">✗</span> later, in production: two workers export the same job twice</span>
+        </div>
+        <div class="ln tool r4">
+          <span class="id">t22</span><span class="who">tool</span><span class="msg"><span class="ok">✓</span> each job is claimed and exported once</span>
+        </div>
+      </div>
+    </div>
+    <div class="caps" aria-hidden="true">
+      <p class="cap p0">Same fold, two notes. The thread behind each handle holds the caveat either way.</p>
+      <p class="cap p1">Much later, a step that touches the query.</p>
+      <p class="cap p2">Neither agent asks a91c. Each acts on what its note says.</p>
+      <p class="cap p3">A: outside a transaction the lock is released at once. B: the transaction holds it until commit.</p>
+    </div>
+  </section>
+  <Autoplay />
+</figure>
+
+<style>
+  .f3 {
+    --lh: 20px;
+    letter-spacing: normal;
+  }
+  .f3 .ptitle {
+    color: var(--accent-ink);
+    font-weight: 500;
+  }
+  .f3 .hint {
+    font-size: 12px;
+    color: var(--comment-ink);
+  }
+  .f3 .controls + .controls {
+    margin-top: 0;
+  }
+
+  /* ---------- the transcript ---------- */
+  /* Fixed height = the tallest autoplay state (t0..t10 plus the "where was I?" line), so nothing
+     below moves. Opening the archive is the only thing that can exceed it; that scrolls inside. */
+  .f3 .term {
+    height: calc(12 * var(--lh) + 14px);
+    overflow: auto;
+    margin-top: 12px;
+    border: 1px solid var(--rule);
+    background: var(--surface-bg);
+  }
+  .f3 .log,
+  .f3 .arc {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 12px;
+    line-height: var(--lh);
+  }
+  .f3 .log {
+    display: flex;
+    flex-direction: column;
+    min-width: 740px;
+    padding: 6px 0;
+  }
+  .f3 .log > li {
+    order: calc(var(--i) * 10);
+  }
+  .f3 .ln {
+    display: grid;
+    grid-template-columns: 4ch 6ch minmax(0, 1fr);
+    gap: 0 10px;
+    margin: 0;
+    padding: 0 10px 0 7px;
+    border-left: 3px solid var(--link-ink);
+    white-space: nowrap;
+    transition:
+      opacity 0.3s,
+      visibility 0.3s,
+      background-color 0.3s;
+  }
+  /* the "where was I?" line is output being generated, not part of the request yet */
+  .f3 .log > .wl {
+    border-left-color: transparent;
+  }
+  .f3 summary .msg {
+    color: var(--accent-ink);
+  }
+  .f3 .wl .msg {
+    color: var(--ink);
+  }
+  .f3 .pair .ln > * {
+    transition:
+      opacity 0.3s,
+      visibility 0.3s;
+  }
+  .f3 .ln .msg {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .f3 .ln .msg.split {
+    display: flex;
+    gap: 1ch;
+  }
+  .f3 .split .tx {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .f3 .split .more {
+    flex: none;
+    color: var(--comment-ink);
+  }
+  .f3 .id {
+    color: var(--comment-ink);
+  }
+  .f3 .who {
+    color: var(--muted-ink);
+  }
+  .f3 .ln.user .who {
+    color: var(--ink);
+  }
+  .f3 .ln.tool .msg {
+    color: var(--muted-ink);
+  }
+  .f3 .bad {
+    color: var(--loop);
+  }
+  .f3 .ok {
+    color: var(--accent-ink);
+  }
+  .f3 .cmt {
+    color: var(--comment-ink);
+  }
+  .f3 .id label {
+    cursor: pointer;
+  }
+
+  /* steps reveal lines; nothing marks where the loop began while it runs */
+  .f3:has(#f3-s0:checked) .log > :is(.st1, .st2, .st3),
+  .f3:has(#f3-s1:checked) .log > :is(.st2, .st3),
+  .f3:has(#f3-s2:checked) .log > .st3,
+  .f3:not(:has(#f3-s4:checked)) .log > .wl {
+    visibility: hidden;
+    opacity: 0;
+  }
+  /* before the fold: everything up to the newest line is a cache read, the newest line is the fresh write */
+  .f3:has(#f3-s0:checked) .log > .t3,
+  .f3:has(#f3-s1:checked) .log > .t6,
+  .f3:has(#f3-s2:checked) .log > .t8,
+  .f3:has(#f3-s3:checked) .log > .t10 {
+    border-left-color: var(--metric-ink);
+  }
+  .f3 .wl .since {
+    display: none;
+    color: var(--loop);
+  }
+  .f3:has(#f3-at3:checked) .wl .since.a3,
+  .f3:has(#f3-at4:checked) .wl .since.a4,
+  .f3:has(#f3-at8:checked) .wl .since.a8 {
+    display: inline;
+  }
+
+  /* "where was I?": every turn id is a mark; the chosen one starts the span, which is tinted */
+  .f3:has(#f3-s4:checked) .log .id > * {
+    text-decoration: underline dotted;
+    text-underline-offset: 3px;
+  }
+  .f3:has(#f3-s4:checked) .log .id label {
+    color: var(--ink);
+  }
+  .f3:has(#f3-s4:checked):has(#f3-at3:checked) .log > .t3 .id label,
+  .f3:has(#f3-s4:checked):has(#f3-at4:checked) .log > .t4 .id label,
+  .f3:has(#f3-s4:checked):has(#f3-at8:checked) .log > .t8 .id label {
+    color: var(--loop);
+    font-weight: 700;
+  }
+  .f3:has(#f3-s4:checked):has(#f3-at3:checked) .log > .t3 .id label::before,
+  .f3:has(#f3-s4:checked):has(#f3-at4:checked) .log > .t4 .id label::before,
+  .f3:has(#f3-s4:checked):has(#f3-at8:checked) .log > .t8 .id label::before {
+    content: "▸";
+  }
+  .f3:has(#f3-s4:checked):has(#f3-at3:checked) .log > .in3,
+  .f3:has(#f3-s4:checked):has(#f3-at4:checked) .log > .in4,
+  .f3:has(#f3-s4:checked):has(#f3-at8:checked) .log > .in8 {
+    background: color-mix(in oklab, var(--loop) 13%, transparent);
+  }
+  .f3 .t7 .aside {
+    display: none;
+    margin-left: 2ch;
+    color: var(--comment-ink);
+  }
+  .f3:has(#f3-s4:checked):not(:has(#f3-at8:checked)) .t7 .aside.in,
+  .f3:has(#f3-s4:checked):has(#f3-at8:checked) .t7 .aside.out {
+    display: inline;
+  }
+
+  /* the fold: the span leaves; one new block lands right after the marker */
+  .f3:has(#f3-s5:checked) .log > .wl,
+  .f3:has(#f3-s5:checked):has(#f3-at3:checked) .log > .in3,
+  .f3:has(#f3-s5:checked):has(#f3-at4:checked) .log > .in4,
+  .f3:has(#f3-s5:checked):has(#f3-at8:checked) .log > .in8 {
+    display: none;
+  }
+  .f3 .log > .group {
+    display: none;
+    order: 35;
+    border-left: 3px solid var(--metric-ink);
+    background: color-mix(in oklab, var(--metric-ink) 8%, transparent);
+  }
+  .f3:has(#f3-at3:checked) .log > .group {
+    order: 25;
+  }
+  .f3:has(#f3-at8:checked) .log > .group {
+    order: 75;
+  }
+  .f3:has(#f3-s5:checked) .log > .group {
+    display: block;
+    animation: f3-in 0.5s ease;
+  }
+  @keyframes f3-in {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+  }
+  .f3 .group .ln {
+    border-left: 0;
+    padding-left: 7px;
+  }
+  .f3:has(#f3-at8:checked) .group .gu {
+    display: none;
+  }
+  .f3 details {
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+  .f3 summary {
+    display: grid;
+    grid-template-columns: 4ch 6ch minmax(0, 1fr);
+    gap: 0 10px;
+    padding: 0 10px 0 7px;
+    list-style: none;
+    cursor: pointer;
+    color: inherit;
+  }
+  .f3 summary::-webkit-details-marker {
+    display: none;
+  }
+  .f3 summary:focus-visible {
+    outline: 2px solid var(--accent-ink);
+    outline-offset: -2px;
+  }
+  .f3 summary .id::before {
+    content: "▸ ";
+  }
+  .f3 details[open] > summary .id::before {
+    content: "▾ ";
+  }
+  .f3 .handle {
+    color: var(--accent-ink);
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .f3 .nt {
+    display: none;
+  }
+  .f3:has(#f3-at3:checked) .nt.a3,
+  .f3:has(#f3-at4:checked) .nt.a4,
+  .f3:has(#f3-at8:checked) .nt.a8 {
+    display: block;
+  }
+  .f3 .nl {
+    display: grid;
+    grid-template-columns: 10ch minmax(0, 1fr);
+  }
+  .f3 .nl .k {
+    color: var(--comment-ink);
+  }
+  .f3 .arc {
+    margin: 2px 10px 6px calc(10ch + 27px);
+    padding: 2px 0;
+    border: 1px dashed var(--comment-ink);
+  }
+  .f3 .arc .ln {
+    padding-left: 7px;
+    border-left: 3px solid transparent;
+    opacity: 0.8;
+  }
+  .f3 .arc-h {
+    margin: 0;
+    padding: 0 10px;
+    font-size: 11px;
+    color: var(--comment-ink);
+  }
+  .f3:has(#f3-at3:checked) .log .arc > .ln:not(.in3),
+  .f3:has(#f3-at4:checked) .log .arc > .ln:not(.in4),
+  .f3:has(#f3-at8:checked) .log .arc > .ln:not(.in8) {
+    display: none;
+  }
+
+  .f3 .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 20px;
+    margin-top: 8px;
+    font-size: 11px;
+    color: var(--muted-ink);
+  }
+  .f3 .legend span::before {
+    content: "";
+    display: inline-block;
+    width: 3px;
+    height: 12px;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+  .f3 .legend .lc::before {
+    background: var(--link-ink);
+  }
+  .f3 .legend .lf::before {
+    background: var(--metric-ink);
+  }
+  .f3 .legend .le::before {
+    width: 14px;
+    background: color-mix(in oklab, var(--loop) 25%, var(--surface-bg));
+  }
+  .f3 .legend .la::before {
+    width: 14px;
+    height: 0;
+    border-top: 1px dashed var(--comment-ink);
+  }
+
+  /* captions are stacked in one cell so the tallest one sets the height */
+  .f3 .caps {
+    display: grid;
+    margin-top: 10px;
+    font-size: 13px;
+  }
+  .f3 .cap {
+    grid-area: 1 / 1;
+    visibility: hidden;
+  }
+  .f3:has(#f3-s0:checked) .cap.c0,
+  .f3:has(#f3-s1:checked) .cap.c1,
+  .f3:has(#f3-s2:checked) .cap.c2,
+  .f3:has(#f3-s3:checked) .cap.c3,
+  .f3:has(#f3-s4:checked) .cap.c4,
+  .f3:has(#f3-s5:checked):has(#f3-at3:checked) .cap.c5.a3,
+  .f3:has(#f3-s5:checked):has(#f3-at4:checked) .cap.c5.a4,
+  .f3:has(#f3-s5:checked):has(#f3-at8:checked) .cap.c5.a8,
+  .f3:has(#f3-p0:checked) .cap.p0,
+  .f3:has(#f3-p1:checked) .cap.p1,
+  .f3:has(#f3-p2:checked) .cap.p2,
+  .f3:has(#f3-p3:checked) .cap.p3 {
+    visibility: visible;
+  }
+
+  .f3:has(#f3-s0:checked) .next[for="f3-s1"],
+  .f3:has(#f3-s1:checked) :is(.prev[for="f3-s0"], .next[for="f3-s2"]),
+  .f3:has(#f3-s2:checked) :is(.prev[for="f3-s1"], .next[for="f3-s3"]),
+  .f3:has(#f3-s3:checked) :is(.prev[for="f3-s2"], .next[for="f3-s4"]),
+  .f3:has(#f3-s4:checked) :is(.prev[for="f3-s3"], .next[for="f3-s5"]),
+  .f3:has(#f3-s5:checked) .prev[for="f3-s4"],
+  .f3:has(#f3-p0:checked) .next[for="f3-p1"],
+  .f3:has(#f3-p1:checked) :is(.prev[for="f3-p0"], .next[for="f3-p2"]),
+  .f3:has(#f3-p2:checked) :is(.prev[for="f3-p1"], .next[for="f3-p3"]),
+  .f3:has(#f3-p3:checked) .prev[for="f3-p2"] {
+    visibility: visible;
+  }
+
+  /* ---------- second pass ---------- */
+  .f3 .pass {
+    margin-top: 28px;
+    padding-top: 16px;
+    border-top: 1px dotted var(--rule);
+  }
+  .f3 .pairwrap {
+    position: relative;
+    overflow-x: auto;
+  }
+  .f3 .pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 16px;
+    min-width: 640px;
+    font-size: 12px;
+    line-height: var(--lh);
+  }
+  .f3 .pair .hd {
+    padding: 0 0 4px;
+    color: var(--muted-ink);
+  }
+  .f3 .pair .hd b {
+    color: var(--ink);
+  }
+  .f3 .pair .ln {
+    grid-template-columns: 4ch 5ch minmax(0, 1fr);
+    gap: 0 8px;
+    padding: 1px 8px 1px 5px;
+    white-space: normal;
+    background: var(--surface-bg);
+    border-left-color: var(--rule);
+  }
+  .f3 .pair .ln.r1 {
+    display: block;
+    padding: 1px 0;
+  }
+  .f3 .pair summary {
+    grid-template-columns: 4ch 5ch minmax(0, 1fr);
+    gap: 0 8px;
+    padding: 0 8px 0 5px;
+  }
+  .f3 .pair .arc {
+    margin: 2px 8px 4px;
+  }
+  .f3 .pair .arc .ln {
+    white-space: nowrap;
+    background: none;
+  }
+  .f3 .pair .ln.r4 {
+    padding-bottom: 4px;
+  }
+  .f3:has(#f3-p0:checked) .pair :is(.r2, .r3, .r4) > *,
+  .f3:has(#f3-p1:checked) .pair :is(.r3, .r4) > *,
+  .f3:has(#f3-p2:checked) .pair .r4 > * {
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .f3 .ln,
+    .f3 .pair .ln > * {
+      transition: none;
+    }
+    .f3:has(#f3-s5:checked) .log > .group {
+      animation: none;
+    }
+  }
+</style>

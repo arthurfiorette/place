@@ -1,0 +1,267 @@
+---
+import './figure.css';
+import './session-card.css';
+---
+
+<figure class="post-fig f5" aria-describedby="f5-desc">
+  <figcaption>
+    <p class="post-fig-title">figure 6: fork vs other agent</p>
+    <p class="muted">
+      A fork starts from the parent's view and folds back. A reviewer gets the user's words and
+      the diff, not the agent's conclusions.
+    </p>
+  </figcaption>
+  <div id="f5-desc" class="sr-only"><slot /></div>
+
+  <div class="controls">
+    <fieldset class="chips">
+      <legend class="sr-only">reviewer input</legend>
+      <label class="check"
+        ><input type="checkbox" id="f5-leak" />reviewer sees the parent's reasoning</label
+      >
+    </fieldset>
+  </div>
+
+  <div class="pair">
+    <section class="sess" aria-label="fork session">
+      <header class="sess-h"><span>fork</span><b>"make it build"</b></header>
+      <ol class="sess-b">
+        <li class="grp">inherited from the parent's view</li>
+        <li class="ln inh">
+          <span class="who">system</span><span class="msg">system prompt + tools</span>
+        </li>
+        <li class="ln inh user">
+          <span class="who">user</span><span class="msg"
+            >add a background job that exports orders to CSV</span
+          >
+        </li>
+        <li class="ln inh note">
+          <span class="who">note</span><span class="msg"
+            >claim query in src/jobs/claim.ts. only valid inside a transaction: FOR UPDATE SKIP
+            LOCKED holds the row lock until commit. <span class="hd">↪ a91c</span></span
+          >
+        </li>
+        <li class="grp">task</li>
+        <li class="ln">
+          <span class="who">parent</span><span class="msg">make it build</span>
+        </li>
+        <li class="grp">own work</li>
+        <li class="ln">
+          <span class="who">agent</span><span class="msg">$ pnpm build</span>
+        </li>
+        <li class="ln tool">
+          <span class="who">tool</span><span class="msg res"
+            ><span class="bad">✗</span> src/client/api.ts(12,5): error TS2322 …{' '}
+            <span class="cm">(400 more lines)</span></span
+          >
+        </li>
+        <li class="ln user">
+          <span class="who">user</span><span class="msg">don't edit generated files</span>
+        </li>
+        <li class="ln">
+          <span class="who">agent</span><span class="msg">$ pnpm generate &amp;&amp; pnpm build</span>
+        </li>
+        <li class="ln tool">
+          <span class="who">tool</span><span class="msg res"
+            ><span class="ok">✓</span> done in 41s</span
+          >
+        </li>
+        <li class="grp">result</li>
+        <li class="ln note"><span class="who">changed</span><span class="msg">regenerated src/client from the OpenAPI spec, no source edits</span></li>
+        <li class="ln note"><span class="who">learned</span><span class="msg">the failures came from a stale generated client, not from src</span></li>
+        <li class="ln note"><span class="who">rejected</span><span class="msg">editing src/client/api.ts by hand (overwritten on next generate)</span></li>
+        <li class="ln note"><span class="who">open</span><span class="msg">does CI run generate before build? unchecked</span></li>
+        <li class="ln note"><span class="who">where</span><span class="msg">thread <span class="hd">↪ b2e4</span></span></li>
+      </ol>
+      <p class="sess-f">
+        → merges into the main line as its own note; the user's message follows it verbatim
+      </p>
+    </section>
+
+    <section class="sess" aria-label="reviewer session">
+      <header class="sess-h"><span>other agent</span><b>"review this diff"</b></header>
+      <ol class="sess-b">
+        <li class="grp">handed over</li>
+        <li class="ln giv">
+          <span class="who">system</span><span class="msg">system prompt + tools</span>
+        </li>
+        <li class="ln giv user">
+          <span class="who">user</span><span class="msg"
+            >add a background job that exports orders to CSV</span
+          >
+        </li>
+        <li class="ln giv user">
+          <span class="who">user</span><span class="msg">don't edit generated files</span>
+        </li>
+        <li class="ln giv diff">
+          <span class="who">diff</span><span class="msg">src/jobs/worker.ts</span>
+        </li>
+        <li class="ln giv diff">
+          <span class="who"></span><span class="msg"
+            ><span class="add">+</span> <span class="flag">const job = await claimJob()</span></span
+          >
+        </li>
+        <li class="ln giv diff">
+          <span class="who"></span><span class="msg"
+            ><span class="add">+</span> await db.transaction(async (tx) =&gt; {"{"}</span
+          >
+        </li>
+        <li class="ln giv diff">
+          <span class="who"></span><span class="msg"
+            ><span class="add">+</span>&nbsp;&nbsp; await exportOrders(tx, job) {"})"}</span
+          >
+        </li>
+        <li class="swap">
+          <div class="keep">
+            <div class="grp">withheld</div>
+            <div class="ln wh">
+              <span class="who">agent</span><span class="msg">agent's reasoning: withheld</span>
+            </div>
+          </div>
+          <div class="leak">
+            <div class="grp">inherited from the parent's view</div>
+            <div class="ln inh">
+              <span class="who">agent</span><span class="msg"
+                >claimJob is safe, SKIP LOCKED prevents double claims</span
+              >
+            </div>
+          </div>
+        </li>
+        <li class="grp">own work</li>
+        <li class="ln">
+          <span class="who">agent</span><span class="msg"
+            >reads src/jobs/claim.ts, src/jobs/worker.ts</span
+          >
+        </li>
+        <li class="grp">verdict</li>
+        <li class="swap" aria-live="polite">
+          <div class="ln keep">
+            <span class="who">agent</span><span class="msg"
+              ><span class="bad">found issues:</span> worker.ts calls claimJob() outside
+              db.transaction(); SKIP LOCKED releases at once, two workers can claim the same
+              job.</span
+            >
+          </div>
+          <div class="ln leak">
+            <span class="who">agent</span><span class="msg"
+              ><span class="ok">looks good</span>{' '}
+              <span class="cm">(agrees with the reasoning it was handed)</span></span
+            >
+          </div>
+        </li>
+      </ol>
+      <p class="sess-f">→ sits on the main line as a separate message</p>
+    </section>
+  </div>
+
+  <div class="key" aria-hidden="true">
+    <span><i class="k-inh"></i>inherited (parent's cached prefix)</span>
+    <span><i class="k-giv"></i>handed over</span>
+    <span><i class="k-wh"></i>withheld</span>
+  </div>
+</figure>
+
+<style>
+  .f5 .grp {
+    padding: 6px 10px 1px;
+    font-size: 11px;
+    color: var(--comment-ink);
+  }
+  .f5 .sess-b > .grp:first-child {
+    padding-top: 0;
+  }
+  .f5 .bad {
+    color: var(--loop);
+  }
+  /* inherited = the parent's cached prefix, greyed */
+  .f5 .inh {
+    border-left-color: var(--link-ink);
+    background: color-mix(in oklab, var(--link-ink) 8%, transparent);
+  }
+  .f5 .inh :is(.who, .msg, .hd) {
+    color: var(--muted-ink);
+  }
+  .f5 .giv {
+    border-left-color: var(--comment-ink);
+  }
+  .f5 .wh {
+    border-left-style: dashed;
+    border-left-color: var(--rule);
+  }
+  .f5 .wh :is(.who, .msg) {
+    color: var(--comment-ink);
+    text-decoration: line-through;
+  }
+
+  /* fig 5 */
+  .f5 .pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 760px) {
+    .f5 .pair {
+      grid-template-columns: 1fr;
+    }
+  }
+  .f5 .diff .msg {
+    color: var(--muted-ink);
+  }
+  .f5 .diff .add {
+    color: var(--accent-ink);
+  }
+  .f5 .diff .flag {
+    text-decoration: underline wavy var(--loop);
+    text-underline-offset: 3px;
+  }
+  /* Both variants share one grid cell, so the taller one always reserves the space. */
+  .f5 .swap {
+    display: grid;
+  }
+  .f5 .swap > * {
+    grid-area: 1 / 1;
+    transition: opacity 0.2s;
+  }
+  .f5 .leak,
+  .f5:has(#f5-leak:checked) .keep {
+    visibility: hidden;
+    opacity: 0;
+  }
+  .f5:has(#f5-leak:checked) .leak {
+    visibility: visible;
+    opacity: 1;
+  }
+  .f5:has(#f5-leak:checked) .diff .flag {
+    text-decoration: none;
+  }
+  .f5 .key {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px 18px;
+    margin-top: 8px;
+    font-size: 11px;
+    color: var(--comment-ink);
+  }
+  .f5 .key i {
+    display: inline-block;
+    width: 3px;
+    height: 1.1em;
+    margin-right: 6px;
+    vertical-align: -2px;
+  }
+  .f5 .key .k-inh {
+    background: var(--link-ink);
+  }
+  .f5 .key .k-giv {
+    background: var(--comment-ink);
+  }
+  .f5 .key .k-wh {
+    width: 0;
+    border-left: 3px dashed var(--rule);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .f5 .swap > * {
+      transition: none;
+    }
+  }
+</style>

@@ -13,6 +13,8 @@
   --metric-ink: light-dark(#885e0c, #fabd2f);
   --strong-ink: light-dark(#805514, #f0cb79);
   --selection-bg: light-dark(#cedbb3, #3c503b);
+  /* Episodes and logs in post figures. */
+  --loop: light-dark(#9d0006, #fb4934);
   --circuit: url("/images/background-light.svg");
   --source-font: "Cascadia Code", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
 }
@@ -601,6 +603,29 @@
   margin: 24px auto;
 }
 
+.article-copy :where(figure) {
+  margin: 24px 0;
+}
+
+.article-copy :where(figure img) {
+  margin-block: 0;
+}
+
+/* Cover descriptions and authored figure captions share the same quiet treatment. */
+.article-figure > figcaption,
+.article-copy :where(figcaption) {
+  margin-top: 6px;
+  color: var(--muted-ink);
+  font-size: 11px;
+  line-height: 1.375;
+  letter-spacing: normal;
+  text-align: center;
+}
+
+.article-copy :where(figcaption p) {
+  margin: 0;
+}
+
 .article-copy :where(hr) {
   border: 0;
   border-top: 1px dashed var(--rule);
@@ -662,6 +687,41 @@
   text-align: right;
   color: var(--comment-ink);
   user-select: none;
+}
+
+.article-copy :where([data-footnotes]) {
+  margin-top: 32px;
+  padding-top: 16px;
+  border-top: 1px dashed var(--rule);
+  color: var(--muted-ink);
+  font-size: 12px;
+  line-height: 1.65;
+  letter-spacing: normal;
+}
+
+.article-copy :where([data-footnotes] ol) {
+  margin: 0;
+  padding-left: 24px;
+}
+
+.article-copy :where([data-footnotes] li) {
+  margin: 0;
+}
+
+.article-copy :where([data-footnotes] li + li) {
+  margin-top: 12px;
+}
+
+.article-copy :where([data-footnotes] p) {
+  margin: 0;
+}
+
+.article-copy :where([data-footnotes] p + p) {
+  margin-top: 6px;
+}
+
+.article-copy :where([data-footnote-ref], [data-footnote-backref]) {
+  scroll-margin-top: 24px;
 }
 
 .article-discussion {

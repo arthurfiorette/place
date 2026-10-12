@@ -1,0 +1,279 @@
+---
+import './figure.css';
+import './session-card.css';
+---
+
+<figure class="post-fig f6" aria-describedby="f6-desc">
+  <figcaption>
+    <p class="post-fig-title">figure 7: going back, recall and ask</p>
+    <p class="muted">
+      recall greps the archive with no inference; ask puts one question to an archived thread,
+      and only the answer comes back.
+    </p>
+  </figcaption>
+  <div id="f6-desc" class="sr-only"><slot /></div>
+
+  <div class="stack">
+    <section class="sess" aria-label="recall example">
+      <header class="sess-h"><span>main line, after the fold</span><b>recall</b></header>
+      <ol class="sess-b">
+        <li class="ln ctx note">
+          <span class="who">note</span><span class="msg"
+            >builds. regenerated src/client from the OpenAPI spec … <span class="hd">↪ b2e4</span
+            ></span
+          >
+        </li>
+        <li class="ln ctx">
+          <span class="who">agent</span><span class="msg">frontend: wire the export button</span>
+        </li>
+        <li class="ln call">
+          <span class="who">agent</span><span class="msg"
+            ><span class="fn">recall</span>("TS2322")</span
+          >
+        </li>
+        <li class="ln tool">
+          <span class="who">tool</span>
+          <div class="msg res hits">
+            <span class="hd">b2e4</span><span class="span">fold "make it build, 2 rounds"</span>
+            <span></span><span class="k">t5</span><span class="k">tool</span><span class="t"
+              >src/client/api.ts(12,5): error <mark>TS2322</mark>: Type 'string' is not assignable
+              to type 'number'.</span
+            >
+            <span></span><span class="k">t6</span><span class="k">thinking</span><span
+              class="t think">"every <mark>TS2322</mark> is under src/client/, nothing in src/jobs"{' '}<span class="cm">(when the provider returns it)</span></span
+            >
+            <span></span><span class="k">t8</span><span class="k">agent</span><span class="t"
+              >the errors are all in the generated client, regenerating it{' '}
+              <span class="cm">(reply to t5)</span></span
+            >
+          </div>
+        </li>
+        <li class="ln call">
+          <span class="who">agent</span><span class="msg"
+            ><span class="fn">recall</span>("SKIP LOCKED")</span
+          >
+        </li>
+        <li class="ln tool">
+          <span class="who">tool</span>
+          <div class="msg res hits">
+            <span class="hd">a91c</span><span class="k"></span><span class="k">note</span><span
+              class="t"
+              >claim query in src/jobs/claim.ts. only valid inside a transaction: FOR UPDATE{' '}
+              <mark>SKIP LOCKED</mark> holds the row lock until commit.</span
+            >
+          </div>
+        </li>
+      </ol>
+      <p class="cost">
+        <span
+          >cost: no inference. ~300 tokens appended to the main line × $3/MTok ≈{' '}
+          <span class="num">$0.001</span>, warm or cold</span
+        >
+      </p>
+    </section>
+
+    <section class="sess" aria-label="ask example">
+      <header class="sess-h"><span>main line</span><b>ask</b></header>
+      <ol class="sess-b">
+        <li class="ln ctx">
+          <span class="who">agent</span><span class="msg">frontend: wire the export button</span>
+        </li>
+        <li class="ln call">
+          <span class="who">agent</span><span class="msg"
+            ><span class="fn">ask</span>("b2e4", "why regenerate instead of fixing the type in
+            api.ts?")</span
+          >
+        </li>
+        <li>
+          <section class="sess arc" aria-label="thread b2e4, asked off the main line">
+            <header class="sess-h"><span>off the main line</span><b>thread b2e4</b></header>
+            <ol class="sess-b">
+              <li class="ln pe">
+                <span class="who">B + E</span><span class="msg"
+                  >system … t1 user … t4 $ pnpm build … t10 ✓ <span class="num">~64K</span>{' '}
+                  <span class="swap cm"
+                    ><span class="warm">(cache warm: read at cached price)</span><span class="cold"
+                      >(cache cold: read at full price)</span
+                    ></span
+                  ></span
+                >
+              </li>
+              <li class="ln">
+                <span class="who">tools</span><span class="msg cm"
+                  >same tools block as the thread, so the cache still matches</span
+                >
+              </li>
+              <li class="ln user">
+                <span class="who">ask</span><span class="msg"
+                  >why regenerate instead of fixing the type in api.ts? answer without acting.{' '}
+                  <span class="cm">(appended)</span></span
+                >
+              </li>
+              <li class="ln">
+                <span class="who">agent</span><span class="msg cm"
+                  >one step, writes the answer below</span
+                >
+              </li>
+            </ol>
+            <p class="sess-f">dropped after the answer; b2e4 stays in the archive as it was</p>
+          </section>
+        </li>
+        <li class="ln tool ans">
+          <span class="who">tool</span><span class="msg res"
+            >api.ts is generated from the OpenAPI spec; a hand edit is overwritten on the next
+            generate. The spec had changed and the client had not. If the type is wrong, the fix
+            is in the spec, not the client.</span
+          >
+        </li>
+      </ol>
+      <div class="cost">
+        <span>only the answer enters the main line (~50 tokens)</span>
+        <fieldset class="chips">
+          <legend class="sr-only">cache state</legend>
+          <label class="check"
+            ><input type="checkbox" id="f6-warm" />cache still warm (within 5 min)</label
+          >
+        </fieldset>
+        <span
+          >cost: re-read B + E <span class="opt w"
+            >warm 64K × $0.30/MTok ≈ <span class="num">$0.019</span></span
+          > · <span class="opt c">cold 64K × $3/MTok ≈ <span class="num">$0.19</span></span>{' '}
+          + ~50 output tokens × $15/MTok ≈ <span class="num">$0.001</span></span
+        >
+      </div>
+    </section>
+  </div>
+  <p class="muted f6-prices">Prices assumed: $3 input, $0.30 cached read, $15 output per million tokens.</p>
+</figure>
+
+<style>
+
+  /* fig 6 */
+  .f6 .f6-prices {
+    margin-top: 10px;
+    font-size: 12px;
+  }
+  .f6 .stack {
+    display: grid;
+    gap: 16px;
+  }
+  .f6 .ctx :is(.who, .msg, .hd) {
+    color: var(--muted-ink);
+  }
+  .f6 .call .msg {
+    color: var(--ink);
+  }
+  .f6 .fn {
+    color: var(--link-ink);
+  }
+  .f6 .hits {
+    display: grid;
+    grid-template-columns: 4ch 3ch 8ch minmax(0, 1fr);
+    gap: 0 1.5ch;
+  }
+  .f6 .hits .span {
+    grid-column: 2 / -1;
+    color: var(--muted-ink);
+  }
+  .f6 .hits .k {
+    color: var(--comment-ink);
+  }
+  .f6 .hits .t {
+    color: var(--muted-ink);
+    overflow-wrap: anywhere;
+  }
+  .f6 .hits .think {
+    font-style: italic;
+  }
+  /* Narrow column: the matched text gets its own row under handle/turn/kind. */
+  @media (max-width: 600px) {
+    .f6 .hits {
+      grid-template-columns: 4ch 3ch minmax(0, 1fr);
+    }
+    .f6 .hits .t {
+      grid-column: 1 / -1;
+      padding: 0 0 2px 2ch;
+    }
+  }
+  .f6 mark {
+    background: color-mix(in oklab, var(--metric-ink) 22%, transparent);
+    color: var(--ink);
+  }
+  .f6 .arc {
+    margin: 3px 10px 3px calc(7ch + 20px);
+    border: 1px dashed color-mix(in oklab, var(--loop) 55%, var(--rule));
+    background: var(--page-bg);
+  }
+  .f6 .arc .sess-h,
+  .f6 .arc .sess-f {
+    border-color: color-mix(in oklab, var(--loop) 35%, var(--rule));
+  }
+  .f6 .arc .sess-b {
+    padding: 4px 0;
+  }
+  @media (max-width: 600px) {
+    .f6 .arc {
+      margin-left: 10px;
+    }
+  }
+  .f6 .pe {
+    border-left-color: var(--metric-ink);
+    background: color-mix(in oklab, var(--metric-ink) 9%, transparent);
+    transition:
+      border-color 0.2s,
+      background-color 0.2s;
+  }
+  .f6:has(#f6-warm:checked) .pe {
+    border-left-color: var(--link-ink);
+    background: color-mix(in oklab, var(--link-ink) 9%, transparent);
+  }
+  /* Both tags share one grid cell, so the longer one always reserves the space. */
+  .f6 .swap {
+    display: inline-grid;
+  }
+  .f6 .swap > * {
+    grid-area: 1 / 1;
+  }
+  .f6 .warm,
+  .f6:has(#f6-warm:checked) .cold {
+    visibility: hidden;
+  }
+  .f6:has(#f6-warm:checked) .warm {
+    visibility: visible;
+  }
+  .f6 .ans .msg {
+    color: var(--ink);
+  }
+  .f6 .cost {
+    display: grid;
+    gap: 2px;
+    padding: 6px 10px;
+    border-top: 1px dashed var(--rule);
+    font-size: 11px;
+    color: var(--comment-ink);
+  }
+  .f6 .cost .chips {
+    font-size: 11px;
+  }
+  /* Both prices stay on screen; the checkbox only says which one applies. */
+  .f6 .opt {
+    opacity: 0.55;
+    transition: opacity 0.2s;
+  }
+  .f6 .opt .num {
+    color: var(--comment-ink);
+  }
+  .f6:has(#f6-warm:checked) .opt.w,
+  .f6:has(#f6-warm:not(:checked)) .opt.c {
+    opacity: 1;
+  }
+  .f6:has(#f6-warm:checked) .opt.w .num,
+  .f6:has(#f6-warm:not(:checked)) .opt.c .num {
+    color: var(--metric-ink);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .f6 :is(.pe, .opt) {
+      transition: none;
+    }
+  }
+</style>

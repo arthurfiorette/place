@@ -1,0 +1,774 @@
+---
+import './figure.css';
+import Autoplay from './autoplay.astro';
+
+const steps = [
+  'start',
+  'build',
+  '✗ log',
+  'guess',
+  'user',
+  'regenerate',
+  'rebuild',
+  '✓ pass',
+  'where was I?',
+  'fold',
+  'frontend',
+];
+const last = steps.length - 1;
+// Template form of the build note; rendered with white-space: pre-wrap.
+const note = [
+  'changed:  regenerated src/client from the OpenAPI spec, no source edits',
+  'learned:  the failures came from a stale generated client, not from src',
+  'rejected: editing src/client/api.ts by hand (overwritten on next generate)',
+  'open:     does CI run generate before build? unchecked',
+  'where:    thread b2e4',
+].join('\n');
+---
+
+<figure class="post-fig f1" aria-describedby="f1-desc">
+  <figcaption>
+    <p class="post-fig-title">figure 1: the tangent</p>
+    <p class="muted">
+      Each turn is a block on a list. The build goes off on a tangent below the main thread, then comes back as one
+      block you can reference later.
+    </p>
+  </figcaption>
+
+  <div class="controls">
+    <fieldset class="chips" data-autoplay="1200">
+      <legend>step</legend>
+      {
+        steps.map((label, i) => (
+          <label>
+            <input type="radio" name="f1-s" id={`f1-s${i}`} checked={i === last} />
+            {label}
+          </label>
+        ))
+      }
+    </fieldset>
+    <span class="navs">
+      {
+        steps.slice(1).map((_, i) => (
+          <label class="nav prev" for={`f1-s${i}`}>
+            ← prev
+          </label>
+        ))
+      }
+      {
+        steps.slice(1).map((_, i) => (
+          <label class="nav next" for={`f1-s${i + 1}`}>
+            next →
+          </label>
+        ))
+      }
+    </span>
+    <Autoplay />
+  </div>
+
+  <div class="scroll">
+    <div class="stage">
+      <span class="lane-l" aria-hidden="true">main thread</span>
+      <div class="mline" aria-hidden="true"></div>
+      <div class="wait" aria-hidden="true"></div>
+      <div class="resume" aria-hidden="true"></div>
+      <span class="lbl wait-l" aria-hidden="true">main thread waits here</span>
+
+      <div class="blk m" style="left: 0; width: 64px" aria-hidden="true"><span>system</span></div>
+      <div class="blk m u" style="left: 76px; width: 152px" aria-hidden="true"><span>user: add export job</span></div>
+      <div class="blk m" style="left: 240px; width: 70px" aria-hidden="true"><span>explore</span></div>
+      <div class="blk m" style="left: 322px; width: 58px" aria-hidden="true"><span>query</span></div>
+      <!-- The build step; when the tangent folds it becomes one new block: the note, then the user's message verbatim. -->
+      <button
+        type="button"
+        class="blk m bn"
+        style="--i: 1"
+        aria-label="note ↪ b2e4, followed by the user's message: about 43K tokens were inside the tangent; about 160 came back as the note, plus the user's message re-sent as written"
+      >
+        <span class="b1" aria-hidden="true">make it build</span><span class="b2" aria-hidden="true">note ↪ b2e4</span
+        ><span class="b3" aria-hidden="true">user: don't edit generated files</span>
+      </button>
+      <div class="blk slot" aria-hidden="true"><span>next</span></div>
+      <div class="blk front" aria-hidden="true"><span>frontend</span></div>
+
+      <span class="tl" aria-hidden="true"
+        ><span class="x1">tangent: make it build →</span><span class="x2">archived, reachable via ↪ b2e4 →</span></span
+      >
+
+      <div class="span" aria-hidden="true"><span class="lbl span-l">t4 … t10, named after it ended</span></div>
+
+      <div class="blk t t0" style="--i: 1; top: 76px; width: calc(12ch + 14px)" aria-hidden="true">
+        <span>$ pnpm build</span>
+      </div>
+      <div class="blk t log" style="--i: 2; top: 106px; width: 364px" aria-hidden="true">
+        <span>✗ api.ts(12,5): error TS2322 … +400 lines</span>
+      </div>
+      <div class="blk t" style="--i: 3; top: 136px; width: calc(34ch + 14px)" aria-hidden="true">
+        <span>guess: hand-edit src/client/api.ts</span>
+      </div>
+      <div class="blk t u" style="--i: 4; top: 166px; width: calc(32ch + 14px)" aria-hidden="true">
+        <span>user: don't edit generated files</span>
+      </div>
+      <div class="blk t" style="--i: 5; top: 196px; width: calc(48ch + 14px)" aria-hidden="true">
+        <span>errors are in the generated client: regenerating</span>
+      </div>
+      <div class="blk t" style="--i: 6; top: 226px; width: calc(29ch + 14px)" aria-hidden="true">
+        <span>$ pnpm generate && pnpm build</span>
+      </div>
+      <div class="blk t ok" style="--i: 7; top: 256px; width: calc(15ch + 14px)" aria-hidden="true">
+        <span>✓ done in 41s</span>
+      </div>
+
+      <div class="readout" aria-hidden="true">
+        <p>in context <span class="ctx"></span> of an 80K window</p>
+        <div class="track"><span class="seg sm"></span><span class="seg st"></span><span class="seg sn"></span></div>
+        <p class="keys">
+          <span class="km"><i></i>main thread</span><span class="kx"
+            ><span class="kt"><i></i>tangent <span class="tan"></span></span><span class="kn"
+              ><i></i>new block ~160 tok</span
+            ></span
+          >
+        </p>
+      </div>
+
+      <p class="lbl beat" aria-hidden="true">
+        "the build passes. where was I?"<small>only now can the tangent be named</small>
+      </p>
+      <p class="lbl done" aria-hidden="true">
+        folded: <span class="n">~43K</span> of logs and guesses<br />came back as one <span class="n">~160 tok</span> block
+      </p>
+
+      <div class="squash" aria-hidden="true"></div>
+    </div>
+  </div>
+
+  <div class="caps" aria-live="polite">
+    <p>The main thread so far: system prompt, your request, exploring, the claim query. One block per turn.</p>
+    <p>
+      Making it build starts a tangent below the main thread. The main thread waits at the dashed link until the tangent
+      is done.
+    </p>
+    <p>The build fails: error TS2322 in src/client/api.ts, and 400 more lines. All of it is now in context.</p>
+    <p>A guess: change the field type in src/client/api.ts by hand.</p>
+    <p>You say no: don't edit generated files. The guess is rejected, and it stays in context anyway.</p>
+    <p>The agent sees the errors are all in the generated client and regenerates it.</p>
+    <p>$ pnpm generate && pnpm build</p>
+    <p>Done in 41s. The tangent now holds ~43K. Nothing marked where it would end.</p>
+    <p>
+      "Where was I?" The build passes and the next thing is not about the build. Only now can the tangent be named: t4
+      to t10.
+    </p>
+    <p>
+      The tangent folds into one new block on the main thread: the note with its handle, then your message verbatim.
+      The full tangent stays archived, reachable via ↪ b2e4.
+    </p>
+    <p>
+      The main thread continues with the frontend, carrying ~160 tokens instead of ~43K. Hover or focus the note to
+      compare.
+    </p>
+  </div>
+
+  <div class="detail" aria-hidden="true">
+    <p class="d0">
+      Hover or focus (tab) the note ↪ b2e4 to compare what was inside the tangent with what came back. The bars share
+      one scale.
+    </p>
+    <div class="d1">
+      <p class="dh"><span>inside the tangent vs what came back</span></p>
+      <div class="cmp">
+        <span>inside</span><span class="bt"><span class="bar in" style="--v: 1"></span></span><span class="num"
+          >~43K tok</span
+        >
+        <span>came back</span><span class="bt"><span class="bar out" style="--v: 0.0037"></span></span><span
+          class="num">~160 tok</span
+        >
+      </div>
+      <p class="inside">
+        <span class="k">inside (archived, reachable via ↪ b2e4)</span> 2 runs of $ pnpm build, 400 lines of TS2322 errors,
+        guess: hand-edit api.ts (rejected), your message, the regenerate run
+      </p>
+      <p class="k">came back, one new block on the main thread <span class="ratio">~270× smaller</span></p>
+      <div class="note">{note}</div>
+      <p class="said">user: don't edit generated files</p>
+    </div>
+  </div>
+
+  <div id="f1-desc" class="sr-only"><slot /></div>
+</figure>
+
+<style>
+  /* Step position, interpolated so blocks fade in one after another. */
+  @property --f1-t {
+    syntax: '<number>';
+    inherits: true;
+    initial-value: 10;
+  }
+  /* Token sizes in K, per step; the integers feed the counters. */
+  @property --f1-main {
+    syntax: '<number>';
+    inherits: true;
+    initial-value: 23;
+  }
+  @property --f1-tan {
+    syntax: '<number>';
+    inherits: true;
+    initial-value: 0.16;
+  }
+  @property --f1-ctx {
+    syntax: '<integer>';
+    inherits: true;
+    initial-value: 23;
+  }
+  @property --f1-tank {
+    syntax: '<integer>';
+    inherits: true;
+    initial-value: 0;
+  }
+
+  .f1 {
+    --f1-t: 10;
+    --f1-main: 21;
+    --f1-tan: 0;
+    transition:
+      --f1-t 0.6s ease,
+      --f1-main 0.6s ease,
+      --f1-tan 0.6s ease;
+    --f1-ctx: calc(var(--f1-main) + var(--f1-tan));
+    --f1-tank: calc(var(--f1-tan));
+    /* 0 while the tangent is open, 1 once it folded. */
+    --f1-a: clamp(0, var(--f1-t) - 8, 1);
+    /* Only on the "where was I?" step. */
+    --f1-w: min(clamp(0, var(--f1-t) - 7, 1), clamp(0, 9 - var(--f1-t), 1));
+    letter-spacing: normal;
+  }
+  .f1:has(#f1-s0:checked) {
+    --f1-t: 0;
+  }
+  .f1:has(#f1-s1:checked) {
+    --f1-t: 1;
+    --f1-tan: 1;
+  }
+  .f1:has(#f1-s2:checked) {
+    --f1-t: 2;
+    --f1-tan: 28;
+  }
+  .f1:has(#f1-s3:checked) {
+    --f1-t: 3;
+    --f1-tan: 31;
+  }
+  .f1:has(#f1-s4:checked) {
+    --f1-t: 4;
+    --f1-tan: 31;
+  }
+  .f1:has(#f1-s5:checked) {
+    --f1-t: 5;
+    --f1-tan: 33;
+  }
+  .f1:has(#f1-s6:checked) {
+    --f1-t: 6;
+    --f1-tan: 42;
+  }
+  .f1:has(#f1-s7:checked) {
+    --f1-t: 7;
+    --f1-tan: 43;
+  }
+  .f1:has(#f1-s8:checked) {
+    --f1-t: 8;
+    --f1-tan: 43;
+  }
+  .f1:has(#f1-s9:checked) {
+    --f1-t: 9;
+    --f1-tan: 0.16;
+  }
+  .f1:has(#f1-s10:checked) {
+    --f1-t: 10;
+    --f1-main: 23;
+    --f1-tan: 0.16;
+  }
+
+  .f1:has(#f1-s0:checked) .next[for='f1-s1'],
+  .f1:has(#f1-s1:checked) :is(.prev[for='f1-s0'], .next[for='f1-s2']),
+  .f1:has(#f1-s2:checked) :is(.prev[for='f1-s1'], .next[for='f1-s3']),
+  .f1:has(#f1-s3:checked) :is(.prev[for='f1-s2'], .next[for='f1-s4']),
+  .f1:has(#f1-s4:checked) :is(.prev[for='f1-s3'], .next[for='f1-s5']),
+  .f1:has(#f1-s5:checked) :is(.prev[for='f1-s4'], .next[for='f1-s6']),
+  .f1:has(#f1-s6:checked) :is(.prev[for='f1-s5'], .next[for='f1-s7']),
+  .f1:has(#f1-s7:checked) :is(.prev[for='f1-s6'], .next[for='f1-s8']),
+  .f1:has(#f1-s8:checked) :is(.prev[for='f1-s7'], .next[for='f1-s9']),
+  .f1:has(#f1-s9:checked) :is(.prev[for='f1-s8'], .next[for='f1-s10']),
+  .f1:has(#f1-s10:checked) .prev[for='f1-s9'] {
+    visibility: visible;
+  }
+  /* Own line, so showing one or both labels never changes the height. */
+  .f1 .navs {
+    order: 1;
+    flex-basis: 100%;
+  }
+
+
+  .f1 .scroll {
+    overflow-x: auto;
+  }
+  .f1 .stage {
+    position: relative;
+    width: 760px;
+    height: 296px;
+    font-size: 10.5px;
+    line-height: 1;
+  }
+
+  /* Blocks: one turn each. The text lives in a span so the link pseudo-element is not clipped. */
+  .f1 .blk {
+    position: absolute;
+    box-sizing: border-box;
+    height: 24px;
+    padding: 0 6px;
+    border: 1px solid color-mix(in oklab, var(--ink) 50%, transparent);
+    background: var(--surface-bg);
+    color: var(--ink);
+    line-height: 22px;
+    white-space: nowrap;
+  }
+  .f1 .blk > span {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .f1 .blk.u > span,
+  .f1 .bn .b3 {
+    font-style: italic;
+  }
+  .f1 .m {
+    top: 18px;
+  }
+  .f1 [style*='--i'] {
+    --f1-r: clamp(0, var(--f1-t) - var(--i) + 1, 1);
+    opacity: var(--f1-r);
+  }
+  .f1 .lbl {
+    position: absolute;
+    margin: 0;
+    color: var(--comment-ink);
+    font-size: 10px;
+    white-space: nowrap;
+  }
+  .f1 .lane-l {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 12px;
+    line-height: 1;
+    color: var(--ink);
+  }
+
+  /* The main thread: links are the line behind the blocks. */
+  .f1 .mline {
+    position: absolute;
+    top: 29px;
+    left: 0;
+    width: calc(380px + 12px * clamp(0, var(--f1-t), 1));
+    border-top: 1.5px solid var(--ink);
+  }
+  .f1 .wait,
+  .f1 .resume {
+    position: absolute;
+    top: 29px;
+    left: 520px;
+    width: 144px;
+    border-top: 1.5px dashed var(--ink);
+    opacity: min(clamp(0, var(--f1-t), 1), 1 - var(--f1-a));
+  }
+  .f1 .resume {
+    left: 612px;
+    width: 52px;
+    border-top-style: solid;
+    opacity: var(--f1-a);
+  }
+  .f1 .wait-l {
+    top: 38px;
+    left: 526px;
+    color: var(--muted-ink);
+    opacity: min(clamp(0, var(--f1-t), 1), 1 - var(--f1-a));
+  }
+  .f1 .slot,
+  .f1 .front {
+    top: 18px;
+    left: 664px;
+    width: 92px;
+  }
+  .f1 .slot {
+    border-style: dashed;
+    background: transparent;
+    color: var(--comment-ink);
+    opacity: calc(clamp(0, var(--f1-t), 1) * (1 - clamp(0, var(--f1-t) - 9, 1)));
+  }
+  .f1 .front {
+    opacity: clamp(0, var(--f1-t) - 9, 1);
+  }
+
+  /* The build step grows into one grouped block: the note, then the user's message, as one fresh write. */
+  .f1 .bn {
+    top: 18px;
+    left: 392px;
+    width: calc(128px + 92px * var(--f1-a));
+    height: calc(24px + 22px * var(--f1-a));
+    display: grid;
+    grid-template-rows: 22px 22px;
+    overflow: hidden;
+    border-color: color-mix(
+      in oklab,
+      var(--accent-ink) calc(var(--f1-a) * 100%),
+      color-mix(in oklab, var(--ink) 50%, transparent)
+    );
+    background: color-mix(in oklab, var(--accent-ink) calc(var(--f1-a) * 12%), var(--surface-bg));
+    font: inherit;
+    line-height: 22px;
+    text-align: left;
+    cursor: help;
+    outline: none;
+  }
+  .f1 .bn .b1,
+  .f1 .bn .b2 {
+    grid-area: 1 / 1;
+  }
+  .f1 .bn .b1 {
+    opacity: calc(1 - var(--f1-a));
+  }
+  .f1 .bn .b2 {
+    color: var(--accent-ink);
+    opacity: var(--f1-a);
+  }
+  .f1 .bn .b3 {
+    grid-area: 2 / 1;
+    border-top: 1px dashed color-mix(in oklab, var(--accent-ink) 50%, transparent);
+    opacity: var(--f1-a);
+  }
+  .f1 .bn:is(:hover, :focus-visible) {
+    outline: 2px solid var(--accent-ink);
+    outline-offset: 2px;
+  }
+
+  /* The tangent: a vertical list hanging below the build step. */
+  .f1 .t {
+    left: 392px;
+    border-color: var(--loop);
+    background: color-mix(in oklab, var(--loop) 7%, var(--surface-bg));
+    color: var(--loop);
+    opacity: calc(var(--f1-r) * (1 - 0.45 * var(--f1-a)));
+  }
+  .f1 .t::before {
+    content: '';
+    position: absolute;
+    left: 11px;
+    bottom: 100%;
+    height: 6px;
+    border-left: 1.5px solid var(--loop);
+  }
+  /* From the build step down; once folded, from the bottom of the taller grouped block. */
+  .f1 .t.t0::before {
+    height: calc(34px - 22px * var(--f1-a));
+  }
+  .f1 .t.log {
+    background: color-mix(in oklab, var(--loop) 24%, var(--surface-bg));
+  }
+  .f1 .t.ok {
+    border-bottom-width: 3px;
+  }
+  .f1:has(:is(#f1-s9, #f1-s10):checked) .t {
+    border-style: dashed;
+    border-bottom-width: 1px;
+    background: transparent;
+  }
+  .f1:has(:is(#f1-s9, #f1-s10):checked) .t::before {
+    border-left-style: dashed;
+  }
+  .f1:has(:is(#f1-s9, #f1-s10):checked) .t.t0::before {
+    border-left-color: var(--accent-ink);
+  }
+
+  .f1 .tl {
+    position: absolute;
+    top: 82px;
+    right: 380px;
+    display: grid;
+    justify-items: end;
+    font-size: 12px;
+    line-height: 1;
+    white-space: nowrap;
+  }
+  .f1 .tl .x1,
+  .f1 .tl .x2 {
+    grid-area: 1 / 1;
+  }
+  .f1 .tl .x1 {
+    color: var(--loop);
+    opacity: calc(clamp(0, var(--f1-t), 1) * (1 - var(--f1-a)));
+  }
+  .f1 .tl .x2 {
+    color: var(--accent-ink);
+    opacity: var(--f1-a);
+  }
+
+  /* Context readout: one scale, the window is the full track. */
+  .f1 .readout {
+    position: absolute;
+    top: 122px;
+    left: 0;
+    width: 330px;
+    font-size: 11px;
+    line-height: 1.5;
+    color: var(--muted-ink);
+    counter-reset: f1-ctx var(--f1-ctx) f1-tan var(--f1-tank);
+  }
+  .f1 .readout p {
+    margin: 0;
+  }
+  .f1 .readout .ctx::after {
+    content: '~' counter(f1-ctx) 'K';
+    color: var(--metric-ink);
+  }
+  .f1 .readout .tan::after {
+    content: '~' counter(f1-tan) 'K';
+    color: var(--metric-ink);
+  }
+  .f1 .track {
+    display: flex;
+    height: 8px;
+    margin: 4px 0;
+    background: color-mix(in oklab, var(--rule) 45%, transparent);
+  }
+  .f1 .seg.sm {
+    width: calc(var(--f1-main) / 80 * 100%);
+    background: var(--ink);
+  }
+  .f1 .seg.st {
+    width: calc(var(--f1-tan) / 80 * 100%);
+    background: var(--loop);
+  }
+  .f1 .seg.sn {
+    width: 2px;
+    background: var(--accent-ink);
+    opacity: var(--f1-a);
+  }
+  .f1 .keys {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0 14px;
+  }
+  .f1 .keys .kx {
+    display: grid;
+  }
+  .f1 .keys .kx > span {
+    grid-area: 1 / 1;
+  }
+  .f1 .keys .kt {
+    opacity: calc(clamp(0, var(--f1-t), 1) * (1 - var(--f1-a)));
+  }
+  .f1 .keys .kn {
+    opacity: var(--f1-a);
+  }
+  .f1 .keys i {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin-right: 5px;
+  }
+  .f1 .km i {
+    background: var(--ink);
+  }
+  .f1 .kt i {
+    background: var(--loop);
+  }
+  .f1 .kn i {
+    background: var(--accent-ink);
+  }
+
+  /* "Where was I?": the span is only named once it ended. */
+  .f1 .beat {
+    top: 196px;
+    right: 384px;
+    display: grid;
+    justify-items: end;
+    gap: 6px;
+    font-size: 14px;
+    color: var(--accent-ink);
+    opacity: var(--f1-w);
+  }
+  .f1 .beat small {
+    font-size: 11px;
+    color: var(--muted-ink);
+  }
+  .f1 .done {
+    top: 232px;
+    right: 384px;
+    font-size: 11px;
+    line-height: 1.5;
+    text-align: right;
+    color: var(--muted-ink);
+    opacity: var(--f1-a);
+  }
+  .f1 .done .n {
+    color: var(--metric-ink);
+  }
+  .f1 .span {
+    position: absolute;
+    left: 384px;
+    top: 68px;
+    width: 374px;
+    height: 222px;
+    box-sizing: border-box;
+    border: 1px dashed var(--metric-ink);
+    opacity: var(--f1-w);
+  }
+  .f1 .span-l {
+    right: 8px;
+    bottom: 8px;
+    color: var(--metric-ink);
+  }
+
+  /* The fold itself: the span shrinks into the new block's place. */
+  .f1 .squash {
+    position: absolute;
+    box-sizing: border-box;
+    border: 1px solid var(--accent-ink);
+    background: color-mix(in oklab, var(--accent-ink) 14%, transparent);
+    opacity: 0;
+    pointer-events: none;
+  }
+  .f1:has(:is(#f1-s9, #f1-s10):checked) .squash {
+    animation: f1-squash 0.7s ease-in both;
+  }
+  @keyframes f1-squash {
+    from {
+      left: 384px;
+      top: 68px;
+      width: 374px;
+      height: 222px;
+      opacity: 0.9;
+    }
+    to {
+      left: 392px;
+      top: 18px;
+      width: 220px;
+      height: 46px;
+      opacity: 0;
+    }
+  }
+
+  .f1 .caps {
+    display: grid;
+    margin-top: 10px;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .f1 .caps p {
+    grid-area: 1 / 1;
+    margin: 0;
+    visibility: hidden;
+  }
+  .f1:has(#f1-s0:checked) .caps p:nth-child(1),
+  .f1:has(#f1-s1:checked) .caps p:nth-child(2),
+  .f1:has(#f1-s2:checked) .caps p:nth-child(3),
+  .f1:has(#f1-s3:checked) .caps p:nth-child(4),
+  .f1:has(#f1-s4:checked) .caps p:nth-child(5),
+  .f1:has(#f1-s5:checked) .caps p:nth-child(6),
+  .f1:has(#f1-s6:checked) .caps p:nth-child(7),
+  .f1:has(#f1-s7:checked) .caps p:nth-child(8),
+  .f1:has(#f1-s8:checked) .caps p:nth-child(9),
+  .f1:has(#f1-s9:checked) .caps p:nth-child(10),
+  .f1:has(#f1-s10:checked) .caps p:nth-child(11) {
+    visibility: visible;
+  }
+
+  /* Hover panel: the size difference is the point. */
+  .f1 .detail {
+    display: grid;
+    margin-top: 10px;
+    padding: 12px 16px;
+    background: var(--surface-bg);
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  .f1 .detail > * {
+    grid-area: 1 / 1;
+  }
+  .f1 .detail p {
+    margin: 0;
+  }
+  .f1 .d1 {
+    visibility: hidden;
+  }
+  .f1 .d0 {
+    color: var(--muted-ink);
+  }
+  .f1:has(.bn:is(:hover, :focus-visible)) .d0 {
+    visibility: hidden;
+  }
+  .f1:has(.bn:is(:hover, :focus-visible)) .d1 {
+    visibility: visible;
+  }
+  .f1 .dh {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+  .f1 .cmp {
+    display: grid;
+    grid-template-columns: 10ch 1fr 9ch;
+    gap: 6px 12px;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .f1 .cmp .bt {
+    height: 10px;
+    background: color-mix(in oklab, var(--rule) 45%, transparent);
+  }
+  .f1 .cmp .bar {
+    display: block;
+    height: 100%;
+    width: calc(var(--v) * 100%);
+    min-width: 2px;
+  }
+  .f1 .cmp .in {
+    background: var(--loop);
+  }
+  .f1 .cmp .out {
+    background: var(--accent-ink);
+  }
+  .f1 .cmp .num {
+    color: var(--metric-ink);
+    text-align: right;
+  }
+  .f1 .k {
+    color: var(--comment-ink);
+    font-size: 11px;
+  }
+  .f1 .inside {
+    margin-bottom: 6px;
+    color: var(--muted-ink);
+  }
+  .f1 .note {
+    white-space: pre-wrap;
+    color: var(--accent-ink);
+    font-size: 11.5px;
+  }
+  .f1 .said {
+    margin-top: 2px;
+    font-size: 11.5px;
+    font-style: italic;
+    color: var(--ink);
+  }
+  .f1 .ratio {
+    color: var(--metric-ink);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .f1 {
+      transition: none;
+    }
+    .f1:has(:is(#f1-s9, #f1-s10):checked) .squash {
+      animation: none;
+    }
+  }
+</style>

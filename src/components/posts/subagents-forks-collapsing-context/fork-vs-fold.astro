@@ -1,0 +1,853 @@
+---
+import './figure.css';
+import Autoplay from './autoplay.astro';
+
+const steps = ['before', 'turn 1', 'turn 10', 'turn 20', 'turn 30', 'where was I?', 'return / fold', 'end'];
+const last = steps.length - 1;
+
+// The context before the loop (B). Drawn the same on every lane it appears on; with
+// "parent already folded" explore and query give way to the query thread's note.
+const prefix = [
+  { label: 'sys', left: 0, width: 44, cls: 'blk c' },
+  { label: 'user', left: 50, width: 44, cls: 'blk c u lk' },
+  { label: 'explore', left: 100, width: 60, cls: 'blk c lk x' },
+  { label: 'query', left: 166, width: 50, cls: 'blk c lk x' },
+  { label: 'note ↪ a91c', left: 100, width: 82, cls: 'blk c lk q3' },
+];
+// The build loop (E), placed after B; --i is the step it appears on.
+const loop = [
+  { label: '$ pnpm build', i: 1, x: 0, w: 92, cls: 'first' },
+  { label: '✗ TS2322', i: 2, x: 98, w: 64, cls: 'log' },
+  { label: 'regenerate', i: 2, x: 168, w: 76, cls: '' },
+  { label: '$ pnpm generate && pnpm build', i: 3, x: 250, w: 200, cls: '' },
+  { label: '✓ done', i: 4, x: 456, w: 58, cls: 'last' },
+];
+---
+
+<figure class="post-fig f4" aria-describedby="f4-desc">
+  <figcaption>
+    <p class="post-fig-title">figure 5: fork vs fold</p>
+    <p class="muted">Same blocks as the tangent. Both end in the same place; they differ in when the decision is made.</p>
+  </figcaption>
+
+  <div class="controls">
+    <fieldset class="chips" data-autoplay="1300">
+      <legend>step</legend>
+      {
+        steps.map((label, i) => (
+          <label>
+            <input type="radio" name="f4-s" id={`f4-s${i}`} checked={i === last} />
+            {label}
+          </label>
+        ))
+      }
+    </fieldset>
+    <div class="navs">
+      <span class="nav-pair">
+        {
+          steps.slice(1).map((_, i) => (
+            <label class="nav prev" for={`f4-s${i}`}>
+              ← prev
+            </label>
+          ))
+        }
+        {
+          steps.slice(1).map((_, i) => (
+            <label class="nav next" for={`f4-s${i + 1}`}>
+              next →
+            </label>
+          ))
+        }
+      </span>
+      <fieldset class="chips">
+        <legend class="sr-only">prefix</legend>
+        <label><input type="checkbox" id="f4-folded" />parent already folded (B = <span class="pk"></span>)</label>
+      </fieldset>
+    </div>
+    <Autoplay />
+  </div>
+
+  <div class="scroll">
+    <div class="stage" aria-hidden="true">
+      <div class="grp fork">
+        <p class="hd">1. fork <span class="sub">decides before the loop</span></p>
+        <span class="lbl lane-m">main thread</span>
+        <span class="lbl dec-l">decide: this is separate</span>
+        <div class="dec"></div>
+
+        <div class="wait"></div>
+        <div class="pre fm">
+          {
+            prefix.map((b) => (
+              <div class={b.cls} style={`left: ${b.left}px; width: ${b.width}px`}>
+                <span>{b.label}</span>
+              </div>
+            ))
+          }
+        </div>
+        <span class="lbl wait-l">main thread waits</span>
+
+        <span class="lbl lane2"><span class="a0">copy</span><span class="a1">archive ↪ b2e4</span></span>
+        <div class="pre fc">
+          {
+            prefix.map((b) => (
+              <div class={b.cls} style={`left: ${b.left}px; width: ${b.width}px`}>
+                <span>{b.label}</span>
+              </div>
+            ))
+          }
+        </div>
+        {
+          loop.map((b) => (
+            <div class={`blk lp lk ${b.cls}`} style={`--i: ${b.i}; --x: ${b.x}px; width: ${b.w}px`}>
+              <span>{b.label}</span>
+            </div>
+          ))
+        }
+        <span class="lbl copy-l">↑ starts as the parent: byte-identical prefix, cache hit</span>
+        <span class="lbl ret-l">last message returns ↑</span>
+
+        <div class="blk note lk"><span>note ↪ b2e4</span></div>
+        <div class="blk front lk"><span>frontend</span></div>
+
+        <div class="same sm"></div>
+        <div class="same sa"></div>
+        <span class="lbl same-l m">= same main thread</span>
+        <span class="lbl same-l a">= same archive</span>
+      </div>
+
+      <div class="grp fold">
+        <p class="hd">2. fold <span class="sub">decides after the loop</span></p>
+        <span class="lbl where">"where was I?"</span>
+        <span class="lbl lane-m">main thread</span>
+        <span class="lbl start-l">since: t4</span>
+        <span class="lbl dec-l">decide: it ended, it started at t4</span>
+        <div class="dec"></div>
+
+        <div class="pre dm">
+          {
+            prefix.map((b) => (
+              <div class={b.cls} style={`left: ${b.left}px; width: ${b.width}px`}>
+                <span>{b.label}</span>
+              </div>
+            ))
+          }
+        </div>
+
+        <span class="lbl lane2"><span class="a0">archive (empty)</span><span class="a1">archive ↪ b2e4</span></span>
+        {
+          loop.map((b) => (
+            <div class={`blk lp lk ${b.cls}`} style={`--i: ${b.i}; --x: ${b.x}px; width: ${b.w}px`}>
+              <span>{b.label}</span>
+            </div>
+          ))
+        }
+
+        <div class="blk note lk"><span>note ↪ b2e4</span></div>
+        <div class="blk front lk"><span>frontend</span></div>
+
+        <div class="same sm"></div>
+        <div class="same sa"></div>
+        <span class="lbl same-l m">= same main thread</span>
+        <span class="lbl same-l a">= same archive</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="legend" aria-hidden="true">
+    <span class="lc">cached prefix</span>
+    <span class="lf">fresh write</span>
+    <span class="le">build loop</span>
+    <span class="ld">decision</span>
+  </div>
+
+  <div class="caps" aria-live="polite">
+    <p>Both start from the same main thread: B, the context before the build, cached.</p>
+    <p>
+      Fork decides now, before any work: this is separate. The main thread waits; a copy starts as the parent. Fold
+      decides nothing yet; the loop starts inline.
+    </p>
+    <p>Turn 10. Every turn re-reads B at the cached price, on both sides, plus the loop's own growth.</p>
+    <p>Turn 20. Same arithmetic on both sides.</p>
+    <p>Turn 30: the build passes on both sides.</p>
+    <p>
+      Fork: the copy's last message is the result. Fold: "where was I?" It ended now, and it picks the start among the
+      per-turn marks: t4.
+    </p>
+    <p>
+      Fork: the result drops onto the main thread as one note. Fold: the span collapses into the same note. Both loops
+      go to the archive.
+    </p>
+    <p>Same main thread, same archive. Only the moment of the decision differed: before the loop, or after it.</p>
+  </div>
+
+  <div class="costs" aria-hidden="true">
+    <p class="h">
+      cost so far, turn <span class="tn"></span>, K input tokens, uncached-equivalent, B = <span class="pk"></span>
+    </p>
+    <div class="rows">
+      <span class="nm">fork</span><span class="bt"
+        ><span class="seg s-base"></span><span class="seg s-wr"></span><span class="seg s-rr"></span></span
+      ><span class="cv"></span>
+      <span class="nm">fold</span><span class="bt"
+        ><span class="seg s-base"></span><span class="seg s-wr"></span><span class="seg s-rr"></span></span
+      ><span class="cv"></span>
+      <span class="nm">clean subagent</span><span class="bt ref"
+        ><span class="seg s-base"></span><span class="seg s-wr"></span><span class="seg s-rr"></span><span
+          class="seg s-re"></span></span
+      ><span class="rv"></span>
+    </div>
+    <p class="keys">
+      <span class="k-base">base re-read every turn</span>
+      <span class="k-wr">loop growth, written once</span>
+      <span class="k-rr">loop growth, re-read as it grows</span>
+      <span class="k-re">re-reading what the parent had read</span>
+    </p>
+    <p class="verdict">
+      <span class="v0">At turn 30, fork and fold end ~130K above the clean subagent: B is 100K, re-read every turn.</span>
+      <span class="v1">Parent already folded: at turn 30, fork and fold end ~50K below the clean subagent.</span>
+    </p>
+  </div>
+  <p class="assume">
+    <span class="em">Assumes the same work on both sides.</span> The fork's cost is the parent prefix re-read at the
+    cached price each turn; the clean subagent's extra cost is re-reading what the parent had already read (counted
+    here) and the handoff prompt the parent writes for it (left out). With the parent already folded (B = 40K), fork
+    and fold cost ~533K, less than the clean subagent's ~583K: folding is what makes fork affordable.
+    <span class="model"
+      >Model from the post: 30 loop turns (drawn as 5 blocks) growing the context by 150K, cached reads at
+      1/10, writes at 1.25x, the clean child re-reads ~30K</span
+    >
+  </p>
+
+  <div id="f4-desc" class="sr-only"><slot /></div>
+</figure>
+
+<style>
+  /* Registered so they interpolate; positions and counters are calc() of these. */
+  @property --f4-t {
+    syntax: '<number>';
+    inherits: true;
+    initial-value: 7;
+  }
+  @property --f4-k {
+    syntax: '<number>';
+    inherits: true;
+    initial-value: 30;
+  }
+  @property --f4-B {
+    syntax: '<number>';
+    inherits: true;
+    initial-value: 100;
+  }
+  @property --f4-fo {
+    syntax: '<number>';
+    inherits: true;
+    initial-value: 0;
+  }
+  @property --f4-px {
+    syntax: '<length>';
+    inherits: true;
+    initial-value: 224px;
+  }
+  @property --f4-cost {
+    syntax: '<integer>';
+    inherits: true;
+    initial-value: 0;
+  }
+  @property --f4-ref {
+    syntax: '<integer>';
+    inherits: true;
+    initial-value: 0;
+  }
+  @property --f4-turn {
+    syntax: '<integer>';
+    inherits: true;
+    initial-value: 0;
+  }
+  @property --f4-pk {
+    syntax: '<integer>';
+    inherits: true;
+    initial-value: 100;
+  }
+
+  .f4 {
+    --f4-t: 7;
+    --f4-k: 30;
+    --f4-B: 100;
+    --f4-fo: 0;
+    /* Where B ends and the loop / note start, on every lane. */
+    --f4-px: 224px;
+    transition:
+      --f4-t 0.7s ease,
+      --f4-k 0.9s ease,
+      --f4-B 0.6s ease,
+      --f4-fo 0.6s ease,
+      --f4-px 0.6s ease;
+    /* The post's table, per turn k of 30, in K uncached-equivalent:
+       base: B (or the clean child's 15K) re-read at 1/10 every turn;
+       written: 150K of loop growth (5K a turn) written once at 1.25x;
+       regrown: that growth re-read at 1/10 as it accumulates, 0.25 k^2 (225K at k = 30);
+       reread: the clean child reads ~30K the parent had read, written at 1.25x on the
+       first turn (~38K), then re-read at 1/10 every later turn (~125K at k = 30). */
+    --f4-base: calc(0.1 * var(--f4-B) * var(--f4-k));
+    --f4-base-c: calc(1.5 * var(--f4-k));
+    --f4-wr: calc(6.25 * var(--f4-k));
+    --f4-rr: calc(0.25 * var(--f4-k) * var(--f4-k));
+    --f4-re: calc(38 * min(var(--f4-k), 1) + 3 * max(var(--f4-k) - 1, 0));
+    --f4-cost: calc(var(--f4-base) + var(--f4-wr) + var(--f4-rr));
+    --f4-ref: calc(var(--f4-base-c) + var(--f4-wr) + var(--f4-rr) + var(--f4-re));
+    --f4-turn: calc(var(--f4-k));
+    --f4-pk: calc(var(--f4-B));
+    /* Phases: loop started, "where was I?", returned / folded, end. */
+    --f4-s: clamp(0, var(--f4-t), 1);
+    --f4-w: clamp(0, var(--f4-t) - 4, 1);
+    --f4-f: clamp(0, var(--f4-t) - 5, 1);
+    --f4-e: clamp(0, var(--f4-t) - 6, 1);
+    /* On the figure so the checkbox label can read it too. */
+    counter-reset: f4-pk var(--f4-pk);
+    letter-spacing: normal;
+  }
+  .f4:has(#f4-s0:checked) {
+    --f4-t: 0;
+    --f4-k: 0;
+  }
+  .f4:has(#f4-s1:checked) {
+    --f4-t: 1;
+    --f4-k: 1;
+  }
+  .f4:has(#f4-s2:checked) {
+    --f4-t: 2;
+    --f4-k: 10;
+  }
+  .f4:has(#f4-s3:checked) {
+    --f4-t: 3;
+    --f4-k: 20;
+  }
+  .f4:has(#f4-s4:checked) {
+    --f4-t: 4;
+  }
+  .f4:has(#f4-s5:checked) {
+    --f4-t: 5;
+  }
+  .f4:has(#f4-s6:checked) {
+    --f4-t: 6;
+  }
+  .f4:has(#f4-folded:checked) {
+    --f4-B: 40;
+    --f4-fo: 1;
+    --f4-px: 190px;
+  }
+
+  .f4:has(#f4-s0:checked) .next[for='f4-s1'],
+  .f4:has(#f4-s1:checked) :is(.prev[for='f4-s0'], .next[for='f4-s2']),
+  .f4:has(#f4-s2:checked) :is(.prev[for='f4-s1'], .next[for='f4-s3']),
+  .f4:has(#f4-s3:checked) :is(.prev[for='f4-s2'], .next[for='f4-s4']),
+  .f4:has(#f4-s4:checked) :is(.prev[for='f4-s3'], .next[for='f4-s5']),
+  .f4:has(#f4-s5:checked) :is(.prev[for='f4-s4'], .next[for='f4-s6']),
+  .f4:has(#f4-s6:checked) :is(.prev[for='f4-s5'], .next[for='f4-s7']),
+  .f4:has(#f4-s7:checked) .prev[for='f4-s6'] {
+    visibility: visible;
+  }
+  /* Own line, so showing one or both labels (or the autoplay toggle) never changes the height. */
+  .f4 .navs {
+    order: 1;
+    flex-basis: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 4px 24px;
+  }
+  /* Room for both labels, so the checkbox wraps the same way on every step. */
+  .f4 .navs > span {
+    min-width: 130px;
+  }
+
+
+  .f4 .scroll {
+    overflow-x: auto;
+  }
+  .f4 .stage {
+    width: 760px;
+    font-size: 10px;
+    line-height: 1;
+  }
+  .f4 .grp {
+    position: relative;
+    height: 124px;
+  }
+  .f4 .grp + .grp {
+    margin-top: 14px;
+    padding-top: 10px;
+    border-top: 1px dotted var(--rule);
+  }
+  .f4 .hd {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+    font-size: 12px;
+    color: var(--accent-ink);
+    white-space: nowrap;
+  }
+  .f4 .hd .sub {
+    font-size: 11px;
+    color: var(--muted-ink);
+  }
+  .f4 .lbl {
+    position: absolute;
+    color: var(--comment-ink);
+    white-space: nowrap;
+  }
+  .f4 .lane-m {
+    top: 20px;
+    left: 0;
+  }
+
+  /* Blocks share fig 1's look: one turn each, links drawn as the gap to the previous block. */
+  .f4 .blk {
+    position: absolute;
+    box-sizing: border-box;
+    height: 24px;
+    padding: 0 5px;
+    border: 1px solid color-mix(in oklab, var(--ink) 50%, transparent);
+    background: var(--surface-bg);
+    color: var(--ink);
+    line-height: 22px;
+    white-space: nowrap;
+  }
+  .f4 .blk > span {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .f4 .blk.u > span {
+    font-style: italic;
+  }
+  .f4 .lk::before {
+    content: '';
+    position: absolute;
+    right: 100%;
+    top: 10px;
+    width: var(--g, 6px);
+    border-top: 1.5px solid var(--ink);
+  }
+  /* Cached prefix: --link-ink underline. */
+  .f4 .c {
+    border-bottom: 3px solid var(--link-ink);
+  }
+
+  .f4 .pre {
+    position: absolute;
+    left: 0;
+    height: 24px;
+    width: var(--f4-px);
+  }
+  .f4 .pre .blk {
+    top: 0;
+  }
+  .f4 .pre .x {
+    opacity: calc(1 - var(--f4-fo));
+  }
+  .f4 .pre .q3 {
+    opacity: var(--f4-fo);
+    color: var(--accent-ink);
+  }
+
+  .f4 .lp {
+    top: var(--y);
+    left: calc(var(--f4-px) + var(--x));
+    border-color: var(--loop);
+    background: color-mix(in oklab, var(--loop) 7%, var(--surface-bg));
+    color: var(--loop);
+    opacity: calc(clamp(0, var(--f4-t) - var(--i) + 1, 1) * (1 - 0.4 * var(--f4-f)));
+  }
+  .f4 .fold .lp {
+    --y: calc(36px + 44px * var(--f4-f));
+  }
+  .f4 .fork .lp {
+    --y: 80px;
+  }
+  .f4 .lp.lk::before {
+    border-top-color: var(--loop);
+  }
+  .f4 .lp.first {
+    --g: 8px;
+  }
+  .f4 .lp.first::before {
+    opacity: calc(1 - var(--f4-f));
+  }
+  .f4 .lp.log {
+    background: color-mix(in oklab, var(--loop) 24%, var(--surface-bg));
+  }
+  .f4:has(:is(#f4-s6, #f4-s7):checked) .lp {
+    border-style: dashed;
+    background: transparent;
+  }
+
+  .f4 .note {
+    top: 36px;
+    width: 84px;
+    border-color: var(--accent-ink);
+    border-bottom: 3px solid var(--metric-ink);
+    background: color-mix(in oklab, var(--accent-ink) 12%, var(--surface-bg));
+    color: var(--accent-ink);
+    --g: 8px;
+  }
+  .f4 .note::before {
+    opacity: clamp(0, (var(--f4-f) - 0.9) * 10, 1);
+  }
+  .f4 .front {
+    top: 36px;
+    left: calc(var(--f4-px) + 90px);
+    width: 70px;
+    opacity: var(--f4-e);
+  }
+
+  .f4 .dec {
+    position: absolute;
+    width: 0;
+    border-left: 2px solid var(--metric-ink);
+  }
+  .f4 .dec-l {
+    color: var(--metric-ink);
+  }
+
+  /* ---- fork ---- */
+  .f4 .fork .fm {
+    top: 36px;
+    opacity: calc(1 - 0.55 * var(--f4-s) * (1 - var(--f4-f)));
+  }
+  .f4 .fork .fc {
+    top: 80px;
+    opacity: calc(var(--f4-s) * (1 - var(--f4-f)));
+    transform: translateY(calc((1 - var(--f4-s)) * -44px));
+  }
+  .f4 .fork .wait {
+    position: absolute;
+    top: 47px;
+    left: calc(var(--f4-px) - 8px);
+    width: 522px;
+    border-top: 1.5px dashed var(--ink);
+    opacity: calc(var(--f4-s) * (1 - var(--f4-f)));
+  }
+  .f4 .fork .wait-l {
+    top: 42px;
+    left: calc(var(--f4-px) + 150px);
+    padding: 0 6px;
+    background: var(--page-bg);
+    color: var(--muted-ink);
+    opacity: calc(var(--f4-s) * (1 - var(--f4-f)));
+  }
+  .f4 .fork .dec {
+    left: calc(var(--f4-px) - 5px);
+    top: 18px;
+    height: 90px;
+    opacity: calc(var(--f4-s) * (1 - 0.6 * var(--f4-e)));
+  }
+  .f4 .fork .dec-l {
+    top: 20px;
+    left: calc(var(--f4-px) + 2px);
+    opacity: calc(var(--f4-s) * (1 - 0.6 * var(--f4-e)));
+  }
+  .f4 .fork .copy-l {
+    top: 110px;
+    left: 0;
+    color: var(--link-ink);
+    opacity: calc(var(--f4-s) * (1 - var(--f4-f)));
+  }
+  .f4 .fork .ret-l {
+    top: 110px;
+    left: calc(var(--f4-px) + 456px);
+    color: var(--accent-ink);
+    opacity: calc(var(--f4-w) * (1 - var(--f4-f)));
+  }
+  .f4:has(#f4-s5:checked) .fork .last {
+    outline: 2px solid var(--accent-ink);
+    outline-offset: 2px;
+  }
+  /* The child's last message rises from the copy lane onto the main thread. */
+  .f4 .fork .note {
+    left: calc(var(--f4-px) + (1 - var(--f4-f)) * 456px);
+    top: calc(36px + (1 - var(--f4-f)) * 44px);
+    opacity: min(1, calc(var(--f4-f) * 3));
+  }
+
+  /* ---- fold ---- */
+  .f4 .fold .dm {
+    top: 36px;
+  }
+  /* Per-turn marks the harness keeps for free; the fold picks one of them. */
+  .f4 .fold .dm .blk::after,
+  .f4 .fold .lp::after {
+    content: '';
+    position: absolute;
+    left: -1px;
+    top: -7px;
+    height: 5px;
+    border-left: 1px solid var(--comment-ink);
+    opacity: calc(var(--f4-w) * (1 - var(--f4-f)));
+  }
+  .f4 .fold .lp.first::after {
+    top: -11px;
+    height: 9px;
+    border-left: 2px solid var(--metric-ink);
+  }
+  .f4 .fold .start-l {
+    top: 20px;
+    left: calc(var(--f4-px) + 4px);
+    color: var(--metric-ink);
+    opacity: calc(var(--f4-w) * (1 - var(--f4-f)));
+  }
+  .f4 .fold .dec {
+    left: calc(var(--f4-px) + 518px);
+    top: 18px;
+    height: 46px;
+    opacity: calc(var(--f4-w) * (1 - 0.6 * var(--f4-e)));
+  }
+  .f4 .fold .dec-l {
+    top: 20px;
+    right: calc(760px - var(--f4-px) - 514px);
+    opacity: calc(var(--f4-w) * (1 - 0.6 * var(--f4-e)));
+  }
+  .f4 .fold .where {
+    top: 2px;
+    right: calc(760px - var(--f4-px) - 514px);
+    font-size: 12px;
+    color: var(--accent-ink);
+    opacity: calc(var(--f4-w) * (1 - var(--f4-f)));
+  }
+  /* The span collapses into the note at the chosen start. */
+  .f4 .fold .note {
+    left: var(--f4-px);
+    width: calc(514px - 430px * var(--f4-f));
+    opacity: var(--f4-f);
+  }
+
+  .f4 .lane2 {
+    top: 66px;
+    left: 0;
+    display: grid;
+  }
+  .f4 .lane2 .a0,
+  .f4 .lane2 .a1 {
+    grid-area: 1 / 1;
+  }
+  .f4 .lane2 .a0 {
+    opacity: calc(1 - var(--f4-f));
+  }
+  .f4 .fork .lane2 .a0 {
+    opacity: calc(var(--f4-s) * (1 - var(--f4-f)));
+  }
+  .f4 .lane2 .a1 {
+    opacity: var(--f4-f);
+  }
+
+  /* End: both main threads and both archives are the same. */
+  .f4 .same {
+    position: absolute;
+    box-sizing: border-box;
+    border: 1px dashed var(--accent-ink);
+    opacity: var(--f4-e);
+    pointer-events: none;
+  }
+  .f4 .same.sm {
+    left: -4px;
+    top: 32px;
+    height: 32px;
+    width: calc(var(--f4-px) + 168px);
+  }
+  .f4 .same.sa {
+    left: calc(var(--f4-px) - 4px);
+    top: 76px;
+    height: 32px;
+    width: 522px;
+  }
+  .f4 .same-l {
+    color: var(--accent-ink);
+    opacity: var(--f4-e);
+  }
+  .f4 .same-l.m {
+    top: 43px;
+    left: calc(var(--f4-px) + 172px);
+  }
+  .f4 .same-l.a {
+    top: 112px;
+    left: var(--f4-px);
+  }
+
+  .f4 .legend,
+  .f4 .keys {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 20px;
+    margin: 10px 0 0;
+    font-size: 11px;
+    color: var(--muted-ink);
+  }
+  .f4 .legend span::before,
+  .f4 .keys span::before {
+    content: '';
+    display: inline-block;
+    width: 14px;
+    height: 3px;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+  .f4 .legend .lc::before {
+    background: var(--link-ink);
+  }
+  .f4 .legend .lf::before {
+    background: var(--metric-ink);
+  }
+  .f4 .legend .le::before {
+    height: 10px;
+    background: color-mix(in oklab, var(--loop) 30%, var(--surface-bg));
+    box-shadow: inset 0 0 0 1px var(--loop);
+  }
+  .f4 .legend .ld::before {
+    width: 2px;
+    height: 12px;
+    background: var(--metric-ink);
+  }
+
+  .f4 .caps {
+    display: grid;
+    margin-top: 10px;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .f4 .caps p {
+    grid-area: 1 / 1;
+    margin: 0;
+    visibility: hidden;
+  }
+  .f4:has(#f4-s0:checked) .caps p:nth-child(1),
+  .f4:has(#f4-s1:checked) .caps p:nth-child(2),
+  .f4:has(#f4-s2:checked) .caps p:nth-child(3),
+  .f4:has(#f4-s3:checked) .caps p:nth-child(4),
+  .f4:has(#f4-s4:checked) .caps p:nth-child(5),
+  .f4:has(#f4-s5:checked) .caps p:nth-child(6),
+  .f4:has(#f4-s6:checked) .caps p:nth-child(7),
+  .f4:has(#f4-s7:checked) .caps p:nth-child(8) {
+    visibility: visible;
+  }
+
+  /* Cost counters: one scale for all three rows, stacked by the rows of the post's table. */
+  .f4 .costs {
+    margin-top: 12px;
+    padding: 12px 16px;
+    background: var(--surface-bg);
+    font-size: 12px;
+    line-height: 1.5;
+    counter-reset: f4-cost var(--f4-cost) f4-ref var(--f4-ref) f4-turn var(--f4-turn);
+  }
+  .f4 .costs p {
+    margin: 0;
+  }
+  .f4 .costs .h {
+    margin-bottom: 6px;
+    color: var(--muted-ink);
+  }
+  .f4 .tn::after {
+    content: counter(f4-turn) '/30';
+    color: var(--ink);
+  }
+  .f4 .pk::after {
+    content: counter(f4-pk) 'K';
+  }
+  .f4 .rows {
+    display: grid;
+    grid-template-columns: 15ch minmax(0, 1fr) 7ch;
+    gap: 6px 12px;
+    align-items: center;
+  }
+  .f4 .bt {
+    display: flex;
+    height: 10px;
+  }
+  .f4 .seg {
+    height: 100%;
+  }
+  .f4 .s-base,
+  .f4 .k-base::before {
+    background: var(--link-ink);
+  }
+  .f4 .s-wr,
+  .f4 .k-wr::before {
+    background: var(--metric-ink);
+  }
+  .f4 .s-rr,
+  .f4 .k-rr::before {
+    background: color-mix(in oklab, var(--loop) 55%, var(--surface-bg));
+  }
+  .f4 .s-re,
+  .f4 .k-re::before {
+    background: var(--comment-ink);
+  }
+  .f4 .keys span::before {
+    height: 8px;
+    width: 8px;
+  }
+  /* Scale: 720K is the full track. */
+  .f4 .s-base {
+    width: calc(var(--f4-base) / 720 * 100%);
+  }
+  .f4 .ref .s-base {
+    width: calc(var(--f4-base-c) / 720 * 100%);
+  }
+  .f4 .s-wr {
+    width: calc(var(--f4-wr) / 720 * 100%);
+  }
+  .f4 .s-rr {
+    width: calc(var(--f4-rr) / 720 * 100%);
+  }
+  .f4 .s-re {
+    width: calc(var(--f4-re) / 720 * 100%);
+  }
+  .f4 .cv,
+  .f4 .rv {
+    text-align: right;
+    color: var(--metric-ink);
+  }
+  .f4 .cv::after {
+    content: '~' counter(f4-cost) 'K';
+  }
+  .f4 .rv::after {
+    content: '~' counter(f4-ref) 'K';
+  }
+  .f4 .verdict {
+    display: grid;
+    margin-top: 8px;
+    color: var(--ink);
+  }
+  .f4 .verdict .v0,
+  .f4 .verdict .v1 {
+    grid-area: 1 / 1;
+  }
+  .f4 .verdict .v1,
+  .f4:has(#f4-folded:checked) .verdict .v0 {
+    visibility: hidden;
+  }
+  .f4:has(#f4-folded:checked) .verdict .v1 {
+    visibility: visible;
+    color: var(--accent-ink);
+  }
+  .f4 .assume {
+    margin: 8px 0 0;
+    font-size: 12px;
+    color: var(--muted-ink);
+  }
+  .f4 .assume .em {
+    color: var(--ink);
+  }
+  .f4 .assume .model {
+    display: block;
+    color: var(--comment-ink);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .f4 {
+      transition: none;
+    }
+  }
+</style>

@@ -1,6 +1,7 @@
 ---
 import { getImage } from 'astro:assets';
 import { type CollectionEntry, getCollection, render } from 'astro:content';
+import PostComments from '../components/post-comments.astro';
 import PostHeader from '../components/post-header.astro';
 import Document from '../layouts/document.astro';
 
@@ -93,15 +94,7 @@ const ldJson = JSON.stringify({
         <a href='/posts'>← all posts</a>
         <a href={`https://github.com/arthurfiorette/place/issues?q=${encodeURIComponent(`is:issue ${post.data.title}`)}`}>comments on GitHub</a>
       </div>
-      <script
-        is:inline
-        src='https://utteranc.es/client.js'
-        repo='arthurfiorette/place'
-        issue-term='title'
-        label='posts'
-        theme='preferred-color-scheme'
-        crossorigin='anonymous'
-        async></script>
+      <PostComments />
     </section>
   </div>
 

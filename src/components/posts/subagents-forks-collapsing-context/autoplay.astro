@@ -1,0 +1,108 @@
+---
+// Include once per stepped figure; Astro bundles and runs the script once per page.
+---
+
+<script>
+  // Progressive enhancement: every figure steps manually without JS. This only
+  // moves the checked radio forward; the CSS already reacts to :checked.
+  // Setting `.checked` from script fires no events, so the listeners below only
+  // ever see real reader input.
+  const IDLE_MS = 10_000;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+
+  for (const group of document.querySelectorAll<HTMLFieldSetElement>('fieldset[data-autoplay]')) {
+    // The toggle only makes sense where autoplay can happen at all.
+    if (reduce.matches) continue;
+
+    const radios = [...group.querySelectorAll<HTMLInputElement>('input[type="radio"]')];
+    const stepMs = Number(group.dataset.autoplay) || 1000;
+    // 'waiting' until the reader points at the figure (or presses play); 'auto' plays;
+    // 'idle' resumes by itself at resumeAt (after manual stepping); 'off' waits for the
+    // toggle (the reader asked it to stop); 'done' stops on the last step instead of
+    // looping, until the reader asks for a replay.
+    let mode: 'waiting' | 'auto' | 'idle' | 'off' | 'done' = 'waiting';
+    let resumeAt = 0;
+    let visible = false;
+    let timer: ReturnType<typeof setInterval> | undefined;
+    let hoverStartedAt = 0;
+    const figure = group.closest('figure') ?? group;
+
+    // The markup ships the finished state for readers without JS; with JS the figure
+    // waits at the first step until it is seen, so the build-up plays from the start.
+    radios[0].checked = true;
+
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'autoplay-toggle';
+    group.after(button);
+
+    const render = () => {
+      button.textContent = mode === 'auto' ? '❚❚ pause' : mode === 'done' ? '↺ replay' : '▶ play';
+    };
+    render();
+
+    // Restarting the interval gives the current step a full beat before the next one.
+    const play = () => {
+      mode = 'auto';
+      render();
+      clearInterval(timer);
+      timer = visible ? setInterval(tick, stepMs) : undefined;
+    };
+
+    button.addEventListener('click', () => {
+      // A tap on the button fires pointerenter first; that already started playback.
+      if (mode === 'auto' && Date.now() - hoverStartedAt < 400) return;
+      if (mode === 'auto') {
+        mode = 'off';
+        render();
+        return;
+      }
+      if (mode === 'done') radios[0].checked = true;
+      play();
+    });
+
+    // Starts on the first hover; a tap counts too, since touch fires pointerenter.
+    // Leaving the figure does not stop it, so moving the mouse away to read is fine.
+    figure.addEventListener('pointerenter', () => {
+      if (mode !== 'waiting') return;
+      hoverStartedAt = Date.now();
+      play();
+    });
+
+    // Only stepping pauses: chips, arrow keys, and prev/next labels all check
+    // one of these radios, and the change bubbles through the fieldset.
+    group.addEventListener('change', (event) => {
+      if (!radios.includes(event.target as HTMLInputElement)) return;
+      mode = 'idle';
+      resumeAt = Date.now() + IDLE_MS;
+      render();
+    });
+
+    const tick = () => {
+      if (mode === 'idle' && Date.now() >= resumeAt) {
+        mode = 'auto';
+        render();
+      }
+      if (mode !== 'auto') return;
+
+      const next = radios.findIndex((radio) => radio.checked) + 1;
+      if (next < radios.length) radios[next].checked = true;
+      if (next >= radios.length - 1) {
+        mode = 'done';
+        render();
+      }
+    };
+
+    // Plays only while on screen. The bottom margin makes "on screen" mean at least
+    // ~100px of the figure is showing, not a sliver at the edge. The interval restarts
+    // on entry so the first step always gets a full beat.
+    new IntersectionObserver(
+      ([entry]) => {
+        visible = entry.isIntersecting;
+        clearInterval(timer);
+        timer = visible ? setInterval(tick, stepMs) : undefined;
+      },
+      { rootMargin: '0px 0px -100px 0px' }
+    ).observe(figure);
+  }
+</script>

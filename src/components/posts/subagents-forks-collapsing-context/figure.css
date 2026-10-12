@@ -1,0 +1,135 @@
+/* Shared by every figure of this post. Global on purpose: scoped component styles
+   build on these class names. The .article-copy prefixes make these beat the article's
+   same-specificity rules (figure margin, figcaption) regardless of stylesheet order. */
+.article-copy .post-fig {
+  margin: 36px 0;
+  padding: 18px 0;
+  border-block: 1px dashed var(--rule);
+  font-size: 15px;
+  line-height: 1.75;
+  letter-spacing: normal;
+  overflow-wrap: normal;
+}
+
+.article-copy .post-fig > figcaption {
+  margin: 0 0 14px;
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.75;
+  text-align: left;
+}
+
+/* .article-copy styles prose elements; figures lay out their own. */
+.article-copy .post-fig :where(p, ul, ol, li, pre, details, table, figure) {
+  margin: 0;
+  padding: 0;
+}
+.article-copy .post-fig :where(details) {
+  border: 0;
+}
+.article-copy .post-fig :where(table) {
+  min-width: 0;
+}
+.article-copy .post-fig :where(:not(pre) > code) {
+  padding: 0;
+  background: none;
+  color: inherit;
+  font-size: inherit;
+}
+
+.post-fig-title {
+  color: var(--accent-ink);
+  font-weight: 500;
+}
+.post-fig .muted {
+  color: var(--muted-ink);
+  font-size: 13px;
+}
+
+.post-fig .sr-only,
+.post-fig .chips input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  clip-path: inset(50%);
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.post-fig .chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 12px;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  font-size: 12px;
+  color: var(--comment-ink);
+}
+.post-fig .chips legend {
+  float: left;
+  margin-right: 8px;
+  padding: 0;
+}
+.post-fig .chips label {
+  cursor: pointer;
+}
+.post-fig .chips label:has(input:checked) {
+  color: var(--accent-ink);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.post-fig .chips label:has(input:focus-visible) {
+  outline: 2px solid var(--accent-ink);
+  outline-offset: 3px;
+}
+
+.post-fig .controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  align-items: center;
+  margin: 12px 0;
+}
+/* prev and next sit in fixed slots and hidden ones keep their space (visibility, not
+   display), so "next" never moves under the pointer when "prev" appears. Each figure's
+   rules make the right label visible for the current step. */
+.article-copy .post-fig :is(.navs, .nav-pair):has(> .nav) {
+  display: inline-grid;
+  grid-template-columns: auto auto;
+  justify-content: start;
+  column-gap: 1.5ch;
+}
+.post-fig .nav {
+  grid-row: 1;
+  visibility: hidden;
+  cursor: pointer;
+  color: var(--link-ink);
+  font-size: 12px;
+}
+.post-fig .nav.prev {
+  grid-column: 1;
+}
+.post-fig .nav.next {
+  grid-column: 2;
+}
+
+/* Inserted by autoplay.astro next to each stepped fieldset. */
+.post-fig .autoplay-toggle {
+  font: inherit;
+  font-size: 12px;
+  color: var(--link-ink);
+  background: none;
+  border: 0;
+  padding: 0 4px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.post-fig .autoplay-toggle:hover {
+  color: var(--ink);
+}
+.post-fig .autoplay-toggle:focus-visible {
+  outline: 2px solid var(--accent-ink);
+  outline-offset: 3px;
+}

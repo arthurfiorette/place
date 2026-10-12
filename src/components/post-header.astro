@@ -40,6 +40,6 @@ const { date, post } = Astro.props;
         decoding='async'
       />
     )}
-    {post.data.image.description && <figcaption class='mt-1.5 text-center text-[11px] leading-snug text-[var(--muted-ink)]'>{post.data.image.description}</figcaption>}
+    {post.data.image.description && <figcaption>{post.data.image.description}</figcaption>}
   </figure>}
 </header>

@@ -1,0 +1,51 @@
+<div class='post-comments'>
+  <script is:inline>
+    (() => {
+      const container = document.currentScript.parentElement;
+      const origin = 'https://utteranc.es';
+      const systemTheme = matchMedia('(prefers-color-scheme: dark)');
+      const script = document.createElement('script');
+      let readyFrame = null;
+      let appliedTheme = null;
+
+      const syncTheme = () => {
+        const preference = document.documentElement.dataset.theme;
+        const dark = preference === 'dark' || (preference !== 'light' && systemTheme.matches);
+        const theme = dark ? 'github-dark' : 'github-light';
+        script.setAttribute('theme', theme);
+        if (readyFrame && appliedTheme !== theme) {
+          readyFrame.postMessage({ type: 'set-theme', theme }, origin);
+          appliedTheme = theme;
+        }
+      };
+
+      // The first resize arrives after Utterances installs its theme listener.
+      // Reapply here in case the preference changed while the iframe was loading.
+      window.addEventListener('message', (event) => {
+        const frame = container.querySelector('iframe.utterances-frame');
+        if (event.origin !== origin || !frame || event.source !== frame.contentWindow || event.data?.type !== 'resize') return;
+        if (readyFrame !== event.source) {
+          readyFrame = event.source;
+          appliedTheme = null;
+        }
+        syncTheme();
+      });
+
+      document.addEventListener('change', (event) => {
+        if (event.target instanceof HTMLInputElement && event.target.closest('.theme-switch')) syncTheme();
+      });
+      systemTheme.addEventListener('change', syncTheme);
+      window.addEventListener('pageshow', syncTheme);
+
+      // Set the initial theme before loading the embed to avoid a mismatched flash.
+      syncTheme();
+      script.src = `${origin}/client.js`;
+      script.setAttribute('repo', 'arthurfiorette/place');
+      script.setAttribute('issue-term', 'title');
+      script.setAttribute('label', 'posts');
+      script.crossOrigin = 'anonymous';
+      script.async = true;
+      container.appendChild(script);
+    })();
+  </script>
+</div>

@@ -7,7 +7,7 @@
     "build": "astro build",
     "postbuild": "node scripts/resume-to-pdf.mjs",
     "dev": "astro dev",
-    "format": "biome format --write . && prettier --write **/*.md",
+    "format": "biome format --write . && prettier --write **/*.{md,mdx}",
     "lint": "biome check .",
     "lint-ci": "biome ci .",
     "lint-fix": "biome check --write --unsafe .",

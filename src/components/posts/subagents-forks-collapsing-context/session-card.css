@@ -1,0 +1,86 @@
+/* Session/chat mockup card shared by the fork-vs-other-agent, going-back and
+   tool-result-to-note figures. The .article-copy prefix beats figure.css's prose reset
+   while staying below each component's scoped rules, which add fig-specific variants. */
+.article-copy .post-fig .sess {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  border: 1px solid var(--rule);
+  background: var(--surface-bg);
+  font-size: 12px;
+  line-height: 1.55;
+  letter-spacing: normal;
+}
+.article-copy .post-fig .sess-h {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0 12px;
+  padding: 4px 10px;
+  border-bottom: 1px dashed var(--rule);
+  font-size: 11px;
+  color: var(--comment-ink);
+}
+.article-copy .post-fig .sess-h b {
+  font-weight: 500;
+  color: var(--ink);
+}
+.article-copy .post-fig .sess-b {
+  flex: 1;
+  list-style: none;
+  margin: 0;
+  padding: 6px 0;
+}
+.article-copy .post-fig .sess-f {
+  padding: 4px 10px;
+  border-top: 1px dashed var(--rule);
+  font-size: 11px;
+  color: var(--comment-ink);
+}
+.article-copy .post-fig .ln {
+  display: grid;
+  grid-template-columns: 8ch minmax(0, 1fr);
+  gap: 0 10px;
+  margin: 0;
+  padding: 1px 10px 1px 7px;
+  border-left: 3px solid transparent;
+}
+.article-copy .post-fig .who {
+  color: var(--comment-ink);
+}
+.article-copy .post-fig .msg {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.article-copy .post-fig .user .who {
+  color: var(--ink);
+}
+.article-copy .post-fig .tool .msg {
+  color: var(--muted-ink);
+}
+.article-copy .post-fig .res {
+  padding-left: 2ch;
+}
+.article-copy .post-fig .note .msg {
+  color: var(--accent-ink);
+}
+.article-copy .post-fig .hd {
+  color: var(--accent-ink);
+  white-space: nowrap;
+}
+.article-copy .post-fig .num {
+  color: var(--metric-ink);
+}
+.article-copy .post-fig .cm {
+  color: var(--comment-ink);
+}
+.article-copy .post-fig .ok {
+  color: var(--accent-ink);
+}
+.article-copy .post-fig .check::before {
+  content: "[ ] ";
+  white-space: pre;
+}
+.article-copy .post-fig .check:has(input:checked)::before {
+  content: "[x] ";
+}
