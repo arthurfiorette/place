@@ -3,7 +3,7 @@ title: 'My take on subagents, forks and collapsing context'
 date: 2026/10/12 18:45:00
 keywords: [ai, agents, context, memory, subagents, compaction, harness]
 description: A thought on "where was I?", how we think, and why agents should too.
-published: false
+published: true
 image:
   src: ../../assets/blog/subagents-forks-collapsing-context.png
   alt: A red thread winds through a landscape of papers, maps, and filing drawers.
@@ -20,119 +20,111 @@ import ForkVsFold from '../../components/posts/subagents-forks-collapsing-contex
 import ForkVsOtherAgent from '../../components/posts/subagents-forks-collapsing-context/fork-vs-other-agent.astro';
 import GoingBack from '../../components/posts/subagents-forks-collapsing-context/going-back.astro';
 
-> **tl;dr** Agent harnesses compact the whole session when the window fills. I think they
-> should fold each finished piece of work into a short note the moment it ends, keep the
-> full span archived and askable, and fork with the parent's context instead of starting
-> subagents from an empty prompt. I built it as a pi package,
-> [try it today](#try-it-today). And if this is the kind of problem your team works on, I
-> am open to work: [curriculum](/curriculum).
+> **tl;dr** Agent harnesses compact the whole session when the window fills. Fold each
+> finished episode into a short note when it ends, keep the full span archived and
+> askable, and fork with the parent's context instead of briefing a subagent from scratch.
+> I built it as a pi package, [try it today](#try-it-today). If this is the kind of
+> problem your team works on, I am open to work: [curriculum](/curriculum).
 
-Most of the time when I open a subagent to read its starting prompt, it has the task and
-very little of what the parent knew. The parent had spent a while on the problem. It knew
-what had already been tried, which guess had been ruled out, which constraint I gave at
-the start. The prompt it wrote carries almost none of that, and the child starts figuring
-things out from scratch. When it reports back, the report is short, and whatever the child
-understood beyond the report stays in a transcript nobody opens.
+Most subagent prompts I open carry the task and little of what the parent knew: what was
+tried, which guess was ruled out, which constraint I gave at the start. The child
+re-derives all of it. When it reports back, the report is short, and whatever else it
+understood stays in a transcript nobody opens.
 
 There are two problems in that:
 
 1. The child started empty, because everything the parent knew had to be written into a
    prompt before the work, by a parent whose main job was never to write that prompt.
-2. The parent delegated at all because the "usual" advice for anything log-heavy is "run
-   it in a subagent", so the main context does not fill with logs.
+2. The parent delegated at all because the usual advice for anything log-heavy is "run it
+   in a subagent", so the main context does not fill with logs.
 
 The first is a handoff problem. The second is a bloat problem. I think they are two halves
 of one missing move.
 
-The case I will use for the whole post is making a project build. The agent runs the
-build, reads the log, fixes something, runs again, and repeats until it passes. Most of
-what that produces is build and tooling output. What the rest of the session needs from it
-is a few lines:
+Terms used below: an **episode** is one span of work around a local question. A **fold**
+replaces a finished episode with a short **note** plus a **handle** that points back to
+the archived span. A **fork** runs a copy of the agent with the parent's current context.
+**Recall** searches the archive without a model call, and **ask** puts one question to an
+archived thread.
+
+The running example is making a project build. The agent runs the build, reads the log,
+fixes something, and repeats until it passes. Most of that is tooling output. What the
+rest of the session needs is a few lines:
 
 - it builds
 - what was changed
 - what is still unchecked.
 
-Everything else was useful while the loop was running and is finished now, and it stays in
-the context competing for attention with whatever comes next.
+Everything else was useful while the loop ran and is finished now, but it stays in context
+competing with whatever comes next.
 
 <Tangent>
-  A task drawn as a list of turns on a main thread. At the build step the agent goes on a
-  tangent: it runs the build, reads a 400-line failing log, tries a guess, gets corrected
-  by the user, regenerates the API client and builds again. When the build passes, the
-  whole tangent collapses into one short note on the main thread, with a handle that
-  points back to the archived tangent, and the main thread continues.
+  Figure 1: the build loop goes off on a tangent, then folds into one note with handle
+  b2e4. The full tangent stays archived and reachable.
 </Tangent>
 
-Harnesses deal with that by compacting: when the window is nearly full, summarize what is
-there and continue. I think the summarizing should happen when a piece of work finishes,
-over that piece of work only, with the full record kept reachable. This post is the
-argument for that, and the argument borrows from how people already do it, since, for most
-of history, a brain was the only thing that had to manage a small working memory.
+Harnesses deal with that by compacting: when the window is nearly full, summarize
+everything and continue. I think the summary should happen when a piece of work finishes,
+over that piece only, with the full record kept reachable. The argument borrows from how
+people already do it, since for most of history a brain was the only thing managing a
+small working memory.
 
-The workaround most of us already use says the same thing. Before thinking about any of
-this, I used to ask the main agent to write a markdown file with the context and the
-reasoning so far, and pass the path to every following subagent, so they all shared one
-written brain. It helps a bit. It is also me doing by hand what the harness should be
-doing, and the file can only take three shapes:
+The workaround most of us already use says the same thing. I used to ask the main agent to
+keep a markdown file with the context and reasoning so far, and pass the path to every
+subagent, so they shared one written brain. It helps, and it is me doing by hand what the
+harness should do. The file can only take three shapes:
 
 1. Written once, before the work. It lacks whatever the work reveals.
-2. Appended to as the work goes. It grows into a log that every subagent has to read in
-   full, most of which has nothing to do with its task. That is the bloat problem moved
-   into a file.
-3. Rewritten by the agent as it goes, so it always holds the current state. This is the
-   best one, and it is close to what this post proposes.
+2. Appended to as the work goes. It grows into a log every subagent must read in full,
+   most of it irrelevant. That moves the bloat into a file.
+3. Rewritten as it goes, so it always holds the current state. This is the best one, and
+   close to what this post proposes.
 
 The third shape is a note without a harness behind it. Nothing tells the agent when to
-rewrite the file, whatever it drops in a rewrite is gone for good, and there is no thread
-behind the file to go back to when the note turns out to be too thin. Those three gaps are
-what the rest of the post is about.
+rewrite it, whatever it drops is gone for good, and there is no thread behind it to
+revisit when the note proves too thin. Those three gaps are what the rest of the post is
+about.
 
 ## How I look for knowledge
 
 This is how I, as a person, deal with knowing things.
 
 1. <span id="p1"></span>**I remember that a thing exists, not the thing.** I know the
-   Postgres docs have a page about lock modes. I could not tell you what is on it. Most of
-   what I "know" about a codebase works the same way.
+   Postgres docs have a page about lock modes. I could not recite it. Most of what I
+   "know" about a codebase works the same way.
 
 2. <span id="p2"></span>**I ask the person who knows.** If someone wrote the auth module,
-   I ask them before, or while, I read it. They have the context and they will answer with
-   the nuance I would miss, or take a long time to get to by myself.
+   I ask them while I read it. They answer with nuance I would miss or take long to reach
+   alone.
 
-3. <span id="p3"></span>**I ask someone who was not there.** When I want a review I want
-   someone who does not carry my assumptions or my bias.
+3. <span id="p3"></span>**I ask someone who was not there.** For a review I want someone
+   without my assumptions or bias.
 
-4. <span id="p4"></span>**I go deep, then come back with a note.** When I write a query, I
-   load the ORM, the database, the schema, the one weird thing about that table, all back
-   into my head. When the query is written, that goes away. What stays is the query, and
-   maybe a note like "this only works inside the transaction". Then I move on to the
-   controller and load a different set of things.
+4. <span id="p4"></span>**I go deep, then come back with a note.** To write a query I load
+   the ORM, the schema, and the one weird thing about that table. When the query is
+   written, that goes away. What stays is the query plus maybe "only works inside the
+   transaction".
 
-5. <span id="p5"></span>**I keep two memories.** What I am holding right now, and what I
-   know. The first one is tiny. The second one gets updated as a side effect of working,
-   and things come out of it by association, without me searching.
+5. <span id="p5"></span>**I keep two memories.** What I am holding right now, which is
+   tiny, and what I know, which updates as a side effect of working and surfaces by
+   association.
 
-6. <span id="p6"></span>**"Where was I?"** This is the one I think about the most. A
-   teacher goes on a tangent, finishes it, says _"where was I?"_, and continues from
-   before the tangent with only the point of the tangent kept. Nobody says "I am about to
-   go on a tangent that will end in four minutes". You only know the tangent ended once it
-   ended. I will call this the "where was I?" effect, for lack of a name I could find.
+6. <span id="p6"></span>**"Where was I?"** A teacher goes on a tangent, finishes, says
+   _"where was I?"_, and continues from before it with only the point kept. Nobody
+   announces a tangent will end in four minutes. You only know it ended once it ended. I
+   will call this the "where was I?" effect, for lack of a name I could find.
 
-That is the shape of figure 1. The main thread is the task. The tangent is one of the deep
-dives from [(4)](#p4): expand into everything relevant, produce something, come back. It
-lands on the main thread a bit further along, and the thread continues carrying only what
-the tangent produced.
+That is Figure 1. The main thread is the task. The tangent is a deep dive from [(4)](#p4):
+expand into everything relevant, produce something, come back carrying only what it
+produced.
 
-The closest research I found to that shape is Event Segmentation Theory. Two short papers
-cover it: Zacks and Swallow, [_Event Segmentation_][zs2007] (Current Directions in
-Psychological Science, 2007), and Kurby and Zacks, [_Segmentation in the perception and
-memory of events_][kz2008] (Trends in Cognitive Sciences, 2008). People chop continuous
-activity into events without trying to. The boundary between two events is noticed when
-prediction error spikes, which is to say after the next thing stopped being predictable.
-At the boundary, the working model of the current event is updated and what just happened
-gets encoded more strongly into long-term memory. Events nest, with small ones inside
-bigger ones. And the boundaries people agree on tend to sit where a subgoal gets done.
+The closest research I found is Event Segmentation Theory: Zacks and Swallow, [_Event
+Segmentation_][zs2007], and Kurby and Zacks, [_Segmentation in the perception and memory
+of events_][kz2008]. People chop continuous activity into events without trying. A
+boundary is noticed when prediction error spikes, after the next thing stopped being
+predictable. At the boundary the working model updates and what just happened encodes more
+strongly into long-term memory. Events nest, and agreed boundaries tend to sit where a
+subgoal gets done.
 
 <figure>
   <img
@@ -140,68 +132,59 @@ bigger ones. And the boundaries people agree on tend to sit where a subgoal gets
     alt="Six video frames of a person pitching a tent in a backyard, one frame per event boundary."
   />
   <figcaption>
-    The six coarse event boundaries most viewers agreed on while watching someone pitch a
-    tent: put it down, spread it out, insert the front pole, stake the ends, stake the
-    sides, attach the rain fly. Each frame is the end of a subgoal, not a random cut.
-    Reproduced for commentary from Zacks and Swallow, <em>Event Segmentation</em>, Current
-    Directions in Psychological Science 16(2), 2007.
+    Six coarse boundaries viewers agreed on while watching someone pitch a tent: put it
+    down, spread it out, insert the front pole, stake the ends, stake the sides, attach
+    the rain fly. Each is the end of a subgoal. Reproduced for commentary from Zacks and
+    Swallow (2007).
   </figcaption>
 </figure>
 
-Kurby and Zacks also cite studies where people who segmented finely recalled more detail
-than people who segmented coarsely. That is a secondary result in their review, and if it
-transfers at all it argues for small episodes over one big summary.
+Kurby and Zacks also cite studies where fine segmenters recalled more detail than coarse
+ones. That secondary result, if it transfers, argues for small episodes over one big
+summary.
 
-Two differences from what I am describing. Their work is about perceiving events, like
-watching someone pitch a tent, and mine is about doing a task. And in their model the
-boundary detection is automatic. _For an agent it has to be done on purpose, and the
-harness has to ask for it._
+Two differences from my case. Their work is about perceiving events, like watching someone
+pitch a tent, while mine is about doing a task. And their boundary detection is automatic.
+_For an agent it has to be done on purpose, and the harness has to ask for it._
 
-## The same stream, two designs and the one I want
+## The same stream, three designs
 
-Take one sequence of messages: user asks for a feature, agent explores, agent writes a
-query, agent runs the build loop, agent wires the frontend. Look at what happens to it
-under three designs.
+Take one sequence: user asks for a feature, agent explores, writes a query, runs the build
+loop, wires the frontend. Here is what happens to it under three designs.
 
-The first is a typical session: everything stays in order. The build logs sit between the
-query and the frontend work for the rest of the session. Harnesses do keep some of the
-recent conversation verbatim when they compact. OpenCode, for example, keeps the newest N
-tokens next to the summary[^1]. But the main move is the same: when the window is nearly
-full, summarize what is there into one block and continue. That summary is written over
-the whole session at once, at a moment chosen by token count.
+The typical session keeps everything in order. Build logs sit between the query and the
+frontend work for the rest of the session. Harnesses keep some recent turns verbatim when
+they compact. OpenCode, for example, keeps the newest N tokens next to the summary[^1].
+The main move stays the same: when the window is nearly full, summarize the whole session
+at once, at a moment chosen by token count.
 
-The second is the subagent: the build loop moves out of the main line. The main agent
-writes a prompt, a fresh agent runs the loop and reports back one message. The main line
-stays small and its prompt cache is never touched, which is a real win. The child starts
-with the system prompt and the task, so it loses whatever the parent knew but did not
-write down: which Node version the project wants, that the tests need a local service up,
-that one package is pinned for a reason, all the small things the parent picked up while
-reading around. What the child learned beyond its report sits in its own transcript. Some
-harnesses keep that transcript and let the parent resume it, which is most of what I will
-call `ask` later, but nothing makes the parent think to use it. And delegation only works
-if the parent thought of it before starting, or I asked for it. If it ran the loop inline
-because it did not expect seven long turns, the logs are in the session for good, short of
-restarting from an earlier point.
+The subagent moves the build loop out of the main line. The main agent writes a prompt, a
+fresh agent runs the loop and reports back one message. The main line stays small and its
+prompt cache is never touched, which is a real win. The child starts from the system
+prompt plus the task, so it loses what the parent knew but did not write down: which Node
+version the project wants, the local service tests need, the pinned package, all the small
+things picked up while reading around. What the child learned beyond its report sits in
+its own transcript. Some harnesses keep that transcript and let the parent resume it,
+which is most of what I will call `ask`, but nothing prompts the parent to use it.
+Delegation only works if the parent thought of it beforehand, or I asked for it. If it ran
+the loop inline because it did not expect seven long turns, the logs stay for good, short
+of restarting from an earlier point.
 
-The third is the tangent from figure 1. The same agent runs the build loop inline, with
-what it already knew. When the build passes, the agent realizes the loop is done and folds
-it: the main line continues from before the loop with a short note added, and the full
-loop is kept somewhere reachable. It does not need to have predicted the loop. It only
-needs to notice it ended.
+The tangent from Figure 1 runs the loop inline with what the agent already knew. When the
+build passes, the agent notices the loop is done and folds it: the main line continues
+from before the loop with a short note added, and the full loop stays reachable. It never
+had to predict the loop. It only had to notice it ended.
 
 <ThreeDesigns>
-  The same message stream under three designs, with context size per turn. Typical: the
-  build logs stay and the context grows until one compaction drops it. Subagent: the main
-  line stays small while a child climbs from its system prompt and task, and if the agent
-  did not delegate, the logs stay as in the typical case. Collapse: the context climbs
-  during the build loop and drops back when the agent folds it into a note, with the loop
-  archived and reachable.
+  The same stream under three designs: typical keeps the logs until one compaction,
+  subagent keeps the main line small while the child climbs from scratch, collapse climbs
+  during the loop and drops back to a note with the loop archived.
 </ThreeDesigns>
 
-The numbered list maps onto this. Rows [(3)](#p3) and [(4)](#p4) are the ones I care about
-most, because today they are one tool used for two opposite needs: one of them should
-start with what the parent currently holds and fold back into it, the other should start
-with less, on purpose. The section on forks goes into that split.
+The list from the previous section maps onto this. Rows [(3)](#p3) and [(4)](#p4) matter
+most, because today one tool serves two opposite needs: one should start with what the
+parent holds and fold back into it, the other should start with less on purpose. The forks
+section covers that split.
 
 |what I do|what the agent does today|what a fold would add|
 |-|-|-|
@@ -212,177 +195,149 @@ with less, on purpose. The section on forks goes into that split.
 |[(5)](#p5) two memories|the context window, for both|a small active context plus a reachable archive|
 |[(6)](#p6) "where was I?"|compaction when the window fills|a fold when the episode ends|
 
-Everything in that table is about one session. It is not a memory system across sessions,
-people or machines, and it does not replace memory files or AGENTS.md, which are
-cross-session, written on purpose, and usually committed. The archive in row (5) is the
-opposite kind of thing: per session, written by the harness without anyone deciding to,
-verbatim, and never meant for the repo. The memory file is my notes from the meeting. The
-archive is the recording.
+Everything in that table is about one session. It is not a cross-session memory system and
+does not replace memory files or AGENTS.md, which are written on purpose and usually
+committed. The archive in row (5) is the opposite: per session, written by the harness
+without anyone deciding to, verbatim, never meant for the repo. The memory file is my
+meeting notes. The archive is the recording.
 
 ## Consolidate at the boundaries
 
 The inference API keeps nothing between calls. The harness resends the message array every
 turn, the weights stay fixed, and whatever the agent worked out exists only in that array
-or in the side effects it caused, files it wrote being the common one. So the array is
-both memories from [(5)](#p5) at once: the thing being held right now, and the only thing
-the model reads. _Compaction rewrites it when it nears the limit, over the whole session,
-which has nothing to do with when anything was learned._
+or in side effects like files it wrote. So the array is both memories from [(5)](#p5):
+what is held right now, and the only thing the model reads. _Compaction rewrites it near
+the limit, over the whole session, with no regard for when anything was learned._
 
 After a build loop, the array holds every failed run and the reasoning behind each guess,
-including the guesses that were wrong. What the next step needs is which guess was right,
-what was changed because of it, and what is still unchecked. Compaction prompts ask for
-roughly that kind of state[^1], and until they run, the logs are in the context on every
-turn. The prompt cache makes that cheap in money: the provider keeps the computed state
-for the prefix and does not process those tokens again. It does not take them out of the
-context. Every new token the model produces still attends over all of them, at the cached
+including the wrong ones. The next step needs which guess was right, what changed, and
+what is still unchecked. Compaction prompts ask for roughly that state[^1], but until they
+run the logs sit in context on every turn. The prompt cache makes that cheap in money: the
+provider keeps the computed prefix state and skips reprocessing it. It does not remove
+those tokens from context. Every new token still attends over all of them, at the cached
 price.
 
-What I want is for the array to be rewritten at the moments where my own working memory,
-the human one, would be rewritten: when a local question gets answered or parked. I will
-call that span of work an episode. It starts when a local question becomes active ("why
-does the build fail?") and ends when the question is no longer what the next action is
-about. Written out, with `B` for the context before the episode, `E` for the episode with
-all its logs, and `A` for whatever comes after:
+The array should be rewritten when a local question gets answered or parked, the way my
+own working memory would be. I will call that span an episode. It starts when a local
+question becomes active ("why does the build fail?") and ends when the next action is no
+longer about that question. With `B` for the context before, `E` for the episode with its
+logs, and `A` for whatever comes after:
 
 ```
 today:     B + E       + A
 proposed:  B + fold(E) + A
 ```
 
-The bet is that a `fold(E)` much smaller than `E` finishes the task about as well, and
-hopefully better, because `A` is no longer reasoning over logs that have little to do with
-it. `A` is not the same `A` in both lines, since a different context produces different
-next steps. "About as well" is about the outcome.
+The bet is that a `fold(E)` much smaller than `E` finishes the task about as well, ideally
+better, because `A` no longer reasons over irrelevant logs. `A` differs in both lines,
+since different context produces different next steps. "About as well" refers to the
+outcome.
 
 ### What goes in the note
 
-Everything depends on what `fold(E)` contains. The note I would want:
+Everything depends on what `fold(E)` contains. The note template, used for every fold in
+this post:
 
-- what changed (files, config, external state)
-- what was learned that affects later work, including the caveats
-- what was decided, and what was rejected
-- what is still open
-- where to look if any of this turns out to be insufficient
+- changed (files, config, external state)
+- learned, including caveats
+- decided and rejected
+- open items
+- where to look if this proves insufficient
 
 If that looks like a compaction prompt, it is. OpenCode's asks for objective, decisions,
-work state, next move, relevant files and important context, and tells the model to keep
-exact paths, symbols and error strings[^1]. The content is mostly right already. What is
-wrong is the moment and the scope: over everything, when the window fills, instead of over
-one episode, when it ends. The biggest change in this post is the agent realizing it can
-fold, not the fold itself.
+work state, next move, relevant files, exact paths and error strings[^1]. The content is
+mostly right. What is wrong is the moment and the scope: over everything when the window
+fills, instead of over one episode when it ends. The biggest change here is the agent
+realizing it can fold, not the fold itself.
 
-The caveats, the rejected alternatives, the open items and the pointer are the parts a
-later step can catch on, so I will call those the hooks. They are also the parts that get
-dropped first, because a summary that reads well tends to be a summary of conclusions. Say
-the note says "the claim query works" and the truth was "the claim query works, but only
-inside a transaction: `FOR UPDATE SKIP LOCKED` holds the row lock until commit, so outside
-one two workers can claim the same job", and a later step moves the query somewhere else.
-The archive has the detail. The agent will not go look, because its active memory says the
-query works. The pointer does not help there. The caveat had to be in the note.
+Caveats, rejected alternatives, open items, and the pointer are the parts a later step can
+catch on. I will call those the hooks. They are also dropped first, because a
+good-sounding summary favors conclusions. Say the note says "the claim query works" when
+the truth was "the claim query works, but only inside a transaction:
+`FOR UPDATE SKIP LOCKED` holds the row lock until commit, so outside one, two workers can
+claim the same job", and a later step moves the query. The archive has the detail, but the
+agent will not look, because its active memory says the query works. The pointer does not
+help. The caveat had to be in the note.
 
-Most of the raw material for the note is already in the episode, in the agent's own
-messages after each tool result. Those are usually the extraction: what the output meant,
-what to try next. I would use them as input to the note, not as the note. They are
-replies, so they lean on the output they reply to and stop making sense once it is gone,
-and they are written mid-episode, so some hold guesses that were rejected a few rounds
-later. The note restates the survivors so they stand on their own and quotes anything a
-later step may need exactly, like an error string or a path. The figure below shows the
-shape. The contents are placeholders, as in every figure in this post.
+Most raw material for the note is already in the episode, in the agent's own messages
+after each tool result: what the output meant, what to try next. Use those as input, not
+as the note. They lean on the output they reply to and stop making sense once it is gone,
+and some hold guesses rejected rounds later. The note restates the survivors so they stand
+alone and quotes anything a later step may need exactly, like an error string or path.
+Contents in every figure here are placeholders.
 
 <ToolResultToNote>
-  Inside the episode: `pnpm build` prints `src/client/api.ts(12,5): error TS2322` and 400
-  more lines. The agent first guesses it should change the type in api.ts by hand, the
-  user says not to edit generated files, and the agent replies that the errors are in the
-  generated client and regenerates it. The note that replaces the episode has five lines.
-  Changed: regenerated src/client from the OpenAPI spec with no source edits. Learned: the
-  failures came from a stale generated client. Rejected: editing src/client/api.ts by
-  hand, since it is overwritten on the next generate. Open: whether CI runs generate
-  before build. Where: thread b2e4.
+  From a 400-line build log plus mid-episode replies to a five-line note: changed,
+  learned, rejected, open, where. Replies are input, not the note.
 </ToolResultToNote>
 
-Altmann and Trafton, [_Memory for goals: an activation-based model_][at2002] (Cognitive
-Science, 2002), models how people suspend a goal, do something else, and get back to it.
-Three things from it that I am using as a checklist, not as a result about agents. A
-suspended goal is only recovered through a cue. In their words:
+Altmann and Trafton, [_Memory for goals: an activation-based model_][at2002], model how
+people suspend a goal, do something else, and return. I use three points as a checklist,
+not as a result about agents. A suspended goal is only recovered through a cue:
 
 > "Now what was I doing?" can only be answered by generating the right cue as a reminder.
 
-The cue has to be encoded together with the goal, before the suspension. And it only works
-if it is obvious and not shared with too many other goals. Those three are my paraphrase
-of their model.
+The cue must be encoded with the goal before suspension, and it must be distinctive, not
+shared with too many goals. That is my paraphrase of their model.
 
-By that checklist, a todo list is a cue written before the work, so it holds what the
-agent intended to do and not what it found, and it is one list for everything. A todo list
-the agent keeps updating gets closer, and then it is the state file from the opening
-again. An AGENTS.md is written with no goal in mind at all. A note written when the
-episode ends, by the agent that did the work, about that work, is encoded with the thing
-it is a cue for. That is the analogy. Their experiments are about people resuming a goal,
-not about notes.
+By that checklist, a todo list is a cue written before the work, so it holds intent, not
+findings, and one list covers everything. A constantly updated todo list gets closer, then
+it is the state file from the opening again. An AGENTS.md is written with no goal in mind.
+A note written when the episode ends, by the agent that did the work, about that work, is
+encoded with what it cues. Their experiments are about people resuming goals, not about
+notes.
 
 ### You cannot name the span before it happens
 
-The new part is in [(6)](#p6). You only know the tangent ended once it ended. Zacks and
-Swallow describe something similar for perception: the boundary is detected after
-prediction fails, not before.
+The new part is in [(6)](#p6). You only know the tangent ended once it ended, the same way
+Zacks and Swallow describe boundary detection after prediction failure.
 
-To be precise about what is unknowable up front: the end condition is usually easy to name
-before starting. "Until the build passes" is a fine end condition. What cannot be named
-before the work is the span: which files it will touch, which earlier turns it will turn
-out to depend on, and what it will reveal along the way. A subagent needs the span's
-inputs, not its end condition, so the prompt that starts one is a bet, made before the
-work, about what the span will need. The bet is often cheap and often right. When it is
-wrong, the parent has under-briefed the child, which then either asks back or re-derives
-things by globbing and reading what the parent already read, or it has delegated something
-that was two lines of work.
+The end condition is usually easy to name upfront. "Until the build passes" is fine. What
+cannot be named upfront is the span: which files it will touch, which earlier turns it
+will depend on, what it will reveal. A subagent needs the span's inputs, not its end
+condition, so its starting prompt is a bet about what the span will need. That bet is
+often cheap and right. When wrong, either the parent under-briefed the child, which then
+asks back or re-reads what the parent already read, or it delegated two lines of work.
 
 Naming the span after the fact asks two things of the agent that did the work, since here
-there is no child, only the main agent. First, to notice that the question is done: "the
-build passes, and the next thing is not about the build". Then to say where the episode
-started: at the first build run, not at the query that preceded it. The harness can mark
-every turn for free, so the second one is a choice among existing marks, but it is still a
-choice, and a wrong one either folds the query work into the build note or leaves half the
-logs in place. The agent has to step out of the task for a moment, look at its own
-context, and say which span is done. It breaks the fourth wall. In people that step is
-automatic. In an agent it has to be done on purpose, and it is the new thing the harness
-has to get from the model.
+there is no child, only the main agent. Notice the question is done ("the build passes,
+and the next thing is not about the build"), then say where it started (the first build
+run, not the earlier query). The harness marks every turn for free, so the start is a
+choice among existing marks, but a wrong choice folds the query work into the build note
+or leaves half the logs behind. The agent must step out of the task, look at its own
+context, and name the finished span. It breaks the fourth wall. In people that step is
+automatic. In an agent it has to be done on purpose, and it is the new move the harness
+needs from the model.
 
-It is not the hardest thing, though. Noticing that the build passed is easy. Picking the
-start is a choice among a handful of marks. The hard part is the note: deciding what a
-step twenty turns from now will need, when nobody knows what that step is. The "query
-works" case is that failure exactly, and no amount of boundary detection fixes it. So, two
-separate problems: has the local activity ended, and what must survive it. The first is a
-judgment the model has all the information for once it is asked. The second is partly
-unknowable, which is why the archive, the hooks and the ways back exist at all.
+Noticing the build passed is easy, and picking the start is a choice among a handful of
+marks. The hard part is the note: deciding what a step twenty turns away will need. The
+"query works" case is exactly that failure, and no boundary detection fixes it. So there
+are two separate problems: has the local activity ended, and what must survive it. The
+model has what it needs for the first once asked. The second is partly unknowable, which
+is why the archive, the hooks, and the ways back exist.
 
-How well a prompt gets the first one out of current models, I do not know yet. A system
-prompt can describe the move and the test for it, and models already make an end-of-turn
-decision and a tool-or-no-tool decision on every step, so "this episode is done" is the
-same kind of decision. A model trained on it would be better at it, the way trained tool
-calling beats prompted tool calling, and the harness produces training data for the second
-problem on its own: every time a folded thread gets asked something the note should have
-carried is an example of a note that was too thin, with the caveat that going back is
-sometimes the right outcome and not a mistake. Prompting first, and training would make it
-better.
+A system prompt can describe the move and its test, and models already make end-of-turn
+and tool-or-no-tool decisions each step, so "this episode is done" is the same kind of
+decision. Prompting comes first, and a trained model would do better, the way trained tool
+calling beats prompted tool calling. The harness generates training data on its own: every
+time a folded thread is asked something the note should have carried marks a too-thin
+note, with the caveat that going back is sometimes correct rather than a mistake.
 
-The boundary is also only a cue, not a certification. Finishing one question can open two,
-and something found late can revise an earlier conclusion. At the boundary the question to
-ask is: can the next step proceed from `B + fold(E)`? If yes, fold. If not, the episode is
-still open or the note is not good enough yet. That test only covers the next step. It
-says nothing about the step twenty turns later, and in the "query works" case the honest
-answer at the boundary is "I don't know", which is why the caveat has to be in the note
-regardless.
+The boundary is a cue, not a certification. Finishing one question can open two, and a
+late find can revise an earlier conclusion. The test at the boundary is: can the next step
+proceed from `B + fold(E)`? If yes, fold. If not, the episode is still open or the note is
+not good enough. That covers the next step only, not the step twenty turns later, which is
+why the caveat belongs in the note regardless.
 
 ### The note is lossy on purpose
 
-The version of me that moves on from the SQL query does not carry the database docs with
-me. What I object to is losing the detail irreversibly and then treating the summary as
-the whole truth. So the full episode stays, somewhere the agent can get back to, and the
-note ends with a handle that points at it. How going back works is
-[its own section](#going-back).
+The version of me that leaves the SQL query does not carry the database docs along. What I
+object to is losing detail irreversibly and then treating the summary as the whole truth.
+So the full episode stays where the agent can reach it, and the note ends with a handle to
+it. How going back works is [its own section](#going-back).
 
-That changes what counts as a failure. If the goal is a small active context plus a
-reachable archive, the agent going back to the archive means the system is doing its job.
-What I want low is
+That changes what counts as failure. With a small active context plus a reachable archive,
+going back means the system works. What I want low is
 
 ```
 tokens carried per turn
@@ -391,7 +346,7 @@ tokens carried per turn
 ```
 
 The units do not add, so treat it as a cache policy: fold finished episodes, fetch on
-touch, and let the agent's judgment about what to keep sit on top of that.
+touch, and let the agent's judgment about what to keep sit on top.
 
 ### "Where was I?"
 
@@ -402,56 +357,48 @@ to have. "The build passes. Where was I?" The agent names the span and writes th
 fold(since: "t4", note: "...")   -> "b2e4"
 ```
 
-The harness truncates the view back to before `t4`, appends the note with the handle, and
-files the span under `b2e4`. The part of the context before the span was already there, so
-getting back to the main line costs no new tokens, and it stays a cache hit as long as the
-cache is still alive[^2]. The price is in noticing, in choosing `since`, and in the note.
+The harness truncates the view to before `t4`, appends the note with the handle, and files
+the span under `b2e4`. The prefix before the span was already there, so returning to the
+main line costs no new tokens, and it stays a cache hit while the cache lives[^2]. The
+price is in noticing, choosing `since`, and writing the note.
 
 <Fold>
-  A transcript of the build loop. When the build passes, the agent picks the turn where
-  the episode started, and the span from there is replaced by one new block: the note with
-  handle b2e4, followed by the user's message from inside the span, kept verbatim.
-  Everything before the chosen turn stays a cached prefix, and the new block is a fresh
-  write. A second pass compares a note that says "the claim query works" with one that
-  keeps the caveat about the transaction, when a later step moves the query.
+  The loop runs inline, then folds at t4 into one block: the note with handle b2e4 plus
+  the user's message verbatim. A second pass shows why the transaction caveat must stay in
+  the note.
 </Fold>
 
 ## Handoff is broken, and fork is the first step
 
-Back to the subagent prompt with little in it. I mean the kind of subagent that continues
-the parent's own work, like "make it build". Reviewers are a different case and get their
-own section below. The parent is asked to produce, before the work, a written version of
-what the child will need. The goal exists at that point. What does not exist yet is the
-span, so the prompt is a guess at its inputs. And the parent is badly placed to write it:
-what it knows is not sitting in one place it could copy from, it is spread across a few
-hundred messages as things it noticed along the way, so to write the prompt it would have
-to first reconstruct its own understanding.
+This is about the subagent that continues the parent's own work, like "make it build".
+Reviewers are separate and covered below. The parent must produce, before the work, a
+written version of what the child will need. The goal exists then. The span does not, so
+the prompt guesses at its inputs. The parent is badly placed to write it: what it knows is
+spread across hundreds of messages as things noticed along the way, so writing the prompt
+means first reconstructing its own understanding.
 
-The fix for that specific problem is small: do not write a prompt, fork.
+The fix for that problem is small: do not write a prompt, fork.
 
 ```
 fork(task)   -> result, handle
 ```
 
-Take the parent's message array as it is, close the open tool call with the task as its
-result, run the child to completion, and return its final message to the parent. The child
-starts with what the parent holds because it starts as the parent. There is no prompt to
-write. The prefix is byte-identical to the parent's, so it is a prompt cache hit on every
-child turn. This is not the "branch this conversation" button in chat apps, which copies
-the conversation and leaves you with two of them. Here the copy exists to come back.
+Take the parent's message array as is, close the open tool call with the task as its
+result, run the child to completion, and return its final message. The child starts with
+what the parent holds because it starts as the parent. There is no prompt to write. The
+prefix is byte-identical to the parent's, so it is a prompt cache hit on every child turn.
+This is not the "branch this conversation" button in chat apps, which copies the
+conversation and leaves two copies. Here the copy exists to come back.
 
 A clean subagent is cheaper per turn, since it carries a 15K system prompt instead of the
-parent's prefix. What it pays instead is redoing the parent's reading, and what nobody can
-put in a table is whether it ends up with the same result. The table below is an
-illustrative cost model for the token side only. The figures show one short loop, and cost
-only matters in a long session, so it assumes a parent prefix of 100K tokens, a loop of 30
-turns that grows the context by 150K, cached reads at a tenth of the fresh price and
-writes at 1.25x, and that the clean child re-reads about 30K of what the parent had
-already read, written once and then re-read on every later turn. The rate column is the
-price each row is billed at, as a multiple of the fresh input price, and the token columns
-are after that rate is applied: the fork's prefix is 3M raw tokens over the loop, read
-from cache, so it costs what 300K fresh tokens would. The first turn of each child, which
-is a write, is left out.
+parent's prefix. It pays by redoing the parent's reading. Whether it reaches the same
+result is what no table can show. The table below models the token side only. It assumes a
+100K parent prefix, a 30-turn loop growing context by 150K, cached reads at a tenth of
+fresh price and writes at 1.25x, and a clean child that re-reads about 30K the parent
+already read, written once then re-read each turn. The rate column is what each row is
+billed at, as a multiple of the fresh input price. Token columns are after that rate: the
+fork's 3M raw prefix tokens over the loop, read from cache, cost what 300K fresh tokens
+would. Each child's first turn, a write, is left out.
 
 |cost|rate|fork|clean subagent|
 |-|-|-|-|
@@ -462,162 +409,140 @@ is a write, is left out.
 |total, in fresh-token equivalents||~713K|~583K|
 |in dollars, at $3 per million fresh tokens||~$2.14|~$1.75|
 
-The conclusion I take from it is narrow: the prefix row alone suggests a 7x gap, and the
-loop's own growth, which both pay, brings it to about 1.2x, or 1.6x if the child does not
-need to re-read anything. Under these assumptions continuity costs a moderate premium.
-Whether the clean child's result is as good, and whether it takes the same number of
-turns, is what the table cannot say. The premium widens as the session gets longer, and it
-shrinks as cached reads get cheaper: a tenth of the fresh price is the common rate today,
-and the newest models on both big providers are already at a twentieth or less[^2]. If the
-parent sat idle past the cache lifetime, the first child turn is a full write of the
-prefix.
+The conclusion is narrow: the prefix row alone suggests a 7x gap, and the loop growth both
+sides pay brings it to about 1.2x, or 1.6x if the child re-reads nothing. Under these
+assumptions continuity costs a moderate premium. Whether the clean child matches the
+result in the same turns is outside the table. The premium widens as sessions lengthen and
+shrinks as cached reads get cheaper: a tenth is common today, and the newest models on
+both big providers are at a twentieth or less[^2]. If the parent sat idle past the cache
+lifetime, the first child turn rewrites the full prefix.
 
-The same prefix is also the strongest objection to the idea. If bloat hurts reasoning, why
-hand the child the query work and every stale guess the parent made along the way? That is
-the actual reason "run it in a subagent" works today, and the child inherits the parent's
-wrong guesses together with its right ones, and will anchor on them the same way the
-parent did.
+The same prefix is the strongest objection. If bloat hurts reasoning, why hand the child
+the query work and every stale guess along the way? That is why "run it in a subagent"
+works today, and the child inherits wrong guesses with right ones and anchors on them like
+the parent did.
 
-My answer is that the fork should inherit the parent's view, meaning the context as it
-stands after earlier folds, rather than the raw log. In a harness that folds, the query
-episode is already a note by the time the build starts, so the fork inherits the note and
-the stale guesses from that episode are gone. That covers closed episodes. Whatever is
-still open is inherited as is. It also changes the table: with the query work folded, the
-prefix in that model drops from 100K to about 40K, and the fork's total lands around 533K,
-below the clean child. Until folding exists, a fork inherits the raw log and pays for
-continuity, which is fine for a long loop and wasteful for a short lookup. Short lookups
-should keep a clean child. So the two pieces depend on each other: fork fixes the handoff,
-folding makes fork affordable.
+My answer: the fork should inherit the parent's view, the context after earlier folds, not
+the raw log. In a folding harness the query episode is already a note when the build
+starts, so the fork inherits the note and the stale guesses are gone. That covers closed
+episodes. What is still open is inherited as is. It also changes the table: with the query
+work folded, the prefix drops from 100K to about 40K, and the fork total lands around
+533K, below the clean child. Until folding exists, a fork inherits the raw log and pays
+for continuity, which suits a long loop and is wasted on a short lookup. Short lookups
+should keep a clean child. Fork fixes the handoff, and folding makes fork affordable.
 
-Fork and the fold end in the same place: a main line that grew by one block, an archived
-span, and the same question about what the block should say. They differ in when the
-decision is made and how many. Fork decides before the work and only has to decide "this
-is separate", since the start is fixed by construction. The fold decides after, and has to
-pick both the end and the start. A fork's transcript is separate from the parent's, so
-several can run at once as long as their edits do not collide, because the files are still
-shared. And in the simplest scheduling the user can keep talking to the main line during a
-fold but not during a fork, though that is a harness choice rather than something
-inherent. The fold is closer to how I think it should work and it needs the judgment from
-the previous section. Fork needs no new judgment from the model, and the fold reuses its
-archive, its handle and its note format.
+Fork and fold end in the same place: a main line grown by one block, an archived span, and
+the same question of what the block should say. They differ in when and how often they
+decide. Fork decides before the work and only decides "this is separate", since the start
+is fixed. Fold decides after and picks both end and start. A fork transcript is separate
+from the parent's, so several can run at once as long as their edits do not collide, since
+files are still shared. In the simplest scheduling the user can keep talking to the main
+line during a fold but not during a fork, though that is a harness choice. Fold is closer
+to how I think it should work and needs the judgment from the previous section. Fork needs
+no new model judgment, and reuses the fold's archive, handle, and note format.
 
 <ForkVsFold>
-  Fork above, fold below, ending in the same main line and the same archive. The fork
-  decides before the loop and runs it on a copy of the parent. The fold runs it inline and
-  decides after, choosing where it started. Both re-read the parent prefix at the cached
-  price, about 713K tokens over 30 turns against 583K for a clean subagent that has to
-  re-read what the parent already knew. With the parent already folded, fork and fold drop
-  to about 533K, below the clean subagent.
+  Fork decides before the loop and runs it on a copy of the parent. Fold runs it inline
+  and decides after, picking the start. Both end with the same main line and archive.
+  Costs use the table above. With the parent already folded both drop below the clean
+  subagent.
 </ForkVsFold>
 
 ### Forks and other agents
 
 Once fork exists, which subagents should become forks? Not the reviewer. That is
-[(3)](#p3), and the reviewer is useful because it does not carry assumptions or biases.
+[(3)](#p3), and the reviewer is useful because it lacks my assumptions and bias.
 
-If "sub-agent" meant a piece of the main agent, today's subagents would not qualify: they
-start with only what the parent wrote into the prompt. What they are is other agents
-handed the wrong prompt. So two kinds. A fork is a piece of the same agent: exploration,
-"make it build", splitting a task into parts. It starts from the parent's view and folds
-back. An other agent is a second one consulted on purpose: review, a second opinion,
-anything where **independence is the point.** It starts with less. Not with nothing,
-because a reviewer that does not know the constraint I gave at the start will miss it. The
-useful split is to hand it the user's messages and withhold the agent's conclusions. A
-reviewer that receives the parent's reasoning for why the diff is correct will mostly
-agree with it. It is the same model with the same blind spots, so this is a weaker version
-of a second opinion than a human colleague is, but it is the version available.
+If "sub-agent" meant part of the main agent, today's subagents would not qualify: they
+start with only what the parent wrote in the prompt. They are other agents handed the
+wrong prompt. So two kinds. A fork is part of the same agent: exploration, "make it
+build", splitting a task. It starts from the parent's view and folds back. An other agent
+is a second one consulted on purpose: review, second opinion, anything where
+**independence is the point.** It starts with less, but not nothing, because a reviewer
+missing my original constraint will miss violations of it. The useful split is to hand it
+the user's messages and withhold the agent's conclusions. A reviewer given the parent's
+reasoning for why the diff is correct will mostly agree. It is the same model with the
+same blind spots, so it is a weaker second opinion than a human colleague, but it is the
+version available.
 
-Most harnesses today run both kinds through one mechanism. Forks start empty when they
-should inherit, and reviewers sometimes get handed the parent's reasoning when they should
-not.
+Most harnesses run both kinds through one mechanism. Forks start empty when they should
+inherit, and reviewers sometimes get the parent's reasoning when they should not.
 
 <ForkVsOtherAgent>
-  Two sessions. A fork starts with the parent's whole view and its result merges into the
-  main line. A reviewer gets the user's messages and the diff but not the agent's
-  reasoning, and finds that the claim query runs outside a transaction. Handed the
+  A fork starts from the parent's view and merges back. A reviewer gets user messages plus
+  the diff without the agent's reasoning, and catches the transaction bug. Handed the
   reasoning, it agrees the diff looks good.
 </ForkVsOtherAgent>
 
 ## Going back
 
-Folding is half of it. The other half is what happens when the note turns out to be
-insufficient, which it will be sometimes, because it was written without knowing every
-later step. What survives a fold is the note and a handle, and going back through the
-handle has two shapes. I would try the cheap one first.
+Folding is half. The other half is what happens when the note proves insufficient, which
+it sometimes will, since it was written without knowing every later step. What survives is
+the note and a handle, and going back has two shapes. Try the cheap one first.
 
 ```
 recall(query)          -> matching lines, each with the thread it came from
 ask(handle, question)  -> one answer from that thread
 ```
 
-`recall` is search over the archive with no model call: the exact error from a specific
-round, or where a function was defined. Plain grep gets most of it, and a ranked search
-(BM25 or embeddings) helps when the agent remembers the idea but not the exact string. It
-searches everything the thread held, the tool outputs and the agent's own messages and the
-reasoning where the provider returns it, not only the final report or the files it
-touched. It is cheap, I expect it to cover a lot of what comes up, and it only works when
-the agent already knows roughly what to look for.
+`recall` searches the archive with no model call: the exact error from a round, or where a
+function was defined. Plain grep covers most of it, and ranked search (BM25 or embeddings)
+helps when the agent remembers the idea but not the string. It searches everything the
+thread held, tool outputs, agent messages, and reasoning where the provider returns it,
+not only the final report or touched files. It is cheap and should cover most lookups, but
+only works when the agent roughly knows what to search for.
 
-`ask` is for judgments: why did we fix it this way and not the other way. The archived
-span is a context that still exists. Append the question to `B + E`, run one step, return
-the answer. The span never re-enters the main line. The request keeps the same tools block
-as the original thread, since swapping it would miss the cache, and the thread is told to
-answer without acting. If it needs to read something new to answer, that is a fork, not an
-ask. This is [(2)](#p2), with one honesty note: it is the same model re-reading its own
-transcript, so it is closer to that person's notes than to the person.
+`ask` is for judgments: why fix it this way and not the other. The archived span still
+exists as a context. Append the question to `B + E`, run one step, return the answer. The
+span never re-enters the main line. The request keeps the original tools block, since
+swapping it would miss the cache, and the thread answers without acting. If answering
+needs fresh reads, that is a fork, not an ask. This is [(2)](#p2), with one honesty note:
+the same model re-reads its own transcript, so it is closer to that person's notes than to
+the person.
 
-An `ask` re-reads `B + E` at the cached price if the cache is still alive and at close to
-full price otherwise[^2]. Going back usually happens later than the cache lifetime, so
-full price is probably the common case today. If sessions started asking their own
-archives often, that is the kind of pattern providers price for, and the cache section at
-the end says what would have to change.
+An `ask` re-reads `B + E` at the cached price if the cache lives, else near full
+price[^2]. Going back usually happens after the cache lifetime, so full price is the
+common case today. If sessions start querying their archives often, that is the pattern
+providers price for. The cache section says what would have to change.
 
 <GoingBack>
-  Two tool calls from the main thread. `recall("TS2322")` returns matching lines from
-  archived thread b2e4, including the tool output, the agent's own message and a line of
-  reasoning where the provider returns it, with no inference. `ask("b2e4", "why regenerate
-  instead of fixing the type in api.ts?")` loads that thread off the main line, appends
-  the question, and returns one answer: api.ts is generated from the OpenAPI spec, so a
-  hand edit is overwritten on the next generate. Only the answer enters the main line, and
-  its cost depends on whether the cache is still warm.
+  recall("TS2322") returns matching lines from b2e4 with no inference. ask("b2e4", ...)
+  reloads that thread off the main line and returns one answer. Only the answer enters the
+  main line.
 </GoingBack>
 
-Folds nest, in one direction. A fork can fold inside itself, so an archived fork can
-contain its own notes and archived spans, and the archive ends up as a tree. A fold on the
-main line does not reach behind an earlier note, so notes on the same line never contain
-each other. The agent should not have to know any of that. It searches by keyword, not by
-thread, so `recall` runs over every archived span flat and reports which thread each line
-came from, and `ask` takes any handle, however deep.
+Folds nest in one direction. A fork can fold inside itself, so an archived fork can hold
+its own notes and spans, and the archive becomes a tree. A main-line fold never reaches
+behind an earlier note, so notes on one line never contain each other. The agent need not
+know any of that. It searches by keyword, not thread, so `recall` runs flat over every
+span and reports each line's thread, and `ask` takes any handle, however deep.
 
-The case I have least for is when the agent does not know it needs to go back. The note
-said the query works, nothing in the main line says otherwise, and the step that will
-break is three turns away. A few defenses, from cheapest up:
+The case I have least evidence for is when the agent does not know it should go back. The
+note said the query works, nothing on the main line says otherwise, and the breaking step
+is three turns away. Defenses, cheapest first:
 
-- The caveat in the note. First line of defense and the weakest one, since caveats are
-  what gets dropped.
-- Habit. The system prompt says that folded threads exist, that `recall` is cheap, and
-  that an unknown which an earlier thread might have known is worth one `recall` before
-  guessing. The model gets used to calling it the way it gets used to reading a file
-  before editing it.
-- File touch. Each archived span's index lists the files and symbols it touched. When the
-  agent touches one of them again, the harness surfaces that span's note.
-- Overlap. Match the recent context against the archive every turn and inject "possibly
-  relevant: thread X" on overlap. The noisy one.
-- Me. In an interactive session I notice when something looks wrong and ask. That only
-  helps once it already looks wrong.
+- The caveat in the note. First defense and weakest, since caveats drop first.
+- Habit. The system prompt says folded threads exist, `recall` is cheap, and an unknown an
+  earlier thread may have known is worth one `recall` before guessing.
+- File touch. Each span's index lists files and symbols it touched. Touching one again
+  surfaces that span's note.
+- Overlap. Match recent context against the archive each turn and inject "possibly
+  relevant: thread X". Noisy.
+- Me. In an interactive session I notice when something looks wrong and ask. That helps
+  only once it already looks wrong.
 - Training. Going back when the note is thin is a habit, and habits are what fine-tuning
-  is good at, the same way tool calling went from prompted to trained. The archive and the
-  asks a harness records are the data for it.
+  teaches, the way tool calling went from prompted to trained. The archive and recorded
+  asks are the data.
 
-What comes back is also what was observed then. Reasoning was conditioned on observations,
-so if the file changed, "we ruled that out" may not hold anymore either. The index can
-store a hash of each touched file at the time, and when a span is asked or recalled the
-harness can prepend which of them changed since.
+What comes back is also what was observed then. Reasoning was conditioned on those
+observations, so if a file changed, "we ruled that out" may no longer hold. The index can
+store a hash per touched file, and `recall` and `ask` can prepend which files changed
+since.
 
 ## Putting it together
 
-The moves above need names to be talked about, so for this post they are `fork`, `fold`,
-`recall` and `ask`, over this little data model:
+The moves above need names, so here they are `fork`, `fold`, `recall` and `ask`, over this
+data model:
 
 |name|what it is|
 |-|-|
@@ -626,35 +551,32 @@ The moves above need names to be talked about, so for this post they are `fork`,
 |archive|the logs of folded spans and finished forks, with an index of the files and symbols each touched|
 |handle|the id of an archived span|
 
-A few constraints fall out of the argument rather than out of taste:
+Constraints from the argument rather than taste:
 
-- `since` is a turn id the model can see in its view, not a hidden checkpoint. The harness
-  stamps one on each user message and tool result as it writes them, never after the fact,
-  so the stamps never change bytes that are already cached. It snaps `since` to the turn
-  boundary and refuses one that reaches behind an earlier note.
-- The note follows the template from above (changed, learned with caveats, decided and
-  rejected, open, where to look) and the harness appends the handle.
+- `since` is a turn id the model sees in its view, not a hidden checkpoint. The harness
+  stamps each user message and tool result as it writes it, never after the fact, so
+  stamps never change cached bytes. It snaps `since` to the turn boundary and refuses one
+  reaching behind an earlier note.
+- The note follows the template above (changed, learned with caveats, decided and
+  rejected, open, where) and the harness appends the handle.
 - User messages inside a folded span stay on the main line as written, next to the note,
-  with the turn they were said at, so a correction given mid-episode does not read as a
-  new instruction. Large pastes get a size cap and a pointer. The note must not be allowed
-  to rewrite what I said.
+  with their original turn, so a mid-episode correction does not read as a new
+  instruction. Large pastes get a size cap and a pointer. The note must not rewrite what I
+  said.
 - What changed on disk comes from diffing the working tree between `since` and the fold,
-  not from the model classifying its own commands.
+  not from the model classifying its commands.
 - The archive is written before the view drops the span.
-- `fold` can also be triggered by the user with a slash command. That is the same move
-  without the noticing step, and it is the way to find out whether the note template holds
-  up before asking the model to notice anything.
+- `fold` also has a user slash command. That is the same move without noticing, and the
+  way to test whether the note template holds before asking the model to notice anything.
 
 ## Cache
 
-Everything above assumes prompt caching keeps working, because without it the cost goes
-through the roof. Prompt caching matches the longest prefix of the request that the
-provider has seen recently. Both big providers now offer roughly the same two modes: an
-automatic one, where the breakpoint follows the end of each request, and an explicit one,
-where you place up to four breakpoints yourself and an entry is written at each[^2]. A
-harness checkpoint, the per-turn mark used for `since`, is a position in the log and is
-not a cache breakpoint. The harness has to put a breakpoint at a checkpoint on purpose if
-it wants a hit there.
+Everything above assumes prompt caching keeps working, without which cost explodes.
+Caching matches the longest recently seen request prefix. Both big providers offer two
+modes: automatic, where the breakpoint follows each request end, and explicit, where you
+place up to four breakpoints and an entry is written at each[^2]. A harness checkpoint,
+the per-turn mark used for `since`, is a log position, not a cache breakpoint. The harness
+must place a breakpoint at a checkpoint on purpose to get a hit there.
 
 |operation|what changes|cache|
 |-|-|-|
@@ -664,74 +586,65 @@ it wants a hit there.
 |fold deferred to compaction|everything after an old position|rewritten, once, together with the rest|
 |ask|branch from the archive point|hit on `B + E` if an entry sits there and is still alive, else `E` is rewritten (`B` is shared with the live main line)|
 
-What falls out of that:
+Consequences:
 
-1. `tools` and `system` are frozen for the session. On Anthropic they sit before the
-   messages in the cached prefix, so a change to `tools` rewrites everything and a change
-   to `system` rewrites everything after it, and OpenAI lists `tools` among the settings
-   that break the prefix too. Anything dynamic goes in a trailing block after the last
-   breakpoint. It is billed uncached every turn, so keep it small.
-2. Fork instructions go in the task message, not the system prompt.
-3. Keep one breakpoint at the start of the open episode. With a single breakpoint at the
-   end, each request only reads and refreshes the longest entry that matches, so during a
-   long loop the entry at `since` is never read again and expires before the fold. A
-   second breakpoint at `since` makes every request check that position too, which keeps
-   the entry alive. Without it the fold is a full write of `B`.
-4. `fold` only reaches back to `since`, so folding an older span is not an operation it
-   has. The natural time to clean up older material is the next full compaction, when
-   everything is being rewritten anyway.
+1. Freeze `tools` and `system` for the session. On Anthropic they sit before messages in
+   the cached prefix, so a `tools` change rewrites everything and a `system` change
+   rewrites everything after it. OpenAI also lists `tools` among prefix-breaking settings.
+   Anything dynamic goes in a trailing block after the last breakpoint. It bills uncached
+   every turn, so keep it small.
+2. Put fork instructions in the task message, not the system prompt.
+3. Keep one breakpoint at the open episode start. With a single end breakpoint, each
+   request only reads and refreshes the longest match, so during a long loop the `since`
+   entry expires before the fold. A second breakpoint at `since` keeps it alive. Without
+   it the fold fully rewrites `B`.
+4. `fold` only reaches back to `since`. Older material waits for the next full compaction,
+   when everything rewrites anyway.
 
-The lifetime is the part that matters here. Anthropic's default is five minutes from the
-start of the last request that used the entry, with an hour at a higher write price.
-OpenAI's newest models default to thirty minutes, and some older ones can keep entries for
-up to a day[^2]. A session that keeps moving needs no more than the default, since the
-next turn comes within seconds. A harness that asks old threads questions does need more,
-and lifetimes have been getting longer on their own, so I would expect that to keep
-happening. Cheaper cached reads help too, and those have been dropping as well.
+Lifetime matters most. Anthropic defaults to five minutes from last use, an hour at a
+higher write price. OpenAI's newest models default to thirty minutes, some older ones up
+to a day[^2]. An active session needs no more than the default, since turns come within
+seconds. A harness that queries old threads needs more, and lifetimes keep growing, so I
+expect that trend to continue. Cheaper cached reads help too, and those keep dropping.
 
 ## Try it today
 
-I built this as a package for [pi](https://github.com/earendil-works/pi), so the post has
-something to point at: [pi-episodes](https://github.com/arthurfiorette/pi-episodes).
+I built this as a package for [pi](https://github.com/earendil-works/pi):
+[pi-episodes](https://github.com/arthurfiorette/pi-episodes).
 
 ```sh
 pi install npm:pi-episodes
 ```
 
-It adds the four tools from above, with these names, and a short system prompt section
-that tells the model when to use them. Stamps go on every user message and tool result as
-they are saved.
+It adds the four tools above plus a short system prompt section on when to use them.
+Stamps go on every user message and tool result as saved.
 
-- `fold` removes a stamped span from the model's context and leaves the note in its place.
-  Pi's own compaction stays on as a fallback.
-- `recall` searches folds, forks and compacted turns with no model call, ranked, with
+- `fold` removes a stamped span from context and leaves the note. Pi's own compaction
+  stays as fallback.
+- `recall` searches folds, forks, and compacted turns with no model call, ranked, with
   exact and regex modes.
 - `ask` resumes a folded or forked thread for one question.
 - `fork` runs a copy of the agent with its current context and tools.
 
-Around them: a working tree diff per fold so the note lists what changed on disk, a
-file-touch cue that names the archived thread when the agent reads or edits a file that
-thread touched, a staleness line on `recall` and `ask` listing the files that changed
-since, and a reminder of open items after a fold. `/fold` folds by hand, which is the
-smallest experiment I would run first: fold after a real build loop, then give the agent a
-task that depends on something inside the fold, and watch what it does with the note.
+Around them: a working-tree diff per fold, a file-touch cue naming the archived thread
+when the agent touches a file that thread touched, a staleness line on `recall` and `ask`,
+and an open-items reminder after a fold. `/fold` folds by hand. Smallest experiment first:
+fold after a real build loop, then give a task depending on something inside the fold, and
+watch what the agent does with the note.
 
-What it is meant to find out is the list I would have put here as open questions:
+What it should find out, the open questions list:
 
-- whether the model notices an episode ended and picks where it started, without being
-  told
-- whether its notes keep the caveats, or fail the "query works" way
-- whether it goes back to the archive when it should, and whether the file-touch cue helps
-  or adds noise
-- whether a fork anchors on the parent's wrong guesses more than a clean subagent would
-- whether a smaller, state-shaped context makes the main line reason better at all, or
-  that is an intuition left over from when windows were small
+- whether the model notices an episode ended and picks its start unprompted
+- whether its notes keep caveats, or fail the "query works" way
+- whether it goes back when it should, and whether the file-touch cue helps or adds noise
+- whether a fork anchors on the parent's wrong guesses more than a clean subagent
+- whether a smaller, state-shaped context reasons better at all, or that is intuition left
+  over from small windows
 
-The repository has a measurement plan for those. I am working through it, and I will come
-back here with what it says. But I would rather hear how it feels to work with after a
-week than publish a benchmark I vibed into existence, so if you try it, tell me what the
-agent did with the notes. The shape still feels right to me, and now I know part of it has
-a name.
+The repository has a measurement plan for those. I am working through it and will report
+back. But I would rather hear how it feels after a week than publish a benchmark I vibed
+into existence, so if you try it, tell me what the agent did with the notes. The shape
+still feels right, and now I know part of it has a name.
 
 [zs2007]: https://pmc.ncbi.nlm.nih.gov/articles/PMC3314399/
 [kz2008]: https://www.cell.com/trends/cognitive-sciences/fulltext/S1364-6613(07)00331-2
