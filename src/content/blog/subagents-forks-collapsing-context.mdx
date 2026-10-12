@@ -304,10 +304,13 @@ there is no child, only the main agent. Notice the question is done ("the build 
 and the next thing is not about the build"), then say where it started (the first build
 run, not the earlier query). The harness marks every turn for free, so the start is a
 choice among existing marks, but a wrong choice folds the query work into the build note
-or leaves half the logs behind. The agent must step out of the task, look at its own
-context, and name the finished span. It breaks the fourth wall. In people that step is
-automatic. In an agent it has to be done on purpose, and it is the new move the harness
-needs from the model.
+or leaves half the logs behind. A wrong fold costs a `recall` or an `ask` later, not the
+work, since the span is archived as it was and user messages stay. The agent must step out
+of the task, look at its own context, and name the finished span. It breaks the fourth
+wall. In people that step is automatic. In an agent it has to be done on purpose, and it
+is the new move the harness needs from the model. A build loop makes it look easy, because
+a passing build is a clear signal. Open-ended work where the question drifts instead of
+ending has no such signal, and there the right call is often not to fold yet.
 
 Noticing the build passed is easy, and picking the start is a choice among a handful of
 marks. The hard part is the note: deciding what a step twenty turns away will need. The
@@ -429,7 +432,9 @@ episodes. What is still open is inherited as is. It also changes the table: with
 work folded, the prefix drops from 100K to about 40K, and the fork total lands around
 533K, below the clean child. Until folding exists, a fork inherits the raw log and pays
 for continuity, which suits a long loop and is wasted on a short lookup. Short lookups
-should keep a clean child. Fork fixes the handoff, and folding makes fork affordable.
+should keep a clean child, and they are most of what gets delegated today, so fork is for
+the minority of delegations that continue the parent's own work. Fork fixes the handoff,
+and folding makes fork affordable.
 
 Fork and fold end in the same place: a main line grown by one block, an archived span, and
 the same question of what the block should say. They differ in when and how often they
@@ -502,8 +507,9 @@ the person.
 
 An `ask` re-reads `B + E` at the cached price if the cache lives, else near full
 price[^2]. Going back usually happens after the cache lifetime, so full price is the
-common case today. If sessions start querying their archives often, that is the pattern
-providers price for. The cache section says what would have to change.
+common case today, and I accept that: one full read of a thread is still cheaper than
+re-deriving what the thread knew. If sessions start querying their archives often, that is
+the pattern providers price for. The cache section says what would have to change.
 
 <GoingBack>
   recall("TS2322") returns matching lines from b2e4 with no inference. ask("b2e4", ...)
@@ -568,6 +574,13 @@ Constraints from the argument rather than taste:
 - The archive is written before the view drops the span.
 - `fold` also has a user slash command. That is the same move without noticing, and the
   way to test whether the note template holds before asking the model to notice anything.
+
+The slash command is also the simpler alternative to the whole detection story. Folding by
+hand gets the scope and the timing right with no risk of a false fold, at the price of me
+noticing instead of the model. A better compaction prompt does not get there, because the
+problem with compaction is when and over what it runs, not what it asks for. So the manual
+fold is the baseline. The model folding on its own has to beat it, and if it does not, the
+manual version is still worth having.
 
 ## Cache
 
