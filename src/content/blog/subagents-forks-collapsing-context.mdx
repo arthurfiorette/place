@@ -20,12 +20,6 @@ import ForkVsFold from '../../components/posts/subagents-forks-collapsing-contex
 import ForkVsOtherAgent from '../../components/posts/subagents-forks-collapsing-context/fork-vs-other-agent.astro';
 import GoingBack from '../../components/posts/subagents-forks-collapsing-context/going-back.astro';
 
-> **tl;dr** Agent harnesses compact the whole session when the window fills. Fold each
-> finished episode into a short note when it ends, keep the full span archived and
-> askable, and fork with the parent's context instead of briefing a subagent from scratch.
-> I built it as a pi package, [try it today](#try-it-today). If this is the kind of
-> problem your team works on, I am open to work: [curriculum](/curriculum).
-
 Most subagent prompts I open carry the task and little of what the parent knew: what was
 tried, which guess was ruled out, which constraint I gave at the start. The child
 re-derives all of it. When it reports back, the report is short, and whatever else it
