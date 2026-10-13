@@ -126,6 +126,10 @@
   padding: 0 4px;
   cursor: pointer;
   white-space: nowrap;
+  /* Fits the longest label ("❚❚ pause", "↺ replay"), so switching labels never moves
+     the prev/next links that follow it. */
+  min-width: 10ch;
+  text-align: left;
 }
 .post-fig .autoplay-toggle:hover {
   color: var(--ink);
