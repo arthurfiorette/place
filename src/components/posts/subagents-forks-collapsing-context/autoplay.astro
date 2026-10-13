@@ -42,8 +42,11 @@
     render();
 
     // Restarting the interval gives the current step a full beat before the next one.
-    const play = () => {
+    // On the first start the figure moves right away, so the hover visibly does
+    // something instead of waiting a beat on the step the reader already sees.
+    const play = (stepNow = false) => {
       mode = 'auto';
+      if (stepNow) tick();
       render();
       clearInterval(timer);
       timer = visible ? setInterval(tick, stepMs) : undefined;
@@ -58,7 +61,7 @@
         return;
       }
       if (mode === 'done') radios[0].checked = true;
-      play();
+      play(mode === 'waiting');
     });
 
     // Starts on the first hover; a tap counts too, since touch fires pointerenter.
@@ -66,7 +69,7 @@
     figure.addEventListener('pointerenter', () => {
       if (mode !== 'waiting') return;
       hoverStartedAt = Date.now();
-      play();
+      play(true);
     });
 
     // Only stepping pauses: chips, arrow keys, and prev/next labels all check
