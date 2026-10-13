@@ -9,6 +9,7 @@
   line-height: 1.75;
   letter-spacing: normal;
   overflow-wrap: normal;
+  min-width: 0;
 }
 
 .article-copy .post-fig > figcaption {
@@ -132,4 +133,22 @@
 .post-fig .autoplay-toggle:focus-visible {
   outline: 2px solid var(--accent-ink);
   outline-offset: 3px;
+}
+
+@media (max-width: 920px) {
+  .article-copy .post-fig {
+    font-size: 14px;
+  }
+
+  .post-fig .chips label,
+  .post-fig .nav,
+  .post-fig .autoplay-toggle {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+  }
+
+  .post-fig .chips label {
+    overflow-wrap: anywhere;
+  }
 }

@@ -1,4 +1,5 @@
 :root {
+  -webkit-text-size-adjust: 100%;
   color-scheme: light dark;
   --page-bg: light-dark(#f5f1e8, #161819);
   --sheet-bg: light-dark(#f5f1e8f5, #161819f2);
@@ -125,6 +126,7 @@
   min-height: 100vh;
   margin-inline: auto;
   padding: 0 32px 16px;
+  padding-inline: max(32px, env(safe-area-inset-left)) max(32px, env(safe-area-inset-right));
   display: flex;
   flex-direction: column;
   background: var(--sheet-bg);
@@ -550,8 +552,8 @@
 
 .article-copy :where(table) {
   width: 100%;
-  /* Preserve readable columns on phones; overflow belongs to the wrapper. */
-  min-width: 40rem;
+  min-width: 0;
+  table-layout: fixed;
   border-collapse: collapse;
   font-size: 14px;
   line-height: 1.65;
@@ -562,6 +564,12 @@
   text-align: left;
   vertical-align: top;
   border-bottom: 1px solid var(--rule);
+  /* Table sizing must not treat every character as a valid word boundary. */
+  overflow-wrap: break-word;
+}
+
+.article-copy :where(table:has(tr > :nth-child(2):last-child) th:first-child) {
+  width: 26%;
 }
 
 .article-copy :where(th) {
@@ -737,7 +745,7 @@
   }
 
   .site-shell {
-    padding-inline: 18px;
+    padding-inline: max(16px, env(safe-area-inset-left)) max(16px, env(safe-area-inset-right));
   }
 
   .site-header,
@@ -747,6 +755,7 @@
 
   .site-header {
     padding-top: 18px;
+    padding-bottom: 30px;
   }
 
   .site-nav {
@@ -758,9 +767,23 @@
     justify-content: flex-start;
   }
 
+  .theme-switch label {
+    padding-block: 2px;
+  }
+
+  .site-nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 32px;
+  }
+
   .source-body {
-    padding-left: 18px;
+    padding-left: 0;
     padding-top: 25px;
+  }
+
+  .source-body::before {
+    display: none;
   }
 
   .source-intro h1 {
@@ -789,6 +812,26 @@
 
   .article-copy {
     font-size: 14px;
+  }
+
+  .article-copy :where(ul, ol) {
+    padding-left: 20px;
+  }
+
+  .article-copy :where(li) {
+    padding-left: 2px;
+  }
+
+  .article-copy :where(blockquote) {
+    padding-left: 12px;
+  }
+
+  .article-copy :where(table) {
+    font-size: 12px;
+  }
+
+  .article-copy :where(th, td) {
+    padding: 10px 6px;
   }
 
   .article-copy :where(pre) {

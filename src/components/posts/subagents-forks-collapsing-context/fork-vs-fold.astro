@@ -79,7 +79,7 @@ const loop = [
         <div class="pre fm">
           {
             prefix.map((b) => (
-              <div class={b.cls} style={`left: ${b.left}px; width: ${b.width}px`}>
+              <div class={b.cls} style={`--left: ${b.left}px; --width: ${b.width}px`}>
                 <span>{b.label}</span>
               </div>
             ))
@@ -91,15 +91,15 @@ const loop = [
         <div class="pre fc">
           {
             prefix.map((b) => (
-              <div class={b.cls} style={`left: ${b.left}px; width: ${b.width}px`}>
+              <div class={b.cls} style={`--left: ${b.left}px; --width: ${b.width}px`}>
                 <span>{b.label}</span>
               </div>
             ))
           }
         </div>
         {
-          loop.map((b) => (
-            <div class={`blk lp lk ${b.cls}`} style={`--i: ${b.i}; --x: ${b.x}px; width: ${b.w}px`}>
+          loop.map((b, index) => (
+            <div class={`blk lp lk ${b.cls}`} style={`--i: ${b.i}; --row: ${index + 8}; --x: ${b.x}px; --width: ${b.w}px`}>
               <span>{b.label}</span>
             </div>
           ))
@@ -127,7 +127,7 @@ const loop = [
         <div class="pre dm">
           {
             prefix.map((b) => (
-              <div class={b.cls} style={`left: ${b.left}px; width: ${b.width}px`}>
+              <div class={b.cls} style={`--left: ${b.left}px; --width: ${b.width}px`}>
                 <span>{b.label}</span>
               </div>
             ))
@@ -136,8 +136,8 @@ const loop = [
 
         <span class="lbl lane2"><span class="a0">archive (empty)</span><span class="a1">archive ↪ b2e4</span></span>
         {
-          loop.map((b) => (
-            <div class={`blk lp lk ${b.cls}`} style={`--i: ${b.i}; --x: ${b.x}px; width: ${b.w}px`}>
+          loop.map((b, index) => (
+            <div class={`blk lp lk ${b.cls}`} style={`--i: ${b.i}; --row: ${index + 8}; --x: ${b.x}px; --width: ${b.w}px`}>
               <span>{b.label}</span>
             </div>
           ))
@@ -444,6 +444,8 @@ const loop = [
   }
   .f4 .pre .blk {
     top: 0;
+    left: var(--left);
+    width: var(--width);
   }
   .f4 .pre .x {
     opacity: calc(1 - var(--f4-fo));
@@ -454,6 +456,7 @@ const loop = [
   }
 
   .f4 .lp {
+    width: var(--width);
     top: var(--y);
     left: calc(var(--f4-px) + var(--x));
     border-color: var(--loop);
@@ -843,6 +846,101 @@ const loop = [
   .f4 .assume .model {
     display: block;
     color: var(--comment-ink);
+  }
+
+  @media (max-width: 920px) {
+    .f4 .scroll {
+      overflow: visible;
+    }
+    .f4 .stage {
+      width: 100%;
+      font-size: 12px;
+    }
+    .f4 .grp {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 6px;
+      height: auto;
+    }
+    .f4 .grp + .grp {
+      margin-top: 20px;
+      padding-top: 16px;
+    }
+    .f4 .stage :is(.hd, .lbl, .pre, .blk) {
+      position: relative;
+      /* Replace desktop canvas coordinates with the same blocks in vertical flow. */
+      inset: auto;
+      width: auto;
+      height: auto;
+      white-space: normal;
+      overflow-wrap: anywhere;
+      line-height: 1.5;
+    }
+    .f4 .stage .blk {
+      padding: 6px 8px;
+      min-height: 32px;
+    }
+    .f4 .pre {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .f4 .pre .q3,
+    .f4:has(#f4-folded:checked) .pre .x {
+      display: none;
+    }
+    .f4:has(#f4-folded:checked) .pre .q3 {
+      display: block;
+    }
+    .f4 .hd { grid-row: 1; }
+    .f4 .lane-m { grid-row: 2; }
+    .f4 .pre:is(.fm, .dm) { grid-row: 3; }
+    .f4 .stage .note { grid-row: 4; }
+    .f4 .stage .front { grid-row: 5; }
+    .f4 .lane2 { grid-row: 6; }
+    .f4 .pre.fc {
+      grid-row: 7;
+      transform: none;
+      opacity: var(--f4-s);
+    }
+    .f4 .stage .lp {
+      grid-row: var(--row);
+      margin-left: 12px;
+      min-height: 48px;
+      opacity: clamp(0, var(--f4-t) - var(--i) + 1, 1);
+    }
+    .f4 .stage .dec-l { grid-row: 13; }
+    .f4 .stage :is(.copy-l, .ret-l, .where) { grid-area: 14 / 1; }
+    .f4 .stage .same-l.m { grid-row: 15; }
+    .f4 .stage .same-l.a { grid-row: 16; }
+    .f4 .stage :is(.wait, .wait-l, .dec, .same, .start-l),
+    .f4 .blk::before,
+    .f4 .blk::after {
+      display: none;
+    }
+    .f4 .fold .lane2 .a0 {
+      font-size: 0;
+    }
+    .f4 .fold .lane2 .a0::after {
+      content: 'build loop (in main context)';
+      font-size: 12px;
+    }
+    .f4 .costs {
+      padding: 10px;
+    }
+    .f4 .rows {
+      grid-template-columns: minmax(0, 1fr) 7ch;
+      gap: 4px 10px;
+    }
+    .f4 .rows .bt {
+      grid-column: 1 / -1;
+      grid-row: 2;
+    }
+    .f4 .rows .bt:nth-child(5) { grid-row: 4; }
+    .f4 .rows .bt:nth-child(8) { grid-row: 6; }
+    .f4 .costs .keys {
+      gap: 6px;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {

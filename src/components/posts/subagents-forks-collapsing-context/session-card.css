@@ -84,3 +84,14 @@
 .article-copy .post-fig .check:has(input:checked)::before {
   content: "[x] ";
 }
+
+@media (max-width: 600px) {
+  .article-copy .post-fig .ln {
+    grid-template-columns: 7ch minmax(0, 1fr);
+    column-gap: 6px;
+  }
+
+  .article-copy .post-fig .res {
+    padding-left: 0;
+  }
+}

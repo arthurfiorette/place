@@ -184,6 +184,22 @@ import './figure.css';
 .f2 .legend .ln2::before { background: color-mix(in oklab, var(--accent-ink) 30%, var(--surface-bg)); }
 .f2 .legend .la::before { box-shadow: none; outline: 1px dashed var(--comment-ink); outline-offset: -1px; }
 
+@media (max-width: 920px) {
+  .f2 .stage { overflow: visible; }
+  .f2 .stage-inner { min-width: 0; }
+  .f2 .panel { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .f2 .panel > .head, .f2 .ptitle { flex-wrap: wrap; white-space: normal; }
+  .f2 svg.mini { width: 100%; max-width: 400px; margin-inline: auto; }
+  .f2 .turnlab { white-space: normal; min-height: 3.2em; }
+  .f2 .rowbox {
+    container-type: inline-size;
+    /* All three bars retain the same token scale, sized to their own container. */
+    --px: calc((100cqw - 24px) / 80);
+  }
+  .f2 .rnote { height: auto; min-height: 3em; white-space: normal; }
+  .f2 .winmark::after { left: auto; right: 3px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .f2 { transition: none; }
 }

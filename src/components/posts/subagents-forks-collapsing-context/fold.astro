@@ -676,6 +676,61 @@ import './figure.css';
     opacity: 0;
   }
 
+  @media (max-width: 920px) {
+    .f3 .term {
+      height: 28rem;
+    }
+    .f3 .log {
+      min-width: 0;
+    }
+    .f3 .ln,
+    .f3 summary,
+    .f3 .pair .ln,
+    .f3 .pair summary {
+      grid-template-columns: 3ch minmax(0, 1fr);
+      gap: 0 8px;
+      white-space: normal;
+      overflow-wrap: anywhere;
+    }
+    .f3 :is(.ln, summary) > .msg {
+      grid-column: 2;
+      overflow: visible;
+      text-overflow: clip;
+    }
+    .f3 .ln .msg.split {
+      display: block;
+    }
+    .f3 .split .tx {
+      overflow: visible;
+    }
+    .f3 .split .more {
+      display: block;
+    }
+    .f3 .nl {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .f3 .arc,
+    .f3 .pair .arc {
+      margin: 6px;
+    }
+    .f3 .pair .arc .ln {
+      white-space: normal;
+    }
+    .f3 .pairwrap {
+      overflow: visible;
+    }
+    .f3 .pair {
+      min-width: 0;
+      grid-template-columns: minmax(0, 1fr);
+    }
+    /* Each comparison becomes a complete transcript: A followed by B. */
+    .f3 .pair > :nth-child(odd) { order: 0; }
+    .f3 .pair > :nth-child(even) { order: 1; }
+    .f3 .pair > .hd:nth-child(2) {
+      margin-top: 18px;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .f3 .ln,
     .f3 .pair .ln > * {

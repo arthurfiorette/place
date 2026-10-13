@@ -74,10 +74,12 @@ const note = [
       <div class="resume" aria-hidden="true"></div>
       <span class="lbl wait-l" aria-hidden="true">main thread waits here</span>
 
-      <div class="blk m" style="left: 0; width: 64px" aria-hidden="true"><span>system</span></div>
-      <div class="blk m u" style="left: 76px; width: 152px" aria-hidden="true"><span>user: add export job</span></div>
-      <div class="blk m" style="left: 240px; width: 70px" aria-hidden="true"><span>explore</span></div>
-      <div class="blk m" style="left: 322px; width: 58px" aria-hidden="true"><span>query</span></div>
+      <div class="prefix">
+        <div class="blk m" style="--left: 0px; --width: 64px" aria-hidden="true"><span>system</span></div>
+        <div class="blk m u" style="--left: 76px; --width: 152px" aria-hidden="true"><span>user: add export job</span></div>
+        <div class="blk m" style="--left: 240px; --width: 70px" aria-hidden="true"><span>explore</span></div>
+        <div class="blk m" style="--left: 322px; --width: 58px" aria-hidden="true"><span>query</span></div>
+      </div>
       <!-- The build step; when the tangent folds it becomes one new block: the note, then the user's message verbatim. -->
       <button
         type="button"
@@ -97,25 +99,25 @@ const note = [
 
       <div class="span" aria-hidden="true"><span class="lbl span-l">t4 … t10, named after it ended</span></div>
 
-      <div class="blk t t0" style="--i: 1; top: 76px; width: calc(12ch + 14px)" aria-hidden="true">
+      <div class="blk t t0" style="--i: 1; --top: 76px; --width: calc(12ch + 14px)" aria-hidden="true">
         <span>$ pnpm build</span>
       </div>
-      <div class="blk t log" style="--i: 2; top: 106px; width: 364px" aria-hidden="true">
+      <div class="blk t log" style="--i: 2; --top: 106px; --width: 364px" aria-hidden="true">
         <span>✗ api.ts(12,5): error TS2322 … +400 lines</span>
       </div>
-      <div class="blk t" style="--i: 3; top: 136px; width: calc(34ch + 14px)" aria-hidden="true">
+      <div class="blk t" style="--i: 3; --top: 136px; --width: calc(34ch + 14px)" aria-hidden="true">
         <span>guess: hand-edit src/client/api.ts</span>
       </div>
-      <div class="blk t u" style="--i: 4; top: 166px; width: calc(32ch + 14px)" aria-hidden="true">
+      <div class="blk t u" style="--i: 4; --top: 166px; --width: calc(32ch + 14px)" aria-hidden="true">
         <span>user: don't edit generated files</span>
       </div>
-      <div class="blk t" style="--i: 5; top: 196px; width: calc(48ch + 14px)" aria-hidden="true">
+      <div class="blk t" style="--i: 5; --top: 196px; --width: calc(48ch + 14px)" aria-hidden="true">
         <span>errors are in the generated client: regenerating</span>
       </div>
-      <div class="blk t" style="--i: 6; top: 226px; width: calc(29ch + 14px)" aria-hidden="true">
+      <div class="blk t" style="--i: 6; --top: 226px; --width: calc(29ch + 14px)" aria-hidden="true">
         <span>$ pnpm generate && pnpm build</span>
       </div>
-      <div class="blk t ok" style="--i: 7; top: 256px; width: calc(15ch + 14px)" aria-hidden="true">
+      <div class="blk t ok" style="--i: 7; --top: 256px; --width: calc(15ch + 14px)" aria-hidden="true">
         <span>✓ done in 41s</span>
       </div>
 
@@ -163,12 +165,13 @@ const note = [
       The full tangent stays archived, reachable via ↪ b2e4.
     </p>
     <p>
-      The main thread continues with the frontend, carrying ~160 tokens instead of ~43K. Hover or focus the note to
-      compare.
+      The main thread continues with the frontend, carrying ~160 tokens instead of ~43K. Compare the note with the
+      original tangent below.
     </p>
   </div>
 
-  <div class="detail" aria-hidden="true">
+  <label class="mobile-compare"><input type="checkbox" id="f1-compare" /> Compare the tangent with its note</label>
+  <div class="detail">
     <p class="d0">
       Hover or focus (tab) the note ↪ b2e4 to compare what was inside the tangent with what came back. The bars share
       one scale.
@@ -309,6 +312,12 @@ const note = [
   .f1 .scroll {
     overflow-x: auto;
   }
+  .f1 .prefix {
+    display: contents;
+  }
+  .f1 .mobile-compare {
+    display: none;
+  }
   .f1 .stage {
     position: relative;
     width: 760px;
@@ -328,6 +337,10 @@ const note = [
     color: var(--ink);
     line-height: 22px;
     white-space: nowrap;
+  }
+  .f1 .prefix .blk {
+    left: var(--left);
+    width: var(--width);
   }
   .f1 .blk > span {
     display: block;
@@ -450,6 +463,8 @@ const note = [
 
   /* The tangent: a vertical list hanging below the build step. */
   .f1 .t {
+    top: var(--top);
+    width: var(--width);
     left: 392px;
     border-color: var(--loop);
     background: color-mix(in oklab, var(--loop) 7%, var(--surface-bg));
@@ -678,6 +693,112 @@ const note = [
   .f1:has(#f1-s9:checked) .caps p:nth-child(10),
   .f1:has(#f1-s10:checked) .caps p:nth-child(11) {
     visibility: visible;
+  }
+
+  /* A vertical timeline preserves readable labels instead of scaling a 760px canvas. */
+  @media (max-width: 920px) {
+    .f1 .scroll {
+      overflow: visible;
+    }
+    .f1 .stage {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 8px;
+      width: 100%;
+      height: auto;
+    }
+    .f1 .prefix {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      grid-row: 2;
+    }
+    .f1 .stage .blk {
+      position: relative;
+      inset: auto;
+      width: 100%;
+      height: auto;
+      min-height: 32px;
+      padding: 6px 8px;
+      white-space: normal;
+      overflow-wrap: anywhere;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .f1 .lane-l {
+      position: static;
+      grid-row: 1;
+    }
+    .f1 .stage .bn {
+      grid-row: 3;
+      grid-template-rows: auto auto;
+      min-height: 60px;
+    }
+    .f1 .stage :is(.slot, .front) {
+      grid-area: 4 / 1;
+    }
+    .f1 .stage .t {
+      grid-row: calc(5 + var(--i));
+      min-height: 50px;
+      margin-left: 12px;
+      width: calc(100% - 12px);
+      opacity: var(--f1-r);
+    }
+    .f1 .t::before {
+      left: 12px;
+      height: 8px;
+    }
+    .f1 .stage .tl {
+      position: static;
+      grid-row: 5;
+      justify-items: start;
+      white-space: normal;
+      line-height: 1.5;
+    }
+    .f1 .readout {
+      position: static;
+      grid-row: 13;
+      width: auto;
+      margin-top: 8px;
+    }
+    .f1 .stage :is(.beat, .done) {
+      position: static;
+      grid-area: 14 / 1;
+      white-space: normal;
+      justify-items: start;
+      text-align: left;
+      line-height: 1.5;
+    }
+    .f1 .stage :is(.mline, .wait, .resume, .wait-l, .span, .squash) {
+      display: none;
+    }
+    .f1 .mobile-compare {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 36px;
+      margin-top: 12px;
+      font-size: 12px;
+      color: var(--link-ink);
+      cursor: pointer;
+    }
+    .f1 .mobile-compare input {
+      accent-color: var(--accent-ink);
+    }
+    .f1:not(:has(#f1-compare:checked)) .detail,
+    .f1 .detail .d0 {
+      display: none;
+    }
+    .f1 .detail .d1 {
+      visibility: visible;
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
+    .f1 .detail .cmp {
+      grid-template-columns: 9ch minmax(0, 1fr) 9ch;
+      gap: 6px;
+      font-size: 11px;
+    }
   }
 
   /* Hover panel: the size difference is the point. */
