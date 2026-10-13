@@ -23,10 +23,10 @@ When I ask an agent to make a project build, it may spend several turns reading 
 trying fixes, and running the build again. Once it passes, I want it to continue with the
 feature. But every failed run is still in its context.
 
-The usual advice is to run that work in a subagent. That keeps the logs out of the main
-conversation, but introduces a problem I keep seeing in subagent prompts: the child gets
-the task without enough of what the parent already knows. It has to rediscover the Node
-version, a pinned dependency, or a constraint I gave earlier.
+Delegating the build to a subagent keeps the logs out of the main conversation, but
+introduces a problem I keep seeing in subagent prompts: the child gets the task without
+enough of what the parent already knows. It has to rediscover the Node version, a pinned
+dependency, or a constraint I gave earlier.
 
 I want the agent to do the build work with its existing context, then replace those turns
 with a short note: what changed, whether the build passed, and what is still unchecked.
@@ -39,16 +39,15 @@ loop as a tangent off the main task.
   b2e4. The full tangent stays archived and reachable.
 </Tangent>
 
-I used to approximate this by asking the main agent to maintain a markdown file with its
+I used to approximate this by asking the main agent to maintain a Markdown file with its
 context and reasoning, then passing the path to every subagent. Rewriting the file as the
 work progressed helped more than continually appending to it. But I still had to ask for
 updates, and anything removed from the file was hard to find again. I want the harness to
 manage those updates and keep each note connected to the work behind it.
 
 I have built an experimental version for pi,
-[pi-episodes](https://github.com/arthurfiorette/pi-episodes). The design below explains
-what I am trying to test. The diagrams and cost estimates are worked examples, not
-measurements from agent runs. I do not yet know whether folding improves task outcomes.
+[pi-episodes](https://github.com/arthurfiorette/pi-episodes). The diagrams and cost
+estimates use hypothetical runs. I do not yet know whether folding improves task outcomes.
 
 <span id="the-same-stream-three-designs"></span>
 <span id="why-compact-the-build-loop-separately"></span>
@@ -56,7 +55,7 @@ measurements from agent runs. I do not yet know whether folding improves task ou
 ## Fold finished work before the context fills
 
 Suppose an agent is adding a feature: it explores the project, writes a query, fixes the
-build, then wires up the frontend. There are three ways to handle the build logs.
+build, then wires up the frontend.
 
 With ordinary compaction, the build logs stay between the query and the frontend work
 until the context window fills. The harness then summarizes the conversation, sometimes
@@ -73,8 +72,7 @@ turns into seven long turns inline, delegation cannot remove those turns afterwa
 
 With a fold, the agent runs the build inline and summarizes it once it finishes. It keeps
 its existing context while doing the work, then carries the result into the frontend task.
-It does not need to predict whether the build will be long enough to justify a subagent or
-hope your prompt had a "do it in a subagent" clause.
+It does not need to predict whether the build will be long enough to justify a subagent.
 
 <ThreeDesigns>
   Context size during the same build loop. Ordinary compaction retains the logs until the
@@ -188,11 +186,11 @@ decision about timing cannot establish what the agent will need twenty turns lat
 
 ## Where the idea came from
 
-This idea came from how I return from a detour in my own work. When I write a query, I
-read the ORM documentation, the schema, and the details of the table. Afterward I keep the
-query and perhaps a reminder that it only works inside a transaction. I can look up the
-documentation again. A teacher finishing a tangent and asking "where was I?" was the
-example that first made me think agents could do something similar.
+When I write a query, I read the ORM documentation, the schema, and the details of the
+table. Afterward I keep the query and perhaps a reminder that it only works inside a
+transaction. I can look up the documentation again. A teacher finishing a tangent and
+asking "where was I?" was the example that first made me think agents could do something
+similar.
 
 The closest research I found is Event Segmentation Theory: Zacks and Swallow, [_Event
 Segmentation_][zs2007], and Kurby and Zacks, [_Segmentation in the perception and memory
@@ -258,7 +256,7 @@ cache 30 times costs the equivalent of 300K fresh input tokens. The comparison o
 child's initial prefix write and output-token costs. It assumes the same number of turns
 and amount of build output for both children.
 
-|cost|rate|fork|clean subagent|
+|cost|rate|fork|fresh subagent|
 |-|-|-|-|
 |prefix, read from cache on every turn|0.1x|300K|45K|
 |loop growth, written once|1.25x|188K|188K|
@@ -267,13 +265,13 @@ and amount of build output for both children.
 |total, in fresh-token equivalents||~713K|~583K|
 |in dollars, at $3 per million fresh tokens||~$2.14|~$1.75|
 
-In this example, the fork's input cost is about 1.2x the clean child's, or 1.6x if the
+In this example, the fork's input cost is about 1.2x the fresh child's, or 1.6x if the
 child needs no repeated reading. Comparing only their prefixes would suggest a gap of
 nearly 7x and miss the build output both children carry. Longer parent contexts increase
 the premium; cheaper cached reads reduce it[^2]. An expired cache adds a prefix write.
 
-Cost is not my only concern. The fork also inherits the parent's wrong guesses. Giving it
-the entire conversation could recreate the problem that made subagents useful.
+The fork also inherits the parent's wrong guesses. Giving it the entire conversation could
+recreate the problem that made subagents useful.
 
 The package therefore forks the parent's current view after earlier folds. If the query
 work has already been summarized, the child receives that note instead of the query's full
@@ -281,7 +279,7 @@ history. This can remove rejected guesses, though a mistaken conclusion in the n
 still be inherited. Open episodes remain in full.
 
 For example, if earlier folds reduce the assumed prefix from 100K to 40K, the fork's total
-in the table drops to about 533K fresh-token equivalents. That is below the clean child in
+in the table drops to about 533K fresh-token equivalents. That is below the fresh child in
 this example, before including the cost of creating those notes. For a short lookup with
 little dependence on prior work, I would still use a fresh child.
 
@@ -338,8 +336,9 @@ ask(handle, question)  -> one answer from that thread
 `recall` searches the archive without a model call. The package uses exact and regex
 matching for strings such as error codes, and BM25+ ranking for less exact queries. The
 search includes tool outputs, agent messages, and reasoning where the provider returns it.
-Searching first avoids an inference call, but the agent still needs to know roughly what
-to look for.
+Pi's compaction remains available when the context fills, and `recall` also searches the
+turns it summarized. Searching first avoids an inference call, but the agent still needs
+to know roughly what to look for.
 
 <span id="p2"></span>
 
@@ -359,10 +358,10 @@ investigation depends on the thread size and the work it saves.
   main line.
 </GoingBack>
 
-A fork can also fold its own work, producing nested archive entries. On a single
-conversation line, a fold cannot reach behind an earlier note. `recall` searches across
-all the spans and identifies the source thread for each match; `ask` accepts any handle,
-including one created inside a fork.
+A fork can also fold its own turns, producing nested archive entries, but cannot fold the
+parent's inherited context. On a single conversation line, a fold cannot reach behind an
+earlier note. `recall` searches across all the spans and identifies the source thread for
+each match; `ask` accepts any handle, including one created inside a fork.
 
 The case I have least evidence for is when the agent does not realize it needs to look
 back. In the query example, a note missing the transaction constraint might never prompt a
@@ -399,7 +398,7 @@ The four tools use the following data model:
 |log|one append-only message list per thread: the main line and every fork|
 |view|what the model sees: the main log with folded spans replaced by their notes|
 |archive|the logs of folded spans and finished forks, with an index of the files each touched|
-|handle|the id of an archived span|
+|handle|the ID of an archived span|
 
 Several implementation details matter for preserving the conversation:
 
@@ -415,6 +414,7 @@ Several implementation details matter for preserving the conversation:
   the package lists paths touched by file tools instead. A fork reports one diff for its
   whole run, rather than a separate diff for each fold inside it.
 - Removing messages from the model's view leaves their saved transcripts intact.
+- After a fold, the package reminds the agent about open items on the next user prompt.
 - `/fold` lets the user choose the starting turn and asks the agent to write the note.
 
 Manual folding is my baseline: I decide when to fold and where the span starts, then
@@ -447,10 +447,9 @@ task message; per-request information belongs near the end of the request.
 
 The harder problem is choosing where to cache before the agent knows which turns it will
 fold. On Anthropic, pi-episodes places an extra breakpoint on the newest fold note or
-stamped user message. That is a known position to reuse; it is not a prediction of the
-next episode's start. If a later fold preserves messages between that anchor and its
-chosen start, those messages may still need processing again. The package's measurement
-plan includes that cost.
+stamped user message. The actual episode may start several turns after that anchor. If a
+later fold preserves messages between that anchor and its chosen start, those messages may
+still need processing again. The package's measurement plan includes that cost.
 
 An unchanged prefix alone does not guarantee a cache hit. The provider must have a
 matching entry, and a prefix shared by several simultaneous forks may need to be written
@@ -474,23 +473,9 @@ I built this as a package for [pi](https://github.com/earendil-works/pi):
 pi install npm:pi-episodes
 ```
 
-It adds the four tools above plus a short system prompt section on when to use them.
-Stamps go on every user message and tool result as saved.
-
-- `fold` removes a stamped span from context and leaves the note. Pi's own compaction
-  stays as fallback.
-- `recall` searches folds, forks, and compacted turns with no model call, ranked, with
-  exact and regex modes.
-- `ask` resumes a folded or forked thread for one question.
-- `fork` runs a copy of the agent with its current context and tools. The child can fold
-  its own turns, but cannot fold the parent's inherited context.
-
-The package also records a working-tree diff per fold, points to related archived work
-when the agent touches a file again, reports stale files on `recall` and `ask`, and
-reminds the agent about open items after a fold. In interactive pi, `/fold` shows a list
-of turns so you can pick where the span starts; `/fold t13` selects that turn directly.
-The agent then writes the note. Without an interactive picker, plain `/fold` lets the
-agent choose the span.
+In interactive pi, `/fold` shows a list of turns so you can pick where the span starts;
+`/fold t13` selects that turn directly. The agent then writes the note. Without an
+interactive picker, plain `/fold` lets the agent choose the span.
 
 To try it, fold after a real build loop, then give the agent a task that depends on a
 detail from that loop. Check whether the note preserved the detail or the agent retrieved
@@ -506,7 +491,7 @@ questions I am testing are:
 - whether the model notices an episode ended and picks its start unprompted
 - whether its notes keep caveats, or fail the "query works" way
 - whether it goes back when it should, and whether the file-touch cue helps or adds noise
-- whether a fork anchors on the parent's wrong guesses more than a clean subagent
+- whether a fork anchors on the parent's wrong guesses more than a fresh subagent
 - whether the smaller context improves task outcomes compared with keeping the full logs
 
 The repository has a measurement plan for those questions. I am working through it and
