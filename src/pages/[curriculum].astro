@@ -26,6 +26,12 @@ const portuguese = cv.id === 'pt';
     title: `${cv.data.name} - ${cv.data.title}`,
     description: `Curriculum of ${cv.data.name}, ${cv.data.title}.`,
     urlPath: `/${cv.data.id}`,
+    // Rendered from the sibling .svg.ts endpoint by scripts/resume-to-pdf.mjs.
+    imagePath: `/${cv.data.id}.png`,
+    imageAlt: `${cv.data.name}, ${cv.data.title}`,
+    imageWidth: 1200,
+    imageHeight: 630,
+    imageType: 'image/png',
     type: 'profile'
   }}>
   <link slot='head' rel='preload' href='/fonts/source-sans-3/latin.woff2' as='font' type='font/woff2' crossorigin />
@@ -47,6 +53,7 @@ const portuguese = cv.id === 'pt';
     <ul class='cv-contact' aria-label={portuguese ? 'Contato' : 'Contact'}>
       <li><a href={`mailto:${cv.data.email}`}>{cv.data.email}</a></li>
       <li><a href='https://arthur.place'>https://arthur.place</a></li>
+      <li><a href='https://github.com/arthurfiorette'>github.com/arthurfiorette</a></li>
       <li><a href='https://linkedin.com/in/arthurfiorette'>linkedin.com/in/arthurfiorette</a></li>
     </ul>
   </header>

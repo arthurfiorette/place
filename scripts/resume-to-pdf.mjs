@@ -29,6 +29,20 @@ async function generatePDF(url, outputPath) {
   console.log(`Generated PDF: ${outputPath}`);
 }
 
+// Social cards: og:image must be raster, so the SVG endpoint is screenshotted here
+// where the web font is available.
+async function generateCard(url, outputPath) {
+  await using page = await browser.newPage({ viewport: { width: 1200, height: 630 } });
+
+  await page.goto(url, { waitUntil: 'networkidle' });
+  await page.evaluate(() => document.fonts.ready);
+  await page.screenshot({ path: outputPath, type: 'png' });
+  console.log(`Generated card: ${outputPath}`);
+}
+
 await Promise.all(
-  FILENAMES.map((name) => generatePDF(`${baseUrl}/${name}.html`, `dist/${name}.pdf`))
+  FILENAMES.flatMap((name) => [
+    generatePDF(`${baseUrl}/${name}.html`, `dist/${name}.pdf`),
+    generateCard(`${baseUrl}/${name}.svg`, `dist/${name}.png`)
+  ])
 ).finally(() => server.close());

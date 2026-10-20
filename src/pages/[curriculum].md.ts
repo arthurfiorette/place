@@ -12,7 +12,7 @@ description: ${JSON.stringify(`Curriculum of ${cv.name}, ${cv.title}.`)}
 
 # ${cv.name}
 
-${cv.title}. ${cv.email} | https://arthur.place | https://linkedin.com/in/arthurfiorette
+${cv.title}. ${cv.email} | https://arthur.place | https://github.com/arthurfiorette | https://linkedin.com/in/arthurfiorette
 
 ${cv.about.join('\n\n')}
 
