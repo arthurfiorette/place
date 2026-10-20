@@ -4,6 +4,7 @@
   "month": "Last updated: October 2026",
   "name": "Arthur Fileti Fiorette",
   "title": "Senior Software Developer",
+  "description": "Developer tools and platform infrastructure: deploy pipelines, APIs and SDKs, CLIs and code generators. TypeScript and Rust, open source maintainer.",
   "email": "me@arthur.place",
   "about": [
     "Senior software developer from Brazil focused on <b>developer tools and platform infrastructure</b>. I like building the surfaces other developers depend on: build and deploy pipelines, public APIs and SDKs, CLIs, code generators and, lately, agent harnesses and MCP servers. TypeScript is most of my stack, with Rust where it pays off. Writing code since 2018, professionally since 2021.",
@@ -57,7 +58,7 @@
   ],
   "ossTitle": "Open Source",
   "oss": [
-    "I maintain <a href=\"https://github.com/arthurfiorette/axios-cache-interceptor\" target=\"_blank\">axios-cache-interceptor</a> and <a href=\"https://github.com/arthurfiorette/prisma-json-types-generator\" target=\"_blank\">prisma-json-types-generator</a> (~1.5M and ~2.1M npm downloads a month), plus the small libraries behind them (try, fast-defer, object-code, cache-parser). Together, the packages I publish see <b>around 10M downloads a month</b>. I also created the <a href=\"https://github.com/kitajs\" target=\"_blank\">Kita</a> ecosystem: a type-safe backend framework for Fastify and <a href=\"https://github.com/kitajs/html\" target=\"_blank\">@kitajs/html</a>, one of the fastest JSX runtimes for generating HTML.",
+    "I maintain <a href=\"https://github.com/arthurfiorette/axios-cache-interceptor\" target=\"_blank\">axios-cache-interceptor</a> and <a href=\"https://github.com/arthurfiorette/prisma-json-types-generator\" target=\"_blank\">prisma-json-types-generator</a> ({downloads:axios-cache-interceptor} and {downloads:prisma-json-types-generator} npm downloads a month), plus the small libraries behind them (try, fast-defer, object-code, cache-parser). Together, the packages I publish see <b>around {downloads:total} downloads a month</b>. I also created the <a href=\"https://github.com/kitajs\" target=\"_blank\">Kita</a> ecosystem: a type-safe backend framework for Fastify and <a href=\"https://github.com/kitajs/html\" target=\"_blank\">@kitajs/html</a>, one of the fastest JSX runtimes for generating HTML.",
     "I co-authored the <a href=\"https://github.com/arthurfiorette/proposal-try-operator\" target=\"_blank\">ECMAScript Try Operator</a> proposal (Stage 0). Upstream, I am a frequent contributor to ts-json-schema-generator and have contributed to Fastify, orval, prisma-kysely, swc-node, pnpm, nixpacks, Stripe, Scalar, Cloudflare and others, mostly around TypeScript types, code generation, Node.js runtime behavior and performance.",
     "More at <a href=\"https://github.com/arthurfiorette\" target=\"_blank\">github.com/arthurfiorette</a>."
   ],

@@ -7,7 +7,7 @@ export { getStaticPaths } from './[curriculum].astro';
 // Fields keep their inline HTML (<b>, <a>); it is valid markdown and LLMs read it fine.
 export const GET: APIRoute<CollectionEntry<'curriculum'>> = ({ props: { data: cv } }) => md`---
 title: ${JSON.stringify(`${cv.name} - ${cv.title}`)}
-description: ${JSON.stringify(`Curriculum of ${cv.name}, ${cv.title}.`)}
+description: ${JSON.stringify(cv.description)}
 ---
 
 # ${cv.name}

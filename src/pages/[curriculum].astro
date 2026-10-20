@@ -2,14 +2,17 @@
 import { getCollection } from 'astro:content';
 import Document from '../layouts/document.astro';
 import '../styles/curriculum.css';
+import { fillCurriculum } from '../util/curriculum';
 
 export async function getStaticPaths() {
   const cvs = await getCollection('curriculum');
 
-  return cvs.map((cv) => ({
-    params: { curriculum: cv.data.id },
-    props: { ...cv, cvs }
-  }));
+  return Promise.all(
+    cvs.map(async (cv) => ({
+      params: { curriculum: cv.data.id },
+      props: { ...cv, data: await fillCurriculum(cv.data, cv.id === 'pt' ? 'pt-BR' : 'en'), cvs }
+    }))
+  );
 }
 
 const cv = Astro.props;
@@ -24,7 +27,7 @@ const portuguese = cv.id === 'pt';
   markdown={`/${cv.data.id}.md`}
   seo={{
     title: `${cv.data.name} - ${cv.data.title}`,
-    description: `Curriculum of ${cv.data.name}, ${cv.data.title}.`,
+    description: cv.data.description,
     urlPath: `/${cv.data.id}`,
     // Rendered from the sibling .svg.ts endpoint by scripts/resume-to-pdf.mjs.
     imagePath: `/${cv.data.id}.png`,

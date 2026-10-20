@@ -24,13 +24,17 @@ export const GET: APIRoute<CollectionEntry<'curriculum'>> = ({ props: { data: cv
   </style>
   <rect width="1200" height="630" fill="#fff" />
   <rect width="16" height="630" fill="#171717" />
-  <text x="96" y="120" font-size="28">arthur.place/${escapeXml(cv.id)}</text>
-  <text x="96" y="300" font-size="84" font-weight="600" letter-spacing="-1.5" style="fill: #171717">${escapeXml(cv.name)}</text>
-  <text x="96" y="368" font-size="44">${escapeXml(cv.title)}</text>
-  <line x1="96" y1="430" x2="1104" y2="430" stroke="#e5e5e5" stroke-width="2" />
-  <text x="96" y="494" font-size="30">${escapeXml(cv.email)}${SEPARATOR}arthur.place</text>
-  <text x="96" y="540" font-size="30">github.com/arthurfiorette${SEPARATOR}linkedin.com/in/arthurfiorette</text>
-  <text x="1104" y="120" font-size="24" text-anchor="end" style="fill: #888">${escapeXml(cv.month)}</text>
+  <!-- Cut-out photo bleeds off the right edge. The shoulders widen toward the
+       bottom, so lines below the title must stay short (contacts get one line each). -->
+  <image href="/images/arthur.webp" x="660" y="0" width="669" height="630" />
+  <text x="96" y="96" font-size="28">arthur.place/${escapeXml(cv.id)}</text>
+  <text x="96" y="250" font-size="84" font-weight="600" letter-spacing="-1.5" style="fill: #171717">${escapeXml(cv.name)}</text>
+  <text x="96" y="315" font-size="44">${escapeXml(cv.title)}</text>
+  <line x1="96" y1="370" x2="600" y2="370" stroke="#e5e5e5" stroke-width="2" />
+  <text x="96" y="430" font-size="30">${escapeXml(cv.email)}${SEPARATOR}arthur.place</text>
+  <text x="96" y="472" font-size="30">github.com/arthurfiorette</text>
+  <text x="96" y="514" font-size="30">linkedin.com/in/arthurfiorette</text>
+  <text x="96" y="580" font-size="22" style="fill: #888">${escapeXml(cv.month)}</text>
 </svg>`;
 
   return new Response(svg, { headers: { 'Content-Type': 'image/svg+xml' } });

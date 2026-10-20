@@ -47,6 +47,8 @@ const curriculum = defineCollection({
     month: z.string(),
     name: z.string(),
     title: z.string(),
+    /** Meta description; should not repeat the title, which crawlers show next to it. */
+    description: z.string(),
     email: z.string(),
     about: z.array(z.string()),
     educationName: z.string(),

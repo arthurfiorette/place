@@ -4,6 +4,7 @@
   "month": "Última atualização: outubro de 2026",
   "name": "Arthur Fileti Fiorette",
   "title": "Desenvolvedor de Software Sênior",
+  "description": "Ferramentas para desenvolvedores e infraestrutura de plataforma: pipelines de deploy, APIs e SDKs, CLIs e geradores de código. TypeScript e Rust, mantenedor open source.",
   "email": "me@arthur.place",
   "about": [
     "Desenvolvedor de software sênior, brasileiro, focado em <b>ferramentas para desenvolvedores e infraestrutura de plataforma</b>. Gosto de construir o que outros desenvolvedores usam no dia a dia: pipelines de build e deploy, APIs públicas e SDKs, CLIs, geradores de código e, mais recentemente, harnesses de agentes e servidores MCP. TypeScript é a maior parte da minha stack, com Rust onde compensa. Programo desde 2018, profissionalmente desde 2021.",
@@ -57,7 +58,7 @@
   ],
   "ossTitle": "Código Aberto",
   "oss": [
-    "Mantenho o <a href=\"https://github.com/arthurfiorette/axios-cache-interceptor\" target=\"_blank\">axios-cache-interceptor</a> e o <a href=\"https://github.com/arthurfiorette/prisma-json-types-generator\" target=\"_blank\">prisma-json-types-generator</a> (~1,5 e ~2,1 milhões de downloads mensais no npm), além das bibliotecas menores por trás deles (try, fast-defer, object-code, cache-parser). Somados, os pacotes que publico passam de <b>10 milhões de downloads por mês</b>. Também criei o ecossistema <a href=\"https://github.com/kitajs\" target=\"_blank\">Kita</a>: um framework backend type-safe para Fastify e o <a href=\"https://github.com/kitajs/html\" target=\"_blank\">@kitajs/html</a>, um dos runtimes JSX mais rápidos para gerar HTML.",
+    "Mantenho o <a href=\"https://github.com/arthurfiorette/axios-cache-interceptor\" target=\"_blank\">axios-cache-interceptor</a> e o <a href=\"https://github.com/arthurfiorette/prisma-json-types-generator\" target=\"_blank\">prisma-json-types-generator</a> ({downloads:axios-cache-interceptor} e {downloads:prisma-json-types-generator} de downloads mensais no npm), além das bibliotecas menores por trás deles (try, fast-defer, object-code, cache-parser). Somados, os pacotes que publico chegam a cerca de <b>{downloads:total} de downloads por mês</b>. Também criei o ecossistema <a href=\"https://github.com/kitajs\" target=\"_blank\">Kita</a>: um framework backend type-safe para Fastify e o <a href=\"https://github.com/kitajs/html\" target=\"_blank\">@kitajs/html</a>, um dos runtimes JSX mais rápidos para gerar HTML.",
     "Sou coautor da proposta <a href=\"https://github.com/arthurfiorette/proposal-try-operator\" target=\"_blank\">ECMAScript Try Operator</a> (Stage 0). Upstream, contribuo com frequência para o ts-json-schema-generator e já contribuí para Fastify, orval, prisma-kysely, swc-node, pnpm, nixpacks, Stripe, Scalar, Cloudflare e outros, principalmente em tipos TypeScript, geração de código, comportamento do runtime Node.js e performance.",
     "Mais em <a href=\"https://github.com/arthurfiorette\" target=\"_blank\">github.com/arthurfiorette</a>."
   ],
